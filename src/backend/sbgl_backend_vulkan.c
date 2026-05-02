@@ -7,6 +7,7 @@
 #endif
 
 #ifdef SBGL_PLATFORM_X11
+#include <X11/Xlib.h>
 #include <vulkan/vulkan_xlib.h>
 #endif
 

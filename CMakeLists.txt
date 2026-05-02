@@ -6,6 +6,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # --- Options ---
 option(SBGL_USE_WAYLAND "Use native Wayland instead of X11" ON)
+option(SBGL_BUILD_EXAMPLES "Build example applications" OFF)
+option(SBGL_BUILD_STANDALONE "Build examples by compiling sources directly (no libsbgl.a)" OFF)
 
 # --- Compiler Settings ---
 set(CMAKE_C_STANDARD 99)
@@ -22,15 +24,18 @@ find_package(Vulkan REQUIRED)
 
 # --- Source Files ---
 set(SBGL_SOURCES
-    src/core/sbgl_core.c
-    src/backend/sbgl_backend_vulkan.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_core.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/sbgl_backend_vulkan.c
 )
 
 set(PLATFORM_LIBS "")
 
 if(WIN32)
     # Placeholder for future Win32 split
-    list(APPEND SBGL_SOURCES src/platform/win32/window.c src/platform/win32/input.c)
+    list(APPEND SBGL_SOURCES 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/window.c 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/input.c
+    )
     list(APPEND PLATFORM_LIBS user32 gdi32 shell32)
 elseif(UNIX AND NOT APPLE)
     if(SBGL_USE_WAYLAND)
@@ -57,50 +62,56 @@ elseif(UNIX AND NOT APPLE)
         )
         
         list(APPEND SBGL_SOURCES 
-            src/platform/linux/window.c 
-            src/platform/linux/input.c
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c 
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c
             "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
         )
         include_directories("${CMAKE_CURRENT_BINARY_DIR}")
         list(APPEND PLATFORM_LIBS ${WAYLAND_CLIENT_LIBRARIES})
         add_definitions(-DSBGL_PLATFORM_WAYLAND)
     else()
-        # Placeholder for X11 split
         find_package(X11 REQUIRED)
-        list(APPEND SBGL_SOURCES src/platform/linux/window_x11.c src/platform/linux/input_x11.c)
+        list(APPEND SBGL_SOURCES 
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_x11.c 
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_x11.c
+        )
         list(APPEND PLATFORM_LIBS X11)
         add_definitions(-DSBGL_PLATFORM_X11)
     endif()
 endif()
 
 # --- Library Target ---
-add_library(sbgl STATIC ${SBGL_SOURCES})
+if(NOT SBGL_BUILD_STANDALONE)
+    add_library(sbgl STATIC ${SBGL_SOURCES})
 
-if(SBGL_USE_WAYLAND AND NOT WIN32)
-    set_source_files_properties(src/platform/linux/window.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
-    set_source_files_properties(src/platform/linux/input.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
+    if(SBGL_USE_WAYLAND AND NOT WIN32)
+        set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
+        set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
+    endif()
+
+    # --- Include Directories ---
+    target_include_directories(sbgl
+        PUBLIC
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/src
+            ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+    # --- Link Libraries ---
+    target_link_libraries(sbgl
+        PRIVATE
+            Vulkan::Vulkan
+            ${PLATFORM_LIBS}
+    )
 endif()
 
-# --- Include Directories ---
-target_include_directories(sbgl
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${CMAKE_CURRENT_BINARY_DIR}
-)
-
-# --- Link Libraries ---
-target_link_libraries(sbgl
-    PRIVATE
-        Vulkan::Vulkan
-        ${PLATFORM_LIBS}
-)
-
 # --- Optional Examples ---
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
-    add_subdirectory(examples)
+if(SBGL_BUILD_EXAMPLES)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
+        add_subdirectory(examples)
+    endif()
 endif()
 
 # --- Documentation ---

@@ -4,7 +4,7 @@ A professional, bare-metal graphics framework written in C99. Designed for high-
 
 [![C99](https://img.shields.io/badge/C-99-blue.svg)](https://en.wikipedia.org/wiki/C99)
 [![Vulkan](https://img.shields.io/badge/Vulkan-1.3-red.svg)](https://www.vulkan.org/)
-![Platform](https://img.shields.io/badge/Platform-Wayland_|_Win32-green.svg)
+![Platform](https://img.shields.io/badge/Platform-Wayland_|_X11_|_Win32-green.svg)
 
 ## Core Philosophy
 
@@ -27,8 +27,27 @@ This project uses modern CMake. Follow these steps to configure, build, and run 
 
 ### Configure
 Create the build directory and generate the compilation database for your LSP (clangd).
+
+**For Wayland (Default):**
 ```bash
-cmake -B build -S .
+cmake -B build -S . -DSBGL_USE_WAYLAND=ON
+```
+
+**For X11:**
+```bash
+cmake -B build -S . -DSBGL_USE_WAYLAND=OFF
+```
+
+**Enable Examples:**
+To build the test applications alongside the library:
+```bash
+cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON
+```
+
+**Standalone Build (No Library File):**
+Compiles the library source code directly into the example executables (no `libsbgl.a` is created).
+```bash
+cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON -DSBGL_BUILD_STANDALONE=ON
 ```
 
 ### Build

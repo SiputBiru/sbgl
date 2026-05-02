@@ -14,30 +14,36 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief Global Vulkan backend state.
+ * 
+ * Manages the connection to the GPU, the rendering surface, 
+ * the swapchain, and synchronization primitives.
+ */
 typedef struct {
-    VkInstance       instance;
-    VkSurfaceKHR     surface;
-    VkPhysicalDevice physicalDevice;
-    VkDevice         device;
-    VkQueue          graphicsQueue;
-    uint32_t         graphicsQueueFamily;
+    VkInstance       instance;           /**< Vulkan library instance. */
+    VkSurfaceKHR     surface;            /**< OS-specific rendering surface. */
+    VkPhysicalDevice physicalDevice;     /**< The chosen physical GPU. */
+    VkDevice         device;             /**< Logical connection to the GPU. */
+    VkQueue          graphicsQueue;      /**< Queue for submitting drawing commands. */
+    uint32_t         graphicsQueueFamily; /**< Index of the graphics queue family. */
     
     // Swapchain resources
-    VkSwapchainKHR   swapchain;
-    VkFormat         swapchainFormat;
-    VkExtent2D       swapchainExtent;
-    uint32_t         imageCount;
-    VkImage*         images;
-    VkImageView*     imageViews;
+    VkSwapchainKHR   swapchain;          /**< The chain of images for presentation. */
+    VkFormat         swapchainFormat;    /**< Pixel format of the swapchain. */
+    VkExtent2D       swapchainExtent;    /**< Dimensions of the swapchain images. */
+    uint32_t         imageCount;         /**< Number of images in the swapchain. */
+    VkImage*         images;             /**< Raw image handles. */
+    VkImageView*     imageViews;         /**< Views into the images for rendering. */
 
     // Command/Sync
-    VkCommandPool    commandPool;
-    VkCommandBuffer  commandBuffer;
-    VkSemaphore      imageAvailableSemaphore;
-    VkSemaphore      renderFinishedSemaphore;
-    VkFence          inFlightFence;
+    VkCommandPool    commandPool;        /**< Pool for allocating command buffers. */
+    VkCommandBuffer  commandBuffer;      /**< Primary buffer for frame commands. */
+    VkSemaphore      imageAvailableSemaphore; /**< Signaled when a swapchain image is ready. */
+    VkSemaphore      renderFinishedSemaphore; /**< Signaled when GPU drawing is complete. */
+    VkFence          inFlightFence;      /**< Syncs CPU with the GPU frame lifecycle. */
 
-    uint32_t         currentImageIndex;
+    uint32_t         currentImageIndex;  /**< Index of the image being rendered this frame. */
 } SBGL_VulkanContext;
 
 static SBGL_VulkanContext g_vk = {0};

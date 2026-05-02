@@ -10,7 +10,7 @@
  * graphics backend (Vulkan, etc.).
  */
 
-#include "core/sbgl_types.h"
+#include "sbgl_types.h"
 
 bool sbgl_gfx_Init(sbgl_Window* window);
 void sbgl_gfx_Shutdown(void);

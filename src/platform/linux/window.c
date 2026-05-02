@@ -10,16 +10,28 @@ struct wl_compositor* g_compositor = NULL;
 struct xdg_wm_base*   g_wm_base = NULL;
 struct wl_seat*       g_seat = NULL;
 
+/**
+ * @brief Native Wayland window state.
+ * 
+ * Wraps the Wayland protocols required for windowing and resizing.
+ */
 struct sbgl_Window {
-    struct wl_surface* surface;
-    struct xdg_surface* xdg_surface;
-    struct xdg_toplevel* xdg_toplevel;
-    bool shouldClose;
-    int width, height;
+    struct wl_surface* surface;     /**< The raw Wayland drawing surface. */
+    struct xdg_surface* xdg_surface; /**< The XDG-Shell surface wrapper. */
+    struct xdg_toplevel* xdg_toplevel; /**< The top-level window handle. */
+    bool shouldClose;               /**< Flag set when the OS requests closure. */
+    int width, height;               /**< Current client dimensions. */
 };
 
 // Internal update function from input.c
 void linux_internal_update_input_states(void);
+
+// --- Window Manager Listeners ---
+static void wm_base_ping(void* data, struct xdg_wm_base* wm_base, uint32_t serial) {
+    (void)data;
+    xdg_wm_base_pong(wm_base, serial);
+}
+static const struct xdg_wm_base_listener wm_base_listener = { .ping = wm_base_ping };
 
 // --- Registry ---
 static void registry_handle_global(void* data, struct wl_registry* registry, uint32_t name, const char* interface, uint32_t version) {
@@ -28,6 +40,7 @@ static void registry_handle_global(void* data, struct wl_registry* registry, uin
         g_compositor = wl_registry_bind(registry, name, &wl_compositor_interface, 1);
     } else if (strcmp(interface, xdg_wm_base_interface.name) == 0) {
         g_wm_base = wl_registry_bind(registry, name, &xdg_wm_base_interface, 1);
+        xdg_wm_base_add_listener(g_wm_base, &wm_base_listener, NULL);
     } else if (strcmp(interface, wl_seat_interface.name) == 0) {
         linux_init_input(registry, name, 1);
     }

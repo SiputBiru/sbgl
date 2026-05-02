@@ -2,15 +2,16 @@
 #include <stdio.h>
 
 int main() {
-    printf("Initializing Input Test (Context API)...\n");
+    printf("Initializing Input Test (Result Struct API)...\n");
     printf("Controls: R=Red, G=Green, B=Blue, ESC=Exit\n");
     
-    sbgl_Context* ctx = sbgl_Init(800, 600, "SBgl Input Test");
-    if (ctx->result != SBGL_SUCCESS) {
-        printf("Failed to init: %d\n", ctx->result);
+    sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Input Test");
+    if (res.error != SBGL_SUCCESS) {
+        printf("Failed to init: %d\n", res.error);
         return 1;
     }
 
+    sbgl_Context* ctx = res.ctx;
     float r = 0.1f, g = 0.2f, b = 0.3f;
 
     while (!sbgl_WindowShouldClose(ctx)) {

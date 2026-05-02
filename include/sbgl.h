@@ -1,10 +1,20 @@
+/**
+ * @file sbgl.h
+ * @brief Public API for the SiputBiru Graphics Library (SBgl).
+ * 
+ * This header defines the primary interface for window management,
+ * frame lifecycle, and input handling.
+ */
+
 #ifndef SBGL_H
 #define SBGL_H
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "sbgl_types.h"
 
 // --- Scancodes (Subset of physical keys) ---
+
 #define SBGL_KEY_UNKNOWN 0
 #define SBGL_KEY_A 4
 #define SBGL_KEY_B 5
@@ -61,40 +71,101 @@
 #define SBGL_MOUSE_RIGHT 1
 #define SBGL_MOUSE_MIDDLE 2
 
-// --- Types ---
-
-typedef enum {
-    SBGL_SUCCESS = 0,
-    SBGL_ERROR_INITIALIZATION_FAILED = 1,
-    SBGL_ERROR_WINDOW_CREATION_FAILED = 2,
-    SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED = 3,
-    SBGL_ERROR_OUT_OF_MEMORY = 4,
-} sbgl_Result;
-
-typedef struct sbgl_Context {
-    void*       inner;
-    sbgl_Result result;
-} sbgl_Context;
-
 // --- API ---
 
-// Lifecycle
-sbgl_Context* sbgl_Init(int w, int h, const char* title);
+/**
+ * @brief Initializes the engine and opens a window.
+ * 
+ * This function sets up the internal HALs and the Vulkan 1.3 backend.
+ * 
+ * @param w Desired width of the window.
+ * @param h Desired height of the window.
+ * @param title Title displayed in the OS window manager.
+ * @return An initialization result containing the context and any error code.
+ */
+sbgl_InitResult sbgl_Init(int w, int h, const char* title);
+
+/**
+ * @brief Gracefully shuts down the engine and releases all resources.
+ * @param ctx The context to destroy.
+ */
 void          sbgl_Shutdown(sbgl_Context* ctx);
+
+/**
+ * @brief Checks if the user or OS has requested to close the window.
+ * @param ctx The active engine context.
+ * @return True if the window should close, false otherwise.
+ */
 bool          sbgl_WindowShouldClose(sbgl_Context* ctx);
 
-// Graphics Lifecycle
+/**
+ * @brief Prepares the engine for a new frame of drawing.
+ * 
+ * This function handles event polling and Vulkan swapchain image acquisition.
+ * Must be called before any clearing or drawing commands.
+ * 
+ * @param ctx The engine context.
+ */
 void sbgl_BeginDrawing(sbgl_Context* ctx);
+
+/**
+ * @brief Finalizes the current frame and presents it to the screen.
+ * 
+ * This function submits the recorded GPU commands and swaps the buffer.
+ * 
+ * @param ctx The engine context.
+ */
 void sbgl_EndDrawing(sbgl_Context* ctx);
+
+/**
+ * @brief Sets the clear color for the next frame.
+ * 
+ * @param ctx The engine context.
+ * @param r Red component (0.0 to 1.0).
+ * @param g Green component (0.0 to 1.0).
+ * @param b Blue component (0.0 to 1.0).
+ * @param a Alpha component (0.0 to 1.0).
+ */
 void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a);
 
-// Input - Keyboard
+/**
+ * @brief Checks if a specific key is currently held down.
+ * @param ctx The engine context.
+ * @param scancode The physical key to check.
+ * @return True if the key is down.
+ */
 bool sbgl_IsKeyDown(sbgl_Context* ctx, int scancode);
+
+/**
+ * @brief Checks if a key was pressed during this specific frame.
+ * @param ctx The engine context.
+ * @param scancode The physical key to check.
+ * @return True only on the frame the key was first pressed.
+ */
 bool sbgl_IsKeyPressed(sbgl_Context* ctx, int scancode);
 
-// Input - Mouse
+/**
+ * @brief Checks if a specific mouse button is held down.
+ * @param ctx The engine context.
+ * @param button The button index (e.g., SBGL_MOUSE_LEFT).
+ * @return True if the button is down.
+ */
 bool sbgl_IsMouseButtonDown(sbgl_Context* ctx, int button);
+
+/**
+ * @brief Retrieves the current mouse position relative to the window.
+ * @param ctx The engine context.
+ * @param x Pointer to store the X coordinate.
+ * @param y Pointer to store the Y coordinate.
+ */
 void sbgl_GetMousePos(sbgl_Context* ctx, int* x, int* y);
+
+/**
+ * @brief Retrieves the mouse movement since the last frame.
+ * @param ctx The engine context.
+ * @param dx Pointer to store the X movement delta.
+ * @param dy Pointer to store the Y movement delta.
+ */
 void sbgl_GetMouseDelta(sbgl_Context* ctx, int* dx, int* dy);
 
 #endif // SBGL_H

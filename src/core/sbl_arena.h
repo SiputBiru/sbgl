@@ -117,21 +117,35 @@ extern "C" {
 	((char*)SBL_ARENA_MEMCPY(sbl_arena_alloc((arena), strlen(str) + 1), (str), strlen(str) + 1))
 
 typedef struct SblArenaBlock {
-	uint8_t* memory;
-	uint64_t size;
-	uint64_t offset;
-	struct SblArenaBlock* next;
-} SblArenaBlock;
+	/**
+	 * @brief A single block of memory in the arena.
+	 */
+	typedef struct SblArenaBlock {
+		uint64_t size;               /**< Total capacity of this block. */
+		uint64_t offset;             /**< Current allocation offset. */
+		struct SblArenaBlock* next;  /**< Pointer to the next block in the chain. */
+	} SblArenaBlock;
 
-typedef struct SblArena {
-	SblArenaBlock* head;
-	SblArenaBlock* current;
-} SblArena;
+	/**
+	 * @brief High-speed arena allocator.
+	 * 
+	 * Manages a chain of memory blocks to provide fast, linear allocations
+	 * without individual free calls.
+	 */
+	typedef struct SblArena {
+		SblArenaBlock* head;         /**< The first block in the arena. */
+		SblArenaBlock* current;      /**< The current active block. */
+	} SblArena;
 
-typedef struct {
-	SblArenaBlock* block;
-	uint64_t offset;
-} SblArenaMark;
+	/**
+	 * @brief Bookmark for arena state.
+	 * 
+	 * Used to "rewind" the arena to a specific point.
+	 */
+	typedef struct {
+		SblArenaBlock* block;        /**< The block at the time of marking. */
+		uint64_t offset;             /**< The offset at the time of marking. */
+	} SblArenaMark;
 
 // Thread-local arena (extern in header unless static)
 #ifndef SBL_ARENA_STATIC

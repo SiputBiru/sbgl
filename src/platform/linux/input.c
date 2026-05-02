@@ -1,11 +1,21 @@
 #include "linux_internal.h"
 #include <string.h>
 
+/**
+ * @brief Container for physical keyboard state.
+ * 
+ * Used for comparing current and previous states to detect one-shot triggers.
+ */
+typedef struct {
+    bool keys[SBGL_SCANCODE_MAX]; /**< Boolean array of all scancodes. */
+} sbgl_KeyboardState;
+
 static struct wl_keyboard* g_keyboard = NULL;
 static struct wl_pointer*  g_pointer = NULL;
 
-static bool g_keyboardState[SBGL_SCANCODE_MAX] = {0};
-static bool g_prevKeyboardState[SBGL_SCANCODE_MAX] = {0};
+static sbgl_KeyboardState g_keyboardState = {{0}};
+static sbgl_KeyboardState g_prevKeyboardState = {{0}};
+
 static bool g_mouseState[SBGL_MOUSE_BUTTON_MAX] = {0};
 static int  g_mouseX = 0, g_mouseY = 0;
 static int  g_prevMouseX = 0, g_prevMouseY = 0;
@@ -74,7 +84,7 @@ static void keyboard_leave(void* data, struct wl_keyboard* k, uint32_t s, struct
 static void keyboard_key(void* data, struct wl_keyboard* k, uint32_t s, uint32_t t, uint32_t key, uint32_t state) {
     (void)data; (void)k; (void)s; (void)t;
     SBGL_Scancode code = wayland_key_to_scancode(key);
-    if (code < SBGL_SCANCODE_MAX) g_keyboardState[code] = (state == WL_KEYBOARD_KEY_STATE_PRESSED);
+    if (code < SBGL_SCANCODE_MAX) g_keyboardState.keys[code] = (state == WL_KEYBOARD_KEY_STATE_PRESSED);
 }
 static void keyboard_modifiers(void* data, struct wl_keyboard* k, uint32_t s, uint32_t depressed, uint32_t latched, uint32_t locked, uint32_t group) {
     (void)data; (void)k; (void)s; (void)depressed; (void)latched; (void)locked; (void)group;
@@ -106,12 +116,13 @@ void linux_init_input(struct wl_registry* registry, uint32_t name, uint32_t vers
 
 // --- HAL Implementation ---
 void linux_internal_update_input_states(void) {
-    memcpy(g_prevKeyboardState, g_keyboardState, sizeof(g_keyboardState));
+    // Safer struct assignment instead of memcpy
+    g_prevKeyboardState = g_keyboardState;
     g_prevMouseX = g_mouseX; g_prevMouseY = g_mouseY;
 }
 
-bool sbgl_os_IsKeyDown(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? g_keyboardState[key] : false; }
-bool sbgl_os_IsKeyPressed(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? (g_keyboardState[key] && !g_prevKeyboardState[key]) : false; }
+bool sbgl_os_IsKeyDown(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? g_keyboardState.keys[key] : false; }
+bool sbgl_os_IsKeyPressed(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? (g_keyboardState.keys[key] && !g_prevKeyboardState.keys[key]) : false; }
 bool sbgl_os_IsMouseButtonDown(SBGL_MouseButton btn) { return (btn < SBGL_MOUSE_BUTTON_MAX) ? g_mouseState[btn] : false; }
 void sbgl_os_GetMousePos(int* x, int* y) { *x = g_mouseX; *y = g_mouseY; }
 void sbgl_os_GetMouseDelta(int* dx, int* dy) { *dx = g_mouseX - g_prevMouseX; *dy = g_mouseY - g_prevMouseY; }

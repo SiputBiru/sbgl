@@ -1,9 +1,19 @@
+/**
+ * @file sbgl_input.h
+ * @brief Internal Input Abstraction Layer (HAL).
+ * 
+ * Decouples physical input state from the windowing layer.
+ */
+
 #ifndef SBGL_INPUT_H
 #define SBGL_INPUT_H
 
 #include <stdbool.h>
 #include <stdint.h>
 
+/**
+ * @brief OS-independent physical scancodes.
+ */
 typedef enum {
     SBGL_SCANCODE_UNKNOWN = 0,
     SBGL_SCANCODE_A = 4,
@@ -62,6 +72,9 @@ typedef enum {
     SBGL_SCANCODE_MAX = 512
 } SBGL_Scancode;
 
+/**
+ * @brief Standard mouse buttons.
+ */
 typedef enum {
     SBGL_MOUSE_BUTTON_LEFT = 0,
     SBGL_MOUSE_BUTTON_RIGHT = 1,
@@ -69,11 +82,29 @@ typedef enum {
     SBGL_MOUSE_BUTTON_MAX = 8
 } SBGL_MouseButton;
 
-// --- OS HAL Interface ---
+/**
+ * @brief Checks current key state.
+ */
 bool sbgl_os_IsKeyDown(SBGL_Scancode key);
+
+/**
+ * @brief Checks for a new key press this frame.
+ */
 bool sbgl_os_IsKeyPressed(SBGL_Scancode key);
+
+/**
+ * @brief Checks current mouse button state.
+ */
 bool sbgl_os_IsMouseButtonDown(SBGL_MouseButton button);
+
+/**
+ * @brief Gets absolute window coordinates for the mouse.
+ */
 void sbgl_os_GetMousePos(int* x, int* y);
+
+/**
+ * @brief Gets relative mouse movement since last poll.
+ */
 void sbgl_os_GetMouseDelta(int* dx, int* dy);
 
 #endif // SBGL_INPUT_H

@@ -6,22 +6,35 @@
 #include "backend/sbgl_graphics_hal.h"
 #include <stdlib.h>
 
+/**
+ * @brief Internal state for the engine context.
+ * 
+ * This structure is hidden from the public API (opaque). It holds the
+ * persistent memory arena, the native window handle, and the current
+ * clear color state.
+ */
 typedef struct {
-    SblArena     arena;
-    sbgl_Window* window;
-    float        clearColor[4];
+    SblArena     arena;        /**< Persistent memory for the lifetime of the context. */
+    sbgl_Window* window;       /**< Handle to the native OS window. */
+    float        clearColor[4]; /**< Current RGBA clear color. */
 } sbgl_InternalContext;
 
-sbgl_Context* sbgl_Init(int w, int h, const char* title) {
+sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
+    sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
+
     // Setup the basic context shell
     sbgl_Context* ctx = malloc(sizeof(sbgl_Context));
-    if (!ctx) return NULL;
+    if (!ctx) {
+        res.error = SBGL_ERROR_OUT_OF_MEMORY;
+        return res;
+    }
 
     // Setup internal state using an arena
     sbgl_InternalContext* inner = malloc(sizeof(sbgl_InternalContext));
     if (!inner) {
         free(ctx);
-        return NULL;
+        res.error = SBGL_ERROR_OUT_OF_MEMORY;
+        return res;
     }
     
     sbl_arena_init(&inner->arena, 4 * 1024 * 1024); // 4MB default
@@ -32,21 +45,24 @@ sbgl_Context* sbgl_Init(int w, int h, const char* title) {
 
     ctx->inner = inner;
     ctx->result = SBGL_SUCCESS;
+    res.ctx = ctx;
 
     // Initialize Platform
     inner->window = sbgl_os_CreateWindow(&inner->arena, w, h, title);
     if (!inner->window) {
         ctx->result = SBGL_ERROR_WINDOW_CREATION_FAILED;
-        return ctx;
+        res.error = ctx->result;
+        return res;
     }
 
     // Initialize Graphics
     if (!sbgl_gfx_Init(inner->window)) {
         ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
-        return ctx;
+        res.error = ctx->result;
+        return res;
     }
 
-    return ctx;
+    return res;
 }
 
 void sbgl_Shutdown(sbgl_Context* ctx) {
@@ -78,7 +94,7 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 }
 
 void sbgl_EndDrawing(sbgl_Context* ctx) {
-    (void)ctx;
+    if (!ctx) return;
     sbgl_gfx_EndFrame();
 }
 

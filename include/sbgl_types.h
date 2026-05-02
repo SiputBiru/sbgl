@@ -1,9 +1,22 @@
 #ifndef SBGL_TYPES_H
 #define SBGL_TYPES_H
 
+#include <stdbool.h>
+
+#define SBGL_MAX_KEYS 512
+#define SBGL_MAX_MOUSE_BUTTONS 8
+
 /**
- * SBGL Shared Opaque Types (Private)
+ * @brief Represents the real-time state of physical inputs.
  */
+typedef struct sbgl_InputState {
+    bool keysDown[SBGL_MAX_KEYS];
+    bool keysPressed[SBGL_MAX_KEYS];
+    bool mouseDown[SBGL_MAX_MOUSE_BUTTONS];
+    int mouseX, mouseY;
+    int mouseDeltaX, mouseDeltaY;
+    int _internalMouseX, _internalMouseY; /**< Internal tracking for deltas. */
+} sbgl_InputState;
 
 /**
  * @brief Result codes for engine operations.
@@ -20,8 +33,9 @@ typedef enum {
  * @brief Primary engine context.
  */
 typedef struct sbgl_Context {
-    void*       inner;
-    sbgl_Result result;
+    void*           inner;
+    sbgl_Result     result;
+    sbgl_InputState input;
 } sbgl_Context;
 
 /**

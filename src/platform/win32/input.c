@@ -1,17 +1,6 @@
 #include "win32_internal.h"
 #include <string.h>
 
-typedef struct {
-    bool keys[SBGL_SCANCODE_MAX];
-} sbgl_KeyboardState;
-
-static sbgl_KeyboardState g_keyboardState = {{0}};
-static sbgl_KeyboardState g_prevKeyboardState = {{0}};
-
-static bool g_mouseState[SBGL_MOUSE_BUTTON_MAX] = {0};
-static int  g_mouseX = 0, g_mouseY = 0;
-static int  g_prevMouseX = 0, g_prevMouseY = 0;
-
 static SBGL_Scancode win32_vk_to_scancode(WPARAM wparam) {
     if (wparam >= 'A' && wparam <= 'Z') return (SBGL_Scancode)(SBGL_SCANCODE_A + (wparam - 'A'));
     if (wparam >= '0' && wparam <= '9') return (SBGL_Scancode)(SBGL_SCANCODE_0 + (wparam - '0'));
@@ -33,42 +22,44 @@ static SBGL_Scancode win32_vk_to_scancode(WPARAM wparam) {
     }
 }
 
-void win32_internal_process_message(UINT msg, WPARAM wparam, LPARAM lparam) {
+void win32_internal_process_message(sbgl_InputState* input, UINT msg, WPARAM wparam, LPARAM lparam) {
+    if (!input) return;
     switch (msg) {
         case WM_KEYDOWN:
         case WM_SYSKEYDOWN: {
             SBGL_Scancode code = win32_vk_to_scancode(wparam);
-            if (code < SBGL_SCANCODE_MAX) g_keyboardState.keys[code] = true;
+            if (code < SBGL_MAX_KEYS) {
+                if (!input->keysDown[code]) input->keysPressed[code] = true;
+                input->keysDown[code] = true;
+            }
             break;
         }
         case WM_KEYUP:
         case WM_SYSKEYUP: {
             SBGL_Scancode code = win32_vk_to_scancode(wparam);
-            if (code < SBGL_SCANCODE_MAX) g_keyboardState.keys[code] = false;
+            if (code < SBGL_MAX_KEYS) input->keysDown[code] = false;
             break;
         }
         case WM_MOUSEMOVE: {
-            g_mouseX = LOWORD(lparam);
-            g_mouseY = HIWORD(lparam);
+            input->mouseX = LOWORD(lparam);
+            input->mouseY = HIWORD(lparam);
             break;
         }
-        case WM_LBUTTONDOWN: g_mouseState[SBGL_MOUSE_BUTTON_LEFT] = true; break;
-        case WM_LBUTTONUP:   g_mouseState[SBGL_MOUSE_BUTTON_LEFT] = false; break;
-        case WM_RBUTTONDOWN: g_mouseState[SBGL_MOUSE_BUTTON_RIGHT] = true; break;
-        case WM_RBUTTONUP:   g_mouseState[SBGL_MOUSE_BUTTON_RIGHT] = false; break;
-        case WM_MBUTTONDOWN: g_mouseState[SBGL_MOUSE_BUTTON_MIDDLE] = true; break;
-        case WM_MBUTTONUP:   g_mouseState[SBGL_MOUSE_BUTTON_MIDDLE] = false; break;
+        case WM_LBUTTONDOWN: input->mouseDown[SBGL_MOUSE_BUTTON_LEFT] = true; break;
+        case WM_LBUTTONUP:   input->mouseDown[SBGL_MOUSE_BUTTON_LEFT] = false; break;
+        case WM_RBUTTONDOWN: input->mouseDown[SBGL_MOUSE_BUTTON_RIGHT] = true; break;
+        case WM_RBUTTONUP:   input->mouseDown[SBGL_MOUSE_BUTTON_RIGHT] = false; break;
+        case WM_MBUTTONDOWN: input->mouseDown[SBGL_MOUSE_BUTTON_MIDDLE] = true; break;
+        case WM_MBUTTONUP:   input->mouseDown[SBGL_MOUSE_BUTTON_MIDDLE] = false; break;
     }
 }
 
-void win32_internal_update_input_states(void) {
-    g_prevKeyboardState = g_keyboardState;
-    g_prevMouseX = g_mouseX;
-    g_prevMouseY = g_mouseY;
-}
+static int lastX = 0, lastY = 0;
 
-bool sbgl_os_IsKeyDown(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? g_keyboardState.keys[key] : false; }
-bool sbgl_os_IsKeyPressed(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? (g_keyboardState.keys[key] && !g_prevKeyboardState.keys[key]) : false; }
-bool sbgl_os_IsMouseButtonDown(SBGL_MouseButton btn) { return (btn < SBGL_MOUSE_BUTTON_MAX) ? g_mouseState[btn] : false; }
-void sbgl_os_GetMousePos(int* x, int* y) { *x = g_mouseX; *y = g_mouseY; }
-void sbgl_os_GetMouseDelta(int* dx, int* dy) { *dx = g_mouseX - g_prevMouseX; *dy = g_mouseY - g_prevMouseY; }
+void win32_internal_update_input_states(sbgl_InputState* input) {
+    if (!input) return;
+    input->mouseDeltaX = input->mouseX - lastX;
+    input->mouseDeltaY = input->mouseY - lastY;
+    lastX = input->mouseX;
+    lastY = input->mouseY;
+}

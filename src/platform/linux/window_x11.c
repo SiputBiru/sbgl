@@ -14,14 +14,16 @@ Display* g_x11_display = NULL;
 struct sbgl_Window {
     Window window;
     Atom wmDeleteMessage;
+    sbgl_InputState* input;
     bool shouldClose;
+    bool resized;
     int width, height;
 };
 
 // Defined in input_x11.c
 void x11_internal_process_event(XEvent* event, sbgl_Window* window);
 
-sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, int width, int height, const char* title) {
+sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title) {
     if (!g_x11_display) {
         g_x11_display = XOpenDisplay(NULL);
         if (!g_x11_display) return NULL;
@@ -48,7 +50,9 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, int width, int height,
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT(arena, sbgl_Window);
     window->window = win;
     window->wmDeleteMessage = wmDeleteMessage;
+    window->input = input;
     window->shouldClose = false;
+    window->resized = false;
     window->width = width;
     window->height = height;
 
@@ -71,10 +75,16 @@ void sbgl_os_GetWindowSize(sbgl_Window* window, int* w, int* h) {
     }
 }
 
+bool sbgl_os_WasWindowResized(sbgl_Window* window) {
+    bool r = window->resized;
+    window->resized = false;
+    return r;
+}
+
 void sbgl_os_PollEvents(sbgl_Window* window) {
     if (!g_x11_display || !window) return;
 
-    linux_internal_update_input_states();
+    linux_internal_update_input_states(window->input);
 
     while (XPending(g_x11_display)) {
         XEvent event;
@@ -85,14 +95,20 @@ void sbgl_os_PollEvents(sbgl_Window* window) {
                 window->shouldClose = true;
             }
         } else if (event.type == ConfigureNotify) {
-            window->width = event.xconfigure.width;
-            window->height = event.xconfigure.height;
+            int w = event.xconfigure.width;
+            int h = event.xconfigure.height;
+            if (w > 0 && h > 0 && (w != window->width || h != window->height)) {
+                window->width = w;
+                window->height = h;
+                window->resized = true;
+            }
         }
 
         // Pass event to input system
         x11_internal_process_event(&event, window);
     }
 }
+
 
 uint64_t sbgl_os_GetPerfCount(void) {
     struct timespec ts;

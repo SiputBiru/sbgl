@@ -1,6 +1,7 @@
 #ifndef LINUX_INTERNAL_H
 #define LINUX_INTERNAL_H
 
+#include "sbgl_types.h"
 #include "core/sbgl_input.h"
 #include <stdint.h>
 
@@ -24,6 +25,6 @@ extern Display* g_x11_display;
 #endif
 
 // Internal update function called by PollEvents
-void linux_internal_update_input_states(void);
+void linux_internal_update_input_states(sbgl_InputState* input);
 
 #endif // LINUX_INTERNAL_H

@@ -18,7 +18,8 @@ SBgl (SiputBiru Graphics Library) is a bare-metal graphics framework in C99. Thi
 - [x] Implement Win32 platform layer with full virtual key mapping
 - [x] Implement Dynamic Vulkan Loading (no build-time link dependency)
 - [x] Initialize Vulkan 1.3 with Dynamic Rendering enabled (no RenderPass boilerplate)
-- [x] Implement Swapchain management and frame synchronization (Fences/Semaphores)
+- [x] Implement automatic Swapchain recreation and window resizing support
+- [x] Stabilization of Arena allocator for self-contained context management
 - [x] Implement Doxygen documentation system
 - [x] Implement CMake build system with Unity-style build support
 

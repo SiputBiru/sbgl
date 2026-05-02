@@ -17,27 +17,34 @@ typedef struct {
     SblArena     arena;        /**< Persistent memory for the lifetime of the context. */
     sbgl_Window* window;       /**< Handle to the native OS window. */
     float        clearColor[4]; /**< Current RGBA clear color. */
+    bool         isDrawing;    /**< Internal flag to track frame acquisition success. */
 } sbgl_InternalContext;
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
     sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
 
-    // Setup the basic context shell
-    sbgl_Context* ctx = malloc(sizeof(sbgl_Context));
+    // The primary arena is initialized to manage all persistent engine state
+    SblArena main_arena;
+    sbl_arena_init(&main_arena, 4 * 1024 * 1024); // 4MB default
+
+    // The public context shell is allocated and zeroed from the arena
+    sbgl_Context* ctx = SBL_ARENA_PUSH_STRUCT_ZERO(&main_arena, sbgl_Context);
     if (!ctx) {
+        sbl_arena_free(&main_arena);
         res.error = SBGL_ERROR_OUT_OF_MEMORY;
         return res;
     }
 
-    // Setup internal state using an arena
-    sbgl_InternalContext* inner = malloc(sizeof(sbgl_InternalContext));
+    // Internal state tracking is likewise pushed onto the arena
+    sbgl_InternalContext* inner = SBL_ARENA_PUSH_STRUCT_ZERO(&main_arena, sbgl_InternalContext);
     if (!inner) {
-        free(ctx);
+        sbl_arena_free(&main_arena);
         res.error = SBGL_ERROR_OUT_OF_MEMORY;
         return res;
     }
     
-    sbl_arena_init(&inner->arena, 4 * 1024 * 1024); // 4MB default
+    // Ownership of the arena is transferred to the internal context for the app lifetime
+    inner->arena = main_arena;
     inner->clearColor[0] = 0.1f;
     inner->clearColor[1] = 0.2f;
     inner->clearColor[2] = 0.3f;
@@ -47,16 +54,16 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
     ctx->result = SBGL_SUCCESS;
     res.ctx = ctx;
 
-    // Initialize Platform
-    inner->window = sbgl_os_CreateWindow(&inner->arena, w, h, title);
+    // The native platform window is created using the same arena for its internal tracking
+    inner->window = sbgl_os_CreateWindow(&inner->arena, &ctx->input, w, h, title);
     if (!inner->window) {
         ctx->result = SBGL_ERROR_WINDOW_CREATION_FAILED;
         res.error = ctx->result;
         return res;
     }
 
-    // Initialize Graphics
-    if (!sbgl_gfx_Init(inner->window)) {
+    // The graphics backend is initialized with a reference to the shared arena
+    if (!sbgl_gfx_Init(inner->window, &inner->arena)) {
         ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
         res.error = ctx->result;
         return res;
@@ -72,15 +79,20 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
     sbgl_gfx_Shutdown();
     if (inner->window) sbgl_os_DestroyWindow(inner->window);
     
+    // Freeing the arena automatically releases the context, internal state, and window state
     sbl_arena_free(&inner->arena);
-    free(inner);
-    free(ctx);
 }
 
 bool sbgl_WindowShouldClose(sbgl_Context* ctx) {
     if (!ctx) return true;
     sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
     return sbgl_os_WindowShouldClose(inner->window);
+}
+
+void sbgl_GetWindowSize(sbgl_Context* ctx, int* w, int* h) {
+    if (!ctx) return;
+    sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+    sbgl_os_GetWindowSize(inner->window, w, h);
 }
 
 void sbgl_BeginDrawing(sbgl_Context* ctx) {
@@ -90,12 +102,20 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
     // Ensure events are polled so Wayland can map the window
     sbgl_os_PollEvents(inner->window);
     
-    sbgl_gfx_BeginFrame(inner->clearColor[0], inner->clearColor[1], inner->clearColor[2], inner->clearColor[3]);
+    inner->isDrawing = sbgl_gfx_BeginFrame(inner->clearColor[0], inner->clearColor[1], inner->clearColor[2], inner->clearColor[3]);
 }
 
 void sbgl_EndDrawing(sbgl_Context* ctx) {
     if (!ctx) return;
-    sbgl_gfx_EndFrame();
+    sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+    
+    if (inner->isDrawing) {
+        sbgl_gfx_EndFrame();
+        inner->isDrawing = false;
+    }
+    
+    // Reset pressed states for next frame
+    memset(ctx->input.keysPressed, 0, sizeof(ctx->input.keysPressed));
 }
 
 void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a) {
@@ -108,26 +128,28 @@ void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a) {
 }
 
 bool sbgl_IsKeyDown(sbgl_Context* ctx, int scancode) {
-    (void)ctx;
-    return sbgl_os_IsKeyDown((SBGL_Scancode)scancode);
+    if (!ctx || scancode < 0 || scancode >= SBGL_MAX_KEYS) return false;
+    return ctx->input.keysDown[scancode];
 }
 
 bool sbgl_IsKeyPressed(sbgl_Context* ctx, int scancode) {
-    (void)ctx;
-    return sbgl_os_IsKeyPressed((SBGL_Scancode)scancode);
+    if (!ctx || scancode < 0 || scancode >= SBGL_MAX_KEYS) return false;
+    return ctx->input.keysPressed[scancode];
 }
 
 bool sbgl_IsMouseButtonDown(sbgl_Context* ctx, int button) {
-    (void)ctx;
-    return sbgl_os_IsMouseButtonDown((SBGL_MouseButton)button);
+    if (!ctx || button < 0 || button >= SBGL_MAX_MOUSE_BUTTONS) return false;
+    return ctx->input.mouseDown[button];
 }
 
 void sbgl_GetMousePos(sbgl_Context* ctx, int* x, int* y) {
-    (void)ctx;
-    sbgl_os_GetMousePos(x, y);
+    if (!ctx) return;
+    if (x) *x = ctx->input.mouseX;
+    if (y) *y = ctx->input.mouseY;
 }
 
 void sbgl_GetMouseDelta(sbgl_Context* ctx, int* dx, int* dy) {
-    (void)ctx;
-    sbgl_os_GetMouseDelta(dx, dy);
+    if (!ctx) return;
+    if (dx) *dx = ctx->input.mouseDeltaX;
+    if (dy) *dy = ctx->input.mouseDeltaY;
 }

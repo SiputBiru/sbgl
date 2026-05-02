@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-05-02
 
 ### Added
+- **Window Resizing**:
+    - Implemented automatic swapchain recreation on window resize events across Wayland, X11, and Win32.
+    - Added `sbgl_GetWindowSize` to the public API for context-based dimension queries.
+    - Integrated synchronization to handle window minimization (0x0 dimensions) gracefully.
+- **Input System Refactor**:
+    - Encapsulated all physical input state into a `sbgl_InputState` structure tied directly to the `sbgl_Context`.
+    - Eliminated global input state in favor of context-local state, enabling zero-overhead real-time input access via "key map" arrays.
+    - Added `keysPressed` tracking for frame-accurate trigger detection.
+- **Arena-Based Memory Management**:
+    - Fully eliminated `malloc` and `free` from the platform and Vulkan layers.
+    - Implemented a **Mark/Rewind** pattern for the Vulkan backend to recycle arena memory during swapchain recreation without leaks.
+
+### Changed
+- **Core Architecture**:
+    - Updated internal HAL signatures to pass the engine context or specialized state pointers instead of relying on globals.
+    - Updated `sbgl_gfx_Init` to accept the context's `SblArena` for graphics-layer allocations.
+- **Public API**:
+    - Updated input helpers (`sbgl_IsKeyDown`, etc.) to perform safety checks and read directly from the context's internal state.
+
+### Added
 - **Core Architecture**: Implemented a modular HAL (Hardware Abstraction Layer) separating Core, Platform, and Graphics Backend.
 - **Build System**: 
     - Created a `CMakeLists.txt` with automatic backend detection and protocol generation.
@@ -42,6 +62,8 @@ All notable changes to this project will be documented in this file.
 - **Examples**: Added `hello_window.c` and `input_test.c` (interactive color switching) to verify the entire stack.
 
 ### Fixed
+- **Memory Safety**: Resolved a segmentation fault in `sbl_arena_free` caused by a Use-After-Free when the arena structure was self-contained within its own memory blocks.
+- **GPU Synchronization**: Fixed a Vulkan driver crash during rapid window resizing by implementing internal frame lifecycle tracking (`isDrawing` flag), preventing out-of-order command submissions.
 - **Wayland Protocol Crashes**: Resolved "listener function is NULL" errors by providing complete callback implementations for `wl_keyboard` and `wl_pointer`.
 - **Wayland Window Visibility**: Resolved the issue where windows remained invisible until a valid Vulkan buffer was attached and submitted.
 - **Wayland ANR**: Fixed "Application Not Responding" dialogs by restoring the XDG-Shell ping/pong heartbeat.

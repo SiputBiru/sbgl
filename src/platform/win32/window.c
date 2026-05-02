@@ -10,7 +10,9 @@ HWND      g_win32_window   = NULL;
 struct sbgl_Window {
     HWND hwnd;
     bool shouldClose;
+    bool resized;
     int width, height;
+    sbgl_InputState* input;
 };
 
 static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -25,19 +27,24 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lp
             return 0;
         case WM_SIZE:
             if (window) {
-                window->width = LOWORD(lparam);
-                window->height = HIWORD(lparam);
+                int w = LOWORD(lparam);
+                int h = HIWORD(lparam);
+                if (w > 0 && h > 0 && (w != window->width || h != window->height)) {
+                    window->width = w;
+                    window->height = h;
+                    window->resized = true;
+                }
             }
             break;
     }
 
     // Pass input messages to the input system
-    win32_internal_process_message(msg, wparam, lparam);
+    if (window) win32_internal_process_message(window->input, msg, wparam, lparam);
 
     return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, int width, int height, const char* title) {
+sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title) {
     if (!g_win32_instance) {
         g_win32_instance = GetModuleHandle(NULL);
     }
@@ -69,8 +76,10 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, int width, int height,
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT(arena, sbgl_Window);
     window->hwnd = hwnd;
     window->shouldClose = false;
+    window->resized = false;
     window->width = width;
     window->height = height;
+    window->input = input;
 
     SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
     g_win32_window = hwnd;
@@ -95,9 +104,15 @@ void sbgl_os_GetWindowSize(sbgl_Window* window, int* w, int* h) {
     }
 }
 
+bool sbgl_os_WasWindowResized(sbgl_Window* window) {
+    bool r = window->resized;
+    window->resized = false;
+    return r;
+}
+
+
 void sbgl_os_PollEvents(sbgl_Window* window) {
-    (void)window;
-    win32_internal_update_input_states();
+    if (window) win32_internal_update_input_states(window->input);
 
     MSG msg;
     while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {

@@ -99,6 +99,14 @@ void          sbgl_Shutdown(sbgl_Context* ctx);
 bool          sbgl_WindowShouldClose(sbgl_Context* ctx);
 
 /**
+ * @brief Retrieves the current window dimensions.
+ * @param ctx The active engine context.
+ * @param w Pointer to store the width.
+ * @param h Pointer to store the height.
+ */
+void          sbgl_GetWindowSize(sbgl_Context* ctx, int* w, int* h);
+
+/**
  * @brief Prepares the engine for a new frame of drawing.
  * 
  * This function handles event polling and Vulkan swapchain image acquisition.

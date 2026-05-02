@@ -4,16 +4,12 @@
 #include <X11/keysym.h>
 #include <string.h>
 
-typedef struct {
-    bool keys[SBGL_SCANCODE_MAX];
-} sbgl_KeyboardState;
-
-static sbgl_KeyboardState g_keyboardState = {{0}};
-static sbgl_KeyboardState g_prevKeyboardState = {{0}};
-
-static bool g_mouseState[SBGL_MOUSE_BUTTON_MAX] = {0};
-static int  g_mouseX = 0, g_mouseY = 0;
-static int  g_prevMouseX = 0, g_prevMouseY = 0;
+struct sbgl_Window {
+    Window window;
+    Atom wmDeleteMessage;
+    sbgl_InputState* input;
+    // ...
+};
 
 static SBGL_Scancode x11_keysym_to_scancode(KeySym keysym) {
     if (keysym >= 'a' && keysym <= 'z') return (SBGL_Scancode)(SBGL_SCANCODE_A + (keysym - 'a'));
@@ -38,12 +34,15 @@ static SBGL_Scancode x11_keysym_to_scancode(KeySym keysym) {
 }
 
 void x11_internal_process_event(XEvent* event, sbgl_Window* window) {
-    (void)window;
+    sbgl_InputState* input = window->input;
     switch (event->type) {
         case KeyPress: {
             KeySym keysym = XLookupKeysym(&event->xkey, 0);
             SBGL_Scancode code = x11_keysym_to_scancode(keysym);
-            if (code < SBGL_SCANCODE_MAX) g_keyboardState.keys[code] = true;
+            if (code < SBGL_MAX_KEYS) {
+                if (!input->keysDown[code]) input->keysPressed[code] = true;
+                input->keysDown[code] = true;
+            }
             break;
         }
         case KeyRelease: {
@@ -58,33 +57,33 @@ void x11_internal_process_event(XEvent* event, sbgl_Window* window) {
             }
             KeySym keysym = XLookupKeysym(&event->xkey, 0);
             SBGL_Scancode code = x11_keysym_to_scancode(keysym);
-            if (code < SBGL_SCANCODE_MAX) g_keyboardState.keys[code] = false;
+            if (code < SBGL_MAX_KEYS) input->keysDown[code] = false;
             break;
         }
         case MotionNotify: {
-            g_mouseX = event->xmotion.x;
-            g_mouseY = event->xmotion.y;
+            input->mouseX = event->xmotion.x;
+            input->mouseY = event->xmotion.y;
             break;
         }
         case ButtonPress:
         case ButtonRelease: {
             bool down = (event->type == ButtonPress);
-            if (event->xbutton.button == Button1) g_mouseState[SBGL_MOUSE_BUTTON_LEFT] = down;
-            else if (event->xbutton.button == Button3) g_mouseState[SBGL_MOUSE_BUTTON_RIGHT] = down;
-            else if (event->xbutton.button == Button2) g_mouseState[SBGL_MOUSE_BUTTON_MIDDLE] = down;
+            int btn = -1;
+            if (event->xbutton.button == Button1) btn = SBGL_MOUSE_BUTTON_LEFT;
+            else if (event->xbutton.button == Button3) btn = SBGL_MOUSE_BUTTON_RIGHT;
+            else if (event->xbutton.button == Button2) btn = SBGL_MOUSE_BUTTON_MIDDLE;
+            if (btn != -1 && btn < SBGL_MAX_MOUSE_BUTTONS) input->mouseDown[btn] = down;
             break;
         }
     }
 }
 
-void linux_internal_update_input_states(void) {
-    g_prevKeyboardState = g_keyboardState;
-    g_prevMouseX = g_mouseX;
-    g_prevMouseY = g_mouseY;
-}
+static int lastX = 0, lastY = 0;
 
-bool sbgl_os_IsKeyDown(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? g_keyboardState.keys[key] : false; }
-bool sbgl_os_IsKeyPressed(SBGL_Scancode key) { return (key < SBGL_SCANCODE_MAX) ? (g_keyboardState.keys[key] && !g_prevKeyboardState.keys[key]) : false; }
-bool sbgl_os_IsMouseButtonDown(SBGL_MouseButton btn) { return (btn < SBGL_MOUSE_BUTTON_MAX) ? g_mouseState[btn] : false; }
-void sbgl_os_GetMousePos(int* x, int* y) { *x = g_mouseX; *y = g_mouseY; }
-void sbgl_os_GetMouseDelta(int* dx, int* dy) { *dx = g_mouseX - g_prevMouseX; *dy = g_mouseY - g_prevMouseY; }
+void linux_internal_update_input_states(sbgl_InputState* input) {
+    if (!input) return;
+    input->mouseDeltaX = input->mouseX - lastX;
+    input->mouseDeltaY = input->mouseY - lastY;
+    lastX = input->mouseX;
+    lastY = input->mouseY;
+}

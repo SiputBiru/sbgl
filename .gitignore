@@ -3,7 +3,8 @@ build*/
 out/
 bin/
 lib/
-docs/
+docs/out
+docs/html
 third_party/
 *.o
 *.a

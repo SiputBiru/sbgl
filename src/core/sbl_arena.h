@@ -120,14 +120,13 @@ void sbl_arena_init(SblArena* arena, uint64_t initial_size) {
 }
 
 void sbl_arena_free(SblArena* arena) {
+	if (!arena) return;
 	SblArenaBlock* b = arena->head;
 	while (b) {
 		SblArenaBlock* next = b->next;
 		free(b);
 		b = next;
 	}
-	arena->head = NULL;
-	arena->current = NULL;
 }
 
 void* sbl_arena_alloc(SblArena* arena, uint64_t size) {

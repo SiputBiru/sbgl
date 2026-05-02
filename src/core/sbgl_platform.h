@@ -23,7 +23,7 @@ struct SblArena;
  * @param title Window title.
  * @return Opaque pointer to the window state.
  */
-sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, int width, int height, const char* title);
+sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title);
 
 /**
  * @brief Destroys a native window.
@@ -45,6 +45,16 @@ bool         sbgl_os_WindowShouldClose(sbgl_Window* window);
  * @param h Pointer to store height.
  */
 void         sbgl_os_GetWindowSize(sbgl_Window* window, int* w, int* h);
+
+/**
+ * @brief Checks if the window has been resized since the last check.
+ * 
+ * Resets the internal resize flag to false upon returning.
+ * 
+ * @param window The window handle.
+ * @return True if a resize event occurred.
+ */
+bool         sbgl_os_WasWindowResized(sbgl_Window* window);
 
 /**
  * @brief Dispatches OS events (messages/protocol requests).

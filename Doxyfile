@@ -1,19 +1,16 @@
 PROJECT_NAME           = "SBgl"
 PROJECT_NUMBER         = "0.1.0"
 PROJECT_BRIEF          = "Bare-metal graphics framework in C99"
-OUTPUT_DIRECTORY       = docs
+OUTPUT_DIRECTORY       = docs/out
 OPTIMIZE_OUTPUT_FOR_C  = YES
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
-USE_MDRVE_SYNTAX       = YES
-INPUT                  = include src README.md VULKAN_BACKEND.md ROADMAP.md
-USE_MDRVE_SYNTAX       = YES
+INPUT                  = include src README.md docs/VULKAN_BACKEND.md docs/ROADMAP.md docs/INPUT_SYSTEM.md
 GENERATE_LATEX         = NO
 GENERATE_HTML          = YES
 HAVE_DOT               = NO
 WARN_IF_UNDOCUMENTED   = NO
 MARKDOWN_SUPPORT       = YES
-USE_MDRVE_SYNTAX       = YES
-USE_MDRVE_SYNTAX       = YES
-MAIN_PAGE              = README.md
+
+
 

@@ -1,5 +1,6 @@
 #include "sbgl_graphics_hal.h"
 #include "core/sbgl_platform.h"
+#include "core/sbl_arena.h"
 
 #define VK_NO_PROTOTYPES
 #include <vulkan/vulkan.h>
@@ -25,11 +26,8 @@
 
 // --- Vulkan Function Pointers ---
 
-// 1. Global Functions (can be loaded with NULL instance)
 static PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
 static PFN_vkCreateInstance vkCreateInstance = NULL;
-
-// 2. Instance Functions (require valid instance)
 static PFN_vkEnumeratePhysicalDevices vkEnumeratePhysicalDevices = NULL;
 static PFN_vkGetPhysicalDeviceProperties vkGetPhysicalDeviceProperties = NULL;
 static PFN_vkGetPhysicalDeviceQueueFamilyProperties vkGetPhysicalDeviceQueueFamilyProperties = NULL;
@@ -48,7 +46,6 @@ static PFN_vkCreateXlibSurfaceKHR vkCreateXlibSurfaceKHR = NULL;
 static PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR = NULL;
 #endif
 
-// 3. Device Functions (require valid device)
 static PFN_vkGetDeviceQueue vkGetDeviceQueue = NULL;
 static PFN_vkCreateSwapchainKHR vkCreateSwapchainKHR = NULL;
 static PFN_vkDestroySwapchainKHR vkDestroySwapchainKHR = NULL;
@@ -85,6 +82,8 @@ typedef struct {
     VkQueue          graphicsQueue;
     uint32_t         graphicsQueueFamily;
     
+    sbgl_Window*     window;
+    SblArena*        arena;
     VkSwapchainKHR   swapchain;
     VkFormat         swapchainFormat;
     VkExtent2D       swapchainExtent;
@@ -102,6 +101,31 @@ typedef struct {
 } SBGL_VulkanContext;
 
 static SBGL_VulkanContext g_vk = {0};
+static SblArenaMark g_swapchain_mark;
+
+static void cleanup_swapchain(void) {
+    for (uint32_t i = 0; i < g_vk.imageCount; i++) {
+        vkDestroyImageView(g_vk.device, g_vk.imageViews[i], NULL);
+    }
+    vkDestroySwapchainKHR(g_vk.device, g_vk.swapchain, NULL);
+    sbl_arena_rewind(g_vk.arena, g_swapchain_mark);
+}
+
+static bool create_swapchain(sbgl_Window* window);
+
+static void recreate_swapchain(void) {
+    int w = 0, h = 0;
+    sbgl_os_GetWindowSize(g_vk.window, &w, &h);
+    while (w == 0 || h == 0) {
+        sbgl_os_GetWindowSize(g_vk.window, &w, &h);
+        sbgl_os_PollEvents(g_vk.window);
+    }
+
+    vkDeviceWaitIdle(g_vk.device);
+
+    cleanup_swapchain();
+    create_swapchain(g_vk.window);
+}
 
 static bool load_vulkan_library(void) {
 #ifdef _WIN32
@@ -277,7 +301,8 @@ static bool select_physical_device(void) {
         return false;
     }
 
-    VkPhysicalDevice* devices = malloc(sizeof(VkPhysicalDevice) * deviceCount);
+    SblArenaMark mark = sbl_arena_mark(g_vk.arena);
+    VkPhysicalDevice* devices = SBL_ARENA_PUSH_ARRAY(g_vk.arena, VkPhysicalDevice, deviceCount);
     vkEnumeratePhysicalDevices(g_vk.instance, &deviceCount, devices);
 
     for (uint32_t i = 0; i < deviceCount; i++) {
@@ -297,14 +322,16 @@ static bool select_physical_device(void) {
         printf("[Vulkan] Selected GPU: %s\n", props.deviceName);
     }
 
-    free(devices);
+    sbl_arena_rewind(g_vk.arena, mark);
     return true;
 }
 
 static bool create_logical_device(void) {
     uint32_t queueFamilyCount = 0;
     vkGetPhysicalDeviceQueueFamilyProperties(g_vk.physicalDevice, &queueFamilyCount, NULL);
-    VkQueueFamilyProperties* queueFamilies = malloc(sizeof(VkQueueFamilyProperties) * queueFamilyCount);
+    
+    SblArenaMark mark = sbl_arena_mark(g_vk.arena);
+    VkQueueFamilyProperties* queueFamilies = SBL_ARENA_PUSH_ARRAY(g_vk.arena, VkQueueFamilyProperties, queueFamilyCount);
     vkGetPhysicalDeviceQueueFamilyProperties(g_vk.physicalDevice, &queueFamilyCount, queueFamilies);
 
     int graphicsFamily = -1;
@@ -316,7 +343,7 @@ static bool create_logical_device(void) {
             break;
         }
     }
-    free(queueFamilies);
+    sbl_arena_rewind(g_vk.arena, mark);
 
     if (graphicsFamily == -1) {
         fprintf(stderr, "[Vulkan] No suitable queue family found\n");
@@ -369,13 +396,18 @@ static bool create_swapchain(sbgl_Window* window) {
     VkSurfaceCapabilitiesKHR capabilities;
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(g_vk.physicalDevice, g_vk.surface, &capabilities);
 
+    VkExtent2D extent = { (uint32_t)w, (uint32_t)h };
+    if (capabilities.currentExtent.width != 0xFFFFFFFF) {
+        extent = capabilities.currentExtent;
+    }
+
     VkSwapchainCreateInfoKHR createInfo = {
         .sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
         .surface = g_vk.surface,
         .minImageCount = capabilities.minImageCount + 1,
         .imageFormat = VK_FORMAT_B8G8R8A8_UNORM,
         .imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR,
-        .imageExtent = { (uint32_t)w, (uint32_t)h },
+        .imageExtent = extent,
         .imageArrayLayers = 1,
         .imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
         .imageSharingMode = VK_SHARING_MODE_EXCLUSIVE,
@@ -394,10 +426,12 @@ static bool create_swapchain(sbgl_Window* window) {
     g_vk.swapchainFormat = createInfo.imageFormat;
 
     vkGetSwapchainImagesKHR(g_vk.device, g_vk.swapchain, &g_vk.imageCount, NULL);
-    g_vk.images = malloc(sizeof(VkImage) * g_vk.imageCount);
+    
+    g_swapchain_mark = sbl_arena_mark(g_vk.arena);
+    g_vk.images = SBL_ARENA_PUSH_ARRAY(g_vk.arena, VkImage, g_vk.imageCount);
     vkGetSwapchainImagesKHR(g_vk.device, g_vk.swapchain, &g_vk.imageCount, g_vk.images);
 
-    g_vk.imageViews = malloc(sizeof(VkImageView) * g_vk.imageCount);
+    g_vk.imageViews = SBL_ARENA_PUSH_ARRAY(g_vk.arena, VkImageView, g_vk.imageCount);
     for (uint32_t i = 0; i < g_vk.imageCount; i++) {
         VkImageViewCreateInfo viewInfo = {
             .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
@@ -409,7 +443,7 @@ static bool create_swapchain(sbgl_Window* window) {
         vkCreateImageView(g_vk.device, &viewInfo, NULL, &g_vk.imageViews[i]);
     }
 
-    printf("[Vulkan] Swapchain created (%dx%d, %u images)\n", w, h, g_vk.imageCount);
+    printf("[Vulkan] Swapchain created (%dx%d, %u images)\n", g_vk.swapchainExtent.width, g_vk.swapchainExtent.height, g_vk.imageCount);
     return true;
 }
 
@@ -439,7 +473,9 @@ static bool create_sync_and_command(void) {
     return true;
 }
 
-bool sbgl_gfx_Init(sbgl_Window* window) {
+bool sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
+    g_vk.window = window;
+    g_vk.arena = arena;
     if (!load_vulkan_library()) return false;
     if (!create_instance()) return false;
     if (!create_surface(window)) return false;
@@ -457,10 +493,7 @@ void sbgl_gfx_Shutdown(void) {
         vkDestroySemaphore(g_vk.device, g_vk.renderFinishedSemaphore, NULL);
         vkDestroyFence(g_vk.device, g_vk.inFlightFence, NULL);
         vkDestroyCommandPool(g_vk.device, g_vk.commandPool, NULL);
-        for (uint32_t i = 0; i < g_vk.imageCount; i++) vkDestroyImageView(g_vk.device, g_vk.imageViews[i], NULL);
-        free(g_vk.images);
-        free(g_vk.imageViews);
-        vkDestroySwapchainKHR(g_vk.device, g_vk.swapchain, NULL);
+        cleanup_swapchain();
         vkDestroyDevice(g_vk.device, NULL);
     }
     if (g_vk.instance) {
@@ -477,11 +510,23 @@ void sbgl_gfx_Shutdown(void) {
     memset(&g_vk, 0, sizeof(g_vk));
 }
 
-void sbgl_gfx_BeginFrame(float r, float g, float b, float a) {
+bool sbgl_gfx_BeginFrame(float r, float g, float b, float a) {
     vkWaitForFences(g_vk.device, 1, &g_vk.inFlightFence, VK_TRUE, UINT64_MAX);
-    vkResetFences(g_vk.device, 1, &g_vk.inFlightFence);
-    vkAcquireNextImageKHR(g_vk.device, g_vk.swapchain, UINT64_MAX, g_vk.imageAvailableSemaphore, VK_NULL_HANDLE, &g_vk.currentImageIndex);
 
+    if (sbgl_os_WasWindowResized(g_vk.window)) {
+        recreate_swapchain();
+    }
+
+    VkResult result = vkAcquireNextImageKHR(g_vk.device, g_vk.swapchain, UINT64_MAX, g_vk.imageAvailableSemaphore, VK_NULL_HANDLE, &g_vk.currentImageIndex);
+    
+    if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+        recreate_swapchain();
+        return false;
+    } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+        return false;
+    }
+
+    vkResetFences(g_vk.device, 1, &g_vk.inFlightFence);
     vkResetCommandBuffer(g_vk.commandBuffer, 0);
     VkCommandBufferBeginInfo beginInfo = { .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
     vkBeginCommandBuffer(g_vk.commandBuffer, &beginInfo);
@@ -523,6 +568,7 @@ void sbgl_gfx_BeginFrame(float r, float g, float b, float a) {
     vkCmdPipelineBarrier(g_vk.commandBuffer, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, NULL, 0, NULL, 1, &barrier);
 
     vkEndCommandBuffer(g_vk.commandBuffer);
+    return true;
 }
 
 void sbgl_gfx_EndFrame(void) {
@@ -547,5 +593,8 @@ void sbgl_gfx_EndFrame(void) {
         .pSwapchains = &g_vk.swapchain,
         .pImageIndices = &g_vk.currentImageIndex,
     };
-    vkQueuePresentKHR(g_vk.graphicsQueue, &presentInfo);
+    VkResult result = vkQueuePresentKHR(g_vk.graphicsQueue, &presentInfo);
+    if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
+        recreate_swapchain();
+    }
 }

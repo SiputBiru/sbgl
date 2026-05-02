@@ -127,7 +127,7 @@ if(DOXYGEN_FOUND)
     )
 
     add_custom_target(docs-clean
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs/out
         COMMENT "Cleaning documentation..."
     )
 endif()

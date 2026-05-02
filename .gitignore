@@ -1,0 +1,33 @@
+# --- Build Artifacts ---
+build/
+out/
+bin/
+lib/
+*.o
+*.a
+*.so
+*.exe
+
+# --- CMake ---
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+compile_commands.json
+
+# --- Generated Protocol Files ---
+xdg-shell-client-protocol.h
+xdg-shell-protocol.c
+
+# --- IDEs & Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# --- Project Specific ---
+hello_window

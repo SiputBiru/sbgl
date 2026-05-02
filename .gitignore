@@ -1,9 +1,10 @@
 # --- Build Artifacts ---
-build/
+build*/
 out/
 bin/
 lib/
 docs/
+third_party/
 *.o
 *.a
 *.so

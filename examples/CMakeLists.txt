@@ -10,7 +10,6 @@ if(SBGL_BUILD_STANDALONE)
         )
         
         target_link_libraries(${example} PRIVATE 
-            Vulkan::Vulkan 
             ${PLATFORM_LIBS}
         )
 

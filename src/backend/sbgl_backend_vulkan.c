@@ -1,53 +1,198 @@
 #include "sbgl_graphics_hal.h"
 #include "core/sbgl_platform.h"
+
+#define VK_NO_PROTOTYPES
 #include <vulkan/vulkan.h>
 
 #ifdef SBGL_PLATFORM_WAYLAND
 #include <vulkan/vulkan_wayland.h>
-#endif
-
-#ifdef SBGL_PLATFORM_X11
+#include <dlfcn.h>
+#define SBGL_VK_LIB "libvulkan.so.1"
+#elif defined(SBGL_PLATFORM_X11)
 #include <X11/Xlib.h>
 #include <vulkan/vulkan_xlib.h>
+#include <dlfcn.h>
+#define SBGL_VK_LIB "libvulkan.so.1"
+#elif defined(_WIN32)
+#include <windows.h>
+#include <vulkan/vulkan_win32.h>
+#define SBGL_VK_LIB "vulkan-1.dll"
 #endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * @brief Global Vulkan backend state.
- * 
- * Manages the connection to the GPU, the rendering surface, 
- * the swapchain, and synchronization primitives.
- */
+// --- Vulkan Function Pointers ---
+
+// 1. Global Functions (can be loaded with NULL instance)
+static PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
+static PFN_vkCreateInstance vkCreateInstance = NULL;
+
+// 2. Instance Functions (require valid instance)
+static PFN_vkEnumeratePhysicalDevices vkEnumeratePhysicalDevices = NULL;
+static PFN_vkGetPhysicalDeviceProperties vkGetPhysicalDeviceProperties = NULL;
+static PFN_vkGetPhysicalDeviceQueueFamilyProperties vkGetPhysicalDeviceQueueFamilyProperties = NULL;
+static PFN_vkGetPhysicalDeviceSurfaceSupportKHR vkGetPhysicalDeviceSurfaceSupportKHR = NULL;
+static PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR vkGetPhysicalDeviceSurfaceCapabilitiesKHR = NULL;
+static PFN_vkCreateDevice vkCreateDevice = NULL;
+static PFN_vkDestroyInstance vkDestroyInstance = NULL;
+static PFN_vkGetDeviceProcAddr vkGetDeviceProcAddr = NULL;
+static PFN_vkDestroySurfaceKHR vkDestroySurfaceKHR = NULL;
+
+#ifdef SBGL_PLATFORM_WAYLAND
+static PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR = NULL;
+#elif defined(SBGL_PLATFORM_X11)
+static PFN_vkCreateXlibSurfaceKHR vkCreateXlibSurfaceKHR = NULL;
+#elif defined(_WIN32)
+static PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR = NULL;
+#endif
+
+// 3. Device Functions (require valid device)
+static PFN_vkGetDeviceQueue vkGetDeviceQueue = NULL;
+static PFN_vkCreateSwapchainKHR vkCreateSwapchainKHR = NULL;
+static PFN_vkDestroySwapchainKHR vkDestroySwapchainKHR = NULL;
+static PFN_vkGetSwapchainImagesKHR vkGetSwapchainImagesKHR = NULL;
+static PFN_vkCreateImageView vkCreateImageView = NULL;
+static PFN_vkDestroyImageView vkDestroyImageView = NULL;
+static PFN_vkCreateCommandPool vkCreateCommandPool = NULL;
+static PFN_vkDestroyCommandPool vkDestroyCommandPool = NULL;
+static PFN_vkAllocateCommandBuffers vkAllocateCommandBuffers = NULL;
+static PFN_vkCreateSemaphore vkCreateSemaphore = NULL;
+static PFN_vkDestroySemaphore vkDestroySemaphore = NULL;
+static PFN_vkCreateFence vkCreateFence = NULL;
+static PFN_vkDestroyFence vkDestroyFence = NULL;
+static PFN_vkWaitForFences vkWaitForFences = NULL;
+static PFN_vkResetFences vkResetFences = NULL;
+static PFN_vkAcquireNextImageKHR vkAcquireNextImageKHR = NULL;
+static PFN_vkBeginCommandBuffer vkBeginCommandBuffer = NULL;
+static PFN_vkEndCommandBuffer vkEndCommandBuffer = NULL;
+static PFN_vkCmdPipelineBarrier vkCmdPipelineBarrier = NULL;
+static PFN_vkCmdBeginRendering vkCmdBeginRendering = NULL;
+static PFN_vkCmdEndRendering vkCmdEndRendering = NULL;
+static PFN_vkResetCommandBuffer vkResetCommandBuffer = NULL;
+static PFN_vkQueueSubmit vkQueueSubmit = NULL;
+static PFN_vkQueuePresentKHR vkQueuePresentKHR = NULL;
+static PFN_vkDestroyDevice vkDestroyDevice = NULL;
+static PFN_vkDeviceWaitIdle vkDeviceWaitIdle = NULL;
+
 typedef struct {
-    VkInstance       instance;           /**< Vulkan library instance. */
-    VkSurfaceKHR     surface;            /**< OS-specific rendering surface. */
-    VkPhysicalDevice physicalDevice;     /**< The chosen physical GPU. */
-    VkDevice         device;             /**< Logical connection to the GPU. */
-    VkQueue          graphicsQueue;      /**< Queue for submitting drawing commands. */
-    uint32_t         graphicsQueueFamily; /**< Index of the graphics queue family. */
+    void*            libHandle;
+    VkInstance       instance;
+    VkSurfaceKHR     surface;
+    VkPhysicalDevice physicalDevice;
+    VkDevice         device;
+    VkQueue          graphicsQueue;
+    uint32_t         graphicsQueueFamily;
     
-    // Swapchain resources
-    VkSwapchainKHR   swapchain;          /**< The chain of images for presentation. */
-    VkFormat         swapchainFormat;    /**< Pixel format of the swapchain. */
-    VkExtent2D       swapchainExtent;    /**< Dimensions of the swapchain images. */
-    uint32_t         imageCount;         /**< Number of images in the swapchain. */
-    VkImage*         images;             /**< Raw image handles. */
-    VkImageView*     imageViews;         /**< Views into the images for rendering. */
+    VkSwapchainKHR   swapchain;
+    VkFormat         swapchainFormat;
+    VkExtent2D       swapchainExtent;
+    uint32_t         imageCount;
+    VkImage*         images;
+    VkImageView*     imageViews;
 
-    // Command/Sync
-    VkCommandPool    commandPool;        /**< Pool for allocating command buffers. */
-    VkCommandBuffer  commandBuffer;      /**< Primary buffer for frame commands. */
-    VkSemaphore      imageAvailableSemaphore; /**< Signaled when a swapchain image is ready. */
-    VkSemaphore      renderFinishedSemaphore; /**< Signaled when GPU drawing is complete. */
-    VkFence          inFlightFence;      /**< Syncs CPU with the GPU frame lifecycle. */
+    VkCommandPool    commandPool;
+    VkCommandBuffer  commandBuffer;
+    VkSemaphore      imageAvailableSemaphore;
+    VkSemaphore      renderFinishedSemaphore;
+    VkFence          inFlightFence;
 
-    uint32_t         currentImageIndex;  /**< Index of the image being rendered this frame. */
+    uint32_t         currentImageIndex;
 } SBGL_VulkanContext;
 
 static SBGL_VulkanContext g_vk = {0};
+
+static bool load_vulkan_library(void) {
+#ifdef _WIN32
+    g_vk.libHandle = LoadLibraryA(SBGL_VK_LIB);
+#else
+    g_vk.libHandle = dlopen(SBGL_VK_LIB, RTLD_NOW);
+#endif
+
+    if (!g_vk.libHandle) {
+        fprintf(stderr, "[Vulkan] Failed to load %s\n", SBGL_VK_LIB);
+        return false;
+    }
+
+#ifdef _WIN32
+    void* addr = GetProcAddress((HMODULE)g_vk.libHandle, "vkGetInstanceProcAddr");
+    memcpy(&vkGetInstanceProcAddr, &addr, sizeof(addr));
+#else
+    void* sym = dlsym(g_vk.libHandle, "vkGetInstanceProcAddr");
+    memcpy(&vkGetInstanceProcAddr, &sym, sizeof(sym));
+#endif
+
+    if (!vkGetInstanceProcAddr) return false;
+
+    vkCreateInstance = (PFN_vkCreateInstance)vkGetInstanceProcAddr(NULL, "vkCreateInstance");
+    if (!vkCreateInstance) return false;
+
+    return true;
+}
+
+static bool load_instance_functions(void) {
+    #define LOAD_INST(name) \
+        name = (PFN_##name)vkGetInstanceProcAddr(g_vk.instance, #name); \
+        if (!name) { fprintf(stderr, "[Vulkan] Failed to load instance function: %s\n", #name); return false; }
+
+    LOAD_INST(vkGetDeviceProcAddr);
+    LOAD_INST(vkDestroyInstance);
+    LOAD_INST(vkDestroySurfaceKHR);
+    LOAD_INST(vkEnumeratePhysicalDevices);
+    LOAD_INST(vkGetPhysicalDeviceProperties);
+    LOAD_INST(vkGetPhysicalDeviceQueueFamilyProperties);
+    LOAD_INST(vkGetPhysicalDeviceSurfaceSupportKHR);
+    LOAD_INST(vkGetPhysicalDeviceSurfaceCapabilitiesKHR);
+    LOAD_INST(vkCreateDevice);
+
+#ifdef SBGL_PLATFORM_WAYLAND
+    LOAD_INST(vkCreateWaylandSurfaceKHR);
+#elif defined(SBGL_PLATFORM_X11)
+    LOAD_INST(vkCreateXlibSurfaceKHR);
+#elif defined(_WIN32)
+    LOAD_INST(vkCreateWin32SurfaceKHR);
+#endif
+
+    #undef LOAD_INST
+    return true;
+}
+
+static bool load_device_functions(void) {
+    #define LOAD_DEV(name) \
+        name = (PFN_##name)vkGetDeviceProcAddr(g_vk.device, #name); \
+        if (!name) { fprintf(stderr, "[Vulkan] Failed to load device function: %s\n", #name); return false; }
+
+    LOAD_DEV(vkGetDeviceQueue);
+    LOAD_DEV(vkCreateSwapchainKHR);
+    LOAD_DEV(vkDestroySwapchainKHR);
+    LOAD_DEV(vkGetSwapchainImagesKHR);
+    LOAD_DEV(vkCreateImageView);
+    LOAD_DEV(vkDestroyImageView);
+    LOAD_DEV(vkCreateCommandPool);
+    LOAD_DEV(vkDestroyCommandPool);
+    LOAD_DEV(vkAllocateCommandBuffers);
+    LOAD_DEV(vkCreateSemaphore);
+    LOAD_DEV(vkDestroySemaphore);
+    LOAD_DEV(vkCreateFence);
+    LOAD_DEV(vkDestroyFence);
+    LOAD_DEV(vkWaitForFences);
+    LOAD_DEV(vkResetFences);
+    LOAD_DEV(vkAcquireNextImageKHR);
+    LOAD_DEV(vkBeginCommandBuffer);
+    LOAD_DEV(vkEndCommandBuffer);
+    LOAD_DEV(vkCmdPipelineBarrier);
+    LOAD_DEV(vkCmdBeginRendering);
+    LOAD_DEV(vkCmdEndRendering);
+    LOAD_DEV(vkResetCommandBuffer);
+    LOAD_DEV(vkQueueSubmit);
+    LOAD_DEV(vkQueuePresentKHR);
+    LOAD_DEV(vkDestroyDevice);
+    LOAD_DEV(vkDeviceWaitIdle);
+
+    #undef LOAD_DEV
+    return true;
+}
 
 static bool create_instance(void) {
     VkApplicationInfo appInfo = {
@@ -82,6 +227,7 @@ static bool create_instance(void) {
         return false;
     }
 
+    if (!load_instance_functions()) return false;
     printf("[Vulkan] Instance created successfully (v1.3)\n");
     return true;
 }
@@ -107,6 +253,16 @@ static bool create_surface(sbgl_Window* window) {
         fprintf(stderr, "[Vulkan] Failed to create Xlib surface\n");
         return false;
     }
+#elif defined(_WIN32)
+    VkWin32SurfaceCreateInfoKHR createInfo = {
+        .sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR,
+        .hinstance = (HINSTANCE)sbgl_os_GetNativeInstanceHandle(),
+        .hwnd = (HWND)sbgl_os_GetNativeWindowHandle(window),
+    };
+    if (vkCreateWin32SurfaceKHR(g_vk.instance, &createInfo, NULL, &g_vk.surface) != VK_SUCCESS) {
+        fprintf(stderr, "[Vulkan] Failed to create Win32 surface\n");
+        return false;
+    }
 #endif
 
     printf("[Vulkan] Surface created successfully\n");
@@ -116,7 +272,10 @@ static bool create_surface(sbgl_Window* window) {
 static bool select_physical_device(void) {
     uint32_t deviceCount = 0;
     vkEnumeratePhysicalDevices(g_vk.instance, &deviceCount, NULL);
-    if (deviceCount == 0) return false;
+    if (deviceCount == 0) {
+        fprintf(stderr, "[Vulkan] No physical devices found\n");
+        return false;
+    }
 
     VkPhysicalDevice* devices = malloc(sizeof(VkPhysicalDevice) * deviceCount);
     vkEnumeratePhysicalDevices(g_vk.instance, &deviceCount, devices);
@@ -159,7 +318,10 @@ static bool create_logical_device(void) {
     }
     free(queueFamilies);
 
-    if (graphicsFamily == -1) return false;
+    if (graphicsFamily == -1) {
+        fprintf(stderr, "[Vulkan] No suitable queue family found\n");
+        return false;
+    }
     g_vk.graphicsQueueFamily = (uint32_t)graphicsFamily;
 
     float queuePriority = 1.0f;
@@ -186,7 +348,12 @@ static bool create_logical_device(void) {
         .ppEnabledExtensionNames = deviceExtensions,
     };
 
-    if (vkCreateDevice(g_vk.physicalDevice, &createInfo, NULL, &g_vk.device) != VK_SUCCESS) return false;
+    if (vkCreateDevice(g_vk.physicalDevice, &createInfo, NULL, &g_vk.device) != VK_SUCCESS) {
+        fprintf(stderr, "[Vulkan] Failed to create logical device\n");
+        return false;
+    }
+    
+    if (!load_device_functions()) return false;
     vkGetDeviceQueue(g_vk.device, g_vk.graphicsQueueFamily, 0, &g_vk.graphicsQueue);
     
     printf("[Vulkan] Logical Device created (Dynamic Rendering enabled)\n");
@@ -218,7 +385,10 @@ static bool create_swapchain(sbgl_Window* window) {
         .clipped = VK_TRUE,
     };
 
-    if (vkCreateSwapchainKHR(g_vk.device, &createInfo, NULL, &g_vk.swapchain) != VK_SUCCESS) return false;
+    if (vkCreateSwapchainKHR(g_vk.device, &createInfo, NULL, &g_vk.swapchain) != VK_SUCCESS) {
+        fprintf(stderr, "[Vulkan] Failed to create swapchain\n");
+        return false;
+    }
     
     g_vk.swapchainExtent = createInfo.imageExtent;
     g_vk.swapchainFormat = createInfo.imageFormat;
@@ -270,6 +440,7 @@ static bool create_sync_and_command(void) {
 }
 
 bool sbgl_gfx_Init(sbgl_Window* window) {
+    if (!load_vulkan_library()) return false;
     if (!create_instance()) return false;
     if (!create_surface(window)) return false;
     if (!select_physical_device()) return false;
@@ -292,8 +463,18 @@ void sbgl_gfx_Shutdown(void) {
         vkDestroySwapchainKHR(g_vk.device, g_vk.swapchain, NULL);
         vkDestroyDevice(g_vk.device, NULL);
     }
-    vkDestroySurfaceKHR(g_vk.instance, g_vk.surface, NULL);
-    vkDestroyInstance(g_vk.instance, NULL);
+    if (g_vk.instance) {
+        vkDestroySurfaceKHR(g_vk.instance, g_vk.surface, NULL);
+        vkDestroyInstance(g_vk.instance, NULL);
+    }
+    if (g_vk.libHandle) {
+#ifdef _WIN32
+        FreeLibrary((HMODULE)g_vk.libHandle);
+#else
+        dlclose(g_vk.libHandle);
+#endif
+    }
+    memset(&g_vk, 0, sizeof(g_vk));
 }
 
 void sbgl_gfx_BeginFrame(float r, float g, float b, float a) {

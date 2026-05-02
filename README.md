@@ -38,6 +38,12 @@ cmake -B build -S . -DSBGL_USE_WAYLAND=ON
 cmake -B build -S . -DSBGL_USE_WAYLAND=OFF
 ```
 
+**For Windows (Cross-compile from Linux):**
+Requires `mingw-w64` toolchain.
+```bash
+cmake -B build-win -S . -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -DSBGL_BUILD_EXAMPLES=ON -DCMAKE_EXE_LINKER_FLAGS="-static"
+```
+
 **Enable Examples:**
 To build the test applications alongside the library:
 ```bash
@@ -54,6 +60,27 @@ cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON -DSBGL_BUILD_STANDALONE=ON
 Compile the library and all example applications.
 ```bash
 cmake --build build
+```
+
+### Clean
+SBgl supports standard and deep cleaning operations.
+
+**Standard Clean:**
+Removes compiled object files and executables but keeps the configuration.
+```bash
+cmake --build build --target clean
+```
+
+**Documentation Clean:**
+Removes the generated `docs/` folder.
+```bash
+cmake --build build --target docs-clean
+```
+
+**Deep Clean (Reset):**
+To completely reset the project state, simply delete the build directory.
+```bash
+rm -rf build
 ```
 
 ### Run Examples

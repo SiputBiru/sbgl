@@ -20,7 +20,7 @@ else()
 endif()
 
 # --- Find Dependencies ---
-find_package(Vulkan REQUIRED)
+# We no longer link against Vulkan statically to allow for dynamic loading.
 
 # --- Source Files ---
 set(SBGL_SOURCES
@@ -31,12 +31,17 @@ set(SBGL_SOURCES
 set(PLATFORM_LIBS "")
 
 if(WIN32)
-    # Placeholder for future Win32 split
     list(APPEND SBGL_SOURCES 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/window.c 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/input.c
     )
-    list(APPEND PLATFORM_LIBS user32 gdi32 shell32)
+    if(MINGW)
+        list(APPEND PLATFORM_LIBS user32 gdi32 shell32)
+        # Use local Vulkan headers if they exist (for cross-compilation)
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/third_party")
+            include_directories("${CMAKE_CURRENT_SOURCE_DIR}/third_party")
+        endif()
+    endif()
 elseif(UNIX AND NOT APPLE)
     if(SBGL_USE_WAYLAND)
         find_package(PkgConfig REQUIRED)
@@ -89,7 +94,6 @@ if(NOT SBGL_BUILD_STANDALONE)
         set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
     endif()
 
-    # --- Include Directories ---
     target_include_directories(sbgl
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -99,10 +103,8 @@ if(NOT SBGL_BUILD_STANDALONE)
             ${CMAKE_CURRENT_BINARY_DIR}
     )
 
-    # --- Link Libraries ---
     target_link_libraries(sbgl
         PRIVATE
-            Vulkan::Vulkan
             ${PLATFORM_LIBS}
     )
 endif()
@@ -122,5 +124,10 @@ if(DOXYGEN_FOUND)
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM
+    )
+
+    add_custom_target(docs-clean
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs
+        COMMENT "Cleaning documentation..."
     )
 endif()

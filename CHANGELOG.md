@@ -23,7 +23,10 @@ All notable changes to this project will be documented in this file.
     - Added support for one-shot key triggers (`sbgl_IsKeyPressed`).
     - Implemented full Wayland pointer support (position, delta, buttons).
 - **Git Integration**: Initialized git repository and added a comprehensive `.gitignore`.
-- **Documentation**: Added `VULKAN_BACKEND.md` with a detailed explanation of the engine's graphics architecture.
+- **Documentation**: 
+    - Integrated **Doxygen** for automated API documentation generation.
+    - Added a `docs` target to CMake (`cmake --build build --target docs`).
+    - Added `VULKAN_BACKEND.md` with a detailed explanation of the engine's graphics architecture.
 - **LSP Support**: Enabled `CMAKE_EXPORT_COMPILE_COMMANDS` to provide full context for `clangd` and other language servers.
 - **Examples**: Added `hello_window.c` and `input_test.c` (interactive color switching) to verify the entire stack.
 

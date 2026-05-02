@@ -23,15 +23,44 @@ SBgl is built for developers who want total control over the hardware without th
 
 ## Building from Source
 
-```bash
-# Configure the project
-cmake -B build -S .
+This project uses modern CMake. Follow these steps to configure, build, and run the framework.
 
-# Build everything
+### Configure
+Create the build directory and generate the compilation database for your LSP (clangd).
+```bash
+cmake -B build -S .
+```
+
+### Build
+Compile the library and all example applications.
+```bash
 cmake --build build
 ```
 
-## Basic Example
+### Run Examples
+After building, you can execute the examples located in the build directory.
+```bash
+# Run basic window test
+./build/examples/hello_window
+
+# Run interactive input test
+./build/examples/input_test
+```
+
+## Generating Documentation
+
+SBgl uses **Doxygen** for automated API documentation. You can generate a searchable HTML site detailing the internal architecture and public API.
+
+### Generate
+Ensure Doxygen is installed and run the specific documentation target.
+```bash
+cmake --build build --target docs
+```
+
+### View
+The output will be located in `docs/html/index.html`. You can open it in any web browser.
+
+## Project Structure
 
 ```c
 #include <sbgl.h>

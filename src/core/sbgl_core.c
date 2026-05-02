@@ -87,7 +87,7 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
     if (!ctx) return;
     sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
     
-    // Ensure we poll events so Wayland can map the window
+    // Ensure events are polled so Wayland can map the window
     sbgl_os_PollEvents(inner->window);
     
     sbgl_gfx_BeginFrame(inner->clearColor[0], inner->clearColor[1], inner->clearColor[2], inner->clearColor[3]);

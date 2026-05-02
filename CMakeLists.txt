@@ -20,7 +20,7 @@ else()
 endif()
 
 # --- Find Dependencies ---
-# We no longer link against Vulkan statically to allow for dynamic loading.
+# Vulkan is no longer linked against statically to allow for dynamic loading.
 
 # --- Source Files ---
 set(SBGL_SOURCES

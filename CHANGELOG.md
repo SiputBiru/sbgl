@@ -7,26 +7,26 @@ All notable changes to this project will be documented in this file.
 ### Added
 - **Core Architecture**: Implemented a modular HAL (Hardware Abstraction Layer) separating Core, Platform, and Graphics Backend.
 - **Build System**: 
-    - Created a robust `CMakeLists.txt` with automatic backend detection and protocol generation.
+    - Created a `CMakeLists.txt` with automatic backend detection and protocol generation.
     - Added `SBGL_BUILD_EXAMPLES` option (defaults to **OFF** for a minimal core build).
     - Added `SBGL_BUILD_STANDALONE` option for compiling library sources directly into executables (Unity-style build).
-    - Enabled `CMAKE_EXPORT_COMPILE_COMMANDS` for full LSP context support.
+    - Enabled `CMAKE_EXPORT_COMPILE_COMMANDS` for LSP context support.
     - Added `docs-clean` target to manage documentation artifacts.
 - **Platform HAL**: Defined `sbgl_platform.h` for OS-agnostic windowing, timing, and native integration.
 - **Multi-Platform Support**: 
-    - Fully implemented the **Win32 Platform Layer** (`window.c`, `input.c`) with full virtual key mapping.
+    - Fully implemented the **Win32 Platform Layer** (`window.c`, `input.c`) with virtual key mapping.
     - Fully implemented the **X11 Platform Layer** (`window_x11.c`, `input_x11.c`).
     - Implemented a native **Wayland Platform Layer** using XDG-Shell protocols (`window_wayland.c`, `input_wayland.c`).
     - Reorganized Linux implementations into a modular, decoupled structure using a shared `linux_internal.h`.
     - Added build-time switching between backends via the `SBGL_USE_WAYLAND` CMake option.
 - **Vulkan Backend**:
-    - Implemented **Dynamic Vulkan Loading**: The engine now loads `libvulkan.so` or `vulkan-1.dll` at runtime, eliminating build-time link dependencies and improving portability.
+    - Implemented **Dynamic Vulkan Loading**: The engine now loads `libvulkan.so` or `vulkan-1.dll` at runtime, eliminating build-time link dependencies.
     - Vulkan 1.3 Instance and Surface creation for Wayland, X11, and Win32.
     - Automatic Physical Device selection (preferring discrete GPUs).
     - Logical Device creation with **Dynamic Rendering** enabled.
     - Swapchain management with image view generation.
-    - **Clear Screen**: Implemented `BeginFrame` and `EndFrame` to clear the screen to a customizable color using dynamic rendering.
-- **Public API**: Defined `sbgl.h` with a clean, Raylib-style interface, physical scancode definitions, and muCOSA-inspired explicit Context management.
+    - **Clear Screen**: Implemented `BeginFrame` and `EndFrame` to clear the screen to a color using dynamic rendering.
+- **Public API**: Defined `sbgl.h` with a Raylib-style interface, physical scancode definitions, and explicit Context management.
 - **Memory Management**: Integrated `sbl_arena.h` for zero-isolated-malloc window state allocation.
 - **Opaque Types**: Created `sbgl_types.h` to centralize forward declarations and resolve C99 typedef redefinition warnings.
 - **Input Refinement**: 

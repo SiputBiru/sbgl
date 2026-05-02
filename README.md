@@ -1,6 +1,6 @@
 # SBgl (SiputBiru Graphics Library)
 
-A professional, bare-metal graphics framework written in C99. Designed for high-performance 2D/3D applications with zero legacy boilerplate and an explicit, context-based API.
+A bare-metal graphics framework written in C99. Designed for 2D/3D applications with an explicit, context-based API.
 
 [![C99](https://img.shields.io/badge/C-99-blue.svg)](https://en.wikipedia.org/wiki/C99)
 [![Vulkan](https://img.shields.io/badge/Vulkan-1.3-red.svg)](https://www.vulkan.org/)
@@ -8,11 +8,11 @@ A professional, bare-metal graphics framework written in C99. Designed for high-
 
 ## Core Philosophy
 
-SBgl is built for developers who want total control over the hardware without the overhead of heavy engines.
+SBgl is built for developers who want control over the hardware without the overhead of heavy engines.
 - **Explicit Context**: No global state. Every operation is tied to an explicit sbgl_Context.
-- **Modern Vulkan**: Strictly requires Vulkan 1.3 to utilize Dynamic Rendering and modern synchronization.
+- **Vulkan 1.3**: Utilizes Dynamic Rendering and synchronization.
 - **Native Platform HAL**: Direct integration with Wayland (XDG-Shell) and Win32, preventing header leakage to user code.
-- **Arena-Backed**: Memory is managed via arenas for predictable, high-speed allocation.
+- **Arena-Backed**: Memory is managed via arenas for predictable allocation.
 
 ## Prerequisites
 
@@ -23,10 +23,10 @@ SBgl is built for developers who want total control over the hardware without th
 
 ## Building from Source
 
-This project uses modern CMake. Follow these steps to configure, build, and run the framework.
+This project uses CMake. Follow these steps to configure, build, and run the framework.
 
 ### Configure
-Create the build directory and generate the compilation database for your LSP (clangd).
+Create the build directory and generate the compilation database for the LSP (clangd).
 
 **For Wayland (Default):**
 ```bash
@@ -84,7 +84,7 @@ rm -rf build
 ```
 
 ### Run Examples
-After building, you can execute the examples located in the build directory.
+After building, examples located in the build directory can be executed.
 ```bash
 # Run basic window test
 ./build/examples/hello_window
@@ -95,7 +95,7 @@ After building, you can execute the examples located in the build directory.
 
 ## Generating Documentation
 
-SBgl uses **Doxygen** for automated API documentation. You can generate a searchable HTML site detailing the internal architecture and public API.
+SBgl uses **Doxygen** for automated API documentation. A searchable HTML site detailing the internal architecture and public API can be generated.
 
 ### Generate
 Ensure Doxygen is installed and run the specific documentation target.
@@ -104,26 +104,31 @@ cmake --build build --target docs
 ```
 
 ### View
-The output will be located in `docs/html/index.html`. You can open it in any web browser.
+The output is located in `docs/html/index.html` and can be opened in any web browser.
 
-## Project Structure
+## Basic Example
 
 ```c
 #include <sbgl.h>
+#include <stdio.h>
 
 int main() {
-    sbgl_Context* ctx = sbgl_Init(800, 600, "SBgl Window");
-    if (ctx->result != SBGL_SUCCESS) return 1;
+    // Initialize SBgl with a Result Struct pattern
+    sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Window");
+    if (res.error != SBGL_SUCCESS) return 1;
+
+    sbgl_Context* ctx = res.ctx;
 
     while (!sbgl_WindowShouldClose(ctx)) {
-        // Prepare frame
+        // Set clear color (RGBA)
         sbgl_Clear(ctx, 0.1f, 0.2f, 0.3f, 1.0f);
-        
+
         sbgl_BeginDrawing(ctx);
-        // Your drawing logic here...
+        // Rendering logic here...
         sbgl_EndDrawing(ctx);
     }
 
+    // Explicit Context cleanup
     sbgl_Shutdown(ctx);
     return 0;
 }
@@ -139,8 +144,9 @@ int main() {
 
 ## Documentation
 
-- [VULKAN_BACKEND.md](./VULKAN_BACKEND.md): Detailed architectural deep-dive into the graphics layer.
-- [CHANGELOG.md](./CHANGELOG.md): Project history and milestones.
+- [VULKAN_BACKEND.md](./VULKAN_BACKEND.md): Detailed explanation of the graphics layer.
+- [ROADMAP.md](./ROADMAP.md): Development milestones and future goals.
+- [CHANGELOG.md](./CHANGELOG.md): Project history and technical milestones.
 
 ---
 *Created by SiputBiru.*

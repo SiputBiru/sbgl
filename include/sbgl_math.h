@@ -27,7 +27,8 @@
  * @brief 2D Vector.
  */
 typedef union {
-    struct { float x, y; };
+    /* __extension__ suppresses ISO C99 pedantic warnings for anonymous structs */
+    __extension__ struct { float x, y; };
     float v[2];
 } sbgl_Vec2;
 
@@ -35,7 +36,8 @@ typedef union {
  * @brief 3D Vector, 16-byte aligned and padded for SIMD safety.
  */
 typedef union {
-    struct { float x, y, z; float _pad; };
+    /* __extension__ suppresses ISO C99 pedantic warnings for anonymous structs */
+    __extension__ struct { float x, y, z; float _pad; };
     float v[4];
 } SBGL_ALIGN(16) sbgl_Vec3;
 
@@ -43,7 +45,8 @@ typedef union {
  * @brief 4D Vector, 16-byte aligned.
  */
 typedef union {
-    struct { float x, y, z, w; };
+    /* __extension__ suppresses ISO C99 pedantic warnings for anonymous structs */
+    __extension__ struct { float x, y, z, w; };
     float v[4];
 } SBGL_ALIGN(16) sbgl_Vec4;
 
@@ -51,7 +54,8 @@ typedef union {
  * @brief Quaternion, 16-byte aligned.
  */
 typedef union {
-    struct { float x, y, z, w; };
+    /* __extension__ suppresses ISO C99 pedantic warnings for anonymous structs */
+    __extension__ struct { float x, y, z, w; };
     float v[4];
 } SBGL_ALIGN(16) sbgl_Quat;
 

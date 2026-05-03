@@ -102,7 +102,11 @@ All notable changes to this project will be documented in this file.
 - **Examples**: Added `hello_window.c` and `input_test.c` (interactive color switching) to verify the entire stack.
 
 ### Fixed
-- **Memory Safety**: Resolved a segmentation fault in `sbl_arena_free` caused by a Use-After-Free when the arena structure was self-contained within its own memory blocks.
+- **Compiler Warnings**:
+    - Silenced ISO C99 pedantic warnings regarding anonymous structs in `sbgl_math.h` using the `__extension__` keyword.
+    - Eliminated unused parameter warnings in Wayland platform callbacks by implementing explicit `(void)` casts, ensuring a clean build with `-Wall -Wextra -Wpedantic`.
+- **Memory Safety**:
+ Resolved a segmentation fault in `sbl_arena_free` caused by a Use-After-Free when the arena structure was self-contained within its own memory blocks.
 - **GPU Synchronization**: Fixed a Vulkan driver crash during rapid window resizing by implementing internal frame lifecycle tracking (`isDrawing` flag), preventing out-of-order command submissions.
 - **Wayland Protocol Crashes**: Resolved "listener function is NULL" errors by providing complete callback implementations for `wl_keyboard` and `wl_pointer`.
 - **Wayland Window Visibility**: Resolved the issue where windows remained invisible until a valid Vulkan buffer was attached and submitted.

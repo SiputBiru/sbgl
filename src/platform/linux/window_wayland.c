@@ -34,12 +34,17 @@ extern const struct wl_pointer_listener pointer_listener;
 
 // --- Window Manager Listeners ---
 static void wm_base_ping(void* data, struct xdg_wm_base* wm_base, uint32_t serial) {
+    /* (void) cast safely suppresses unused parameter warnings for mandatory signatures */
+    (void)data;
     xdg_wm_base_pong(wm_base, serial);
 }
 static const struct xdg_wm_base_listener wm_base_listener = { .ping = wm_base_ping };
 
 // --- Registry ---
 static void registry_handle_global(void* data, struct wl_registry* registry, uint32_t name, const char* interface, uint32_t version) {
+    /* (void) cast safely suppresses unused parameter warnings for mandatory signatures */
+    (void)data;
+    (void)version;
     if (strcmp(interface, wl_compositor_interface.name) == 0) {
         g_compositor = wl_registry_bind(registry, name, &wl_compositor_interface, 1);
     } else if (strcmp(interface, xdg_wm_base_interface.name) == 0) {
@@ -53,6 +58,9 @@ static const struct wl_registry_listener registry_listener = { .global = registr
 
 // --- Window Listeners ---
 static void toplevel_handle_configure(void* data, struct xdg_toplevel* t, int32_t w, int32_t h, struct wl_array* s) {
+    /* (void) cast safely suppresses unused parameter warnings for mandatory signatures */
+    (void)t;
+    (void)s;
     sbgl_Window* win = (sbgl_Window*)data;
     if (w > 0 && h > 0 && (w != win->width || h != win->height)) {
         win->width = w;
@@ -61,11 +69,15 @@ static void toplevel_handle_configure(void* data, struct xdg_toplevel* t, int32_
     }
 }
 static void toplevel_handle_close(void* data, struct xdg_toplevel* t) {
+    /* (void) cast safely suppresses unused parameter warnings for mandatory signatures */
+    (void)t;
     ((sbgl_Window*)data)->shouldClose = true;
 }
 static const struct xdg_toplevel_listener toplevel_listener = { .configure = toplevel_handle_configure, .close = toplevel_handle_close };
 
 static void xdg_surface_handle_configure(void* data, struct xdg_surface* surf, uint32_t serial) {
+    /* (void) cast safely suppresses unused parameter warnings for mandatory signatures */
+    (void)data;
     xdg_surface_ack_configure(surf, serial);
 }
 static const struct xdg_surface_listener xdg_surface_listener = { .configure = xdg_surface_handle_configure };

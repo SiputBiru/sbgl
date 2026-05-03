@@ -22,6 +22,9 @@ All notable changes to this project will be documented in this file.
     - Decoupled documentation generation from the source tree by relocating Doxygen output from `docs/out` to `build/docs`.
     - Updated `CMakeLists.txt` to dynamically configure Doxygen output paths, ensuring a cleaner root directory.
     - Automated image asset synchronization within the build-local documentation site.
+- **Structural Cleanup**:
+    - Moved the `shaders/` directory into `examples/shaders/` to reduce root directory clutter and better reflect its purpose as example-only assets.
+    - Optimized the shader build pipeline to ensure generated assets stay within the build environment.
 
 - **SIMD-Ready Math Library**:
     - Implemented a single-header math library (`sbgl_math.h`) providing Vector (Vec2, Vec3, Vec4), Matrix (Mat4), and Quaternion types.

@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 // Include shaders generated via: xxd -i shader.spv > shader.h
-#include "../shaders/triangle_vert.h"
-#include "../shaders/triangle_frag.h"
+#include "shaders/triangle_vert.h"
+#include "shaders/triangle_frag.h"
 
 typedef struct {
     float pos[3];
@@ -20,12 +20,12 @@ int main() {
 
     // Loading shaders from the embedded byte arrays
     sbgl_Shader vert_shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, 
-                                            (uint32_t*)shaders_triangle_vert_spv, 
-                                            shaders_triangle_vert_spv_len);
+                                            (uint32_t*)triangle_vert_spv, 
+                                            triangle_vert_spv_len);
     
     sbgl_Shader frag_shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, 
-                                            (uint32_t*)shaders_triangle_frag_spv, 
-                                            shaders_triangle_frag_spv_len);
+                                            (uint32_t*)triangle_frag_spv, 
+                                            triangle_frag_spv_len);
 
     Vertex vertices[] = {
         {{ 0.0f, -0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}},

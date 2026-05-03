@@ -119,6 +119,43 @@ if(NOT SBGL_BUILD_STANDALONE)
     )
 endif()
 
+# --- Shader Compilation Functions ---
+function(sbgl_compile_shader_to_spv SHADER_SOURCE OUTPUT_SPV)
+    find_program(GLSLC_EXE NAMES glslc)
+    if(NOT GLSLC_EXE)
+        message(FATAL_ERROR "glslc not found! Required for shader compilation.")
+    endif()
+
+    add_custom_command(
+        OUTPUT ${OUTPUT_SPV}
+        COMMAND ${GLSLC_EXE} ${SHADER_SOURCE} -o ${OUTPUT_SPV}
+        DEPENDS ${SHADER_SOURCE}
+        COMMENT "Compiling ${SHADER_SOURCE} to ${OUTPUT_SPV}"
+        VERBATIM
+    )
+endfunction()
+
+function(sbgl_convert_spv_to_header INPUT_SPV OUTPUT_HEADER)
+    find_program(XXD_EXE NAMES xxd)
+    if(NOT XXD_EXE)
+        message(FATAL_ERROR "xxd not found! Required for shader header generation.")
+    endif()
+
+    get_filename_component(OUTPUT_DIR ${OUTPUT_HEADER} DIRECTORY)
+    get_filename_component(INPUT_NAME ${INPUT_SPV} NAME)
+    
+    add_custom_command(
+        OUTPUT ${OUTPUT_HEADER}
+        COMMAND ${CMAKE_COMMAND} -E copy ${INPUT_SPV} ${OUTPUT_DIR}/${INPUT_NAME}
+        COMMAND ${XXD_EXE} -i ${INPUT_NAME} > ${OUTPUT_HEADER}
+        COMMAND ${CMAKE_COMMAND} -E remove ${OUTPUT_DIR}/${INPUT_NAME}
+        DEPENDS ${INPUT_SPV}
+        WORKING_DIRECTORY ${OUTPUT_DIR}
+        COMMENT "Converting ${INPUT_SPV} to C header ${OUTPUT_HEADER}"
+        VERBATIM
+    )
+endfunction()
+
 # --- Optional Examples ---
 # Only build examples if SBgl is the top-level project
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND SBGL_BUILD_EXAMPLES)

@@ -24,7 +24,7 @@ Ideal for development and modding, allowing shaders to be recompiled without reb
 
 ```c
 size_t size;
-uint32_t* bytecode = read_spirv_file("shaders/my_shader.vert.spv", &size);
+uint32_t* bytecode = read_spirv_file("examples/shaders/my_shader.vert.spv", &size);
 sbgl_Shader shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, bytecode, size);
 free(bytecode);
 ```
@@ -33,7 +33,8 @@ free(bytecode);
 Recommended for production releases to ensure the application is self-contained and prevents external tampering with core assets.
 
 You can use the `xxd` tool to convert a compiled `.spv` file into a C header:
-`xxd -i my_shader.vert.spv > my_shader_vert.h`
+`xxd -i examples/shaders/my_shader.vert.spv > my_shader_vert.h`
+
 
 ```c
 #include "my_shader_vert.h"

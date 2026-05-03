@@ -197,6 +197,34 @@ int main() {
 }
 ```
 
+## Rendering Example
+
+```c
+#include <sbgl.h>
+
+// Vertices with Position and Color
+typedef struct { float p[3]; float c[3]; } Vertex;
+Vertex tri[] = { {{0, -0.5, 0}, {1, 0, 0}}, {{0.5, 0.5, 0}, {0, 1, 0}}, {{-0.5, 0.5, 0}, {0, 0, 1}} };
+
+// Loading Shaders (from file or hardcoded bytes)
+size_t v_sz, f_sz;
+uint32_t* v_spv = read_file("shader.vert.spv", &v_sz);
+sbgl_Shader v_shd = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, v_spv, v_sz);
+
+// Create Pipeline
+sbgl_VertexAttribute attr[] = { {0, 0}, {1, sizeof(float)*3} };
+sbgl_PipelineConfig cfg = { .vertexShader = v_shd, .fragmentShader = f_shd, 
+                            .vertexLayout = { sizeof(Vertex), 2, attr } };
+sbgl_Pipeline pip = sbgl_CreatePipeline(ctx, &cfg);
+
+// Main Loop
+sbgl_BeginDrawing(ctx);
+sbgl_BindPipeline(ctx, pip);
+sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
+sbgl_Draw(ctx, 3, 0);
+sbgl_EndDrawing(ctx);
+```
+
 ## Project Structure
 
 - include/: Public API headers.

@@ -7,7 +7,7 @@ if(SBGL_BUILD_STANDALONE)
         set_source_files_properties("${CMAKE_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
     endif()
 
-    foreach(example hello_window input_keyboard input_mouse math_test cameraPersp_example cameraOrtho_example)
+    foreach(example hello_window input_keyboard input_mouse math_test cameraPersp_example cameraOrtho_example draw_triangle draw_interactive_triangle draw_hardcoded_triangle)
         add_executable(${example} ${example}.c ${SBGL_SOURCES})
         
         if(SBGL_USE_WAYLAND AND NOT WIN32)
@@ -49,4 +49,13 @@ else()
 
     add_executable(cameraOrtho_example cameraOrtho_example.c)
     target_link_libraries(cameraOrtho_example PRIVATE sbgl)
+
+    add_executable(draw_triangle draw_triangle.c)
+    target_link_libraries(draw_triangle PRIVATE sbgl)
+
+    add_executable(draw_interactive_triangle draw_interactive_triangle.c)
+    target_link_libraries(draw_interactive_triangle PRIVATE sbgl)
+
+    add_executable(draw_hardcoded_triangle draw_hardcoded_triangle.c)
+    target_link_libraries(draw_hardcoded_triangle PRIVATE sbgl)
 endif()

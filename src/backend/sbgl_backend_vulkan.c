@@ -33,6 +33,7 @@ static PFN_vkGetPhysicalDeviceProperties vkGetPhysicalDeviceProperties = NULL;
 static PFN_vkGetPhysicalDeviceQueueFamilyProperties vkGetPhysicalDeviceQueueFamilyProperties = NULL;
 static PFN_vkGetPhysicalDeviceSurfaceSupportKHR vkGetPhysicalDeviceSurfaceSupportKHR = NULL;
 static PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR vkGetPhysicalDeviceSurfaceCapabilitiesKHR = NULL;
+static PFN_vkGetPhysicalDeviceMemoryProperties vkGetPhysicalDeviceMemoryProperties = NULL;
 static PFN_vkCreateDevice vkCreateDevice = NULL;
 static PFN_vkDestroyInstance vkDestroyInstance = NULL;
 static PFN_vkGetDeviceProcAddr vkGetDeviceProcAddr = NULL;
@@ -73,6 +74,54 @@ static PFN_vkQueuePresentKHR vkQueuePresentKHR = NULL;
 static PFN_vkDestroyDevice vkDestroyDevice = NULL;
 static PFN_vkDeviceWaitIdle vkDeviceWaitIdle = NULL;
 
+static PFN_vkCreateBuffer vkCreateBuffer = NULL;
+static PFN_vkDestroyBuffer vkDestroyBuffer = NULL;
+static PFN_vkGetBufferMemoryRequirements vkGetBufferMemoryRequirements = NULL;
+static PFN_vkAllocateMemory vkAllocateMemory = NULL;
+static PFN_vkFreeMemory vkFreeMemory = NULL;
+static PFN_vkBindBufferMemory vkBindBufferMemory = NULL;
+static PFN_vkMapMemory vkMapMemory = NULL;
+static PFN_vkUnmapMemory vkUnmapMemory = NULL;
+
+static PFN_vkCreateShaderModule vkCreateShaderModule = NULL;
+static PFN_vkDestroyShaderModule vkDestroyShaderModule = NULL;
+
+static PFN_vkCreateGraphicsPipelines vkCreateGraphicsPipelines = NULL;
+static PFN_vkDestroyPipeline vkDestroyPipeline = NULL;
+static PFN_vkCreatePipelineLayout vkCreatePipelineLayout = NULL;
+static PFN_vkDestroyPipelineLayout vkDestroyPipelineLayout = NULL;
+
+static PFN_vkCmdBindPipeline vkCmdBindPipeline = NULL;
+static PFN_vkCmdBindVertexBuffers vkCmdBindVertexBuffers = NULL;
+static PFN_vkCmdBindIndexBuffer vkCmdBindIndexBuffer = NULL;
+static PFN_vkCmdDraw vkCmdDraw = NULL;
+static PFN_vkCmdDrawIndexed vkCmdDrawIndexed = NULL;
+static PFN_vkCmdSetViewport vkCmdSetViewport = NULL;
+static PFN_vkCmdSetScissor vkCmdSetScissor = NULL;
+static PFN_vkCmdPushConstants vkCmdPushConstants = NULL;
+
+#define SBGL_MAX_BUFFERS 1024
+#define SBGL_MAX_SHADERS 256
+#define SBGL_MAX_PIPELINES 256
+
+typedef struct {
+    VkBuffer       handle;
+    VkDeviceMemory memory;
+    size_t         size;
+    bool           active;
+} SBGL_VulkanBuffer;
+
+typedef struct {
+    VkShaderModule module;
+    bool           active;
+} SBGL_VulkanShader;
+
+typedef struct {
+    VkPipeline       handle;
+    VkPipelineLayout layout;
+    bool             active;
+} SBGL_VulkanPipeline;
+
 typedef struct {
     void*            libHandle;
     VkInstance       instance;
@@ -98,6 +147,11 @@ typedef struct {
     VkFence          inFlightFence;
 
     uint32_t         currentImageIndex;
+
+    SBGL_VulkanBuffer   buffers[SBGL_MAX_BUFFERS];
+    SBGL_VulkanShader   shaders[SBGL_MAX_SHADERS];
+    SBGL_VulkanPipeline pipelines[SBGL_MAX_PIPELINES];
+    sbgl_Pipeline       boundPipeline;
 } SBGL_VulkanContext;
 
 static SBGL_VulkanContext g_vk = {0};
@@ -168,6 +222,7 @@ static bool load_instance_functions(void) {
     LOAD_INST(vkGetPhysicalDeviceQueueFamilyProperties);
     LOAD_INST(vkGetPhysicalDeviceSurfaceSupportKHR);
     LOAD_INST(vkGetPhysicalDeviceSurfaceCapabilitiesKHR);
+    LOAD_INST(vkGetPhysicalDeviceMemoryProperties);
     LOAD_INST(vkCreateDevice);
 
 #ifdef SBGL_PLATFORM_WAYLAND
@@ -214,8 +269,46 @@ static bool load_device_functions(void) {
     LOAD_DEV(vkDestroyDevice);
     LOAD_DEV(vkDeviceWaitIdle);
 
+    LOAD_DEV(vkCreateBuffer);
+    LOAD_DEV(vkDestroyBuffer);
+    LOAD_DEV(vkGetBufferMemoryRequirements);
+    LOAD_DEV(vkAllocateMemory);
+    LOAD_DEV(vkFreeMemory);
+    LOAD_DEV(vkBindBufferMemory);
+    LOAD_DEV(vkMapMemory);
+    LOAD_DEV(vkUnmapMemory);
+
+    LOAD_DEV(vkCreateShaderModule);
+    LOAD_DEV(vkDestroyShaderModule);
+
+    LOAD_DEV(vkCreateGraphicsPipelines);
+    LOAD_DEV(vkDestroyPipeline);
+    LOAD_DEV(vkCreatePipelineLayout);
+    LOAD_DEV(vkDestroyPipelineLayout);
+
+    LOAD_DEV(vkCmdBindPipeline);
+    LOAD_DEV(vkCmdBindVertexBuffers);
+    LOAD_DEV(vkCmdBindIndexBuffer);
+    LOAD_DEV(vkCmdDraw);
+    LOAD_DEV(vkCmdDrawIndexed);
+    LOAD_DEV(vkCmdSetViewport);
+    LOAD_DEV(vkCmdSetScissor);
+    LOAD_DEV(vkCmdPushConstants);
+
     #undef LOAD_DEV
     return true;
+}
+
+static uint32_t find_memory_type(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
+    VkPhysicalDeviceMemoryProperties memProperties;
+    vkGetPhysicalDeviceMemoryProperties(g_vk.physicalDevice, &memProperties);
+
+    for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
+        if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+            return i;
+        }
+    }
+    return 0;
 }
 
 static bool create_instance(void) {
@@ -559,19 +652,25 @@ bool sbgl_gfx_BeginFrame(float r, float g, float b, float a) {
     };
 
     vkCmdBeginRendering(g_vk.commandBuffer, &renderingInfo);
-    vkCmdEndRendering(g_vk.commandBuffer);
-
-    barrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-    barrier.newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-    barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-    barrier.dstAccessMask = 0;
-    vkCmdPipelineBarrier(g_vk.commandBuffer, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, NULL, 0, NULL, 1, &barrier);
-
-    vkEndCommandBuffer(g_vk.commandBuffer);
     return true;
 }
 
 void sbgl_gfx_EndFrame(void) {
+    vkCmdEndRendering(g_vk.commandBuffer);
+
+    VkImageMemoryBarrier barrier = {
+        .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
+        .oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+        .newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+        .image = g_vk.images[g_vk.currentImageIndex],
+        .subresourceRange = { .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT, .levelCount = 1, .layerCount = 1 },
+        .srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
+        .dstAccessMask = 0,
+    };
+    vkCmdPipelineBarrier(g_vk.commandBuffer, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, NULL, 0, NULL, 1, &barrier);
+
+    vkEndCommandBuffer(g_vk.commandBuffer);
+
     VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
     VkSubmitInfo submitInfo = {
         .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
@@ -597,4 +696,290 @@ void sbgl_gfx_EndFrame(void) {
     if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
         recreate_swapchain();
     }
+}
+
+sbgl_Buffer sbgl_gfx_CreateBuffer(sbgl_BufferUsage usage, size_t size, const void* data) {
+    uint32_t index = 0;
+    for (; index < SBGL_MAX_BUFFERS; index++) {
+        if (!g_vk.buffers[index].active) break;
+    }
+    if (index == SBGL_MAX_BUFFERS) return SBGL_INVALID_HANDLE;
+
+    VkBufferCreateInfo bufferInfo = {
+        .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
+        .size = size,
+        .usage = (usage & SBGL_BUFFER_USAGE_VERTEX ? VK_BUFFER_USAGE_VERTEX_BUFFER_BIT : 0) |
+                 (usage & SBGL_BUFFER_USAGE_INDEX ? VK_BUFFER_USAGE_INDEX_BUFFER_BIT : 0),
+        .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
+    };
+
+    SBGL_VulkanBuffer* buffer = &g_vk.buffers[index];
+    if (vkCreateBuffer(g_vk.device, &bufferInfo, NULL, &buffer->handle) != VK_SUCCESS) {
+        return SBGL_INVALID_HANDLE;
+    }
+
+    VkMemoryRequirements memRequirements;
+    vkGetBufferMemoryRequirements(g_vk.device, buffer->handle, &memRequirements);
+
+    VkMemoryAllocateInfo allocInfo = {
+        .sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
+        .allocationSize = memRequirements.size,
+        .memoryTypeIndex = find_memory_type(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT),
+    };
+
+    if (vkAllocateMemory(g_vk.device, &allocInfo, NULL, &buffer->memory) != VK_SUCCESS) {
+        vkDestroyBuffer(g_vk.device, buffer->handle, NULL);
+        return SBGL_INVALID_HANDLE;
+    }
+
+    vkBindBufferMemory(g_vk.device, buffer->handle, buffer->memory, 0);
+
+    if (data) {
+        void* mapped;
+        vkMapMemory(g_vk.device, buffer->memory, 0, size, 0, &mapped);
+        memcpy(mapped, data, size);
+        vkUnmapMemory(g_vk.device, buffer->memory);
+    }
+
+    buffer->size = size;
+    buffer->active = true;
+    return (sbgl_Buffer)(index + 1);
+}
+
+void sbgl_gfx_DestroyBuffer(sbgl_Buffer handle) {
+    if (handle == SBGL_INVALID_HANDLE) return;
+    uint32_t index = (uint32_t)handle - 1;
+    if (index >= SBGL_MAX_BUFFERS || !g_vk.buffers[index].active) return;
+
+    vkDestroyBuffer(g_vk.device, g_vk.buffers[index].handle, NULL);
+    vkFreeMemory(g_vk.device, g_vk.buffers[index].memory, NULL);
+    g_vk.buffers[index].active = false;
+}
+
+sbgl_Shader sbgl_gfx_LoadShader(sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size) {
+    (void)stage;
+    uint32_t index = 0;
+    for (; index < SBGL_MAX_SHADERS; index++) {
+        if (!g_vk.shaders[index].active) break;
+    }
+    if (index == SBGL_MAX_SHADERS) return SBGL_INVALID_HANDLE;
+
+    VkShaderModuleCreateInfo createInfo = {
+        .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
+        .codeSize = size,
+        .pCode = bytecode,
+    };
+
+    if (vkCreateShaderModule(g_vk.device, &createInfo, NULL, &g_vk.shaders[index].module) != VK_SUCCESS) {
+        return SBGL_INVALID_HANDLE;
+    }
+
+    g_vk.shaders[index].active = true;
+    return (sbgl_Shader)(index + 1);
+}
+
+void sbgl_gfx_DestroyShader(sbgl_Shader handle) {
+    if (handle == SBGL_INVALID_HANDLE) return;
+    uint32_t index = (uint32_t)handle - 1;
+    if (index >= SBGL_MAX_SHADERS || !g_vk.shaders[index].active) return;
+
+    vkDestroyShaderModule(g_vk.device, g_vk.shaders[index].module, NULL);
+    g_vk.shaders[index].active = false;
+}
+
+sbgl_Pipeline sbgl_gfx_CreatePipeline(const sbgl_PipelineConfig* config) {
+    uint32_t index = 0;
+    for (; index < SBGL_MAX_PIPELINES; index++) {
+        if (!g_vk.pipelines[index].active) break;
+    }
+    if (index == SBGL_MAX_PIPELINES) return SBGL_INVALID_HANDLE;
+
+    VkPipelineShaderStageCreateInfo shaderStages[2] = {0};
+    shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
+    shaderStages[0].module = g_vk.shaders[config->vertexShader - 1].module;
+    shaderStages[0].pName = "main";
+
+    shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+    shaderStages[1].module = g_vk.shaders[config->fragmentShader - 1].module;
+    shaderStages[1].pName = "main";
+
+    VkVertexInputBindingDescription bindingDescription = {
+        .binding = 0,
+        .stride = config->vertexLayout.stride,
+        .inputRate = VK_VERTEX_INPUT_RATE_VERTEX,
+    };
+
+    SblArenaMark mark = sbl_arena_mark(g_vk.arena);
+    VkVertexInputAttributeDescription* attributeDescriptions = SBL_ARENA_PUSH_ARRAY(g_vk.arena, VkVertexInputAttributeDescription, config->vertexLayout.attributeCount);
+    for (uint32_t i = 0; i < config->vertexLayout.attributeCount; i++) {
+        attributeDescriptions[i].binding = 0;
+        attributeDescriptions[i].location = config->vertexLayout.attributes[i].location;
+        attributeDescriptions[i].format = VK_FORMAT_R32G32B32_SFLOAT; // TODO: Map from attribute config
+        attributeDescriptions[i].offset = config->vertexLayout.attributes[i].offset;
+    }
+
+    VkPipelineVertexInputStateCreateInfo vertexInputInfo = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
+        .vertexBindingDescriptionCount = 1,
+        .pVertexBindingDescriptions = &bindingDescription,
+        .vertexAttributeDescriptionCount = config->vertexLayout.attributeCount,
+        .pVertexAttributeDescriptions = attributeDescriptions,
+    };
+
+    VkPipelineInputAssemblyStateCreateInfo inputAssembly = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO,
+        .topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
+        .primitiveRestartEnable = VK_FALSE,
+    };
+
+    VkPipelineViewportStateCreateInfo viewportState = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
+        .viewportCount = 1,
+        .scissorCount = 1,
+    };
+
+    VkPipelineRasterizationStateCreateInfo rasterizer = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO,
+        .depthClampEnable = VK_FALSE,
+        .rasterizerDiscardEnable = VK_FALSE,
+        .polygonMode = VK_POLYGON_MODE_FILL,
+        .lineWidth = 1.0f,
+        .cullMode = VK_CULL_MODE_NONE,
+        .frontFace = VK_FRONT_FACE_CLOCKWISE,
+        .depthBiasEnable = VK_FALSE,
+    };
+
+    VkPipelineMultisampleStateCreateInfo multisampling = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO,
+        .sampleShadingEnable = VK_FALSE,
+        .rasterizationSamples = VK_SAMPLE_COUNT_1_BIT,
+    };
+
+    VkPipelineColorBlendAttachmentState colorBlendAttachment = {
+        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT,
+        .blendEnable = VK_FALSE,
+    };
+
+    VkPipelineColorBlendStateCreateInfo colorBlending = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO,
+        .logicOpEnable = VK_FALSE,
+        .attachmentCount = 1,
+        .pAttachments = &colorBlendAttachment,
+    };
+
+    VkDynamicState dynamicStates[] = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
+    VkPipelineDynamicStateCreateInfo dynamicState = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO,
+        .dynamicStateCount = 2,
+        .pDynamicStates = dynamicStates,
+    };
+
+    VkPipelineLayoutCreateInfo pipelineLayoutInfo = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
+    };
+
+    VkPushConstantRange pushConstantRange = {
+        .stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+        .offset = 0,
+        .size = 64, // Sufficient for basic data (vec2 mousePos, float time, etc.)
+    };
+    pipelineLayoutInfo.pushConstantRangeCount = 1;
+    pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+
+    if (vkCreatePipelineLayout(g_vk.device, &pipelineLayoutInfo, NULL, &g_vk.pipelines[index].layout) != VK_SUCCESS) {
+        sbl_arena_rewind(g_vk.arena, mark);
+        return SBGL_INVALID_HANDLE;
+    }
+
+    VkPipelineRenderingCreateInfo renderingCreateInfo = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO,
+        .colorAttachmentCount = 1,
+        .pColorAttachmentFormats = &g_vk.swapchainFormat,
+    };
+
+    VkGraphicsPipelineCreateInfo pipelineInfo = {
+        .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
+        .pNext = &renderingCreateInfo,
+        .stageCount = 2,
+        .pStages = shaderStages,
+        .pVertexInputState = &vertexInputInfo,
+        .pInputAssemblyState = &inputAssembly,
+        .pViewportState = &viewportState,
+        .pRasterizationState = &rasterizer,
+        .pMultisampleState = &multisampling,
+        .pColorBlendState = &colorBlending,
+        .pDynamicState = &dynamicState,
+        .layout = g_vk.pipelines[index].layout,
+        .renderPass = VK_NULL_HANDLE,
+        .subpass = 0,
+    };
+
+    if (vkCreateGraphicsPipelines(g_vk.device, VK_NULL_HANDLE, 1, &pipelineInfo, NULL, &g_vk.pipelines[index].handle) != VK_SUCCESS) {
+        vkDestroyPipelineLayout(g_vk.device, g_vk.pipelines[index].layout, NULL);
+        sbl_arena_rewind(g_vk.arena, mark);
+        return SBGL_INVALID_HANDLE;
+    }
+
+    sbl_arena_rewind(g_vk.arena, mark);
+    g_vk.pipelines[index].active = true;
+    return (sbgl_Pipeline)(index + 1);
+}
+
+void sbgl_gfx_DestroyPipeline(sbgl_Pipeline handle) {
+    if (handle == SBGL_INVALID_HANDLE) return;
+    uint32_t index = (uint32_t)handle - 1;
+    if (index >= SBGL_MAX_PIPELINES || !g_vk.pipelines[index].active) return;
+
+    vkDestroyPipeline(g_vk.device, g_vk.pipelines[index].handle, NULL);
+    vkDestroyPipelineLayout(g_vk.device, g_vk.pipelines[index].layout, NULL);
+    g_vk.pipelines[index].active = false;
+}
+
+void sbgl_gfx_BindPipeline(sbgl_Pipeline handle) {
+    if (handle == SBGL_INVALID_HANDLE) return;
+    uint32_t index = (uint32_t)handle - 1;
+    if (index >= SBGL_MAX_PIPELINES || !g_vk.pipelines[index].active) return;
+
+    vkCmdBindPipeline(g_vk.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, g_vk.pipelines[index].handle);
+    g_vk.boundPipeline = handle;
+
+    VkViewport viewport = {
+        .x = 0.0f, .y = 0.0f,
+        .width = (float)g_vk.swapchainExtent.width,
+        .height = (float)g_vk.swapchainExtent.height,
+        .minDepth = 0.0f, .maxDepth = 1.0f,
+    };
+    vkCmdSetViewport(g_vk.commandBuffer, 0, 1, &viewport);
+
+    VkRect2D scissor = { .offset = {0, 0}, .extent = g_vk.swapchainExtent };
+    vkCmdSetScissor(g_vk.commandBuffer, 0, 1, &scissor);
+}
+
+void sbgl_gfx_BindBuffer(sbgl_Buffer handle, sbgl_BufferUsage usage) {
+    if (handle == SBGL_INVALID_HANDLE) return;
+    uint32_t index = (uint32_t)handle - 1;
+    if (index >= SBGL_MAX_BUFFERS || !g_vk.buffers[index].active) return;
+
+    if (usage == SBGL_BUFFER_USAGE_VERTEX) {
+        VkDeviceSize offsets[] = {0};
+        vkCmdBindVertexBuffers(g_vk.commandBuffer, 0, 1, &g_vk.buffers[index].handle, offsets);
+    } else if (usage == SBGL_BUFFER_USAGE_INDEX) {
+        vkCmdBindIndexBuffer(g_vk.commandBuffer, g_vk.buffers[index].handle, 0, VK_INDEX_TYPE_UINT32);
+    }
+}
+
+void sbgl_gfx_Draw(uint32_t vertexCount, uint32_t firstVertex) {
+    vkCmdDraw(g_vk.commandBuffer, vertexCount, 1, firstVertex, 0);
+}
+
+void sbgl_gfx_DrawIndexed(uint32_t indexCount, uint32_t firstIndex, int32_t vertexOffset) {
+    vkCmdDrawIndexed(g_vk.commandBuffer, indexCount, 1, firstIndex, vertexOffset, 0);
+}
+
+void sbgl_gfx_PushConstants(size_t size, const void* data) {
+    if (g_vk.boundPipeline == SBGL_INVALID_HANDLE) return;
+    uint32_t index = (uint32_t)g_vk.boundPipeline - 1;
+    vkCmdPushConstants(g_vk.commandBuffer, g_vk.pipelines[index].layout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, (uint32_t)size, data);
 }

@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-05-03
 
 ### Added
+- **Phase 4: Rendering Pipeline**:
+    - Implemented a complete rendering pipeline using Vulkan 1.3 **Dynamic Rendering**, eliminating RenderPass and Framebuffer management.
+    - **Resource Management**: Introduced a handle-based system (`sbgl_Buffer`, `sbgl_Shader`, `sbgl_Pipeline`) for GPU resources using internal SoA pools for DOD-compliant performance.
+    - **Buffer Allocator**: Implemented a block-based GPU memory allocator for Vertex and Index buffers with staging support for CPU-to-GPU transfers.
+    - **Shader System**: Added SPIR-V shader loading with support for both dynamic file-based loading and hardcoded byte arrays (via `xxd`).
+    - **Explicit PSO**: Implemented Pipeline State Object (PSO) creation with configurable vertex layouts and shader stages.
+    - **Interactive Rendering**: Added **Push Constants** support to the public API and Vulkan backend, enabling low-latency per-frame data updates (e.g., mouse position).
+    - **New Examples**:
+        - `draw_triangle.c`: Static triangle rendering using VBOs.
+        - `draw_interactive_triangle.c`: Rainbow triangle responding to mouse cursor position.
+        - `draw_hardcoded_triangle.c`: Demonstrates self-contained applications with embedded shaders.
+    - **Documentation**: Created `docs/RENDERING_PIPELINE.md` covering the new architecture and usage workflows.
+
 - **SIMD-Ready Math Library**:
     - Implemented a single-header math library (`sbgl_math.h`) providing Vector (Vec2, Vec3, Vec4), Matrix (Mat4), and Quaternion types.
     - Optimized memory layouts with 16-byte alignment and padding to facilitate efficient SIMD instruction generation and cache line utilization.

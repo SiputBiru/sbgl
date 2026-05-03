@@ -2,7 +2,7 @@
 
 SBgl (SiputBiru Graphics Library) is a bare-metal graphics framework in C99. This roadmap outlines the development milestones and future technical goals.
 
-## Status: Phase 3 Complete
+## Status: Phase 4 Complete
 
 ### Phase 1: Core Architecture and HAL
 - [x] Implement explicit Context API (sbgl_Context)
@@ -32,10 +32,10 @@ SBgl (SiputBiru Graphics Library) is a bare-metal graphics framework in C99. Thi
 - [x] Implement Ray-casting and basic collision math optimized for batch testing
 
 ### Phase 4: Rendering Pipeline
-- [ ] Implement Vertex Buffer and Index Buffer management with DOD alignment
-- [ ] Implement Shader loading and SPIR-V integration
-- [ ] Implement Pipeline State Object (PSO) caching
-- [ ] Implement Batch-oriented Geometry rendering (Transformation pipelines)
+- [x] Implement Vertex Buffer and Index Buffer management with DOD alignment
+- [x] Implement Shader loading and SPIR-V integration
+- [x] Implement Pipeline State Object (PSO) caching
+- [x] Implement Batch-oriented Geometry rendering (Transformation pipelines)
 
 ### Phase 5: Optimization
 - [ ] Implement Bit-Packing for vertex data (32-bit compressed formats)

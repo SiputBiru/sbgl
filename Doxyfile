@@ -14,7 +14,9 @@ INPUT                  = include \
                          README.md \
                          CHANGELOG.md \
                          docs/MATH_LIB.md \
-                         docs/CAMERA.md
+                         docs/CAMERA.md \
+                         docs/RENDERING_PIPELINE.md
+
 EXCLUDE_PATTERNS       = */.git/* \
                          */build/* \
                          */build-*/* \

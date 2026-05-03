@@ -135,3 +135,58 @@ const sbgl_InputState* sbgl_GetInputState(sbgl_Context* ctx) {
     sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
     return &inner->input;
 }
+
+sbgl_Buffer sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
+    (void)ctx; // Context check if needed
+    return sbgl_gfx_CreateBuffer(usage, size, data);
+}
+
+void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
+    (void)ctx;
+    sbgl_gfx_DestroyBuffer(buffer);
+}
+
+sbgl_Shader sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size) {
+    (void)ctx;
+    return sbgl_gfx_LoadShader(stage, bytecode, size);
+}
+
+void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader) {
+    (void)ctx;
+    sbgl_gfx_DestroyShader(shader);
+}
+
+sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* config) {
+    (void)ctx;
+    return sbgl_gfx_CreatePipeline(config);
+}
+
+void sbgl_DestroyPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
+    (void)ctx;
+    sbgl_gfx_DestroyPipeline(pipeline);
+}
+
+void sbgl_BindPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
+    (void)ctx;
+    sbgl_gfx_BindPipeline(pipeline);
+}
+
+void sbgl_BindBuffer(sbgl_Context* ctx, sbgl_Buffer buffer, sbgl_BufferUsage usage) {
+    (void)ctx;
+    sbgl_gfx_BindBuffer(buffer, usage);
+}
+
+void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex) {
+    (void)ctx;
+    sbgl_gfx_Draw(vertexCount, firstVertex);
+}
+
+void sbgl_DrawIndexed(sbgl_Context* ctx, uint32_t indexCount, uint32_t firstIndex, int32_t vertexOffset) {
+    (void)ctx;
+    sbgl_gfx_DrawIndexed(indexCount, firstIndex, vertexOffset);
+}
+
+void sbgl_PushConstants(sbgl_Context* ctx, size_t size, const void* data) {
+    (void)ctx;
+    sbgl_gfx_PushConstants(size, data);
+}

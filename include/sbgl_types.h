@@ -3,8 +3,71 @@
 
 #include <stdbool.h>
 
+#include <stdint.h>
+
 #define SBGL_MAX_KEYS 512
 #define SBGL_MAX_MOUSE_BUTTONS 8
+
+#define SBGL_INVALID_HANDLE 0
+
+/**
+ * @brief Handle for a GPU-side buffer.
+ */
+typedef uint32_t sbgl_Buffer;
+
+/**
+ * @brief Handle for a shader module.
+ */
+typedef uint32_t sbgl_Shader;
+
+/**
+ * @brief Handle for a graphics pipeline.
+ */
+typedef uint32_t sbgl_Pipeline;
+
+/**
+ * @brief Buffer usage flags.
+ */
+typedef enum {
+    SBGL_BUFFER_USAGE_VERTEX = 0x01,
+    SBGL_BUFFER_USAGE_INDEX  = 0x02,
+} sbgl_BufferUsage;
+
+/**
+ * @brief Shader stage flags.
+ */
+typedef enum {
+    SBGL_SHADER_STAGE_VERTEX   = 0x01,
+    SBGL_SHADER_STAGE_FRAGMENT = 0x02,
+} sbgl_ShaderStage;
+
+/**
+ * @brief Vertex attribute definition.
+ */
+typedef struct {
+    uint32_t location;
+    uint32_t offset;
+    // For simplicity, we assume float components for now.
+    // In a full implementation, we'd have a format enum.
+} sbgl_VertexAttribute;
+
+/**
+ * @brief Vertex input layout definition.
+ */
+typedef struct {
+    uint32_t stride;
+    uint32_t attributeCount;
+    const sbgl_VertexAttribute* attributes;
+} sbgl_VertexLayout;
+
+/**
+ * @brief Configuration for creating a graphics pipeline.
+ */
+typedef struct {
+    sbgl_Shader       vertexShader;
+    sbgl_Shader       fragmentShader;
+    sbgl_VertexLayout vertexLayout;
+} sbgl_PipelineConfig;
 
 /**
  * @brief Represents the real-time state of physical inputs.

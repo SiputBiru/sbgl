@@ -18,6 +18,11 @@ All notable changes to this project will be documented in this file.
         - `draw_hardcoded_triangle.c`: Demonstrates self-contained applications with embedded shaders.
     - **Documentation**: Created `docs/RENDERING_PIPELINE.md` covering the new architecture and usage workflows.
 
+- **Documentation System Refinement**:
+    - Decoupled documentation generation from the source tree by relocating Doxygen output from `docs/out` to `build/docs`.
+    - Updated `CMakeLists.txt` to dynamically configure Doxygen output paths, ensuring a cleaner root directory.
+    - Automated image asset synchronization within the build-local documentation site.
+
 - **SIMD-Ready Math Library**:
     - Implemented a single-header math library (`sbgl_math.h`) providing Vector (Vec2, Vec3, Vec4), Matrix (Mat4), and Quaternion types.
     - Optimized memory layouts with 16-byte alignment and padding to facilitate efficient SIMD instruction generation and cache line utilization.

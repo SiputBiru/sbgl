@@ -130,17 +130,21 @@ endif()
 # --- Documentation ---
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
+    set(DOXYGEN_OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/docs")
+    
     add_custom_target(docs
-        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs/out/html/img
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs/img ${CMAKE_CURRENT_SOURCE_DIR}/docs/out/html/img
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUT_DIR}
+        COMMAND ${CMAKE_COMMAND} -E echo "OUTPUT_DIRECTORY = ${DOXYGEN_OUT_DIR}" > ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.extra
+        COMMAND ${CMAKE_COMMAND} -E cat ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.extra > ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.combined
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.combined
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUT_DIR}/html/img
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs/img ${DOXYGEN_OUT_DIR}/html/img
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating API documentation with Doxygen"
-        VERBATIM
     )
 
     add_custom_target(docs-clean
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs/out
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${DOXYGEN_OUT_DIR}
         COMMENT "Cleaning documentation..."
     )
 endif()

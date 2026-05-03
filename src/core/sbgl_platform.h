@@ -1,7 +1,7 @@
 /**
  * @file sbgl_platform.h
  * @brief Internal Platform Abstraction Layer (HAL).
- * 
+ *
  * Defines the strict interface that OS-specific implementations must follow.
  * Prevents OS headers (windows.h, wayland-client.h) from leaking into the core.
  */
@@ -9,9 +9,9 @@
 #ifndef SBGL_PLATFORM_H
 #define SBGL_PLATFORM_H
 
-#include <stdint.h>
-#include <stdbool.h>
 #include "sbgl_types.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 struct SblArena;
 
@@ -23,20 +23,26 @@ struct SblArena;
  * @param title Window title.
  * @return Opaque pointer to the window state.
  */
-sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title);
+sbgl_Window* sbgl_os_CreateWindow(
+	struct SblArena* arena,
+	sbgl_InputState* input,
+	int width,
+	int height,
+	const char* title
+);
 
 /**
  * @brief Destroys a native window.
  * @param window The window to destroy.
  */
-void         sbgl_os_DestroyWindow(sbgl_Window* window);
+void sbgl_os_DestroyWindow(sbgl_Window* window);
 
 /**
  * @brief Checks the window's close flag.
  * @param window The window to check.
  * @return True if closing.
  */
-bool         sbgl_os_WindowShouldClose(sbgl_Window* window);
+bool sbgl_os_WindowShouldClose(sbgl_Window* window);
 
 /**
  * @brief Retrieves the current client area size.
@@ -44,17 +50,17 @@ bool         sbgl_os_WindowShouldClose(sbgl_Window* window);
  * @param w Pointer to store width.
  * @param h Pointer to store height.
  */
-void         sbgl_os_GetWindowSize(sbgl_Window* window, int* w, int* h);
+void sbgl_os_GetWindowSize(sbgl_Window* window, int* w, int* h);
 
 /**
  * @brief Checks if the window has been resized since the last check.
- * 
+ *
  * Resets the internal resize flag to false upon returning.
- * 
+ *
  * @param window The window handle.
  * @return True if a resize event occurred.
  */
-bool         sbgl_os_WasWindowResized(sbgl_Window* window);
+bool sbgl_os_WasWindowResized(sbgl_Window* window);
 
 /**
  * @brief Dispatches OS events (messages/protocol requests).

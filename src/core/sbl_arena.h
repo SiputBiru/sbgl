@@ -5,9 +5,9 @@
 #ifndef SBL_ARENA_H
 #define SBL_ARENA_H
 
-#include <stdint.h>
 #include <stddef.h>
-#include <string.h>
+#include <stdint.h>
+#include <string.h> // not being used directly
 
 #ifndef SBL_ARENA_DEF
 #define SBL_ARENA_DEF
@@ -31,30 +31,30 @@
  * @brief A single block of memory in the arena.
  */
 typedef struct SblArenaBlock {
-	uint64_t size;               /**< Total capacity of this block. */
-	uint64_t offset;             /**< Current allocation offset. */
-	struct SblArenaBlock* next;  /**< Pointer to the next block in the chain. */
+	uint64_t size;				/**< Total capacity of this block. */
+	uint64_t offset;			/**< Current allocation offset. */
+	struct SblArenaBlock* next; /**< Pointer to the next block in the chain. */
 } SblArenaBlock;
 
 /**
  * @brief High-speed arena allocator.
- * 
+ *
  * Manages a chain of memory blocks to provide fast, linear allocations
  * without individual free calls.
  */
 typedef struct SblArena {
-	SblArenaBlock* head;         /**< The first block in the arena. */
-	SblArenaBlock* current;      /**< The current active block. */
+	SblArenaBlock* head;	/**< The first block in the arena. */
+	SblArenaBlock* current; /**< The current active block. */
 } SblArena;
 
 /**
  * @brief Bookmark for arena state.
- * 
+ *
  * Used to "rewind" the arena to a specific point.
  */
 typedef struct {
-	SblArenaBlock* block;        /**< The block at the time of marking. */
-	uint64_t offset;             /**< The offset at the time of marking. */
+	SblArenaBlock* block; /**< The block at the time of marking. */
+	uint64_t offset;	  /**< The offset at the time of marking. */
 } SblArenaMark;
 
 // Thread-local arena (extern in header unless static)
@@ -111,7 +111,8 @@ static uintptr_t sbl_arena__align_forward(uintptr_t ptr, uint64_t align) {
 static SblArenaBlock* sbl_arena__block_create(uint64_t size) {
 	uint64_t total_size = size + sizeof(SblArenaBlock);
 	SblArenaBlock* block = (SblArenaBlock*)malloc(total_size);
-	if (!block) return NULL;
+	if (!block)
+		return NULL;
 	block->size = size;
 	block->offset = 0;
 	block->next = NULL;
@@ -124,7 +125,8 @@ void sbl_arena_init(SblArena* arena, uint64_t initial_size) {
 }
 
 void sbl_arena_free(SblArena* arena) {
-	if (!arena) return;
+	if (!arena)
+		return;
 	SblArenaBlock* b = arena->head;
 	while (b) {
 		SblArenaBlock* next = b->next;
@@ -143,7 +145,8 @@ void* sbl_arena_alloc(SblArena* arena, uint64_t size) {
 
 	if (aligned_offset + size > b->size) {
 		uint64_t next_size = b->size * 2;
-		if (size > next_size) next_size = size * 2;
+		if (size > next_size)
+			next_size = size * 2;
 		SblArenaBlock* next = sbl_arena__block_create(next_size);
 		b->next = next;
 		arena->current = next;
@@ -158,7 +161,8 @@ void* sbl_arena_alloc(SblArena* arena, uint64_t size) {
 
 void* sbl_arena_alloc_zero(SblArena* arena, uint64_t size) {
 	void* ptr = sbl_arena_alloc(arena, size);
-	if (ptr) SBL_ARENA_MEMSET(ptr, 0, size);
+	if (ptr)
+		SBL_ARENA_MEMSET(ptr, 0, size);
 	return ptr;
 }
 

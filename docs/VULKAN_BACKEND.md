@@ -77,3 +77,14 @@ This pattern allows the engine to handle thousands of resize events without ever
 | **Rendering** | Dynamic Rendering | No RenderPass/Framebuffer boilerplate. |
 | **Sync** | Fences & Semaphores | Synchronization and stable frame rates. |
 | **Memory** | Arena-backed | No runtime `malloc` during window/gfx init. |
+
+---
+
+## References & Further Reading
+
+For detailed technical specifications of the Vulkan API and its implementations, refer to the following official documentation:
+
+*   **Vulkan 1.3 Specification:** [The Khronos Group - Vulkan Spec](https://registry.khronos.org/vulkan/specs/1.3-extensions/html/vkspec.html)
+*   **Vulkan Guide:** [Khronos Vulkan Guide](https://github.com/KhronosGroup/Vulkan-Guide)
+*   **Dynamic Rendering:** [Vulkan Spec - Dynamic Rendering](https://registry.khronos.org/vulkan/specs/1.3-extensions/html/vkspec.html#renderpass-and-framebuffer)
+*   **Synchronization Examples:** [Khronos - Synchronization Examples](https://github.com/KhronosGroup/Vulkan-Docs/wiki/Synchronization-Examples)

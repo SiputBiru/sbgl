@@ -5,7 +5,18 @@ OUTPUT_DIRECTORY       = docs/out
 OPTIMIZE_OUTPUT_FOR_C  = YES
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
-INPUT                  = include src README.md CHANGELOG.md docs/VULKAN_BACKEND.md docs/ROADMAP.md docs/INPUT_SYSTEM.md docs/MEMORY.md docs/PLATFORM.md
+RECURSIVE              = YES
+INPUT                  = include \
+                         src \
+                         examples \
+                         docs \
+                         README.md \
+                         CHANGELOG.md
+EXCLUDE_PATTERNS       = */.git/* \
+                         */build/* \
+                         */build-*/* \
+                         */.cache/* \
+                         */docs/out/*
 GENERATE_LATEX         = NO
 GENERATE_HTML          = YES
 HAVE_DOT               = NO
@@ -13,6 +24,3 @@ WARN_IF_UNDOCUMENTED   = NO
 MARKDOWN_SUPPORT       = YES
 IMAGE_PATH             = 
 USE_MDFILE_AS_MAINPAGE = README.md
-
-
-

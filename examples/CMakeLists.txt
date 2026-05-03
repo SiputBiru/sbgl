@@ -2,7 +2,7 @@ if(SBGL_BUILD_STANDALONE)
     # Standalone mode: Compile library sources directly into each executable
     
     # In CMake < 3.18, the GENERATED property is directory-scoped.
-    # We must mark the Wayland protocol file as generated in this directory too.
+    # must mark the Wayland protocol file as generated in this directory too.
     if(SBGL_USE_WAYLAND AND NOT WIN32)
         set_source_files_properties("${CMAKE_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
     endif()
@@ -35,8 +35,8 @@ else()
     add_executable(hello_window hello_window.c)
     target_link_libraries(hello_window PRIVATE sbgl)
 
-    add_executable(input_test input_test.c)
-    target_link_libraries(input_test PRIVATE sbgl)
+    add_executable(input_keyboard input_keyboard.c)
+    target_link_libraries(input_keyboard PRIVATE sbgl)
 
     add_executable(input_mouse input_mouse.c)
     target_link_libraries(input_mouse PRIVATE sbgl)

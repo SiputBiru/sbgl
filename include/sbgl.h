@@ -137,43 +137,14 @@ void sbgl_EndDrawing(sbgl_Context* ctx);
 void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a);
 
 /**
- * @brief Checks if a specific key is currently held down.
+ * @brief Retrieves the complete input state for the current frame.
+ * 
+ * Adheres to Data-Oriented Design by providing a read-only view of all 
+ * input arrays (keys, mouse) for efficient batch processing.
+ * 
  * @param ctx The engine context.
- * @param scancode The physical key to check.
- * @return True if the key is down.
+ * @return A read-only pointer to the current input state. Never returns NULL.
  */
-bool sbgl_IsKeyDown(sbgl_Context* ctx, int scancode);
-
-/**
- * @brief Checks if a key was pressed during this specific frame.
- * @param ctx The engine context.
- * @param scancode The physical key to check.
- * @return True only on the frame the key was first pressed.
- */
-bool sbgl_IsKeyPressed(sbgl_Context* ctx, int scancode);
-
-/**
- * @brief Checks if a specific mouse button is held down.
- * @param ctx The engine context.
- * @param button The button index (e.g., SBGL_MOUSE_LEFT).
- * @return True if the button is down.
- */
-bool sbgl_IsMouseButtonDown(sbgl_Context* ctx, int button);
-
-/**
- * @brief Retrieves the current mouse position relative to the window.
- * @param ctx The engine context.
- * @param x Pointer to store the X coordinate.
- * @param y Pointer to store the Y coordinate.
- */
-void sbgl_GetMousePos(sbgl_Context* ctx, int* x, int* y);
-
-/**
- * @brief Retrieves the mouse movement since the last frame.
- * @param ctx The engine context.
- * @param dx Pointer to store the X movement delta.
- * @param dy Pointer to store the Y movement delta.
- */
-void sbgl_GetMouseDelta(sbgl_Context* ctx, int* dx, int* dy);
+const sbgl_InputState* sbgl_GetInputState(sbgl_Context* ctx);
 
 #endif // SBGL_H

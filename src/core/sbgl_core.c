@@ -18,6 +18,7 @@ typedef struct {
     sbgl_Window* window;       /**< Handle to the native OS window. */
     float        clearColor[4]; /**< Current RGBA clear color. */
     bool         isDrawing;    /**< Internal flag to track frame acquisition success. */
+    sbgl_InputState input;     /**< Physical input state tracking. */
 } sbgl_InternalContext;
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
@@ -55,7 +56,7 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
     res.ctx = ctx;
 
     // The native platform window is created using the same arena for its internal tracking
-    inner->window = sbgl_os_CreateWindow(&inner->arena, &ctx->input, w, h, title);
+    inner->window = sbgl_os_CreateWindow(&inner->arena, &inner->input, w, h, title);
     if (!inner->window) {
         ctx->result = SBGL_ERROR_WINDOW_CREATION_FAILED;
         res.error = ctx->result;
@@ -115,7 +116,7 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
     }
     
     // Reset pressed states for next frame
-    memset(ctx->input.keysPressed, 0, sizeof(ctx->input.keysPressed));
+    memset(inner->input.keysPressed, 0, sizeof(inner->input.keysPressed));
 }
 
 void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a) {
@@ -127,29 +128,10 @@ void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a) {
     inner->clearColor[3] = a;
 }
 
-bool sbgl_IsKeyDown(sbgl_Context* ctx, int scancode) {
-    if (!ctx || scancode < 0 || scancode >= SBGL_MAX_KEYS) return false;
-    return ctx->input.keysDown[scancode];
-}
-
-bool sbgl_IsKeyPressed(sbgl_Context* ctx, int scancode) {
-    if (!ctx || scancode < 0 || scancode >= SBGL_MAX_KEYS) return false;
-    return ctx->input.keysPressed[scancode];
-}
-
-bool sbgl_IsMouseButtonDown(sbgl_Context* ctx, int button) {
-    if (!ctx || button < 0 || button >= SBGL_MAX_MOUSE_BUTTONS) return false;
-    return ctx->input.mouseDown[button];
-}
-
-void sbgl_GetMousePos(sbgl_Context* ctx, int* x, int* y) {
-    if (!ctx) return;
-    if (x) *x = ctx->input.mouseX;
-    if (y) *y = ctx->input.mouseY;
-}
-
-void sbgl_GetMouseDelta(sbgl_Context* ctx, int* dx, int* dy) {
-    if (!ctx) return;
-    if (dx) *dx = ctx->input.mouseDeltaX;
-    if (dy) *dy = ctx->input.mouseDeltaY;
+const sbgl_InputState* sbgl_GetInputState(sbgl_Context* ctx) {
+    static const sbgl_InputState dummy = {0};
+    if (!ctx || !ctx->inner) return &dummy;
+    
+    sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+    return &inner->input;
 }

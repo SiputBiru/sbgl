@@ -15,13 +15,15 @@ int main() {
     float r = 0.1f, g = 0.2f, b = 0.3f;
 
     while (!sbgl_WindowShouldClose(ctx)) {
-        if (sbgl_IsKeyDown(ctx, SBGL_KEY_R)) {
+        const sbgl_InputState* input = sbgl_GetInputState(ctx);
+
+        if (input->keysDown[SBGL_KEY_R]) {
             r = 1.0f; g = 0.0f; b = 0.0f;
         }
-        if (sbgl_IsKeyDown(ctx, SBGL_KEY_G)) {
+        if (input->keysDown[SBGL_KEY_G]) {
             r = 0.0f; g = 1.0f; b = 0.0f;
         }
-        if (sbgl_IsKeyDown(ctx, SBGL_KEY_B)) {
+        if (input->keysDown[SBGL_KEY_B]) {
             r = 0.0f; g = 0.0f; b = 1.0f;
         }
 
@@ -31,7 +33,7 @@ int main() {
         // Drawing logic here
         sbgl_EndDrawing(ctx);
 
-        if (sbgl_IsKeyDown(ctx, SBGL_KEY_ESCAPE)) {
+        if (input->keysDown[SBGL_KEY_ESCAPE]) {
             break;
         }
     }

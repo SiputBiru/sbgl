@@ -35,7 +35,6 @@ typedef enum {
 typedef struct sbgl_Context {
     void*           inner;
     sbgl_Result     result;
-    sbgl_InputState input;
 } sbgl_Context;
 
 /**

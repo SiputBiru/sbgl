@@ -6,6 +6,7 @@
 #endif
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include "sbgl_types.h"
 #include "core/sbgl_input.h"
 
 // Shared Win32 state

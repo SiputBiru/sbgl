@@ -10,12 +10,14 @@ int main() {
     sbgl_Context* ctx = res.ctx;
 
     while (!sbgl_WindowShouldClose(ctx)) {
+        const sbgl_InputState* input = sbgl_GetInputState(ctx);
+        
         sbgl_Clear(ctx, 0.1f, 0.2f, 0.3f, 1.0f);
         
         sbgl_BeginDrawing(ctx);
         sbgl_EndDrawing(ctx);
         
-        if (sbgl_IsKeyDown(ctx, SBGL_KEY_ESCAPE)) {
+        if (input->keysDown[SBGL_KEY_ESCAPE]) {
             break;
         }
     }

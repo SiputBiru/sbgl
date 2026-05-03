@@ -7,7 +7,7 @@ if(SBGL_BUILD_STANDALONE)
         set_source_files_properties("${CMAKE_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
     endif()
 
-    foreach(example hello_window input_test input_mouse)
+    foreach(example hello_window input_keyboard input_mouse math_test)
         add_executable(${example} ${example}.c ${SBGL_SOURCES})
         
         if(SBGL_USE_WAYLAND AND NOT WIN32)
@@ -40,4 +40,7 @@ else()
 
     add_executable(input_mouse input_mouse.c)
     target_link_libraries(input_mouse PRIVATE sbgl)
+
+    add_executable(math_test math_test.c)
+    target_link_libraries(math_test PRIVATE sbgl)
 endif()

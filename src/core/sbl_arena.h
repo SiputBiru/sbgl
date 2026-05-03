@@ -1,3 +1,7 @@
+/**
+ * @file sbl_arena.h
+ * @brief Arena allocator implementation.
+ */
 #ifndef SBL_ARENA_H
 #define SBL_ARENA_H
 

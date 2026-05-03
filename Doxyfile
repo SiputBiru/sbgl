@@ -5,18 +5,23 @@ OUTPUT_DIRECTORY       = docs/out
 OPTIMIZE_OUTPUT_FOR_C  = YES
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
 RECURSIVE              = YES
 INPUT                  = include \
                          src \
                          examples \
                          docs \
                          README.md \
-                         CHANGELOG.md
+                         CHANGELOG.md \
+                         docs/MATH_LIB.md
 EXCLUDE_PATTERNS       = */.git/* \
                          */build/* \
                          */build-*/* \
                          */.cache/* \
                          */docs/out/*
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = YES
+PREDEFINED             = SBGL_ALIGN(n)=
 GENERATE_LATEX         = NO
 GENERATE_HTML          = YES
 HAVE_DOT               = NO

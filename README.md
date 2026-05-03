@@ -14,6 +14,7 @@ SBgl is built for developers who want control over the hardware without the over
 - **Data-Oriented Design**: APIs and data layouts are designed for cache efficiency and batch processing.
 - **Concurrency**: Implements a Job System for lock-free, data-parallel transformations across worker threads.
 - **Vulkan 1.3**: Utilizes Dynamic Rendering and synchronization.
+- **SIMD Math**: 16-byte aligned vector, matrix, and quaternion library (`sbgl_math.h`).
 - **Native Platform HAL**: Direct integration with Wayland (XDG-Shell) and Win32, preventing header leakage to user code.
 - **Arena-Backed**: Memory is managed via arenas for predictable allocation.
 
@@ -208,6 +209,7 @@ int main() {
 
 - [PLATFORM.md](docs/PLATFORM.md): Explanation of the Platform Abstraction Layer and window creation.
 - [VULKAN_BACKEND.md](docs/VULKAN_BACKEND.md): Detailed explanation of the graphics layer.
+- [MATH_LIB.md](docs/MATH_LIB.md): Architecture of the vector and matrix library.
 - [ROADMAP.md](docs/ROADMAP.md): Development milestones and future goals.
 - [CHANGELOG.md](CHANGELOG.md): Project history and technical milestones.
 

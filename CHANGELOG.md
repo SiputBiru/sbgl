@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-05-03
 
+### Added
+- **SIMD-Ready Math Library**:
+    - Implemented a single-header math library (`sbgl_math.h`) providing Vector (Vec2, Vec3, Vec4), Matrix (Mat4), and Quaternion types.
+    - Optimized memory layouts with 16-byte alignment and padding to facilitate efficient SIMD instruction generation and cache line utilization.
+    - Implemented a precision-tuned Fast Inverse Square Root (`sbgl_InvSqrt`) based on the Quake III Arena algorithm using C99-compliant union punning.
+    - Provided a comprehensive set of affine transformations: Translation, Scaling, Rotation (Axis-Angle), Perspective, Orthographic, and LookAt.
+    - Added type-safe constructor functions (e.g., `sbgl_vec3()`) for natural initialization syntax.
+    - Integrated the math library into the Doxygen documentation system with automatic symbol linking.
+    - Created a technical architecture guide (`docs/MATH_LIB.md`) with usage examples and implementation rationales.
+
 ### Changed
 - **Data-Oriented Input API**:
     - Transitioned the input system to a Data-Oriented Design (DOD) model to improve cache utilization and enable batch processing.

@@ -22,19 +22,20 @@ SBgl (SiputBiru Graphics Library) is a bare-metal graphics framework in C99. Thi
 - [x] Stabilization of Arena allocator for self-contained context management
 - [x] Implement Doxygen documentation system
 - [x] Implement CMake build system with Unity-style build support
+- [x] Implement Data-Oriented Design (DOD) Input API for batch processing
 
 ### Phase 3: Core Matrix and Math (Current Phase)
-- [ ] Implement SIMD-ready Vector math (Vec2, Vec3, Vec4)
+- [ ] Implement SIMD-ready Vector math (Vec2, Vec3, Vec4) using SoA-friendly layouts
 - [ ] Implement Matrix math (Mat4) for 3D transformations
 - [ ] Implement Quaternion math for rotations
 - [ ] Implement Camera system (Orthographic and Perspective)
-- [ ] Implement Ray-casting and basic collision math
+- [ ] Implement Ray-casting and basic collision math optimized for batch testing
 
 ### Phase 4: Rendering Pipeline
-- [ ] Implement Vertex Buffer and Index Buffer management
+- [ ] Implement Vertex Buffer and Index Buffer management with DOD alignment
 - [ ] Implement Shader loading and SPIR-V integration
 - [ ] Implement Pipeline State Object (PSO) caching
-- [ ] Implement Basic Geometry rendering (Triangle, Rectangle)
+- [ ] Implement Batch-oriented Geometry rendering (Transformation pipelines)
 
 ### Phase 5: Optimization
 - [ ] Implement Bit-Packing for vertex data (32-bit compressed formats)

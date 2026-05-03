@@ -1,4 +1,4 @@
-# SBgl (SiputBiru Graphics Library)
+# SBgl (SiputBiru Graphics Library) {#mainpage}
 
 A bare-metal graphics framework written in C99. Designed for 2D/3D applications with an explicit, context-based API.
 
@@ -9,7 +9,9 @@ A bare-metal graphics framework written in C99. Designed for 2D/3D applications 
 ## Core Philosophy
 
 SBgl is built for developers who want control over the hardware without the overhead of heavy engines.
+
 - **Explicit Context**: No global state. Every operation is tied to an explicit sbgl_Context.
+- **Data-Oriented Design**: APIs and data layouts are designed for cache efficiency and batch processing.
 - **Vulkan 1.3**: Utilizes Dynamic Rendering and synchronization.
 - **Native Platform HAL**: Direct integration with Wayland (XDG-Shell) and Win32, preventing header leakage to user code.
 - **Arena-Backed**: Memory is managed via arenas for predictable allocation.
@@ -26,71 +28,92 @@ SBgl is built for developers who want control over the hardware without the over
 This project uses CMake. Follow these steps to configure, build, and run the framework.
 
 ### Configure
+
 Create the build directory and generate the compilation database for the LSP (clangd).
 
 **For Wayland (Default):**
+
 ```bash
 cmake -B build -S . -DSBGL_USE_WAYLAND=ON
 ```
 
 **For X11:**
+
 ```bash
 cmake -B build -S . -DSBGL_USE_WAYLAND=OFF
 ```
 
 **For Windows (Cross-compile from Linux):**
 Requires `mingw-w64` toolchain.
+
 ```bash
 cmake -B build-win -S . -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -DSBGL_BUILD_EXAMPLES=ON -DCMAKE_EXE_LINKER_FLAGS="-static"
 ```
 
 **Enable Examples:**
 To build the test applications alongside the library:
+
 ```bash
 cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON
 ```
 
 **Standalone Build (No Library File):**
 Compiles the library source code directly into the example executables (no `libsbgl.a` is created).
+
 ```bash
 cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON -DSBGL_BUILD_STANDALONE=ON
 ```
 
 ### Build
+
 Compile the library and all example applications.
+
 ```bash
 cmake --build build
 ```
 
 ### Clean
+
 SBgl supports standard and deep cleaning operations.
 
 **Standard Clean:**
 Removes compiled object files and executables but keeps the configuration.
+
 ```bash
 cmake --build build --target clean
 ```
 
 **Documentation Clean:**
 Removes the generated `docs/` folder.
+
 ```bash
 cmake --build build --target docs-clean
 ```
 
 **Deep Clean (Reset):**
 To completely reset the project state, simply delete the build directory.
+
 ```bash
 rm -rf build
 ```
 
 ### Run Examples
+
 After building, examples located in the build directory can be executed.
+
 ```bash
-# Run basic window test
+# Run basic window test (Linux natively)
 ./build/examples/hello_window
 
-# Run interactive input test
+# Run interactive input test (Linux natively)
 ./build/examples/input_test
+```
+
+**Testing Windows Builds (via Wine):**
+If you cross-compiled for Windows, you can test the executables directly on Linux using Wine.
+
+```bash
+wine ./build-win/examples/hello_window.exe
 ```
 
 ## Generating Documentation
@@ -98,12 +121,15 @@ After building, examples located in the build directory can be executed.
 SBgl uses **Doxygen** for automated API documentation. A searchable HTML site detailing the internal architecture and public API can be generated.
 
 ### Generate
+
 Ensure Doxygen is installed and run the specific documentation target.
+
 ```bash
 cmake --build build --target docs
 ```
 
 ### View
+
 The output is located in `docs/html/index.html` and can be opened in any web browser.
 
 ## Basic Example
@@ -120,12 +146,18 @@ int main() {
     sbgl_Context* ctx = res.ctx;
 
     while (!sbgl_WindowShouldClose(ctx)) {
+        const sbgl_InputState* input = sbgl_GetInputState(ctx);
+
         // Set clear color (RGBA)
         sbgl_Clear(ctx, 0.1f, 0.2f, 0.3f, 1.0f);
 
         sbgl_BeginDrawing(ctx);
         // Rendering logic here...
         sbgl_EndDrawing(ctx);
+
+        if (input->keysDown[SBGL_KEY_ESCAPE]) {
+            break;
+        }
     }
 
     // Explicit Context cleanup
@@ -144,9 +176,9 @@ int main() {
 
 ## Documentation
 
-- [VULKAN_BACKEND.md](./VULKAN_BACKEND.md): Detailed explanation of the graphics layer.
-- [ROADMAP.md](./ROADMAP.md): Development milestones and future goals.
-- [CHANGELOG.md](./CHANGELOG.md): Project history and technical milestones.
+- [VULKAN_BACKEND.md](docs/VULKAN_BACKEND.md): Detailed explanation of the graphics layer.
+- [ROADMAP.md](docs/ROADMAP.md): Development milestones and future goals.
+- [CHANGELOG.md](CHANGELOG.md): Project history and technical milestones.
 
 ---
 *Created by SiputBiru.*

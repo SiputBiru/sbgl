@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-05-03
+
+### Changed
+- **Data-Oriented Input API**:
+    - Transitioned the input system to a Data-Oriented Design (DOD) model to improve cache utilization and enable batch processing.
+    - Removed single-instance query functions: `sbgl_IsKeyDown`, `sbgl_IsKeyPressed`, `sbgl_IsMouseButtonDown`, `sbgl_GetMousePos`, and `sbgl_GetMouseDelta`.
+    - Introduced `sbgl_GetInputState`, providing a read-only pointer to the contiguous `sbgl_InputState` structure for direct array access.
+    - Implemented a static, zero-initialized dummy state to handle null-context edge cases without internal branching.
+
 ## [Unreleased] - 2026-05-02
 
 ### Added

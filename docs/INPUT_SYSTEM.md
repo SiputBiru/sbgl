@@ -27,7 +27,7 @@ Internally, the `sbgl_InputState` structure contains fixed-size boolean arrays f
 - **`keysPressed`**: A specialized array that is set to `true` only on the frame a key was first pressed.
 - **`mouseDown`**: Current state of the mouse buttons.
 
-When the OS sends a message (e.g., `WM_KEYDOWN` on Windows or `wl_keyboard.key` on Wayland), the **Platform Layer** translates the native scancode into an SBgl scancode and updates the corresponding index in these internal arrays.
+When the OS sends a message (e.g., `WM_KEYDOWN` on Windows or `wl_keyboard.key` on Wayland), the **Platform Layer** translates the native scancode into an SBgl scancode (defined in `sbgl.h`) and updates the corresponding index in these internal arrays.
 
 ## Input HAL Implementation
 The Platform Layer (Wayland, X11, Win32) is responsible for filling the key map during the `sbgl_os_PollEvents` phase.
@@ -42,14 +42,37 @@ Pressed states (`keysPressed`) are automatically reset at the end of every frame
 Users interact with the input system through a Data-Oriented API designed for batch processing.
 
 ### Data-Oriented API (Batch Access)
+The `sbgl_GetInputState` function provides a read-only pointer to the contiguous `sbgl_InputState` structure. Users are expected to fetch this pointer once per frame to enable efficient batch processing.
+
+#### Keyboard Example
+Query the `keysDown` (held) or `keysPressed` (one-shot) boolean arrays directly.
 ```c
 const sbgl_InputState* input = sbgl_GetInputState(ctx);
 
-if (input->keysDown[SBGL_KEY_SPACE]) {
-    // Jump logic
+// Continuous movement check
+if (input->keysDown[SBGL_KEY_W]) pos_y -= speed;
+
+// One-shot toggle check
+if (input->keysPressed[SBGL_KEY_SPACE]) is_jumping = true;
+```
+
+#### Mouse Example
+Access real-time coordinates, deltas, and button states.
+```c
+const sbgl_InputState* input = sbgl_GetInputState(ctx);
+
+// Direct access to coordinates and movement deltas
+int x = input->mouseX;
+int y = input->mouseY;
+int dx = input->mouseDeltaX;
+
+// Mouse button checks
+if (input->mouseDown[SBGL_MOUSE_LEFT]) {
+    spawn_particle_at(x, y);
 }
 ```
-The `sbgl_GetInputState` function provides a read-only pointer to the contiguous `sbgl_InputState` structure. This design adheres to Data-Oriented Design principles by:
+
+The design adheres to Data-Oriented Design principles by:
 - **Maximizing Cache Efficiency**: Providing direct access to the underlying arrays (`keysDown`, `keysPressed`, `mouseDown`) allows the CPU to prefetch data effectively during batch processing loops.
 - **Eliminating Call Overhead**: Fetching the entire state once per frame avoids the overhead of multiple function calls for individual key checks.
 - **Ensuring Stability**: The API returns a pointer to a static, zero-initialized dummy state if the context is invalid, preventing null-pointer dereferences in user code.
@@ -63,5 +86,5 @@ By exposing the state as a contiguous block of data, the engine enables efficien
 | :--- | :--- | :--- |
 | **State Storage** | Embedded in `sbgl_InternalContext` | Strict encapsulation and thread-safety. |
 | **Polling** | Event-driven (Async) | Zero OS overhead during frame logic. |
-| **Deltas** | Frame-to-frame comparison | Perfect for camera controls. |
-| **Memory** | Fixed arrays | No dynamic allocation during input events. |
+| **Data Layout** | Tightly packed fixed arrays | Cache efficiency and batch-processing support. |
+| **Memory** | O(1) Allocation (Arena) | No dynamic allocation during input events. |

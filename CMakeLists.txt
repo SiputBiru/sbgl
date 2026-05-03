@@ -65,6 +65,12 @@ elseif(UNIX AND NOT APPLE)
             COMMAND wayland-scanner private-code "${XDG_SHELL_XML}" "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
             DEPENDS "${XDG_SHELL_XML}"
         )
+
+        add_custom_target(wayland_protocols 
+            DEPENDS 
+                "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
+                "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
+        )
         
         list(APPEND SBGL_SOURCES 
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c 
@@ -90,6 +96,7 @@ if(NOT SBGL_BUILD_STANDALONE)
     add_library(sbgl STATIC ${SBGL_SOURCES})
 
     if(SBGL_USE_WAYLAND AND NOT WIN32)
+        add_dependencies(sbgl wayland_protocols)
         set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
         set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
     endif()

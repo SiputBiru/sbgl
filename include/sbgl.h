@@ -93,8 +93,13 @@ void          sbgl_Shutdown(sbgl_Context* ctx);
 
 /**
  * @brief Checks if the user or OS has requested to close the window.
+ * 
+ * This flag is set by the OS (e.g., clicking the 'X' button or Alt+F4). 
+ * The application must poll this flag in the main loop and manually 
+ * initiate shutdown by calling sbgl_Shutdown() when it returns true.
+ * 
  * @param ctx The active engine context.
- * @return True if the window should close, false otherwise.
+ * @return True if a close request is pending, false otherwise.
  */
 bool          sbgl_WindowShouldClose(sbgl_Context* ctx);
 

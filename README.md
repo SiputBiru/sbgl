@@ -6,6 +6,27 @@ A bare-metal graphics framework written in C99. Designed for 2D/3D applications 
 [![Vulkan](https://img.shields.io/badge/Vulkan-1.3-red.svg)](https://www.vulkan.org/)
 ![Platform](https://img.shields.io/badge/Platform-Wayland_|_X11_|_Win32-green.svg)
 
+## Core Philosophy
+
+SBgl is built for developers who want control over the hardware without the overhead of heavy engines.
+
+- **Explicit Context**: No global state. Every operation is tied to an explicit sbgl_Context.
+- **Data-Oriented Design**: APIs and data layouts are designed for cache efficiency and batch processing.
+- **Concurrency**: Implements a Job System for lock-free, data-parallel transformations across worker threads.
+- **Vulkan 1.3**: Utilizes Dynamic Rendering and synchronization.
+- **Native Platform HAL**: Direct integration with Wayland (XDG-Shell) and Win32, preventing header leakage to user code.
+- **Arena-Backed**: Memory is managed via arenas for predictable allocation.
+
+## Prerequisites
+
+- **Compiler**: GCC 9+, Clang 10+, or MSVC 2019+.
+- **Build System**: CMake 3.15+.
+- **Graphics**: Vulkan SDK 1.3+ (Include headers for compilation).
+- **Linux**: Wayland and/or X11 development libraries.
+- **Windows**: 
+    - **Native**: Visual Studio 2019+ with C++ desktop development workload.
+    - **Vulkan**: `vulkan-1.dll` must be available in the system PATH or application directory at runtime.
+
 ## Integration
 
 SBgl can be integrated into other CMake projects using `FetchContent`.
@@ -25,24 +46,6 @@ FetchContent_MakeAvailable(sbgl)
 target_link_libraries(your_project PRIVATE sbgl)
 ```
 
-## Core Philosophy
-
-SBgl is built for developers who want control over the hardware without the overhead of heavy engines.
-
-- **Explicit Context**: No global state. Every operation is tied to an explicit sbgl_Context.
-- **Data-Oriented Design**: APIs and data layouts are designed for cache efficiency and batch processing.
-- **Concurrency**: Implements a Job System for lock-free, data-parallel transformations across worker threads.
-- **Vulkan 1.3**: Utilizes Dynamic Rendering and synchronization.
-- **Native Platform HAL**: Direct integration with Wayland (XDG-Shell) and Win32, preventing header leakage to user code.
-- **Arena-Backed**: Memory is managed via arenas for predictable allocation.
-
-## Prerequisites
-
-- **Compiler**: GCC 9+, Clang 10+, or MSVC 2019+.
-- **Build System**: CMake 3.15+.
-- **Graphics**: Vulkan SDK 1.3+.
-- **Linux**: Wayland and/or X11 development libraries.
-
 ## Building from Source
 
 This project uses CMake. Follow these steps to configure, build, and run the framework.
@@ -61,6 +64,13 @@ cmake -B build -S . -DSBGL_USE_WAYLAND=ON
 
 ```bash
 cmake -B build -S . -DSBGL_USE_WAYLAND=OFF
+```
+
+**For Windows (Native MSVC):**
+
+```powershell
+cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON
+cmake --build build --config Release
 ```
 
 **For Windows (Cross-compile from Linux):**
@@ -196,6 +206,7 @@ int main() {
 
 ## Documentation
 
+- [PLATFORM.md](docs/PLATFORM.md): Explanation of the Platform Abstraction Layer and window creation.
 - [VULKAN_BACKEND.md](docs/VULKAN_BACKEND.md): Detailed explanation of the graphics layer.
 - [ROADMAP.md](docs/ROADMAP.md): Development milestones and future goals.
 - [CHANGELOG.md](CHANGELOG.md): Project history and technical milestones.

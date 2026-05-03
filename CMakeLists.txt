@@ -103,6 +103,9 @@ if(NOT SBGL_BUILD_STANDALONE)
             ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+    # Allow subprojects to find the headers
+    target_include_directories(sbgl SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
     target_link_libraries(sbgl
         PRIVATE
             ${PLATFORM_LIBS}
@@ -110,7 +113,8 @@ if(NOT SBGL_BUILD_STANDALONE)
 endif()
 
 # --- Optional Examples ---
-if(SBGL_BUILD_EXAMPLES)
+# Only build examples if SBgl is the top-level project
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND SBGL_BUILD_EXAMPLES)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
         add_subdirectory(examples)
     endif()

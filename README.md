@@ -6,6 +6,25 @@ A bare-metal graphics framework written in C99. Designed for 2D/3D applications 
 [![Vulkan](https://img.shields.io/badge/Vulkan-1.3-red.svg)](https://www.vulkan.org/)
 ![Platform](https://img.shields.io/badge/Platform-Wayland_|_X11_|_Win32-green.svg)
 
+## Integration
+
+SBgl can be integrated into other CMake projects using `FetchContent`.
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+  sbgl
+  GIT_REPOSITORY https://github.com/SiputBiru/sbgl.git
+  GIT_TAG        main # Or a specific commit/tag
+)
+
+FetchContent_MakeAvailable(sbgl)
+
+# Link against the library
+target_link_libraries(your_project PRIVATE sbgl)
+```
+
 ## Core Philosophy
 
 SBgl is built for developers who want control over the hardware without the overhead of heavy engines.

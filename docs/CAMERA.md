@@ -1,0 +1,44 @@
+# SBgl Camera & Collision System
+
+The camera system in SBgl provides a stateful interface for managing 3D and 2D projections. It is designed to work in conjunction with the math library to produce view and projection matrices suitable for Vulkan rendering.
+
+## Camera Architecture
+
+The `sbgl_Camera` structure encapsulates the necessary data to define a viewing frustum or an orthographic volume.
+
+### Perspective Projection
+
+Perspective cameras simulate the human eye or a physical lens, where objects further away appear smaller. This is defined by a vertical field of view (FOV), an aspect ratio, and near/far clipping planes.
+
+### Orthographic Projection
+
+Orthographic cameras provide a parallel projection where parallel lines remain parallel and object size is independent of distance from the camera. This is typically used for 2D games, user interfaces, or technical visualizations.
+
+## View Management
+
+The system utilizes a look-at model for the view matrix. By defining a position, a target point, and an up vector, the system computes the transformation required to orient the world relative to the camera's local coordinate system.
+
+## Batch Collision Math
+
+To adhere to Data-Oriented Design principles, the collision system is designed to process multiple objects in a single call. This minimizes function call overhead and improves cache efficiency when testing a single ray against a collection of primitive shapes.
+
+### Intersection Testing
+
+Supported primitives for batch testing include:
+
+* **Spheres:** Defined by a center point and a radius.
+* **AABBs:** Axis-Aligned Bounding Boxes defined by their minimum and maximum extents.
+
+The intersection functions return a hit result containing the intersection point, the distance from the ray origin, and the surface normal at the point of impact.
+
+## Examples
+
+The implementation is accompanied by example applications that demonstrate the initialization and utilization of the camera and collision systems.
+
+### Perspective Camera Example
+
+The `cameraPersp_example.c` application illustrates the configuration of a 3D perspective camera. It demonstrates how to set camera parameters such as field of view and aspect ratio, and how to retrieve the resulting view and projection matrices. Additionally, it performs a batch ray-casting test against a collection of axis-aligned bounding boxes to verify 3D intersection logic and normal calculation.
+
+### Orthographic Camera Example
+
+The `cameraOrtho_example.c` application showcases the setup of a 2D orthographic camera, specifically configured for a screen-space viewport with a top-left origin. It demonstrates the application of batch intersection testing between a ray and multiple spheres, simulating a common interaction pattern such as a mouse click or cursor-based selection in a 2D environment.

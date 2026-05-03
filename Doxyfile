@@ -13,7 +13,8 @@ INPUT                  = include \
                          docs \
                          README.md \
                          CHANGELOG.md \
-                         docs/MATH_LIB.md
+                         docs/MATH_LIB.md \
+                         docs/CAMERA.md
 EXCLUDE_PATTERNS       = */.git/* \
                          */build/* \
                          */build-*/* \

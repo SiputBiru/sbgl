@@ -12,6 +12,7 @@ SBgl is built for developers who want control over the hardware without the over
 
 - **Explicit Context**: No global state. Every operation is tied to an explicit sbgl_Context.
 - **Data-Oriented Design**: APIs and data layouts are designed for cache efficiency and batch processing.
+- **Concurrency**: Implements a Job System for lock-free, data-parallel transformations across worker threads.
 - **Vulkan 1.3**: Utilizes Dynamic Rendering and synchronization.
 - **Native Platform HAL**: Direct integration with Wayland (XDG-Shell) and Win32, preventing header leakage to user code.
 - **Arena-Backed**: Memory is managed via arenas for predictable allocation.

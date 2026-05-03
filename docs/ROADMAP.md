@@ -51,6 +51,13 @@ SBgl (SiputBiru Graphics Library) is a bare-metal graphics framework in C99. Thi
 - [ ] Implement Render-to-texture support
 - [ ] Implement Post-processing pipeline
 
+### Phase 7: Parallelism & Concurrency
+- [ ] Implement Worker Thread Pool and Job Scheduler
+- [ ] Implement Dependency Graph for task synchronization
+- [ ] Implement Thread-Local Arena management
+- [ ] Implement Parallel Vulkan Command Buffer recording
+- [ ] Implement Data-Parallel array transformation pipelines
+
 ## Future Considerations
 - macOS Platform Layer (Cocoa) and MoltenVK integration
 - Android/NDK Platform support

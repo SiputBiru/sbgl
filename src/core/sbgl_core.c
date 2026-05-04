@@ -3,7 +3,6 @@
 #include "backend/sbgl_graphics_hal.h"
 #include "core/sbgl_platform.h"
 #include "core/sbl_arena.h"
-#include <stdlib.h>
 
 /**
  * @brief Internal state for the engine context.
@@ -13,11 +12,12 @@
  * clear color state.
  */
 typedef struct {
-	SblArena arena;		   /**< Persistent memory for the lifetime of the context. */
-	sbgl_Window* window;   /**< Handle to the native OS window. */
-	float clearColor[4];   /**< Current RGBA clear color. */
-	bool isDrawing;		   /**< Internal flag to track frame acquisition success. */
-	sbgl_InputState input; /**< Physical input state tracking. */
+	SblArena arena;			 /**< Persistent memory for the lifetime of the context. */
+	sbgl_Window* window;	 /**< Handle to the native OS window. */
+	sbgl_GfxContext* gfx;	 /**< Handle to the graphics backend context. */
+	float clearColor[4];	 /**< Current RGBA clear color. */
+	bool isDrawing;			 /**< Internal flag to track frame acquisition success. */
+	sbgl_InputState input;	 /**< Physical input state tracking. */
 } sbgl_InternalContext;
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
@@ -63,7 +63,8 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	}
 
 	// The graphics backend is initialized with a reference to the shared arena
-	if (!sbgl_gfx_Init(inner->window, &inner->arena)) {
+	inner->gfx = sbgl_gfx_Init(inner->window, &inner->arena);
+	if (!inner->gfx) {
 		ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 		res.error = ctx->result;
 		return res;
@@ -77,7 +78,8 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	sbgl_gfx_Shutdown();
+	if (inner->gfx)
+		sbgl_gfx_Shutdown(inner->gfx);
 	if (inner->window)
 		sbgl_os_DestroyWindow(inner->window);
 
@@ -108,6 +110,7 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 	sbgl_os_PollEvents(inner->window);
 
 	inner->isDrawing = sbgl_gfx_BeginFrame(
+		inner->gfx,
 		inner->clearColor[0],
 		inner->clearColor[1],
 		inner->clearColor[2],
@@ -121,12 +124,19 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
 	if (inner->isDrawing) {
-		sbgl_gfx_EndFrame();
+		sbgl_gfx_EndFrame(inner->gfx);
 		inner->isDrawing = false;
 	}
 
 	// Reset pressed states for next frame
 	memset(inner->input.keysPressed, 0, sizeof(inner->input.keysPressed));
+}
+
+void sbgl_DeviceWaitIdle(sbgl_Context* ctx) {
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_DeviceWaitIdle(inner->gfx);
 }
 
 void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a) {
@@ -150,49 +160,67 @@ const sbgl_InputState* sbgl_GetInputState(sbgl_Context* ctx) {
 
 sbgl_Buffer
 sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
-	(void)ctx; // Context check if needed
-	return sbgl_gfx_CreateBuffer(usage, size, data);
+	if (!ctx)
+		return SBGL_INVALID_HANDLE;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	return sbgl_gfx_CreateBuffer(inner->gfx, usage, size, data);
 }
 
 void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
-	(void)ctx;
-	sbgl_gfx_DestroyBuffer(buffer);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_DestroyBuffer(inner->gfx, buffer);
 }
 
 sbgl_Shader
 sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size) {
-	(void)ctx;
-	return sbgl_gfx_LoadShader(stage, bytecode, size);
+	if (!ctx)
+		return SBGL_INVALID_HANDLE;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	return sbgl_gfx_LoadShader(inner->gfx, stage, bytecode, size);
 }
 
 void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader) {
-	(void)ctx;
-	sbgl_gfx_DestroyShader(shader);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_DestroyShader(inner->gfx, shader);
 }
 
 sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* config) {
-	(void)ctx;
-	return sbgl_gfx_CreatePipeline(config);
+	if (!ctx)
+		return SBGL_INVALID_HANDLE;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	return sbgl_gfx_CreatePipeline(inner->gfx, config);
 }
 
 void sbgl_DestroyPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
-	(void)ctx;
-	sbgl_gfx_DestroyPipeline(pipeline);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_DestroyPipeline(inner->gfx, pipeline);
 }
 
 void sbgl_BindPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
-	(void)ctx;
-	sbgl_gfx_BindPipeline(pipeline);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_BindPipeline(inner->gfx, pipeline);
 }
 
 void sbgl_BindBuffer(sbgl_Context* ctx, sbgl_Buffer buffer, sbgl_BufferUsage usage) {
-	(void)ctx;
-	sbgl_gfx_BindBuffer(buffer, usage);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_BindBuffer(inner->gfx, buffer, usage);
 }
 
 void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex) {
-	(void)ctx;
-	sbgl_gfx_Draw(vertexCount, firstVertex);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_Draw(inner->gfx, vertexCount, firstVertex);
 }
 
 void sbgl_DrawIndexed(
@@ -201,11 +229,15 @@ void sbgl_DrawIndexed(
 	uint32_t firstIndex,
 	int32_t vertexOffset
 ) {
-	(void)ctx;
-	sbgl_gfx_DrawIndexed(indexCount, firstIndex, vertexOffset);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_DrawIndexed(inner->gfx, indexCount, firstIndex, vertexOffset);
 }
 
 void sbgl_PushConstants(sbgl_Context* ctx, size_t size, const void* data) {
-	(void)ctx;
-	sbgl_gfx_PushConstants(size, data);
+	if (!ctx)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_PushConstants(inner->gfx, size, data);
 }

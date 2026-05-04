@@ -1,19 +1,8 @@
 #include <sbgl.h>
+#include "../example_util.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-static uint32_t* read_file(const char* filename, size_t* out_size) {
-    FILE* file = fopen(filename, "rb");
-    if (!file) return NULL;
-    fseek(file, 0, SEEK_END);
-    *out_size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-    uint32_t* buffer = malloc(*out_size);
-    fread(buffer, 1, *out_size, file);
-    fclose(file);
-    return buffer;
-}
 
 typedef struct {
     float pos[3];
@@ -89,6 +78,8 @@ int main() {
 
         sbgl_EndDrawing(ctx);
     }
+
+    sbgl_DeviceWaitIdle(ctx);
 
     sbgl_DestroyPipeline(ctx, pipeline);
     sbgl_DestroyShader(ctx, vert_shader);

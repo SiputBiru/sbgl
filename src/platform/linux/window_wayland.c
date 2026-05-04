@@ -1,9 +1,11 @@
+#define _POSIX_C_SOURCE 199309L
 #include "linux_internal.h"
 #include "core/sbgl_platform.h"
 #include "core/sbl_arena.h"
-#include <stdio.h>
-#include <time.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
 
 struct wl_display*    g_display = NULL;
 struct wl_compositor* g_compositor = NULL;
@@ -116,11 +118,11 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
 }
 
 void sbgl_os_PollEvents(sbgl_Window* window) {
-    linux_internal_update_input_states(window->input);
     while (wl_display_prepare_read(g_display) != 0) wl_display_dispatch_pending(g_display);
     wl_display_flush(g_display);
     wl_display_read_events(g_display);
     wl_display_dispatch_pending(g_display);
+    linux_internal_update_input_states(window->input);
 }
 
 bool sbgl_os_WindowShouldClose(sbgl_Window* window) { return window->shouldClose; }

@@ -136,6 +136,7 @@ void sbl_arena_free(SblArena* arena) {
 }
 
 void* sbl_arena_alloc(SblArena* arena, uint64_t size) {
+	if (!arena || !arena->current) return NULL;
 	uint64_t align = 8;
 	SblArenaBlock* b = arena->current;
 
@@ -148,6 +149,7 @@ void* sbl_arena_alloc(SblArena* arena, uint64_t size) {
 		if (size > next_size)
 			next_size = size * 2;
 		SblArenaBlock* next = sbl_arena__block_create(next_size);
+		if (!next) return NULL;
 		b->next = next;
 		arena->current = next;
 		b = next;

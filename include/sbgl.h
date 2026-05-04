@@ -132,6 +132,16 @@ void sbgl_BeginDrawing(sbgl_Context* ctx);
 void sbgl_EndDrawing(sbgl_Context* ctx);
 
 /**
+ * @brief Synchronizes the CPU with the GPU, waiting for all commands to complete.
+ *
+ * This should be called before destroying resources that might still be
+ * in use by the GPU.
+ *
+ * @param ctx The engine context.
+ */
+void sbgl_DeviceWaitIdle(sbgl_Context* ctx);
+
+/**
  * @brief Sets the clear color for the next frame.
  *
  * @param ctx The engine context.

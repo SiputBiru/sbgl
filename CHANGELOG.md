@@ -12,11 +12,16 @@ All notable changes to this project will be documented in this file.
     - **Shader System**: Added SPIR-V shader loading with support for both dynamic file-based loading and hardcoded byte arrays (via `xxd`).
     - **Explicit PSO**: Implemented Pipeline State Object (PSO) creation with configurable vertex layouts and shader stages.
     - **Interactive Rendering**: Added **Push Constants** support to the public API and Vulkan backend, enabling low-latency per-frame data updates (e.g., mouse position).
+    - **Depth Buffering**: Implemented a dedicated depth attachment and enabled depth testing in the graphics pipeline to correct 3D geometry sorting.
+    - **Synchronization Refactor**: Transitioned to a "Frames in Flight" model (2 overlapping frames) to resolve semaphore reuse validation errors and improve GPU utilization.
+    - **Safe Teardown**: Introduced `sbgl_DeviceWaitIdle()` to the public API to ensure the GPU is idle before destroying resources.
     - **New Examples**:
         - `draw_triangle.c`: Static triangle rendering using VBOs.
         - `draw_interactive_triangle.c`: Rainbow triangle responding to mouse cursor position.
         - `draw_hardcoded_triangle.c`: Demonstrates self-contained applications with embedded shaders.
+        - `camera3d_pyramid.c`: Comprehensive 3D example with a rotating colored pyramid, depth via backface culling, and push constants.
     - **Documentation**: Created `docs/RENDERING_PIPELINE.md` covering the new architecture and usage workflows.
+    - **Examples Restructure**: Reorganized `examples/` directory into topic-based subdirectories (`window`, `input`, `camera`, `triangle`, `test`) and added `docs/EXAMPLES.md` to catalog them.
 
 - **Documentation System Refinement**:
     - Decoupled documentation generation from the source tree by relocating Doxygen output from `docs/out` to `build/docs`.

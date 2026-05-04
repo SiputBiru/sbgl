@@ -35,3 +35,4 @@ xdg-shell-protocol.c
 
 # --- Project Specific ---
 hello_window
+.desloppify/

@@ -1,10 +1,7 @@
 #include <sbgl.h>
+#include "../example_util.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-// Include shaders generated via: xxd -i shader.spv > shader.h
-#include "shaders/triangle_vert.h"
-#include "shaders/triangle_frag.h"
 
 typedef struct {
     float pos[3];
@@ -12,25 +9,31 @@ typedef struct {
 } Vertex;
 
 int main() {
-    printf("Initializing SBgl Hardcoded Shader Example...\n");
-
-    sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Hardcoded Triangle");
+    sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Draw Triangle");
     if (res.error != SBGL_SUCCESS) return 1;
     sbgl_Context* ctx = res.ctx;
 
-    // Loading shaders from the embedded byte arrays
-    sbgl_Shader vert_shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, 
-                                            (uint32_t*)triangle_vert_spv, 
-                                            triangle_vert_spv_len);
-    
-    sbgl_Shader frag_shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, 
-                                            (uint32_t*)triangle_frag_spv, 
-                                            triangle_frag_spv_len);
+    size_t vert_size, frag_size;
+    uint32_t* vert_code = read_file("shaders/triangle.vert.spv", &vert_size);
+    uint32_t* frag_code = read_file("shaders/triangle.frag.spv", &frag_size);
+
+    if (!vert_code || !frag_code) {
+        if (vert_code) free(vert_code);
+        if (frag_code) free(frag_code);
+        sbgl_Shutdown(ctx);
+        return 1;
+    }
+
+    sbgl_Shader vert_shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, vert_code, vert_size);
+    sbgl_Shader frag_shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, frag_code, frag_size);
+
+    free(vert_code);
+    free(frag_code);
 
     Vertex vertices[] = {
-        {{ 0.0f, -0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}},
-        {{ 0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 1.0f}},
-        {{-0.5f,  0.5f, 0.0f}, {1.0f, 0.0f, 1.0f}}
+        {{ 0.0f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
+        {{ 0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+        {{-0.5f,  0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}}
     };
 
     sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
@@ -53,7 +56,7 @@ int main() {
     sbgl_Pipeline pipeline = sbgl_CreatePipeline(ctx, &config);
 
     while (!sbgl_WindowShouldClose(ctx)) {
-        sbgl_Clear(ctx, 0.0f, 0.0f, 0.0f, 1.0f);
+        sbgl_Clear(ctx, 0.1f, 0.1f, 0.1f, 1.0f);
         sbgl_BeginDrawing(ctx);
         
         sbgl_BindPipeline(ctx, pipeline);
@@ -62,8 +65,11 @@ int main() {
 
         sbgl_EndDrawing(ctx);
 
-        if (sbgl_GetInputState(ctx)->keysDown[SBGL_KEY_ESCAPE]) break;
+        const sbgl_InputState* input = sbgl_GetInputState(ctx);
+        if (input->keysDown[SBGL_KEY_ESCAPE]) break;
     }
+
+    sbgl_DeviceWaitIdle(ctx);
 
     sbgl_DestroyPipeline(ctx, pipeline);
     sbgl_DestroyShader(ctx, vert_shader);

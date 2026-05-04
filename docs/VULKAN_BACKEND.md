@@ -29,6 +29,12 @@ Once a GPU is chosen, a `VkDevice` is created.
 - **Dynamic Rendering:** The `dynamicRendering` feature is enabled. This allows drawing directly to an image without the overhead of pre-defined RenderPass objects.
 - **Queues:** A single Graphics Queue is requested. This is the "lane" where drawing instructions are sent to the hardware.
 
+## Debugging & Validation
+To ensure API correctness, SBgl automatically enables Vulkan Validation Layers in non-release builds:
+- **Condition:** If the code is compiled without the `NDEBUG` macro (standard in Debug builds), the backend requests the `"VK_LAYER_KHRONOS_validation"` layer.
+- **Reporting:** Validation errors and warnings are printed directly to `stdout`/`stderr` by the Vulkan runtime.
+- **Performance:** Validation is disabled in Release builds to eliminate the significant CPU overhead associated with real-time API checking.
+
 ## Swapchain Infrastructure
 To prevent flickering, drawing is never done directly to the screen. A **Swapchain** is used—a queue of images (usually 3 or 4).
 - **Acquisition:** The Swapchain is asked for an available image index.

@@ -55,6 +55,7 @@ int main() {
 		}
 	}
 
+	sbgl_DeviceWaitIdle(ctx);
 	sbgl_Shutdown(ctx);
 	return 0;
 }

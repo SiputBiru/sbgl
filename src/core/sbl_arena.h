@@ -7,6 +7,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <string.h> // not being used directly
 
 #ifndef SBL_ARENA_DEF
@@ -70,7 +71,7 @@ extern __thread int sbl_thread_arena_initialized;
 
 // --- Core API ---
 
-SBL_ARENA_DEF void sbl_arena_init(SblArena* arena, uint64_t initial_size);
+SBL_ARENA_DEF bool sbl_arena_init(SblArena* arena, uint64_t initial_size);
 SBL_ARENA_DEF void sbl_arena_free(SblArena* arena);
 SBL_ARENA_DEF void* sbl_arena_alloc(SblArena* arena, uint64_t size);
 SBL_ARENA_DEF void* sbl_arena_alloc_zero(SblArena* arena, uint64_t size);
@@ -97,6 +98,7 @@ SBL_ARENA_DEF SblArena* sbl_get_thread_arena(void);
 #ifdef SBL_ARENA_IMPLEMENTATION
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 static uintptr_t sbl_arena__align_forward(uintptr_t ptr, uint64_t align) {
 	uintptr_t p = ptr;
@@ -119,9 +121,10 @@ static SblArenaBlock* sbl_arena__block_create(uint64_t size) {
 	return block;
 }
 
-void sbl_arena_init(SblArena* arena, uint64_t initial_size) {
+bool sbl_arena_init(SblArena* arena, uint64_t initial_size) {
 	arena->head = sbl_arena__block_create(initial_size);
 	arena->current = arena->head;
+	return arena->head != NULL;
 }
 
 void sbl_arena_free(SblArena* arena) {

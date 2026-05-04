@@ -61,6 +61,10 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     if (!hwnd) return NULL;
 
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
+    if (!window) {
+        DestroyWindow(hwnd);
+        return NULL;
+    }
     window->hinstance = hinstance;
     window->hwnd = hwnd;
     window->shouldClose = false;

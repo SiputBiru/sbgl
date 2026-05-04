@@ -58,6 +58,7 @@ static const struct xdg_surface_listener xdg_surface_listener = { .configure = x
 // --- HAL ---
 sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title) {
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
+    if (!window) return NULL;
     window->width = width; window->height = height;
     window->shouldClose = false;
     window->resized = false;

@@ -35,6 +35,10 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     XFlush(display);
 
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
+    if (!window) {
+        XCloseDisplay(display);
+        return NULL;
+    }
     window->display = display;
     window->window = win;
     window->wmDeleteMessage = wmDeleteMessage;

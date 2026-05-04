@@ -441,6 +441,7 @@ static bool select_physical_device(sbgl_GfxContext* ctx) {
 
 	SblArenaMark mark = sbl_arena_mark(ctx->arena);
 	VkPhysicalDevice* devices = SBL_ARENA_PUSH_ARRAY(ctx->arena, VkPhysicalDevice, deviceCount);
+	if (!devices) return false;
 	ctx->vk.vkEnumeratePhysicalDevices(ctx->instance, &deviceCount, devices);
 
 	for (uint32_t i = 0; i < deviceCount; i++) {
@@ -471,6 +472,7 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 	SblArenaMark mark = sbl_arena_mark(ctx->arena);
 	VkQueueFamilyProperties* queueFamilies =
 		SBL_ARENA_PUSH_ARRAY(ctx->arena, VkQueueFamilyProperties, queueFamilyCount);
+	if (!queueFamilies) return false;
 	ctx->vk.vkGetPhysicalDeviceQueueFamilyProperties(ctx->physicalDevice, &queueFamilyCount, queueFamilies);
 
 	int graphicsFamily = -1;
@@ -666,9 +668,11 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 
 	ctx->swapchainMark = sbl_arena_mark(ctx->arena);
 	ctx->images = SBL_ARENA_PUSH_ARRAY(ctx->arena, VkImage, ctx->imageCount);
+	if (!ctx->images) return false;
 	ctx->vk.vkGetSwapchainImagesKHR(ctx->device, ctx->swapchain, &ctx->imageCount, ctx->images);
 
 	ctx->imageViews = SBL_ARENA_PUSH_ARRAY(ctx->arena, VkImageView, ctx->imageCount);
+	if (!ctx->imageViews) return false;
 	for (uint32_t i = 0; i < ctx->imageCount; i++) {
 		VkImageViewCreateInfo viewInfo = {
 			.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
@@ -741,20 +745,16 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 	ctx->window = window;
 	ctx->arena = arena;
 
-	if (!load_vulkan_library(ctx))
+	if (!load_vulkan_library(ctx) ||
+		!create_instance(ctx) ||
+		!create_surface(ctx, window) ||
+		!select_physical_device(ctx) ||
+		!create_logical_device(ctx) ||
+		!create_swapchain(ctx, window) ||
+		!create_sync_and_command(ctx)) {
+		sbgl_gfx_Shutdown(ctx);
 		return NULL;
-	if (!create_instance(ctx))
-		return NULL;
-	if (!create_surface(ctx, window))
-		return NULL;
-	if (!select_physical_device(ctx))
-		return NULL;
-	if (!create_logical_device(ctx))
-		return NULL;
-	if (!create_swapchain(ctx, window))
-		return NULL;
-	if (!create_sync_and_command(ctx))
-		return NULL;
+	}
 	return ctx;
 }
 
@@ -1076,6 +1076,9 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 		VkVertexInputAttributeDescription,
 		config->vertexLayout.attributeCount
 	);
+	if (!attributeDescriptions && config->vertexLayout.attributeCount > 0) {
+		return SBGL_INVALID_HANDLE;
+	}
 	for (uint32_t i = 0; i < config->vertexLayout.attributeCount; i++) {
 		attributeDescriptions[i].binding = 0;
 		attributeDescriptions[i].location = config->vertexLayout.attributes[i].location;

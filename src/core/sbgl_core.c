@@ -25,7 +25,10 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 
 	// The primary arena is initialized to manage all persistent engine state
 	SblArena main_arena;
-	sbl_arena_init(&main_arena, 4 * 1024 * 1024); // 4MB default
+	if (!sbl_arena_init(&main_arena, 4 * 1024 * 1024)) { // 4MB default
+		res.error = SBGL_ERROR_OUT_OF_MEMORY;
+		return res;
+	}
 
 	// The public context shell is allocated and zeroed from the arena
 	sbgl_Context* ctx = SBL_ARENA_PUSH_STRUCT_ZERO(&main_arena, sbgl_Context);
@@ -52,24 +55,26 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 
 	ctx->inner = inner;
 	ctx->result = SBGL_SUCCESS;
-	res.ctx = ctx;
+	// Do NOT set res.ctx until full initialization succeeds
 
 	// The native platform window is created using the same arena for its internal tracking
 	inner->window = sbgl_os_CreateWindow(&inner->arena, &inner->input, w, h, title);
 	if (!inner->window) {
-		ctx->result = SBGL_ERROR_WINDOW_CREATION_FAILED;
-		res.error = ctx->result;
+		res.error = SBGL_ERROR_WINDOW_CREATION_FAILED;
+		sbl_arena_free(&inner->arena);
 		return res;
 	}
 
 	// The graphics backend is initialized with a reference to the shared arena
 	inner->gfx = sbgl_gfx_Init(inner->window, &inner->arena);
 	if (!inner->gfx) {
-		ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
-		res.error = ctx->result;
+		res.error = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+		sbgl_os_DestroyWindow(inner->window);
+		sbl_arena_free(&inner->arena);
 		return res;
 	}
 
+	res.ctx = ctx;
 	return res;
 }
 

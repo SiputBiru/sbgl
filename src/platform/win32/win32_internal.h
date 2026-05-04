@@ -9,9 +9,17 @@
 #include "sbgl_types.h"
 #include "core/sbgl_input.h"
 
-// Shared Win32 state
-extern HINSTANCE g_win32_instance;
-extern HWND      g_win32_window;
+/**
+ * @brief Native Win32 window state.
+ */
+struct sbgl_Window {
+    HINSTANCE hinstance;
+    HWND hwnd;
+    bool shouldClose;
+    bool resized;
+    int width, height;
+    sbgl_InputState* input;
+};
 
 // Internal event processing
 void win32_internal_process_message(sbgl_InputState* input, UINT msg, WPARAM wparam, LPARAM lparam);

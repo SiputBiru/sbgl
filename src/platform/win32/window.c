@@ -4,17 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-HINSTANCE g_win32_instance = NULL;
-HWND      g_win32_window   = NULL;
-
-struct sbgl_Window {
-    HWND hwnd;
-    bool shouldClose;
-    bool resized;
-    int width, height;
-    sbgl_InputState* input;
-};
-
 static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     sbgl_Window* window = (sbgl_Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -45,13 +34,11 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lp
 }
 
 sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title) {
-    if (!g_win32_instance) {
-        g_win32_instance = GetModuleHandle(NULL);
-    }
+    HINSTANCE hinstance = GetModuleHandle(NULL);
 
     WNDCLASSW wc = {0};
     wc.lpfnWndProc   = WindowProc;
-    wc.hInstance     = g_win32_instance;
+    wc.hInstance     = hinstance;
     wc.lpszClassName = L"SBglWindowClass";
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
 
@@ -66,14 +53,15 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
         0, wc.lpszClassName, wtitle,
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, width, height,
-        NULL, NULL, g_win32_instance, NULL
+        NULL, NULL, hinstance, NULL
     );
 
     free(wtitle);
 
     if (!hwnd) return NULL;
 
-    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT(arena, sbgl_Window);
+    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
+    window->hinstance = hinstance;
     window->hwnd = hwnd;
     window->shouldClose = false;
     window->resized = false;
@@ -82,7 +70,6 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     window->input = input;
 
     SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
-    g_win32_window = hwnd;
 
     ShowWindow(hwnd, SW_SHOW);
     return window;
@@ -137,10 +124,11 @@ void* sbgl_os_GetNativeWindowHandle(sbgl_Window* window) {
     return window ? (void*)window->hwnd : NULL;
 }
 
-void* sbgl_os_GetNativeInstanceHandle(void) {
-    return (void*)g_win32_instance;
+void* sbgl_os_GetNativeInstanceHandle(sbgl_Window* window) {
+    return window ? (void*)window->hinstance : NULL;
 }
 
-void* sbgl_os_GetNativeDisplayHandle(void) {
+void* sbgl_os_GetNativeDisplayHandle(sbgl_Window* window) {
+    (void)window;
     return NULL; // Not used on Win32
 }

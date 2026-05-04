@@ -4,13 +4,6 @@
 #include <X11/keysym.h>
 #include <string.h>
 
-struct sbgl_Window {
-    Window window;
-    Atom wmDeleteMessage;
-    sbgl_InputState* input;
-    // ...
-};
-
 static SBGL_Scancode x11_keysym_to_scancode(KeySym keysym) {
     if (keysym >= 'a' && keysym <= 'z') return (SBGL_Scancode)(SBGL_SCANCODE_A + (keysym - 'a'));
     if (keysym >= 'A' && keysym <= 'Z') return (SBGL_Scancode)(SBGL_SCANCODE_A + (keysym - 'A'));
@@ -39,7 +32,7 @@ void x11_internal_process_event(XEvent* event, sbgl_Window* window) {
         case KeyPress: {
             KeySym keysym = XLookupKeysym(&event->xkey, 0);
             SBGL_Scancode code = x11_keysym_to_scancode(keysym);
-            if (code < SBGL_MAX_KEYS) {
+            if (code < SBGL_SCANCODE_MAX) {
                 if (!input->keysDown[code]) input->keysPressed[code] = true;
                 input->keysDown[code] = true;
             }
@@ -47,17 +40,17 @@ void x11_internal_process_event(XEvent* event, sbgl_Window* window) {
         }
         case KeyRelease: {
             // X11 Auto-repeat handling
-            if (XEventsQueued(g_x11_display, QueuedAfterReading)) {
+            if (XEventsQueued(window->display, QueuedAfterReading)) {
                 XEvent next;
-                XPeekEvent(g_x11_display, &next);
+                XPeekEvent(window->display, &next);
                 if (next.type == KeyPress && next.xkey.time == event->xkey.time && next.xkey.keycode == event->xkey.keycode) {
-                    XNextEvent(g_x11_display, event); // Consume repeat
+                    XNextEvent(window->display, event); // Consume repeat
                     break;
                 }
             }
             KeySym keysym = XLookupKeysym(&event->xkey, 0);
             SBGL_Scancode code = x11_keysym_to_scancode(keysym);
-            if (code < SBGL_MAX_KEYS) input->keysDown[code] = false;
+            if (code < SBGL_SCANCODE_MAX) input->keysDown[code] = false;
             break;
         }
         case MotionNotify: {
@@ -72,18 +65,16 @@ void x11_internal_process_event(XEvent* event, sbgl_Window* window) {
             if (event->xbutton.button == Button1) btn = SBGL_MOUSE_BUTTON_LEFT;
             else if (event->xbutton.button == Button3) btn = SBGL_MOUSE_BUTTON_RIGHT;
             else if (event->xbutton.button == Button2) btn = SBGL_MOUSE_BUTTON_MIDDLE;
-            if (btn != -1 && btn < SBGL_MAX_MOUSE_BUTTONS) input->mouseDown[btn] = down;
+            if (btn != -1 && btn < SBGL_MOUSE_BUTTON_MAX) input->mouseDown[btn] = down;
             break;
         }
     }
 }
 
-static int lastX = 0, lastY = 0;
-
 void linux_internal_update_input_states(sbgl_InputState* input) {
     if (!input) return;
-    input->mouseDeltaX = input->mouseX - lastX;
-    input->mouseDeltaY = input->mouseY - lastY;
-    lastX = input->mouseX;
-    lastY = input->mouseY;
+    input->mouseDeltaX = input->mouseX - input->_internalMouseX;
+    input->mouseDeltaY = input->mouseY - input->_internalMouseY;
+    input->_internalMouseX = input->mouseX;
+    input->_internalMouseY = input->mouseY;
 }

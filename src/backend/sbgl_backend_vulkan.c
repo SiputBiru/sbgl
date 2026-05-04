@@ -398,7 +398,7 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 #ifdef SBGL_PLATFORM_WAYLAND
 	VkWaylandSurfaceCreateInfoKHR createInfo = {
 		.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR,
-		.display = (struct wl_display*)sbgl_os_GetNativeDisplayHandle(),
+		.display = (struct wl_display*)sbgl_os_GetNativeDisplayHandle(window),
 		.surface = (struct wl_surface*)sbgl_os_GetNativeWindowHandle(window),
 	};
 	if (ctx->vk.vkCreateWaylandSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
@@ -408,7 +408,7 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 #elif defined(SBGL_PLATFORM_X11)
 	VkXlibSurfaceCreateInfoKHR createInfo = {
 		.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR,
-		.dpy = (Display*)sbgl_os_GetNativeDisplayHandle(),
+		.dpy = (Display*)sbgl_os_GetNativeDisplayHandle(window),
 		.window = (Window)(uintptr_t)sbgl_os_GetNativeWindowHandle(window),
 	};
 	if (ctx->vk.vkCreateXlibSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
@@ -418,7 +418,7 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 #elif defined(_WIN32)
 	VkWin32SurfaceCreateInfoKHR createInfo = {
 		.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR,
-		.hinstance = (HINSTANCE)sbgl_os_GetNativeInstanceHandle(),
+		.hinstance = (HINSTANCE)sbgl_os_GetNativeInstanceHandle(window),
 		.hwnd = (HWND)sbgl_os_GetNativeWindowHandle(window),
 	};
 	if (ctx->vk.vkCreateWin32SurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {

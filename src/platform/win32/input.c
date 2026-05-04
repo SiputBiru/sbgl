@@ -28,7 +28,7 @@ void win32_internal_process_message(sbgl_InputState* input, UINT msg, WPARAM wpa
         case WM_KEYDOWN:
         case WM_SYSKEYDOWN: {
             SBGL_Scancode code = win32_vk_to_scancode(wparam);
-            if (code < SBGL_MAX_KEYS) {
+            if (code < SBGL_SCANCODE_MAX) {
                 if (!input->keysDown[code]) input->keysPressed[code] = true;
                 input->keysDown[code] = true;
             }
@@ -37,7 +37,7 @@ void win32_internal_process_message(sbgl_InputState* input, UINT msg, WPARAM wpa
         case WM_KEYUP:
         case WM_SYSKEYUP: {
             SBGL_Scancode code = win32_vk_to_scancode(wparam);
-            if (code < SBGL_MAX_KEYS) input->keysDown[code] = false;
+            if (code < SBGL_SCANCODE_MAX) input->keysDown[code] = false;
             break;
         }
         case WM_MOUSEMOVE: {
@@ -54,12 +54,10 @@ void win32_internal_process_message(sbgl_InputState* input, UINT msg, WPARAM wpa
     }
 }
 
-static int lastX = 0, lastY = 0;
-
 void win32_internal_update_input_states(sbgl_InputState* input) {
     if (!input) return;
-    input->mouseDeltaX = input->mouseX - lastX;
-    input->mouseDeltaY = input->mouseY - lastY;
-    lastX = input->mouseX;
-    lastY = input->mouseY;
+    input->mouseDeltaX = input->mouseX - input->_internalMouseX;
+    input->mouseDeltaY = input->mouseY - input->_internalMouseY;
+    input->_internalMouseX = input->mouseX;
+    input->_internalMouseY = input->mouseY;
 }

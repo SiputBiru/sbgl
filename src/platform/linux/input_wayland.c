@@ -1,14 +1,6 @@
 #include "linux_internal.h"
 #include <string.h>
 
-// Forward declaration of the window struct to access input
-struct sbgl_Window {
-    void* surface;
-    void* xdg_surface;
-    void* xdg_toplevel;
-    sbgl_InputState* input;
-};
-
 static SBGL_Scancode wayland_key_to_scancode(uint32_t key) {
     switch (key) {
         case 1:   return SBGL_SCANCODE_ESCAPE;
@@ -57,7 +49,7 @@ static void pointer_button(void* data, struct wl_pointer* p, uint32_t s, uint32_
     if (button == 0x110) btn = SBGL_MOUSE_BUTTON_LEFT;
     else if (button == 0x111) btn = SBGL_MOUSE_BUTTON_RIGHT;
     else if (button == 0x112) btn = SBGL_MOUSE_BUTTON_MIDDLE;
-    if (btn != -1 && btn < SBGL_MAX_MOUSE_BUTTONS) {
+    if (btn != -1 && btn < SBGL_MOUSE_BUTTON_MAX) {
         input->mouseDown[btn] = (state == WL_POINTER_BUTTON_STATE_PRESSED);
     }
 }
@@ -81,7 +73,7 @@ static void keyboard_key(void* data, struct wl_keyboard* k, uint32_t s, uint32_t
     (void)k; (void)s; (void)t;
     sbgl_InputState* input = ((struct sbgl_Window*)data)->input;
     SBGL_Scancode code = wayland_key_to_scancode(key);
-    if (code < SBGL_MAX_KEYS) {
+    if (code < SBGL_SCANCODE_MAX) {
         bool down = (state == WL_KEYBOARD_KEY_STATE_PRESSED);
         if (down && !input->keysDown[code]) {
             input->keysPressed[code] = true;
@@ -97,8 +89,8 @@ const struct wl_keyboard_listener keyboard_listener = {
     .key = keyboard_key, .modifiers = keyboard_modifiers, .repeat_info = keyboard_repeat_info
 };
 
-void linux_init_input(struct wl_registry* registry, uint32_t name, uint32_t version) {
-    g_seat = wl_registry_bind(registry, name, &wl_seat_interface, version);
+void linux_init_input(struct wl_registry* registry, uint32_t name, uint32_t version, sbgl_Window* window) {
+    window->seat = wl_registry_bind(registry, name, &wl_seat_interface, version);
 }
 
 // --- HAL Implementation ---

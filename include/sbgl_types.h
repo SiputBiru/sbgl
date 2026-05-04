@@ -5,8 +5,7 @@
 
 #include <stdint.h>
 
-#define SBGL_MAX_KEYS 512
-#define SBGL_MAX_MOUSE_BUTTONS 8
+#include "sbgl_input.h"
 
 #define SBGL_INVALID_HANDLE 0
 
@@ -68,18 +67,6 @@ typedef struct {
 	sbgl_Shader fragmentShader;
 	sbgl_VertexLayout vertexLayout;
 } sbgl_PipelineConfig;
-
-/**
- * @brief Represents the real-time state of physical inputs.
- */
-typedef struct sbgl_InputState {
-	bool keysDown[SBGL_MAX_KEYS];
-	bool keysPressed[SBGL_MAX_KEYS];
-	bool mouseDown[SBGL_MAX_MOUSE_BUTTONS];
-	int mouseX, mouseY;
-	int mouseDeltaX, mouseDeltaY;
-	int _internalMouseX, _internalMouseY; /**< Internal tracking for deltas. */
-} sbgl_InputState;
 
 /**
  * @brief Parameters for orthographic projection.

@@ -99,7 +99,7 @@ elseif(UNIX AND NOT APPLE)
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_x11.c 
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_x11.c
         )
-        list(APPEND PLATFORM_LIBS X11)
+        list(APPEND PLATFORM_LIBS X11 m)
         add_definitions(-DSBGL_PLATFORM_X11)
     endif()
 endif()

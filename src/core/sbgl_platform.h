@@ -89,14 +89,16 @@ void* sbgl_os_GetNativeWindowHandle(sbgl_Window* window);
 
 /**
  * @brief Retrieves the native instance handle (Win32 specific).
+ * @param window The window handle.
  * @return HINSTANCE on Windows, NULL otherwise.
  */
-void* sbgl_os_GetNativeInstanceHandle(void);
+void* sbgl_os_GetNativeInstanceHandle(sbgl_Window* window);
 
 /**
  * @brief Retrieves the native display handle (Linux specific).
+ * @param window The window handle.
  * @return Display* or wl_display*.
  */
-void* sbgl_os_GetNativeDisplayHandle(void);
+void* sbgl_os_GetNativeDisplayHandle(sbgl_Window* window);
 
 #endif // SBGL_PLATFORM_H

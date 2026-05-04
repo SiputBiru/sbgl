@@ -9,45 +9,33 @@
 #include <string.h>
 #include <stdlib.h>
 
-Display* g_x11_display = NULL;
-
-struct sbgl_Window {
-    Window window;
-    Atom wmDeleteMessage;
-    sbgl_InputState* input;
-    bool shouldClose;
-    bool resized;
-    int width, height;
-};
-
 // Defined in input_x11.c
 void x11_internal_process_event(XEvent* event, sbgl_Window* window);
 
 sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title) {
-    if (!g_x11_display) {
-        g_x11_display = XOpenDisplay(NULL);
-        if (!g_x11_display) return NULL;
-    }
+    Display* display = XOpenDisplay(NULL);
+    if (!display) return NULL;
 
-    int screen = DefaultScreen(g_x11_display);
+    int screen = DefaultScreen(display);
     
     Window win = XCreateSimpleWindow(
-        g_x11_display, RootWindow(g_x11_display, screen),
+        display, RootWindow(display, screen),
         0, 0, (unsigned int)width, (unsigned int)height, 0,
-        BlackPixel(g_x11_display, screen),
-        WhitePixel(g_x11_display, screen)
+        BlackPixel(display, screen),
+        WhitePixel(display, screen)
     );
 
-    XStoreName(g_x11_display, win, title);
-    XSelectInput(g_x11_display, win, ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | StructureNotifyMask | PointerMotionMask);
+    XStoreName(display, win, title);
+    XSelectInput(display, win, ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | StructureNotifyMask | PointerMotionMask);
 
-    Atom wmDeleteMessage = XInternAtom(g_x11_display, "WM_DELETE_WINDOW", False);
-    XSetWMProtocols(g_x11_display, win, &wmDeleteMessage, 1);
+    Atom wmDeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    XSetWMProtocols(display, win, &wmDeleteMessage, 1);
 
-    XMapWindow(g_x11_display, win);
-    XFlush(g_x11_display);
+    XMapWindow(display, win);
+    XFlush(display);
 
-    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT(arena, sbgl_Window);
+    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
+    window->display = display;
     window->window = win;
     window->wmDeleteMessage = wmDeleteMessage;
     window->input = input;
@@ -61,7 +49,8 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
 
 void sbgl_os_DestroyWindow(sbgl_Window* window) {
     if (!window) return;
-    XDestroyWindow(g_x11_display, window->window);
+    XDestroyWindow(window->display, window->window);
+    XCloseDisplay(window->display);
 }
 
 bool sbgl_os_WindowShouldClose(sbgl_Window* window) {
@@ -82,13 +71,13 @@ bool sbgl_os_WasWindowResized(sbgl_Window* window) {
 }
 
 void sbgl_os_PollEvents(sbgl_Window* window) {
-    if (!g_x11_display || !window) return;
+    if (!window || !window->display) return;
 
     linux_internal_update_input_states(window->input);
 
-    while (XPending(g_x11_display)) {
+    while (XPending(window->display)) {
         XEvent event;
-        XNextEvent(g_x11_display, &event);
+        XNextEvent(window->display, &event);
 
         if (event.type == ClientMessage) {
             if ((Atom)event.xclient.data.l[0] == window->wmDeleteMessage) {
@@ -124,10 +113,11 @@ void* sbgl_os_GetNativeWindowHandle(sbgl_Window* window) {
     return window ? (void*)(uintptr_t)window->window : NULL;
 }
 
-void* sbgl_os_GetNativeInstanceHandle(void) {
+void* sbgl_os_GetNativeInstanceHandle(sbgl_Window* window) {
+    (void)window;
     return NULL;
 }
 
-void* sbgl_os_GetNativeDisplayHandle(void) {
-    return (void*)g_x11_display;
+void* sbgl_os_GetNativeDisplayHandle(sbgl_Window* window) {
+    return window ? (void*)window->display : NULL;
 }

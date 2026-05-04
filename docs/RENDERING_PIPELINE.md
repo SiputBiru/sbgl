@@ -31,7 +31,7 @@ Ideal for development and modding, allowing shaders to be recompiled without reb
 size_t size;
 uint32_t* bytecode = read_spirv_file("examples/shaders/my_shader.vert.spv", &size);
 sbgl_Shader shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, bytecode, size);
-free(bytecode);
+// ... handle cleanup of bytecode if necessary ...
 ```
 
 ### Hardcoded (Static) Loading
@@ -111,7 +111,7 @@ The handle system is designed for batching. By iterating through arrays of trans
 
 ## Multithreading Considerations
 
-The current implementation records commands into a single primary command buffer. To support multithreading:
+The current implementation records commands into a single primary command buffer per context. To support multithreading:
 
 - The backend will be extended to support Secondary Command Buffers.
 - Each worker thread will record commands into its own buffer.

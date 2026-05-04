@@ -26,7 +26,13 @@ The most critical functions in the HAL manage the lifecycle and event loop of th
 
 ```c
 // Creates a native OS window and allocates its state from the provided arena
-sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title);
+sbgl_Window* sbgl_os_CreateWindow(
+    struct SblArena* arena, 
+    sbgl_InputState* input, 
+    int width, 
+    int height, 
+    const char* title
+);
 
 // Dispatches OS events (e.g., messages, signals, protocol requests)
 void sbgl_os_PollEvents(sbgl_Window* window);
@@ -79,13 +85,13 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
 
     // Create Native Window
     HWND hwnd = CreateWindowExW(
-        0, wc.lpszClassName, L"SBgl",
+        0, wc.lpszClassName, (LPCWSTR)title,
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height,
         NULL, NULL, wc.hInstance, NULL
     );
 
     // Allocate Opaque State via Arena
-    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT(arena, sbgl_Window);
+    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
     window->hwnd = hwnd;
     window->input = input;
     
@@ -115,7 +121,7 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     g_display = wl_display_connect(NULL);
     
     // Allocate Opaque State via Arena
-    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT(arena, sbgl_Window);
+    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
     window->input = input;
 
     // Create Wayland protocol objects
@@ -163,7 +169,7 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     XMapWindow(g_x11_display, win);
 
     // Allocate Opaque State via Arena
-    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT(arena, sbgl_Window);
+    sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
     window->window = win;
     window->wmDeleteMessage = wmDeleteMessage;
     window->input = input;

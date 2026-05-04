@@ -76,6 +76,14 @@ This pattern allows the engine to handle thousands of resize events without ever
 
 ---
 
+## Context-Based Backend (Multi-Context Support)
+The graphics backend is fully decoupled from global state. All Vulkan function pointers and device state are stored within an opaque `sbgl_GfxContext` structure. 
+
+- **Initialization:** `sbgl_gfx_Init` accepts an `SblArena*` for all its internal state allocations.
+- **Reentrancy:** Multiple SBgl contexts can exist simultaneously, each with its own independent Vulkan logical device and swapchain.
+
+---
+
 ## Technical Summary
 | Feature | Implementation | Benefit |
 | :--- | :--- | :--- |
@@ -83,6 +91,7 @@ This pattern allows the engine to handle thousands of resize events without ever
 | **Rendering** | Dynamic Rendering | No RenderPass/Framebuffer boilerplate. |
 | **Sync** | Fences & Semaphores | Synchronization and stable frame rates. |
 | **Memory** | Arena-backed | No runtime `malloc` during window/gfx init. |
+| **Arch** | Context-Based | No global singletons; supports multi-window. |
 
 ---
 

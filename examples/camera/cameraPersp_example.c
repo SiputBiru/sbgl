@@ -10,8 +10,8 @@ int main() {
     sbgl_Camera cam = sbgl_CameraPerspective(45.0f * (SBGL_PI / 180.0f), aspect, 0.1f, 100.0f);
     
     // Move the camera
-    cam.position = sbgl_vec3(0, 2, 10);
-    cam.target = sbgl_vec3(0, 0, 0);
+    cam.position = sbgl_Vec3Set(0, 2, 10);
+    cam.target = sbgl_Vec3Set(0, 0, 0);
 
     // Get matrices
     sbgl_Mat4 view = sbgl_CameraGetView(&cam);
@@ -23,19 +23,19 @@ int main() {
 
     // Batch Collision Setup
     sbgl_Ray ray;
-    ray.origin = sbgl_vec3(0, 2, 10);
-    ray.direction = sbgl_Vec3Normalize(sbgl_Vec3Sub(sbgl_vec3(0, 0, 0), ray.origin));
+    ray.origin = sbgl_Vec3Set(0, 2, 10);
+    ray.direction = sbgl_Vec3Normalize(sbgl_Vec3Sub(sbgl_Vec3Set(0, 0, 0), ray.origin));
 
     sbgl_AABB boxes[3];
     // Box 1: At the origin (Should hit)
-    boxes[0].min = sbgl_vec3(-1, -1, -1);
-    boxes[0].max = sbgl_vec3(1, 1, 1);
+    boxes[0].min = sbgl_Vec3Set(-1, -1, -1);
+    boxes[0].max = sbgl_Vec3Set(1, 1, 1);
     // Box 2: Off to the side (Should miss)
-    boxes[1].min = sbgl_vec3(5, 0, 0);
-    boxes[1].max = sbgl_vec3(7, 2, 2);
+    boxes[1].min = sbgl_Vec3Set(5, 0, 0);
+    boxes[1].max = sbgl_Vec3Set(7, 2, 2);
     // Box 3: Behind the camera (Should miss)
-    boxes[2].min = sbgl_vec3(0, 2, 15);
-    boxes[2].max = sbgl_vec3(1, 3, 16);
+    boxes[2].min = sbgl_Vec3Set(0, 2, 15);
+    boxes[2].max = sbgl_Vec3Set(1, 3, 16);
 
     sbgl_HitResult results[3];
     sbgl_RayAABBIntersectBatch(ray, boxes, results, 3);

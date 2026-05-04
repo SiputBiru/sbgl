@@ -82,6 +82,15 @@ typedef struct sbgl_InputState {
 } sbgl_InputState;
 
 /**
+ * @brief Parameters for orthographic projection.
+ */
+typedef struct {
+	float left, right;
+	float bottom, top;
+	float near_p, far_p;
+} sbgl_OrthoParams;
+
+/**
  * @brief Result codes for engine operations.
  */
 typedef enum {

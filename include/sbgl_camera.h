@@ -86,9 +86,9 @@ static inline sbgl_Camera
 sbgl_CameraPerspective(float fov_y_rad, float aspect, float near_p, float far_p) {
 	sbgl_Camera cam = { 0 };
 	cam.type = SBGL_CAMERA_PERSPECTIVE;
-	cam.position = sbgl_vec3(0, 0, 5);
-	cam.target = sbgl_vec3(0, 0, 0);
-	cam.up = sbgl_vec3(0, 1, 0);
+	cam.position = sbgl_Vec3Set(0, 0, 5);
+	cam.target = sbgl_Vec3Set(0, 0, 0);
+	cam.up = sbgl_Vec3Set(0, 1, 0);
 	cam.fov_y = fov_y_rad;
 	cam.aspect = aspect;
 	cam.near_plane = near_p;
@@ -102,25 +102,18 @@ sbgl_CameraPerspective(float fov_y_rad, float aspect, float near_p, float far_p)
  * Sets the camera to use a parallel projection defined by the viewport
  * boundaries and clipping planes.
  */
-static inline sbgl_Camera sbgl_CameraOrthographic(
-	float left,
-	float right,
-	float bottom,
-	float top,
-	float near_p,
-	float far_p
-) {
+static inline sbgl_Camera sbgl_CameraOrthographic(sbgl_OrthoParams p) {
 	sbgl_Camera cam = { 0 };
 	cam.type = SBGL_CAMERA_ORTHOGRAPHIC;
-	cam.position = sbgl_vec3(0, 0, 1);
-	cam.target = sbgl_vec3(0, 0, 0);
-	cam.up = sbgl_vec3(0, 1, 0);
-	cam.ortho_left = left;
-	cam.ortho_right = right;
-	cam.ortho_bottom = bottom;
-	cam.ortho_top = top;
-	cam.near_plane = near_p;
-	cam.far_plane = far_p;
+	cam.position = sbgl_Vec3Set(0, 0, 1);
+	cam.target = sbgl_Vec3Set(0, 0, 0);
+	cam.up = sbgl_Vec3Set(0, 1, 0);
+	cam.ortho_left = p.left;
+	cam.ortho_right = p.right;
+	cam.ortho_bottom = p.bottom;
+	cam.ortho_top = p.top;
+	cam.near_plane = p.near_p;
+	cam.far_plane = p.far_p;
 	return cam;
 }
 
@@ -144,14 +137,15 @@ static inline sbgl_Mat4 sbgl_CameraGetProjection(const sbgl_Camera* cam) {
 	if (cam->type == SBGL_CAMERA_PERSPECTIVE) {
 		return sbgl_Mat4Perspective(cam->fov_y, cam->aspect, cam->near_plane, cam->far_plane);
 	}
-	return sbgl_Mat4Orthographic(
-		cam->ortho_left,
-		cam->ortho_right,
-		cam->ortho_bottom,
-		cam->ortho_top,
-		cam->near_plane,
-		cam->far_plane
-	);
+	sbgl_OrthoParams p = {
+		.left = cam->ortho_left,
+		.right = cam->ortho_right,
+		.bottom = cam->ortho_bottom,
+		.top = cam->ortho_top,
+		.near_p = cam->near_plane,
+		.far_p = cam->far_plane
+	};
+	return sbgl_Mat4Orthographic(p);
 }
 
 /**
@@ -238,7 +232,7 @@ static inline void sbgl_RayAABBIntersectBatch(
 			sbgl_Vec3 d = sbgl_Vec3Mul(sbgl_Vec3Sub(boxes[i].max, boxes[i].min), 0.5f);
 			float epsilon = 0.0001f;
 
-			results[i].normal = sbgl_vec3(0, 0, 0);
+			results[i].normal = sbgl_Vec3Set(0, 0, 0);
 			if (fabsf(p.x) >= fabsf(d.x) - epsilon)
 				results[i].normal.x = p.x > 0 ? 1.0f : -1.0f;
 			else if (fabsf(p.y) >= fabsf(d.y) - epsilon)

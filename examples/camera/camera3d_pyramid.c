@@ -96,9 +96,9 @@ int main(void) {
     // Stateful Camera Setup
     float aspect = 800.0f / 600.0f;
     sbgl_Camera camera = sbgl_CameraPerspective(SBGL_PI / 4.0f, aspect, 0.1f, 100.0f);
-    camera.position = sbgl_vec3(0.0f, -2.0f, -3.0f);
-    camera.target = sbgl_vec3(0.0f, 0.0f, 0.0f);
-    camera.up = sbgl_vec3(0.0f, -1.0f, 0.0f);
+    camera.position = sbgl_Vec3Set(0.0f, -2.0f, -3.0f);
+    camera.target = sbgl_Vec3Set(0.0f, 0.0f, 0.0f);
+    camera.up = sbgl_Vec3Set(0.0f, -1.0f, 0.0f);
 
     while (!sbgl_WindowShouldClose(ctx)) {
         const sbgl_InputState* input = sbgl_GetInputState(ctx);
@@ -110,7 +110,7 @@ int main(void) {
         float current_time = ((float)clock() / CLOCKS_PER_SEC) - start_time;
         
         // Rotate around Y axis
-        sbgl_Mat4 model = sbgl_Mat4Rotate(current_time * 1.5f, sbgl_vec3(0.0f, 1.0f, 0.0f));
+        sbgl_Mat4 model = sbgl_Mat4Rotate(current_time * 1.5f, sbgl_Vec3Set(0.0f, 1.0f, 0.0f));
         
         // Combine Camera matrices
         sbgl_Mat4 view = sbgl_CameraGetView(&camera);

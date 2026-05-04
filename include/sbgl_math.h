@@ -9,6 +9,7 @@
 #ifndef SBGL_MATH_H
 #define SBGL_MATH_H
 
+#include "sbgl_types.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -78,20 +79,20 @@ typedef struct {
 // --- Constructors ---
 
 /** @brief Creates a Vec2. */
-static inline sbgl_Vec2 sbgl_vec2(float x, float y) { return (sbgl_Vec2){ { x, y } }; }
+static inline sbgl_Vec2 sbgl_Vec2Set(float x, float y) { return (sbgl_Vec2){ { x, y } }; }
 
 /** @brief Creates a Vec3, correctly padded. */
-static inline sbgl_Vec3 sbgl_vec3(float x, float y, float z) {
+static inline sbgl_Vec3 sbgl_Vec3Set(float x, float y, float z) {
 	return (sbgl_Vec3){ { x, y, z, 0.0f } };
 }
 
 /** @brief Creates a Vec4. */
-static inline sbgl_Vec4 sbgl_vec4(float x, float y, float z, float w) {
+static inline sbgl_Vec4 sbgl_Vec4Set(float x, float y, float z, float w) {
 	return (sbgl_Vec4){ { x, y, z, w } };
 }
 
 /** @brief Creates a Quat. */
-static inline sbgl_Quat sbgl_quat(float x, float y, float z, float w) {
+static inline sbgl_Quat sbgl_QuatSet(float x, float y, float z, float w) {
 	return (sbgl_Quat){ { x, y, z, w } };
 }
 
@@ -284,15 +285,14 @@ static inline sbgl_Mat4 sbgl_Mat4Rotate(float angle_rad, sbgl_Vec3 axis) {
 }
 
 /** @brief Creates an orthographic projection matrix. */
-static inline sbgl_Mat4
-sbgl_Mat4Orthographic(float left, float right, float bottom, float top, float near, float far) {
+static inline sbgl_Mat4 sbgl_Mat4Orthographic(sbgl_OrthoParams p) {
 	sbgl_Mat4 res = sbgl_Mat4Identity();
-	res.m[0][0] = 2.0f / (right - left);
-	res.m[1][1] = 2.0f / (top - bottom);
-	res.m[2][2] = -2.0f / (far - near);
-	res.m[3][0] = -(right + left) / (right - left);
-	res.m[3][1] = -(top + bottom) / (top - bottom);
-	res.m[3][2] = -(far + near) / (far - near);
+	res.m[0][0] = 2.0f / (p.right - p.left);
+	res.m[1][1] = 2.0f / (p.top - p.bottom);
+	res.m[2][2] = -2.0f / (p.far_p - p.near_p);
+	res.m[3][0] = -(p.right + p.left) / (p.right - p.left);
+	res.m[3][1] = -(p.top + p.bottom) / (p.top - p.bottom);
+	res.m[3][2] = -(p.far_p + p.near_p) / (p.far_p - p.near_p);
 	return res;
 }
 

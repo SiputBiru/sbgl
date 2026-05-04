@@ -6,7 +6,8 @@ int main() {
     printf("--- SBgl Orthographic Camera & Batch Collision Example ---\n\n");
 
     // Initialize an orthographic camera for a 1280x720 viewport
-    sbgl_Camera cam = sbgl_CameraOrthographic(0, 1280, 720, 0, -1.0f, 1.0f);
+    sbgl_OrthoParams params = { .left = 0, .right = 1280, .bottom = 720, .top = 0, .near_p = -1.0f, .far_p = 1.0f };
+    sbgl_Camera cam = sbgl_CameraOrthographic(params);
     
     // Get matrices
     sbgl_Mat4 view = sbgl_CameraGetView(&cam);
@@ -19,18 +20,18 @@ int main() {
 
     // Batch Sphere Collision
     sbgl_Ray ray;
-    ray.origin = sbgl_vec3(640, 360, -100); // Further back from the screen
-    ray.direction = sbgl_vec3(0, 0, 1);    // Looking into the screen
+    ray.origin = sbgl_Vec3Set(640, 360, -100); // Further back from the screen
+    ray.direction = sbgl_Vec3Set(0, 0, 1);    // Looking into the screen
 
     sbgl_Sphere spheres[3];
     // Sphere 1: Center screen (Should hit)
-    spheres[0].center = sbgl_vec3(640, 360, 0);
+    spheres[0].center = sbgl_Vec3Set(640, 360, 0);
     spheres[0].radius = 50.0f;
     // Sphere 2: Top left (Should miss)
-    spheres[1].center = sbgl_vec3(100, 100, 0);
+    spheres[1].center = sbgl_Vec3Set(100, 100, 0);
     spheres[1].radius = 30.0f;
     // Sphere 3: Also center screen, but smaller (Should hit)
-    spheres[2].center = sbgl_vec3(640, 360, 0);
+    spheres[2].center = sbgl_Vec3Set(640, 360, 0);
     spheres[2].radius = 10.0f;
 
     sbgl_HitResult results[3];

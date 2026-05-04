@@ -21,7 +21,6 @@
 #endif
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 // --- Vulkan Function Pointers ---
@@ -124,6 +123,7 @@ typedef struct {
 
 typedef struct {
 	VkShaderModule module;
+	sbgl_ShaderStage stage;
 	bool active;
 } SBGL_VulkanShader;
 
@@ -333,6 +333,18 @@ static bool load_device_functions(sbgl_GfxContext* ctx) {
 
 #undef LOAD_DEV
 	return true;
+}
+
+#define SBGL_VK_PUSH_CONSTANT_SIZE 128
+
+static VkFormat sbgl_to_vk_format(sbgl_Format format) {
+	switch (format) {
+		case SBGL_FORMAT_R32_SFLOAT: return VK_FORMAT_R32_SFLOAT;
+		case SBGL_FORMAT_R32G32_SFLOAT: return VK_FORMAT_R32G32_SFLOAT;
+		case SBGL_FORMAT_R32G32B32_SFLOAT: return VK_FORMAT_R32G32B32_SFLOAT;
+		case SBGL_FORMAT_R32G32B32A32_SFLOAT: return VK_FORMAT_R32G32B32A32_SFLOAT;
+		default: return VK_FORMAT_UNDEFINED;
+	}
 }
 
 static uint32_t find_memory_type(sbgl_GfxContext* ctx, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
@@ -1009,7 +1021,6 @@ void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
 }
 
 sbgl_Shader sbgl_gfx_LoadShader(sbgl_GfxContext* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size) {
-	(void)stage;
 	uint32_t index = 0;
 	for (; index < SBGL_MAX_SHADERS; index++) {
 		if (!ctx->shaders[index].active)
@@ -1029,6 +1040,7 @@ sbgl_Shader sbgl_gfx_LoadShader(sbgl_GfxContext* ctx, sbgl_ShaderStage stage, co
 		return SBGL_INVALID_HANDLE;
 	}
 
+	ctx->shaders[index].stage = stage;
 	ctx->shaders[index].active = true;
 	return (sbgl_Shader)(index + 1);
 }
@@ -1054,14 +1066,27 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 		return SBGL_INVALID_HANDLE;
 
 	VkPipelineShaderStageCreateInfo shaderStages[2] = { 0 };
+	
+	// Vertex Shader
+	uint32_t vsIndex = config->vertexShader - 1;
+	if (ctx->shaders[vsIndex].stage != SBGL_SHADER_STAGE_VERTEX) {
+		fprintf(stderr, "[Vulkan] Invalid vertex shader stage\n");
+		return SBGL_INVALID_HANDLE;
+	}
 	shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = ctx->shaders[config->vertexShader - 1].module;
+	shaderStages[0].module = ctx->shaders[vsIndex].module;
 	shaderStages[0].pName = "main";
 
+	// Fragment Shader
+	uint32_t fsIndex = config->fragmentShader - 1;
+	if (ctx->shaders[fsIndex].stage != SBGL_SHADER_STAGE_FRAGMENT) {
+		fprintf(stderr, "[Vulkan] Invalid fragment shader stage\n");
+		return SBGL_INVALID_HANDLE;
+	}
 	shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = ctx->shaders[config->fragmentShader - 1].module;
+	shaderStages[1].module = ctx->shaders[fsIndex].module;
 	shaderStages[1].pName = "main";
 
 	VkVertexInputBindingDescription bindingDescription = {
@@ -1082,8 +1107,7 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 	for (uint32_t i = 0; i < config->vertexLayout.attributeCount; i++) {
 		attributeDescriptions[i].binding = 0;
 		attributeDescriptions[i].location = config->vertexLayout.attributes[i].location;
-		attributeDescriptions[i].format =
-			VK_FORMAT_R32G32B32_SFLOAT; // TODO: Map from attribute config
+		attributeDescriptions[i].format = sbgl_to_vk_format(config->vertexLayout.attributes[i].format);
 		attributeDescriptions[i].offset = config->vertexLayout.attributes[i].offset;
 	}
 
@@ -1160,7 +1184,7 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 	VkPushConstantRange pushConstantRange = {
 		.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
 		.offset = 0,
-		.size = 64, // Sufficient for basic data (vec2 mousePos, float time, etc.)
+		.size = SBGL_VK_PUSH_CONSTANT_SIZE,
 	};
 	pipelineLayoutInfo.pushConstantRangeCount = 1;
 	pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;

@@ -4,10 +4,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
-#include <stdio.h>
 #include <time.h>
 #include <string.h>
-#include <stdlib.h>
 
 // Defined in input_x11.c
 void x11_internal_process_event(XEvent* event, sbgl_Window* window);

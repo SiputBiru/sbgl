@@ -23,14 +23,12 @@ typedef struct {
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
 
-	// The primary arena is initialized to manage all persistent engine state
 	SblArena main_arena;
 	if (!sbl_arena_init(&main_arena, 4 * 1024 * 1024)) { // 4MB default
 		res.error = SBGL_ERROR_OUT_OF_MEMORY;
 		return res;
 	}
 
-	// The public context shell is allocated and zeroed from the arena
 	sbgl_Context* ctx = SBL_ARENA_PUSH_STRUCT_ZERO(&main_arena, sbgl_Context);
 	if (!ctx) {
 		sbl_arena_free(&main_arena);
@@ -38,7 +36,6 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 		return res;
 	}
 
-	// Internal state tracking is likewise pushed onto the arena
 	sbgl_InternalContext* inner = SBL_ARENA_PUSH_STRUCT_ZERO(&main_arena, sbgl_InternalContext);
 	if (!inner) {
 		sbl_arena_free(&main_arena);
@@ -46,7 +43,6 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 		return res;
 	}
 
-	// Ownership of the arena is transferred to the internal context for the app lifetime
 	inner->arena = main_arena;
 	inner->clearColor[0] = 0.1f;
 	inner->clearColor[1] = 0.2f;
@@ -55,9 +51,7 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 
 	ctx->inner = inner;
 	ctx->result = SBGL_SUCCESS;
-	// Do NOT set res.ctx until full initialization succeeds
 
-	// The native platform window is created using the same arena for its internal tracking
 	inner->window = sbgl_os_CreateWindow(&inner->arena, &inner->input, w, h, title);
 	if (!inner->window) {
 		res.error = SBGL_ERROR_WINDOW_CREATION_FAILED;
@@ -65,7 +59,6 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 		return res;
 	}
 
-	// The graphics backend is initialized with a reference to the shared arena
 	inner->gfx = sbgl_gfx_Init(inner->window, &inner->arena);
 	if (!inner->gfx) {
 		res.error = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
@@ -88,7 +81,6 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 	if (inner->window)
 		sbgl_os_DestroyWindow(inner->window);
 
-	// Freeing the arena automatically releases the context, internal state, and window state
 	sbl_arena_free(&inner->arena);
 }
 
@@ -113,7 +105,6 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	// Ensure events are polled so Wayland can map the window
 	sbgl_os_PollEvents(inner->window);
 
 	inner->isDrawing = sbgl_gfx_BeginFrame(

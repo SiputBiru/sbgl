@@ -224,7 +224,7 @@ uint32_t* v_spv = read_file("shader.vert.spv", &v_sz);
 sbgl_Shader v_shd = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, v_spv, v_sz);
 
 // Create Pipeline
-sbgl_VertexAttribute attr[] = { {0, 0}, {1, sizeof(float)*3} };
+sbgl_VertexAttribute attr[] = { {0, 0, SBGL_FORMAT_R32G32B32_SFLOAT}, {1, sizeof(float)*3, SBGL_FORMAT_R32G32B32_SFLOAT} };
 sbgl_PipelineConfig cfg = { .vertexShader = v_shd, .fragmentShader = f_shd, 
                             .vertexLayout = { sizeof(Vertex), 2, attr } };
 sbgl_Pipeline pip = sbgl_CreatePipeline(ctx, &cfg);

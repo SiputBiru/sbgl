@@ -60,8 +60,8 @@ typedef struct {
 } MyVertex;
 
 sbgl_VertexAttribute attributes[] = {
-    { .location = 0, .offset = offsetof(MyVertex, pos) },
-    { .location = 1, .offset = offsetof(MyVertex, color) }
+    { .location = 0, .offset = offsetof(MyVertex, pos), .format = SBGL_FORMAT_R32G32B32_SFLOAT },
+    { .location = 1, .offset = offsetof(MyVertex, color), .format = SBGL_FORMAT_R32G32B32_SFLOAT }
 };
 
 sbgl_VertexLayout layout = {

@@ -2,7 +2,6 @@
 #include "linux_internal.h"
 #include "core/sbgl_platform.h"
 #include "core/sbl_arena.h"
-#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 

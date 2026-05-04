@@ -41,13 +41,22 @@ typedef enum {
 } sbgl_ShaderStage;
 
 /**
+ * @brief Standard data formats for vertex attributes.
+ */
+typedef enum {
+	SBGL_FORMAT_R32_SFLOAT = 0,
+	SBGL_FORMAT_R32G32_SFLOAT = 1,
+	SBGL_FORMAT_R32G32B32_SFLOAT = 2,
+	SBGL_FORMAT_R32G32B32A32_SFLOAT = 3,
+} sbgl_Format;
+
+/**
  * @brief Vertex attribute definition.
  */
 typedef struct {
-	uint32_t location;
-	uint32_t offset;
-	// For simplicity, we assume float components for now.
-	// In a full implementation, we'd have a format enum.
+	uint32_t location; /**< Shader input location. */
+	uint32_t offset;   /**< Byte offset within the vertex structure. */
+	sbgl_Format format; /**< Data format of the attribute. */
 } sbgl_VertexAttribute;
 
 /**

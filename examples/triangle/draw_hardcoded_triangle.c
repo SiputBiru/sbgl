@@ -36,8 +36,8 @@ int main(void) {
     sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
 
     sbgl_VertexAttribute attributes[] = {
-        {0, offsetof(Vertex, pos)},
-        {1, offsetof(Vertex, color)}
+        {0, offsetof(Vertex, pos), SBGL_FORMAT_R32G32B32_SFLOAT},
+        {1, offsetof(Vertex, color), SBGL_FORMAT_R32G32B32_SFLOAT}
     };
 
     sbgl_PipelineConfig config = {

@@ -1,7 +1,7 @@
 #include <sbgl.h>
 #include <stdio.h>
 
-int main() {
+int main(void) {
 	printf("Initializing Input Test (Result Struct API)...\n");
 	printf("Controls: R=Red, G=Green, B=Blue, ESC=Exit\n");
 

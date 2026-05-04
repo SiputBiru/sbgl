@@ -34,6 +34,7 @@ typedef struct {
 	PFN_vkGetPhysicalDeviceQueueFamilyProperties vkGetPhysicalDeviceQueueFamilyProperties;
 	PFN_vkGetPhysicalDeviceSurfaceSupportKHR vkGetPhysicalDeviceSurfaceSupportKHR;
 	PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
+	PFN_vkGetPhysicalDeviceSurfaceFormatsKHR vkGetPhysicalDeviceSurfaceFormatsKHR;
 	PFN_vkGetPhysicalDeviceMemoryProperties vkGetPhysicalDeviceMemoryProperties;
 	PFN_vkCreateDevice vkCreateDevice;
 	PFN_vkDestroyInstance vkDestroyInstance;
@@ -247,6 +248,7 @@ static bool load_instance_functions(sbgl_GfxContext* ctx) {
 	LOAD_INST(vkGetPhysicalDeviceQueueFamilyProperties);
 	LOAD_INST(vkGetPhysicalDeviceSurfaceSupportKHR);
 	LOAD_INST(vkGetPhysicalDeviceSurfaceCapabilitiesKHR);
+	LOAD_INST(vkGetPhysicalDeviceSurfaceFormatsKHR);
 	LOAD_INST(vkGetPhysicalDeviceMemoryProperties);
 	LOAD_INST(vkGetPhysicalDeviceFormatProperties);
 	LOAD_INST(vkCreateDevice);
@@ -597,10 +599,6 @@ static bool create_depth_resources(sbgl_GfxContext* ctx) {
 static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	int w, h;
 	sbgl_os_GetWindowSize(window, &w, &h);
-	if (w <= 0)
-		w = 800;
-	if (h <= 0)
-		h = 600;
 
 	VkSurfaceCapabilitiesKHR capabilities;
 	ctx->vk.vkGetPhysicalDeviceSurfaceCapabilitiesKHR(ctx->physicalDevice, ctx->surface, &capabilities);
@@ -610,12 +608,42 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		extent = capabilities.currentExtent;
 	}
 
+	if (extent.width == 0 || extent.height == 0) {
+		return false;
+	}
+
+	uint32_t formatCount;
+	ctx->vk.vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, NULL);
+	if (formatCount == 0) {
+		fprintf(stderr, "[Vulkan] No supported surface formats found\n");
+		return false;
+	}
+	VkSurfaceFormatKHR formats[64];
+	if (formatCount > 64)
+		formatCount = 64;
+	ctx->vk.vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, formats);
+
+	VkSurfaceFormatKHR selectedFormat = formats[0];
+	for (uint32_t i = 0; i < formatCount; i++) {
+		if ((formats[i].format == VK_FORMAT_B8G8R8A8_SRGB ||
+			 formats[i].format == VK_FORMAT_R8G8B8A8_SRGB) &&
+			formats[i].colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
+			selectedFormat = formats[i];
+			break;
+		}
+	}
+
+	uint32_t imageCount = capabilities.minImageCount + 1;
+	if (capabilities.maxImageCount > 0 && imageCount > capabilities.maxImageCount) {
+		imageCount = capabilities.maxImageCount;
+	}
+
 	VkSwapchainCreateInfoKHR createInfo = {
 		.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
 		.surface = ctx->surface,
-		.minImageCount = capabilities.minImageCount + 1,
-		.imageFormat = VK_FORMAT_B8G8R8_UNORM,
-		.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR,
+		.minImageCount = imageCount,
+		.imageFormat = selectedFormat.format,
+		.imageColorSpace = selectedFormat.colorSpace,
 		.imageExtent = extent,
 		.imageArrayLayers = 1,
 		.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
@@ -655,10 +683,11 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	}
 
 	printf(
-		"[Vulkan] Swapchain created (%dx%d, %u images)\n",
+		"[Vulkan] Swapchain created (%dx%d, %u images, format: %d)\n",
 		ctx->swapchainExtent.width,
 		ctx->swapchainExtent.height,
-		ctx->imageCount
+		ctx->imageCount,
+		ctx->swapchainFormat
 	);
 
 	if (!create_depth_resources(ctx))

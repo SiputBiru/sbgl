@@ -2,7 +2,7 @@
 #include "sbgl_camera.h"
 #include <stdio.h>
 
-int main() {
+int main(void) {
     printf("--- SBgl Orthographic Camera & Batch Collision Example ---\n\n");
 
     // Initialize an orthographic camera for a 1280x720 viewport

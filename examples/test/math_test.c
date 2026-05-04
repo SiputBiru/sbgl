@@ -3,7 +3,7 @@
 #include <math.h>
 #include "../include/sbgl_math.h"
 
-void test_inv_sqrt() {
+static void test_inv_sqrt(void) {
     float val = 4.0f;
     float expected = 0.5f;
     float result = sbgl_InvSqrt(val);
@@ -11,7 +11,7 @@ void test_inv_sqrt() {
     assert(fabsf(result - expected) < 0.001f);
 }
 
-void test_vec3() {
+static void test_vec3(void) {
     sbgl_Vec3 a = {{ 1.0f, 0.0f, 0.0f, 0 }};
     sbgl_Vec3 b = {{ 0.0f, 1.0f, 0.0f, 0 }};
     
@@ -32,7 +32,7 @@ void test_vec3() {
     assert(fabsf(norm.x - 1.0f) < 0.001f);
 }
 
-void test_mat4() {
+static void test_mat4(void) {
     sbgl_Mat4 identity = sbgl_Mat4Identity();
     assert(identity.m[0][0] == 1.0f && identity.m[3][3] == 1.0f);
 
@@ -46,7 +46,7 @@ void test_mat4() {
     assert(result.x == 10.0f && result.y == 20.0f && result.z == 30.0f && result.w == 1.0f);
 }
 
-void test_quat() {
+static void test_quat(void) {
     // 90 degrees around Y axis
     sbgl_Vec3 axis = {{ 0.0f, 1.0f, 0.0f, 0 }};
     sbgl_Quat q = sbgl_QuatFromAxisAngle(axis, SBGL_PI / 2.0f);
@@ -62,7 +62,7 @@ void test_quat() {
     assert(fabsf(res.z - (-1.0f)) < 0.001f);
 }
 
-int main() {
+int main(void) {
     printf("--- SBgl Math Test ---\n");
     test_inv_sqrt();
     test_vec3();

@@ -1,7 +1,7 @@
 #include <sbgl.h>
 #include <stdio.h>
 
-int main() {
+int main(void) {
 	printf("Initializing SBgl Mouse Input Test...\n");
 	printf("Controls: Move Mouse to change color, ESC=Exit\n");
 

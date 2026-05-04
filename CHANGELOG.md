@@ -2,7 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-05-03
+## [Unreleased] - 2026-05-04
+
+### Added
+- **Vulkan Backend**:
+    - Implemented dynamic swapchain format selection via `vkGetPhysicalDeviceSurfaceFormatsKHR` to resolve hardcoded format validation errors.
+    - Added support for `VK_FORMAT_B8G8R8A8_SRGB` and `VK_FORMAT_R8G8B8A8_SRGB` as preferred swapchain formats.
+
+### Fixed
+- **Vulkan Backend**:
+    - Resolved `vkCreateSwapchainKHR` crashes (`floating point exception`) caused by zero-extent windows (minimized or unmapped) and unsupported image formats.
+    - Improved swapchain image count selection logic to respect physical device limits.
+    - Fixed validation errors related to `imageFormat` and `imageColorSpace` mismatches.
+- **Build System**:
+    - Implemented a default `Debug` build configuration to ensure development environments have Vulkan validation layers and strict warnings enabled by default.
+    - Added strict compiler flags (`-Werror`, `-Wmissing-prototypes`, `-Wstrict-prototypes` on GCC/Clang; `/WX` on MSVC) specifically for `Debug` builds to enforce high coding standards.
+    - Standardized all example and test entry points to use `int main(void)` and ensured all internal functions use explicit `(void)` parameter lists to satisfy strict prototype requirements.
+    - Fixed an issue where `.spv` shader files were deleted by the CMake build system after header conversion, preventing examples from loading them at runtime.
+    - Improved shader conversion robustness using `copy_if_different`.
+    - Resolved unused variable warnings in test files to maintain a clean `-Werror` build.
 
 ### Added
 - **Phase 4: Rendering Pipeline**:

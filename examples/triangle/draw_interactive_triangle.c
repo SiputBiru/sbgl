@@ -15,7 +15,7 @@ typedef struct {
     float padding; // Alignment
 } PushData;
 
-int main() {
+int main(void) {
     sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Interactive Rainbow Triangle");
     if (res.error != SBGL_SUCCESS) return 1;
     sbgl_Context* ctx = res.ctx;

@@ -1,7 +1,7 @@
 #include <sbgl.h>
 #include <stdio.h>
 
-int main() {
+int main(void) {
 	printf("Initializing SBgl Hello Window (Result Struct API)...\n");
 
 	sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Hello Window");

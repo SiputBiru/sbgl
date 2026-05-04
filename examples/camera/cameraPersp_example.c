@@ -2,7 +2,7 @@
 #include "sbgl_camera.h"
 #include <stdio.h>
 
-int main() {
+int main(void) {
     printf("--- SBgl Perspective Camera & Batch Collision Example ---\n\n");
 
     // Initialize a perspective camera

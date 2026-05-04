@@ -4,7 +4,7 @@
 #define SBL_ARENA_IMPLEMENTATION
 #include "../../src/core/sbl_arena.h"
 
-void test_arena_basic() {
+static void test_arena_basic(void) {
     SblArena arena;
     sbl_arena_init(&arena, 1024);
     assert(arena.head != NULL);
@@ -22,7 +22,7 @@ void test_arena_basic() {
     sbl_arena_free(&arena);
 }
 
-void test_arena_growth() {
+static void test_arena_growth(void) {
     SblArena arena;
     sbl_arena_init(&arena, 128); // Small initial size
 
@@ -40,12 +40,11 @@ void test_arena_growth() {
     sbl_arena_free(&arena);
 }
 
-void test_arena_reset() {
+static void test_arena_reset(void) {
     SblArena arena;
     sbl_arena_init(&arena, 1024);
 
     void* p1 = sbl_arena_alloc(&arena, 512);
-    void* p1_offset = (void*)arena.current->offset;
 
     sbl_arena_reset(&arena);
     assert(arena.current == arena.head);
@@ -57,7 +56,7 @@ void test_arena_reset() {
     sbl_arena_free(&arena);
 }
 
-int main() {
+int main(void) {
     printf("--- SBgl Arena Test ---\n");
     test_arena_basic();
     test_arena_growth();

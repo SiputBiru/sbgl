@@ -95,6 +95,18 @@ Compiles the library source code directly into the example executables (no `libs
 cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON -DSBGL_BUILD_STANDALONE=ON
 ```
 
+### Build Modes
+
+SBgl utilizes standard CMake build types to toggle development features.
+
+- **Debug (Default)**: Enables Vulkan validation layers, strict compiler warnings (`-Werror`), and debug symbols. This is the recommended mode for active development.
+- **Release**: Disables validation layers and warning-as-errors for maximum performance and deployment stability.
+
+To explicitly set the build type:
+```bash
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+```
+
 ### Build
 
 Compile the library and all example applications.

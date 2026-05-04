@@ -11,7 +11,7 @@ typedef struct {
     float color[3];
 } Vertex;
 
-int main() {
+int main(void) {
     printf("Initializing SBgl Hardcoded Shader Example...\n");
 
     sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Hardcoded Triangle");

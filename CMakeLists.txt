@@ -4,6 +4,13 @@ project(SBgl VERSION 0.1.0 LANGUAGES C)
 # --- LSP Support ---
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# --- Default Build Type ---
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "Setting build type to 'Debug' as none was specified.")
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
 # --- Options ---
 option(SBGL_USE_WAYLAND "Use native Wayland instead of X11" ON)
 option(SBGL_BUILD_EXAMPLES "Build example applications" OFF)
@@ -15,8 +22,14 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 if(MSVC)
     add_compile_options(/W4 /wd4201)
+    # Strict mode for Debug
+    add_compile_options($<$<CONFIG:Debug>:/WX>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
+    # Strict mode for Debug
+    add_compile_options($<$<CONFIG:Debug>:-Werror>)
+    add_compile_options($<$<CONFIG:Debug>:-Wmissing-prototypes>)
+    add_compile_options($<$<CONFIG:Debug>:-Wstrict-prototypes>)
 endif()
 
 # --- Find Dependencies ---
@@ -146,9 +159,8 @@ function(sbgl_convert_spv_to_header INPUT_SPV OUTPUT_HEADER)
     
     add_custom_command(
         OUTPUT ${OUTPUT_HEADER}
-        COMMAND ${CMAKE_COMMAND} -E copy ${INPUT_SPV} ${OUTPUT_DIR}/${INPUT_NAME}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${INPUT_SPV} ${OUTPUT_DIR}/${INPUT_NAME}
         COMMAND ${XXD_EXE} -i ${INPUT_NAME} > ${OUTPUT_HEADER}
-        COMMAND ${CMAKE_COMMAND} -E remove ${OUTPUT_DIR}/${INPUT_NAME}
         DEPENDS ${INPUT_SPV}
         WORKING_DIRECTORY ${OUTPUT_DIR}
         COMMENT "Converting ${INPUT_SPV} to C header ${OUTPUT_HEADER}"

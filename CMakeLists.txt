@@ -39,6 +39,7 @@ endif()
 # --- Source Files ---
 set(SBGL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_core.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_log.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/sbgl_backend_vulkan.c
 )
 

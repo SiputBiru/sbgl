@@ -54,8 +54,8 @@ typedef enum {
  * @brief Vertex attribute definition.
  */
 typedef struct {
-	uint32_t location; /**< Shader input location. */
-	uint32_t offset;   /**< Byte offset within the vertex structure. */
+	uint32_t location;	/**< Shader input location. */
+	uint32_t offset;	/**< Byte offset within the vertex structure. */
 	sbgl_Format format; /**< Data format of the attribute. */
 } sbgl_VertexAttribute;
 
@@ -95,6 +95,7 @@ typedef enum {
 	SBGL_ERROR_WINDOW_CREATION_FAILED = 2,
 	SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED = 3,
 	SBGL_ERROR_OUT_OF_MEMORY = 4,
+	SBGL_ERROR_DEVICE_BUSY = 5,
 } sbgl_Result;
 
 /**

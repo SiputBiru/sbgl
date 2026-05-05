@@ -1,8 +1,11 @@
 #include "sbgl.h"
+#include "sbgl_types.h"
 #define SBL_ARENA_IMPLEMENTATION
 #include "backend/sbgl_graphics_hal.h"
+#include "core/sbgl_internal_log.h"
 #include "core/sbgl_platform.h"
 #include "core/sbl_arena.h"
+#include <string.h>
 
 /**
  * @brief Internal state for the engine context.
@@ -12,11 +15,12 @@
  * clear color state.
  */
 typedef struct {
-	SblArena arena;		   /**< Persistent memory for the lifetime of the context. */
-	sbgl_Window* window;   /**< Handle to the native OS window. */
-	sbgl_GfxContext* gfx;  /**< Handle to the graphics backend context. */
-	float clearColor[4];   /**< Current RGBA clear color. */
-	bool isDrawing;		   /**< Internal flag to track frame acquisition success. */
+	SblArena arena;		  /**< Persistent memory for the lifetime of the context. */
+	sbgl_Window* window;  /**< Handle to the native OS window. */
+	sbgl_GfxContext* gfx; /**< Handle to the graphics backend context. */
+	float clearColor[4];  /**< Current RGBA clear color. */
+	bool isDrawing;		  /**< Internal flag to track frame acquisition success. */
+	bool isIdle; /**< Internal flag to track if sbgl_DeviceWaitIdle was called after drawing */
 	sbgl_InputState input; /**< Physical input state tracking. */
 } sbgl_InternalContext;
 
@@ -48,6 +52,7 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	inner->clearColor[1] = 0.0f;
 	inner->clearColor[2] = 0.0f;
 	inner->clearColor[3] = 0.0f;
+	inner->isIdle = true;
 
 	ctx->inner = inner;
 	ctx->result = SBGL_SUCCESS;
@@ -75,6 +80,20 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 	if (!ctx || !ctx->inner)
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+
+	sbgl_internal_log(SBGL_LOG_INFO, "Initiating shutdown...");
+
+	if (!inner->isIdle) {
+		sbgl_internal_log(
+			SBGL_LOG_ERROR,
+			"Shutdown called while GPU is busy! Missing sbgl_DeviceWaitIdle."
+		);
+
+		ctx->result = SBGL_ERROR_DEVICE_BUSY;
+
+		// Force a wait to safely destroy it anyway and prevent driver crash
+		sbgl_DeviceWaitIdle(ctx);
+	}
 
 	if (inner->gfx)
 		sbgl_gfx_Shutdown(inner->gfx);
@@ -128,6 +147,7 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 	if (inner->isDrawing) {
 		sbgl_gfx_EndFrame(inner->gfx);
 		inner->isDrawing = false;
+		inner->isIdle = false;
 	}
 
 	// Reset pressed states for next frame
@@ -141,6 +161,7 @@ void sbgl_DeviceWaitIdle(sbgl_Context* ctx) {
 
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_gfx_DeviceWaitIdle(inner->gfx);
+	inner->isIdle = true;
 	ctx->result = SBGL_SUCCESS;
 }
 
@@ -181,7 +202,21 @@ sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const 
 void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
 	if (!ctx || !ctx->inner)
 		return;
+
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+
+	if (!inner->isIdle) {
+		sbgl_internal_log(
+			SBGL_LOG_WARN,
+			"Buffer destroyed while GPU is busy! Missing sbgl_DeviceWaitIdle."
+		);
+
+		ctx->result = SBGL_ERROR_DEVICE_BUSY;
+
+		// Force a wait to safely destroy it anyway and prevent driver crash
+		sbgl_DeviceWaitIdle(ctx);
+	}
+
 	sbgl_gfx_DestroyBuffer(inner->gfx, buffer);
 	ctx->result = SBGL_SUCCESS;
 }
@@ -201,6 +236,19 @@ void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader) {
 	if (!ctx || !ctx->inner)
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+
+	if (!inner->isIdle) {
+		sbgl_internal_log(
+			SBGL_LOG_ERROR,
+			"Destroy Shader called while GPU is busy! Missing sbgl_DeviceWaitIdle."
+		);
+
+		ctx->result = SBGL_ERROR_DEVICE_BUSY;
+
+		// Force a wait to safely destroy it anyway and prevent driver crash
+		sbgl_DeviceWaitIdle(ctx);
+	}
+
 	sbgl_gfx_DestroyShader(inner->gfx, shader);
 	ctx->result = SBGL_SUCCESS;
 }
@@ -219,6 +267,19 @@ void sbgl_DestroyPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
 	if (!ctx || !ctx->inner)
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+
+	if (!inner->isIdle) {
+		sbgl_internal_log(
+			SBGL_LOG_ERROR,
+			"Destroy Pipeline called while GPU is busy! Missing sbgl_DeviceWaitIdle."
+		);
+
+		ctx->result = SBGL_ERROR_DEVICE_BUSY;
+
+		// Force a wait to safely destroy it anyway and prevent driver crash
+		sbgl_DeviceWaitIdle(ctx);
+	}
+
 	sbgl_gfx_DestroyPipeline(inner->gfx, pipeline);
 	ctx->result = SBGL_SUCCESS;
 }

@@ -35,10 +35,6 @@ The intersection functions return a hit result containing the intersection point
 
 The implementation is accompanied by example applications that demonstrate the initialization and utilization of the camera and collision systems.
 
-### Perspective Camera Example
+### Camera Example
 
-The `cameraPersp_example.c` application illustrates the configuration of a 3D perspective camera. It demonstrates how to set camera parameters such as field of view and aspect ratio, and how to retrieve the resulting view and projection matrices. Additionally, it performs a batch ray-casting test against a collection of axis-aligned bounding boxes to verify 3D intersection logic and normal calculation.
-
-### Orthographic Camera Example
-
-The `cameraOrtho_example.c` application showcases the setup of a 2D orthographic camera, specifically configured for a screen-space viewport with a top-left origin. It demonstrates the application of batch intersection testing between a ray and multiple spheres, simulating a common interaction pattern such as a mouse click or cursor-based selection in a 2D environment.
+The `camera_main.c` application illustrates the configuration of a 3D perspective camera. It demonstrates how to set camera parameters such as field of view and aspect ratio, and how to retrieve the resulting view and projection matrices. Additionally, it performs a batch ray-casting test against a collection of axis-aligned bounding boxes to verify 3D intersection logic and normal calculation.

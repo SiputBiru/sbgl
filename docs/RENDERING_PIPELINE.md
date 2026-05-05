@@ -87,6 +87,11 @@ sbgl_PushConstants(ctx, sizeof(float), &time);
 sbgl_Draw(ctx, 3, 0);
 
 sbgl_EndDrawing(ctx);
+
+// Teardown: Wait for GPU to finish before destroying resources
+sbgl_DeviceWaitIdle(ctx);
+sbgl_DestroyPipeline(ctx, my_pipeline);
+sbgl_DestroyBuffer(ctx, my_vbo);
 ```
 
 ## Depth Buffering & 3D Sorting

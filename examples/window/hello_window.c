@@ -1,29 +1,18 @@
 #include <sbgl.h>
-#include <stdio.h>
+#include "../example_util.h"
 
 int main(void) {
-	printf("Initializing SBgl Hello Window (Result Struct API)...\n");
+    ExampleApp app;
+    if (!example_app_init(&app, 800, 600, "SBgl Hello Window")) return 1;
 
-	sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Hello Window");
-	if (res.error != SBGL_SUCCESS)
-		return 1;
+    while (!sbgl_WindowShouldClose(app.ctx)) {
+        if (sbgl_GetInputState(app.ctx)->keysDown[SBGL_KEY_ESCAPE]) break;
 
-	sbgl_Context* ctx = res.ctx;
+        sbgl_Clear(app.ctx, 0.1f, 0.2f, 0.3f, 1.0f);
+        sbgl_BeginDrawing(app.ctx);
+        sbgl_EndDrawing(app.ctx);
+    }
 
-	while (!sbgl_WindowShouldClose(ctx)) {
-		const sbgl_InputState* input = sbgl_GetInputState(ctx);
-
-		sbgl_Clear(ctx, 0.1f, 0.2f, 0.3f, 1.0f);
-
-		sbgl_BeginDrawing(ctx);
-		sbgl_EndDrawing(ctx);
-
-		if (input->keysDown[SBGL_KEY_ESCAPE]) {
-			break;
-		}
-	}
-
-	sbgl_DeviceWaitIdle(ctx);
-	sbgl_Shutdown(ctx);
-	return 0;
+    example_app_shutdown(&app);
+    return 0;
 }

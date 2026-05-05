@@ -5,20 +5,20 @@
 #define UNICODE
 #endif
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include "sbgl_types.h"
 #include "core/sbgl_input.h"
+#include "sbgl_types.h"
+#include <windows.h>
 
 /**
  * @brief Native Win32 window state.
  */
 struct sbgl_Window {
-    HINSTANCE hinstance;
-    HWND hwnd;
-    bool shouldClose;
-    bool resized;
-    int width, height;
-    sbgl_InputState* input;
+	HINSTANCE hinstance;
+	HWND hwnd;
+	bool shouldClose;
+	bool resized;
+	int width, height;
+	sbgl_InputState* input;
 };
 
 // Internal event processing

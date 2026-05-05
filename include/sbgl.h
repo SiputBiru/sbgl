@@ -136,8 +136,9 @@ void sbgl_EndDrawing(sbgl_Context* ctx);
 /**
  * @brief Synchronizes the CPU with the GPU, waiting for all commands to complete.
  *
- * This should be called before destroying resources that might still be
- * in use by the GPU.
+ * This must be called before destroying resources (Pipelines, Buffers, Shaders) 
+ * to ensure they are no longer in use by the GPU. Failure to do so will 
+ * result in Vulkan validation errors and potential instability.
  *
  * @param ctx The engine context.
  */
@@ -180,6 +181,10 @@ sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const 
 
 /**
  * @brief Destroys a GPU buffer.
+ * 
+ * @warning All submitted GPU commands referencing this buffer must have 
+ * completed before calling this. Use sbgl_DeviceWaitIdle() to synchronize.
+ *
  * @param ctx The engine context.
  * @param buffer The buffer handle.
  */
@@ -198,6 +203,10 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 
 /**
  * @brief Destroys a shader module.
+ * 
+ * @warning Shaders must not be in use by the GPU. Use sbgl_DeviceWaitIdle() 
+ * before bulk destruction during shutdown.
+ *
  * @param ctx The engine context.
  * @param shader The shader handle.
  */
@@ -213,6 +222,10 @@ sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* 
 
 /**
  * @brief Destroys a graphics pipeline.
+ * 
+ * @warning The pipeline must not be in use by any submitted command buffers.
+ * Use sbgl_DeviceWaitIdle() to ensure safe destruction.
+ *
  * @param ctx The engine context.
  * @param pipeline The pipeline handle.
  */

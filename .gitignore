@@ -36,5 +36,9 @@ xdg-shell-protocol.c
 # --- Project Specific ---
 hello_window
 .desloppify/
+
+# --- AI THINGS ---
 GEMINI.md
 AGENTS.md
+scorecard.png
+

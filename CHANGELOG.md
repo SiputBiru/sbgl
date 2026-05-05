@@ -11,10 +11,15 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - **Vulkan Backend**:
+    - Resolved `vkDestroyPipeline` and `vkDestroyBuffer` validation errors (`VUID-vkDestroyPipeline-pipeline-00765`, `VUID-vkDestroyBuffer-buffer-00922`) in examples by adding explicit `sbgl_DeviceWaitIdle()` calls before resource destruction.
+    - Enhanced API documentation in `sbgl.h` and `VULKAN_BACKEND.md` with critical warnings regarding GPU synchronization and teardown sequences.
     - Resolved `vkCreateSwapchainKHR` crashes (`floating point exception`) caused by zero-extent windows (minimized or unmapped) and unsupported image formats.
     - Improved swapchain image count selection logic to respect physical device limits.
     - Fixed validation errors related to `imageFormat` and `imageColorSpace` mismatches.
 - **Build System**:
+    - **Test Relocation**: Decoupled test applications from the `examples/` directory. Tests are now located in a top-level `tests/` directory.
+    - **New Build Flag**: Introduced `SBGL_BUILD_TESTS` CMake option to toggle the compilation of internal tests independently of examples.
+    - **Clean Examples**: Refined `SBGL_BUILD_EXAMPLES` to strictly target demonstration applications.
     - Implemented a default `Debug` build configuration to ensure development environments have Vulkan validation layers and strict warnings enabled by default.
     - Added strict compiler flags (`-Werror`, `-Wmissing-prototypes`, `-Wstrict-prototypes` on GCC/Clang; `/WX` on MSVC) specifically for `Debug` builds to enforce high coding standards.
     - Standardized all example and test entry points to use `int main(void)` and ensured all internal functions use explicit `(void)` parameter lists to satisfy strict prototype requirements.

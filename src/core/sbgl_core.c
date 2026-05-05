@@ -12,12 +12,12 @@
  * clear color state.
  */
 typedef struct {
-	SblArena arena;			 /**< Persistent memory for the lifetime of the context. */
-	sbgl_Window* window;	 /**< Handle to the native OS window. */
-	sbgl_GfxContext* gfx;	 /**< Handle to the graphics backend context. */
-	float clearColor[4];	 /**< Current RGBA clear color. */
-	bool isDrawing;			 /**< Internal flag to track frame acquisition success. */
-	sbgl_InputState input;	 /**< Physical input state tracking. */
+	SblArena arena;		   /**< Persistent memory for the lifetime of the context. */
+	sbgl_Window* window;   /**< Handle to the native OS window. */
+	sbgl_GfxContext* gfx;  /**< Handle to the graphics backend context. */
+	float clearColor[4];   /**< Current RGBA clear color. */
+	bool isDrawing;		   /**< Internal flag to track frame acquisition success. */
+	sbgl_InputState input; /**< Physical input state tracking. */
 } sbgl_InternalContext;
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
@@ -44,10 +44,10 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	}
 
 	inner->arena = main_arena;
-	inner->clearColor[0] = 0.1f;
-	inner->clearColor[1] = 0.2f;
-	inner->clearColor[2] = 0.3f;
-	inner->clearColor[3] = 1.0f;
+	inner->clearColor[0] = 0.0f;
+	inner->clearColor[1] = 0.0f;
+	inner->clearColor[2] = 0.0f;
+	inner->clearColor[3] = 0.0f;
 
 	ctx->inner = inner;
 	ctx->result = SBGL_SUCCESS;
@@ -92,8 +92,10 @@ bool sbgl_WindowShouldClose(sbgl_Context* ctx) {
 }
 
 void sbgl_GetWindowSize(sbgl_Context* ctx, int* w, int* h) {
-	if (w) *w = 0;
-	if (h) *h = 0;
+	if (w)
+		*w = 0;
+	if (h)
+		*h = 0;
 	if (!ctx || !ctx->inner)
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
@@ -136,6 +138,7 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 void sbgl_DeviceWaitIdle(sbgl_Context* ctx) {
 	if (!ctx || !ctx->inner)
 		return;
+
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_gfx_DeviceWaitIdle(inner->gfx);
 	ctx->result = SBGL_SUCCESS;
@@ -144,6 +147,7 @@ void sbgl_DeviceWaitIdle(sbgl_Context* ctx) {
 void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a) {
 	if (!ctx || !ctx->inner)
 		return;
+
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	inner->clearColor[0] = r;
 	inner->clearColor[1] = g;
@@ -165,9 +169,12 @@ sbgl_Buffer
 sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
 	if (!ctx || !ctx->inner)
 		return SBGL_INVALID_HANDLE;
+
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_Buffer res = sbgl_gfx_CreateBuffer(inner->gfx, usage, size, data);
-	ctx->result = (res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+
+	ctx->result =
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 	return res;
 }
 
@@ -185,7 +192,8 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 		return SBGL_INVALID_HANDLE;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_Shader res = sbgl_gfx_LoadShader(inner->gfx, stage, bytecode, size);
-	ctx->result = (res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	ctx->result =
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 	return res;
 }
 
@@ -202,7 +210,8 @@ sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* 
 		return SBGL_INVALID_HANDLE;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_Pipeline res = sbgl_gfx_CreatePipeline(inner->gfx, config);
-	ctx->result = (res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	ctx->result =
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 	return res;
 }
 

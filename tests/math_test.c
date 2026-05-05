@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <math.h>
 #include "../include/sbgl_math.h"
+#include "../include/sbgl_camera.h"
 
 static void test_inv_sqrt(void) {
     float val = 4.0f;
@@ -62,12 +63,36 @@ static void test_quat(void) {
     assert(fabsf(res.z - (-1.0f)) < 0.001f);
 }
 
+static void test_ray_aabb(void) {
+    sbgl_Ray ray;
+    ray.origin = sbgl_Vec3Set(0, 2, 10);
+    ray.direction = sbgl_Vec3Normalize(sbgl_Vec3Sub(sbgl_Vec3Set(0, 0, 0), ray.origin));
+
+    sbgl_AABB boxes[3];
+    boxes[0].min = sbgl_Vec3Set(-1, -1, -1);
+    boxes[0].max = sbgl_Vec3Set(1, 1, 1);
+    boxes[1].min = sbgl_Vec3Set(5, 0, 0);
+    boxes[1].max = sbgl_Vec3Set(7, 2, 2);
+    boxes[2].min = sbgl_Vec3Set(0, 2, 15);
+    boxes[2].max = sbgl_Vec3Set(1, 3, 16);
+
+    sbgl_HitResult results[3];
+    sbgl_RayAABBIntersectBatch(ray, boxes, results, 3);
+
+    printf("Ray-AABB Batch Test: ");
+    assert(results[0].hit == true);
+    assert(results[1].hit == false);
+    assert(results[2].hit == false);
+    printf("Passed (Hit 0, Miss 1, Miss 2)\n");
+}
+
 int main(void) {
     printf("--- SBgl Math Test ---\n");
     test_inv_sqrt();
     test_vec3();
     test_mat4();
     test_quat();
+    test_ray_aabb();
     printf("All math tests passed!\n");
     return 0;
 }

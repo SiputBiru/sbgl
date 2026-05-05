@@ -82,10 +82,17 @@ cmake -B build-win -S . -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=x86_64-w6
 ```
 
 **Enable Examples:**
-To build the test applications alongside the library:
+To build the example applications alongside the library:
 
 ```bash
 cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON
+```
+
+**Enable Tests:**
+To build the unit and integration tests (distinct from examples):
+
+```bash
+cmake -B build -S . -DSBGL_BUILD_TESTS=ON
 ```
 
 **Standalone Build (No Library File):**
@@ -147,9 +154,18 @@ After building, examples located in the build directory can be executed.
 ```bash
 # Run basic window test (Linux natively)
 ./build/examples/hello_window
+```
 
-# Run interactive input test (Linux natively)
-./build/examples/input_test
+### Run Tests
+
+Tests are located in the `tests/` subdirectory of the build folder. They verify the internal logic of the framework (e.g., math and memory management).
+
+```bash
+# Run math library tests
+./build/tests/math_test
+
+# Run memory arena tests
+./build/tests/arena_test
 ```
 
 **Testing Windows Builds (via Wine):**
@@ -204,6 +220,7 @@ int main() {
     }
 
     // Explicit Context cleanup
+    sbgl_DeviceWaitIdle(ctx);
     sbgl_Shutdown(ctx);
     return 0;
 }
@@ -235,6 +252,12 @@ sbgl_BindPipeline(ctx, pip);
 sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
 sbgl_Draw(ctx, 3, 0);
 sbgl_EndDrawing(ctx);
+
+// Teardown: Wait for GPU to finish before destroying resources
+sbgl_DeviceWaitIdle(ctx);
+sbgl_DestroyPipeline(ctx, pip);
+sbgl_DestroyShader(ctx, v_shd);
+sbgl_DestroyShader(ctx, f_shd);
 ```
 
 ## Project Structure
@@ -243,7 +266,8 @@ sbgl_EndDrawing(ctx);
 - src/core/: Engine logic, HAL definitions, and memory management.
 - src/platform/: OS-specific implementations (Wayland, Win32).
 - src/backend/: Graphics API implementations (Vulkan 1.3).
-- examples/: Ready-to-run test applications.
+- examples/: Demo applications showing how to use the framework.
+- tests/: Unit and integration tests for framework internals.
 
 ## Documentation
 

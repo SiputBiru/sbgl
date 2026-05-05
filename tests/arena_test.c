@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string.h>
 #define SBL_ARENA_IMPLEMENTATION
-#include "../../src/core/sbl_arena.h"
+#include "../src/core/sbl_arena.h"
 
 static void test_arena_basic(void) {
     SblArena arena;

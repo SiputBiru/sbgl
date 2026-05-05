@@ -14,6 +14,7 @@ endif()
 # --- Options ---
 option(SBGL_USE_WAYLAND "Use native Wayland instead of X11" ON)
 option(SBGL_BUILD_EXAMPLES "Build example applications" OFF)
+option(SBGL_BUILD_TESTS "Build test applications" OFF)
 option(SBGL_BUILD_STANDALONE "Build examples by compiling sources directly (no libsbgl.a)" OFF)
 
 # --- Compiler Settings ---
@@ -168,11 +169,14 @@ function(sbgl_convert_spv_to_header INPUT_SPV OUTPUT_HEADER)
     )
 endfunction()
 
-# --- Optional Examples ---
-# Only build examples if SBgl is the top-level project
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND SBGL_BUILD_EXAMPLES)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
+# --- Optional Examples & Tests ---
+# Only build examples/tests if SBgl is the top-level project
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    if(SBGL_BUILD_EXAMPLES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
         add_subdirectory(examples)
+    endif()
+    if(SBGL_BUILD_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt")
+        add_subdirectory(tests)
     endif()
 endif()
 

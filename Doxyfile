@@ -32,3 +32,8 @@ WARN_IF_UNDOCUMENTED   = NO
 MARKDOWN_SUPPORT       = YES
 IMAGE_PATH             = 
 USE_MDFILE_AS_MAINPAGE = README.md
+
+# --- Source Browsing ---
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+

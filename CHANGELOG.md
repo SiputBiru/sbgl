@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file.
     - Resolved unused variable warnings in test files to maintain a clean `-Werror` build.
 
 ### Added
-- **Phase 4: Rendering Pipeline**:
+- **Rendering Pipeline**:
     - Implemented a rendering pipeline using Vulkan 1.3 **Dynamic Rendering**, eliminating RenderPass and Framebuffer management.
     - **Resource Management**: Introduced a handle-based system (`sbgl_Buffer`, `sbgl_Shader`, `sbgl_Pipeline`) for GPU resources using internal SoA pools for DOD-compliant performance.
     - **Buffer Allocator**: Implemented a block-based GPU memory allocator for Vertex and Index buffers with staging support for CPU-to-GPU transfers.
@@ -122,7 +122,7 @@ All notable changes to this project will be documented in this file.
     - Replaced raw `memcpy` for keyboard states with type-safe **Struct Assignment**.
     - Added support for one-shot key triggers (`sbgl_IsKeyPressed`).
     - Implemented native pointer support (position, delta, buttons) for Wayland, X11, and Win32.
-- **Git Integration**: Initialized git repository and added a comprehensive `.gitignore`.
+- **Git Integration**: Initialized git repository and added a `.gitignore`.
 - **Documentation**: 
     - Integrated **Doxygen** for automated API documentation generation.
     - Added a `docs` target to CMake (`cmake --build build --target docs`).

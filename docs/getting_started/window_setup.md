@@ -10,7 +10,7 @@ SBgl uses an explicit context for all operations.
 #include <sbgl.h>
 
 int main() {
-    sbgl_InitResult res = sbgl_Init(800, 600, "My App");
+    sbgl_InitResult res = sbgl_Init(800, 600, "Application");
     if (res.error != SBGL_SUCCESS) return 1;
     sbgl_Context* ctx = res.ctx;
     

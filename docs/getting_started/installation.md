@@ -11,7 +11,7 @@ The following steps outline the setup of the development environment and the int
 
 ## Integration via FetchContent
 
-Add this to your `CMakeLists.txt`:
+Add this to the project's `CMakeLists.txt`:
 
 ```cmake
 include(FetchContent)
@@ -21,7 +21,7 @@ FetchContent_Declare(
     GIT_TAG main
 )
 FetchContent_MakeAvailable(sbgl)
-target_link_libraries(your_project PRIVATE sbgl)
+target_link_libraries(application_target PRIVATE sbgl)
 ```
 
 ## Building from Source

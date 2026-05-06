@@ -66,3 +66,20 @@ sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
 sbgl_Draw(ctx, 3, 0);
 sbgl_EndDrawing(ctx);
 ```
+
+## Resource Cleanup
+
+Resources must be destroyed in the reverse order of their creation after the GPU has finished executing all commands.
+
+```c
+// Ensure the GPU is no longer using any resources
+sbgl_DeviceWaitIdle(ctx);
+
+sbgl_DestroyBuffer(ctx, vbo);
+sbgl_DestroyPipeline(ctx, pip);
+sbgl_DestroyShader(ctx, v_shd);
+sbgl_DestroyShader(ctx, f_shd);
+
+// Shutdown the engine and close the window
+sbgl_Shutdown(ctx);
+```

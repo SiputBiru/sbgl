@@ -8,70 +8,70 @@ This document explains the Vulkan 1.3 implementation used in SBgl. The goal is t
 
 Everything starts with the `VkInstance`. This is the application's connection to the Vulkan runtime.
 
-- **Version:** **Vulkan 1.3** is required. This allows the use of features like *Dynamic Rendering* without needing abstractions like "Render Passes" or "Framebuffers."
-- **Extensions:** `VK_KHR_surface` and a platform-specific extension are enabled:
-  - **Wayland:** `VK_KHR_wayland_surface`
-  - **X11:** `VK_KHR_xlib_surface`
-  - **Windows:** `VK_KHR_win32_surface`
+*   **Version:** **Vulkan 1.3** is required. This allows the use of features like *Dynamic Rendering* without needing abstractions like "Render Passes" or "Framebuffers."
+*   **Extensions:** `VK_KHR_surface` and a platform-specific extension are enabled:
+    *   **Wayland:** `VK_KHR_wayland_surface`
+    *   **X11:** `VK_KHR_xlib_surface`
+    *   **Windows:** `VK_KHR_win32_surface`
 
 ## Surface Integration
 
 Vulkan is platform-agnostic; it does not know what a "window" is. The `VkSurfaceKHR` acts as the bridge.
 
-- Raw handles are retrieved from the **Platform HAL** (`sbgl_os_GetNativeWindowHandle`).
-- On Wayland, the `wl_display` and `wl_surface` are passed.
-- This tells the GPU driver which window should receive the rendered pixels.
+*   Raw handles are retrieved from the **Platform HAL** (`sbgl_os_GetNativeWindowHandle`).
+*   On Wayland, the `wl_display` and `wl_surface` are passed.
+*   This tells the GPU driver which window should receive the rendered pixels.
 
 ## Physical Device Selection
 
 The `select_physical_device()` function identifies the most suitable hardware:
 
-- **Enumeration:** All available GPUs (NVIDIA, AMD, Intel) are queried.
-- **Preference:** A `VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU` is searched for first.
-- **Queue Support:** The chosen GPU must have a "Queue Family" that supports **both** Graphics commands and Surface Presentation.
+*   **Enumeration:** All available GPUs (NVIDIA, AMD, Intel) are queried.
+*   **Preference:** A `VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU` is searched for first.
+*   **Queue Support:** The chosen GPU must have a "Queue Family" that supports **both** Graphics commands and Surface Presentation.
 
 ## Logical Device and Queue Management
 
 Once a GPU is chosen, a `VkDevice` is created.
 
-- **Dynamic Rendering:** The `dynamicRendering` feature is enabled. This allows drawing directly to an image without the overhead of pre-defined RenderPass objects.
-- **Queues:** A single Graphics Queue is requested. This is the "lane" where drawing instructions are sent to the hardware.
+*   **Dynamic Rendering:** The `dynamicRendering` feature is enabled. This allows drawing directly to an image without the overhead of pre-defined RenderPass objects.
+*   **Queues:** A single Graphics Queue is requested. This is the "lane" where drawing instructions are sent to the hardware.
 
 ## Debugging & Validation
 
 To ensure API correctness, SBgl automatically enables Vulkan Validation Layers in non-release builds:
 
-- **Condition:** If the code is compiled without the `NDEBUG` macro (standard in Debug builds), the backend requests the `"VK_LAYER_KHRONOS_validation"` layer.
-- **Reporting:** Validation errors and warnings are printed directly to `stdout`/`stderr` by the Vulkan runtime.
-- **Performance:** Validation is disabled in Release builds to eliminate the CPU overhead associated with real-time API checking.
+*   **Condition:** If the code is compiled without the `NDEBUG` macro (standard in Debug builds), the backend requests the `"VK_LAYER_KHRONOS_validation"` layer.
+*   **Reporting:** Validation errors and warnings are printed directly to `stdout`/`stderr` by the Vulkan runtime.
+*   **Performance:** Validation is disabled in Release builds to eliminate the CPU overhead associated with real-time API checking.
 
 ## Swapchain Infrastructure
 
 To prevent flickering, drawing is never done directly to the screen. A **Swapchain** is used—a queue of images (usually 3 or 4).
 
-- **Acquisition:** The Swapchain is asked for an available image index.
-- **Synchronization:** `VkSemaphore` (GPU-to-GPU sync) and `VkFence` (CPU-to-GPU sync) are used to ensure the CPU does not start drawing before the GPU is finished with the previous frame.
+*   **Acquisition:** The Swapchain is asked for an available image index.
+*   **Synchronization:** `VkSemaphore` (GPU-to-GPU sync) and `VkFence` (CPU-to-GPU sync) are used to ensure the CPU does not start drawing before the GPU is finished with the previous frame.
 
 ## Frame Execution Pipeline
 
 ### Frame Initiation
 
-- **CPU Wait:** The `inFlightFence` is waited upon to ensure the previous frame is fully processed by the GPU.
-- **Image Grab:** The next image index is acquired from the swapchain.
-- **Command Recording:** The `VkCommandBuffer` is reset and a new list of operations is started.
-- **Layout Transition:** A `VkImageMemoryBarrier` is used to signal that the image is no longer for the OS and pixels will now be written to it.
+*   **CPU Wait:** The `inFlightFence` is waited upon to ensure the previous frame is fully processed by the GPU.
+*   **Image Grab:** The next image index is acquired from the swapchain.
+*   **Command Recording:** The `VkCommandBuffer` is reset and a new list of operations is started.
+*   **Layout Transition:** A `VkImageMemoryBarrier` is used to signal that the image is no longer for the OS and pixels will now be written to it.
 
 ### Dynamic Clearing
 
-- `vkCmdBeginRendering` is used.
-- A `clearValue` (RGBA) is provided.
-- The GPU hardware clears the memory area of that specific swapchain image to the requested color.
+* `vkCmdBeginRendering` is used.
+* A `clearValue` (RGBA) is provided.
+* The GPU hardware clears the memory area of that specific swapchain image to the requested color.
 
 ### Frame Presentation
 
-- **Layout Transition:** The image is transitioned back to `VK_IMAGE_LAYOUT_PRESENT_SRC_KHR`. This signals that drawing is finished and the image can be returned to the OS.
-- **Submission:** The command buffer is closed and submitted to the Graphics Queue.
-- **Presentation:** `vkQueuePresentKHR` is called. This is the final step where the pixels are sent to the compositor to be displayed.
+*   **Layout Transition:** The image is transitioned back to `VK_IMAGE_LAYOUT_PRESENT_SRC_KHR`. This signals that drawing is finished and the image can be returned to the OS.
+*   **Submission:** The command buffer is closed and submitted to the Graphics Queue.
+*   **Presentation:** `vkQueuePresentKHR` is called. This is the final step where the pixels are sent to the compositor to be displayed.
 
 ---
 
@@ -87,9 +87,9 @@ The engine context provides an `SblArena` to the graphics layer during initializ
 
 When a window is resized, the Vulkan swapchain and its associated image views must be destroyed and recreated. To manage this without `free()`:
 
-- **The Mark**: Before creating the swapchain arrays, the backend creates an `SblArenaMark` (a bookmark of the current arena offset).
-- **The Rewind**: During the `cleanup_swapchain` phase, the backend calls `sbl_arena_rewind()` to reset the arena to that bookmark.
-- **The Recreation**: The new, appropriately sized arrays are then pushed back onto the arena at the same location.
+*   **The Mark**: Before creating the swapchain arrays, the backend creates an `SblArenaMark` (a bookmark of the current arena offset).
+*   **The Rewind**: During the `cleanup_swapchain` phase, the backend calls `sbl_arena_rewind()` to reset the arena to that bookmark.
+*   **The Recreation**: The new, appropriately sized arrays are then pushed back onto the arena at the same location.
 
 This pattern allows the engine to handle resize events without increasing the memory footprint or leaking memory.
 

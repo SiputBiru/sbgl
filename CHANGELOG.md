@@ -21,20 +21,20 @@ All notable changes to this project will be documented in this file.
     - **New Build Flag**: Introduced `SBGL_BUILD_TESTS` CMake option to toggle the compilation of internal tests independently of examples.
     - **Clean Examples**: Refined `SBGL_BUILD_EXAMPLES` to strictly target demonstration applications.
     - Implemented a default `Debug` build configuration to ensure development environments have Vulkan validation layers and strict warnings enabled by default.
-    - Added strict compiler flags (`-Werror`, `-Wmissing-prototypes`, `-Wstrict-prototypes` on GCC/Clang; `/WX` on MSVC) specifically for `Debug` builds to enforce high coding standards.
-    - Standardized all example and test entry points to use `int main(void)` and ensured all internal functions use explicit `(void)` parameter lists to satisfy strict prototype requirements.
+    - Added strict compiler flags (`-Werror`, `-Wmissing-prototypes`, `-Wstrict-prototypes` on GCC/Clang; `/WX` on MSVC) specifically for `Debug` builds to enforce coding standards.
+    - Updated all example and test entry points to use `int main(void)` and ensured all internal functions use explicit `(void)` parameter lists to satisfy strict prototype requirements.
     - Fixed an issue where `.spv` shader files were deleted by the CMake build system after header conversion, preventing examples from loading them at runtime.
-    - Improved shader conversion robustness using `copy_if_different`.
+    - Improved shader conversion using `copy_if_different`.
     - Resolved unused variable warnings in test files to maintain a clean `-Werror` build.
 
 ### Added
 - **Phase 4: Rendering Pipeline**:
-    - Implemented a complete rendering pipeline using Vulkan 1.3 **Dynamic Rendering**, eliminating RenderPass and Framebuffer management.
+    - Implemented a rendering pipeline using Vulkan 1.3 **Dynamic Rendering**, eliminating RenderPass and Framebuffer management.
     - **Resource Management**: Introduced a handle-based system (`sbgl_Buffer`, `sbgl_Shader`, `sbgl_Pipeline`) for GPU resources using internal SoA pools for DOD-compliant performance.
     - **Buffer Allocator**: Implemented a block-based GPU memory allocator for Vertex and Index buffers with staging support for CPU-to-GPU transfers.
     - **Shader System**: Added SPIR-V shader loading with support for both dynamic file-based loading and hardcoded byte arrays (via `xxd`).
     - **Explicit PSO**: Implemented Pipeline State Object (PSO) creation with configurable vertex layouts and shader stages.
-    - **Interactive Rendering**: Added **Push Constants** support to the public API and Vulkan backend, enabling low-latency per-frame data updates (e.g., mouse position).
+    - **Interactive Rendering**: Added **Push Constants** support to the public API and Vulkan backend, enabling per-frame data updates (e.g., mouse position).
     - **Depth Buffering**: Implemented a dedicated depth attachment and enabled depth testing in the graphics pipeline to correct 3D geometry sorting.
     - **Synchronization Refactor**: Transitioned to a "Frames in Flight" model (2 overlapping frames) to resolve semaphore reuse validation errors and improve GPU utilization.
     - **Safe Teardown**: Introduced `sbgl_DeviceWaitIdle()` to the public API to ensure the GPU is idle before destroying resources.
@@ -42,8 +42,8 @@ All notable changes to this project will be documented in this file.
         - `draw_triangle.c`: Static triangle rendering using VBOs.
         - `draw_interactive_triangle.c`: Rainbow triangle responding to mouse cursor position.
         - `draw_hardcoded_triangle.c`: Demonstrates self-contained applications with embedded shaders.
-        - `camera3d_pyramid.c`: Comprehensive 3D example with a rotating colored pyramid, depth via backface culling, and push constants.
-    - **Documentation**: Created `docs/RENDERING_PIPELINE.md` covering the new architecture and usage workflows.
+        - `camera3d_pyramid.c`: 3D example with a rotating colored pyramid, depth via backface culling, and push constants.
+    - **Documentation**: Created `docs/RENDERING_PIPELINE.md` covering the architecture and usage workflows.
     - **Examples Restructure**: Reorganized `examples/` directory into topic-based subdirectories (`window`, `input`, `camera`, `triangle`, `test`) and added `docs/EXAMPLES.md` to catalog them.
 
 - **Documentation System Refinement**:
@@ -57,8 +57,8 @@ All notable changes to this project will be documented in this file.
 - **SIMD-Ready Math Library**:
     - Implemented a single-header math library (`sbgl_math.h`) providing Vector (Vec2, Vec3, Vec4), Matrix (Mat4), and Quaternion types.
     - Optimized memory layouts with 16-byte alignment and padding to facilitate efficient SIMD instruction generation and cache line utilization.
-    - Implemented a precision-tuned Fast Inverse Square Root (`sbgl_InvSqrt`) based on the Quake III Arena algorithm using C99-compliant union punning.
-    - Provided a comprehensive set of affine transformations: Translation, Scaling, Rotation (Axis-Angle), Perspective, Orthographic, and LookAt.
+    - Implemented an Inverse Square Root (`sbgl_InvSqrt`) based on the Quake III Arena algorithm using C99-compliant union punning.
+    - Provided a set of affine transformations: Translation, Scaling, Rotation (Axis-Angle), Perspective, Orthographic, and LookAt.
     - Added type-safe constructor functions (e.g., `sbgl_vec3()`) for natural initialization syntax.
     - Integrated the math library into the Doxygen documentation system with automatic symbol linking.
     - Created a technical architecture guide (`docs/MATH_LIB.md`) with usage examples and implementation rationales.
@@ -76,7 +76,7 @@ All notable changes to this project will be documented in this file.
 - **Window Resizing**:
     - Implemented automatic swapchain recreation on window resize events across Wayland, X11, and Win32.
     - Added `sbgl_GetWindowSize` to the public API for context-based dimension queries.
-    - Integrated synchronization to handle window minimization (0x0 dimensions) gracefully.
+    - Integrated synchronization to handle window minimization (0x0 dimensions).
 - **Input System Refactor**:
     - Encapsulated all physical input state into a `sbgl_InputState` structure tied directly to the `sbgl_Context`.
     - Eliminated global input state in favor of context-local state, enabling zero-overhead real-time input access via "key map" arrays.
@@ -121,7 +121,7 @@ All notable changes to this project will be documented in this file.
     - Decoupled the input system into a dedicated HAL (`sbgl_input.h`) and platform-specific implementations.
     - Replaced raw `memcpy` for keyboard states with type-safe **Struct Assignment**.
     - Added support for one-shot key triggers (`sbgl_IsKeyPressed`).
-    - Implemented full native pointer support (position, delta, buttons) for Wayland, X11, and Win32.
+    - Implemented native pointer support (position, delta, buttons) for Wayland, X11, and Win32.
 - **Git Integration**: Initialized git repository and added a comprehensive `.gitignore`.
 - **Documentation**: 
     - Integrated **Doxygen** for automated API documentation generation.
@@ -136,7 +136,7 @@ All notable changes to this project will be documented in this file.
 - **Memory Safety**:
  Resolved a segmentation fault in `sbl_arena_free` caused by a Use-After-Free when the arena structure was self-contained within its own memory blocks.
 - **GPU Synchronization**: Fixed a Vulkan driver crash during rapid window resizing by implementing internal frame lifecycle tracking (`isDrawing` flag), preventing out-of-order command submissions.
-- **Wayland Protocol Crashes**: Resolved "listener function is NULL" errors by providing complete callback implementations for `wl_keyboard` and `wl_pointer`.
+- **Wayland Protocol Crashes**: Resolved "listener function is NULL" errors by providing callback implementations for `wl_keyboard` and `wl_pointer`.
 - **Wayland Window Visibility**: Resolved the issue where windows remained invisible until a valid Vulkan buffer was attached and submitted.
 - **Wayland ANR**: Fixed "Application Not Responding" dialogs by restoring the XDG-Shell ping/pong heartbeat.
 - **GPU Synchronization**: Fixed a potential hang in the frame lifecycle by adopting an explicit `BeginDrawing`/`EndDrawing` pattern.

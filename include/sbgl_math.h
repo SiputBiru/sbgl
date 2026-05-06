@@ -104,10 +104,10 @@ static inline sbgl_Quat sbgl_QuatSet(float x, float y, float z, float w) {
 	return (sbgl_Quat){ { x, y, z, w } };
 }
 
-// --- Fast Math ---
+// --- Math Operations ---
 
 /**
- * @brief John Carmack's Fast Inverse Square Root.
+ * @brief Approximate Inverse Square Root algorithm.
  *
  * Uses C99-compliant union punning to avoid strict-aliasing violations.
  */

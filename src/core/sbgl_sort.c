@@ -4,7 +4,7 @@
 
 /**
  * @file sbgl_sort.c
- * @brief Implementation of high-performance radix sort for 64-bit keys.
+ * @brief Implementation of radix sort for 64-bit keys.
  */
 
 void sbgl_radix_sort(sbgl_SortKey* keys, uint32_t* values, uint32_t count) {
@@ -67,7 +67,7 @@ void sbgl_radix_sort(sbgl_SortKey* keys, uint32_t* values, uint32_t count) {
 
     // After 4 passes, the data might be in the temp buffers or the original ones.
     // Since we swapped 4 times, src_keys should point back to the original keys array.
-    // However, to be robust against changes in pass count, we check and copy if necessary.
+    // However, to ensure correctness against changes in pass count, we check and copy if necessary.
     if (src_keys != keys) {
         memcpy(keys, src_keys, sizeof(sbgl_SortKey) * count);
         memcpy(values, src_values, sizeof(uint32_t) * count);

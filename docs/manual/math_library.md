@@ -7,7 +7,7 @@ The math library provides Data-Oriented Design (DOD) workflows. The library is c
 *   **SIMD-Ready Layouts**: Primary types (`sbgl_Vec3`, `sbgl_Vec4`, `sbgl_Mat4`, `sbgl_Quat`) are 16-byte aligned. This allows the compiler to utilize SSE/AVX instructions when processing arrays of math types.
 *   **Padded Vectors**: `sbgl_Vec3` is explicitly padded to 16 bytes. While this increases memory footprint by 4 bytes per vector, it ensures that 3D data is 128-bit aligned. This is a deliberate trade-off to enable SIMD loads, ensure cache line alignment in arrays, and maintain direct compatibility with GPU buffer layouts (std140/std430).
 *   **Data Access**: Types are implemented as `unions`, providing access to individual components (`x, y, z, w`) or raw arrays (`v[4]`).
-*   **Inverse Square Root**: The library includes an implementation of the Fast Inverse Square Root algorithm.
+*   **Inverse Square Root**: The library includes an implementation of the Approximate Inverse Square Root algorithm.
 
 ## Primary Data Types
 
@@ -22,7 +22,7 @@ The math library provides Data-Oriented Design (DOD) workflows. The library is c
 ## Library Capabilities
 
 ### Inverse Square Root
-*   `sbgl_InvSqrt()`: Computes `1.0f / sqrtf(x)` using bit-level manipulation and two Newton-Raphson iterations. This implementation is inspired by the [Fast Inverse Square Root](https://en.wikipedia.org/wiki/Fast_inverse_square_root) algorithm historically used in Quake III Arena.
+*   `sbgl_InvSqrt()`: Computes `1.0f / sqrtf(x)` using bit-level manipulation and two Newton-Raphson iterations. This implementation is inspired by the [Approximate Inverse Square Root](https://en.wikipedia.org/wiki/Fast_inverse_square_root) algorithm historically used in Quake III Arena.
 
 ### Constructors
 The library provides `static inline` constructor functions to initialize types and ensure correct padding.

@@ -1,6 +1,6 @@
 /**
  * @file sbgl_sort.h
- * @brief High-performance sorting utilities for the SBgl batching system.
+ * @brief Sorting utilities for the SBgl batching system.
  */
 
 #ifndef SBGL_SORT_H

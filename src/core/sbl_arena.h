@@ -38,9 +38,9 @@ typedef struct SblArenaBlock {
 } SblArenaBlock;
 
 /**
- * @brief High-speed arena allocator.
+ * @brief Arena allocator.
  *
- * Manages a chain of memory blocks to provide fast, linear allocations
+ * Manages a chain of memory blocks to provide linear allocations
  * without individual free calls.
  */
 typedef struct SblArena {

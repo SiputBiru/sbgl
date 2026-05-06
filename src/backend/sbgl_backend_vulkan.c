@@ -103,9 +103,12 @@ typedef struct {
 	PFN_vkCmdBindIndexBuffer vkCmdBindIndexBuffer;
 	PFN_vkCmdDraw vkCmdDraw;
 	PFN_vkCmdDrawIndexed vkCmdDrawIndexed;
+	PFN_vkCmdDrawIndexedIndirect vkCmdDrawIndexedIndirect;
 	PFN_vkCmdSetViewport vkCmdSetViewport;
 	PFN_vkCmdSetScissor vkCmdSetScissor;
 	PFN_vkCmdPushConstants vkCmdPushConstants;
+
+	PFN_vkGetBufferDeviceAddress vkGetBufferDeviceAddress;
 } SBGL_VulkanDispatch;
 
 #define SBGL_MAX_BUFFERS 1024
@@ -172,6 +175,9 @@ struct sbgl_GfxContext {
 	SBGL_VulkanShader shaders[SBGL_MAX_SHADERS];
 	SBGL_VulkanPipeline pipelines[SBGL_MAX_PIPELINES];
 	sbgl_Pipeline boundPipeline;
+
+	sbgl_Buffer deferredBuffers[SBGL_MAX_FRAMES_IN_FLIGHT][64];
+	uint32_t deferredCount[SBGL_MAX_FRAMES_IN_FLIGHT];
 };
 
 static void cleanup_swapchain(sbgl_GfxContext* ctx) {
@@ -327,9 +333,12 @@ static bool load_device_functions(sbgl_GfxContext* ctx) {
 	LOAD_DEV(vkCmdBindIndexBuffer);
 	LOAD_DEV(vkCmdDraw);
 	LOAD_DEV(vkCmdDrawIndexed);
+	LOAD_DEV(vkCmdDrawIndexedIndirect);
 	LOAD_DEV(vkCmdSetViewport);
 	LOAD_DEV(vkCmdSetScissor);
 	LOAD_DEV(vkCmdPushConstants);
+
+	LOAD_DEV(vkGetBufferDeviceAddress);
 
 #undef LOAD_DEV
 	return true;
@@ -512,11 +521,23 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 		.pQueuePriorities = &queuePriority,
 	};
 
+	VkPhysicalDeviceFeatures deviceFeatures = {
+		.multiDrawIndirect = VK_TRUE,
+		.shaderInt64 = VK_TRUE,
+	};
+
 	const char* deviceExtensions[] = { VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-									   VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME };
+									   VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME,
+									   VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME };
+
+	VkPhysicalDeviceVulkan12Features features12 = {
+		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES,
+		.bufferDeviceAddress = VK_TRUE,
+	};
 
 	VkPhysicalDeviceDynamicRenderingFeatures dynamicRenderingFeatures = {
 		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES,
+		.pNext = &features12,
 		.dynamicRendering = VK_TRUE,
 	};
 
@@ -525,7 +546,8 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 		.pNext = &dynamicRenderingFeatures,
 		.queueCreateInfoCount = 1,
 		.pQueueCreateInfos = &queueCreateInfo,
-		.enabledExtensionCount = 2,
+		.pEnabledFeatures = &deviceFeatures,
+		.enabledExtensionCount = 3,
 		.ppEnabledExtensionNames = deviceExtensions,
 	};
 
@@ -775,6 +797,36 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 
 	if (ctx->device) {
 		ctx->vk.vkDeviceWaitIdle(ctx->device);
+
+		// Clean up all active buffers
+		for (uint32_t i = 0; i < SBGL_MAX_BUFFERS; i++) {
+			if (ctx->buffers[i].active) {
+				sbgl_gfx_DestroyBuffer(ctx, (sbgl_Buffer)(i + 1));
+			}
+		}
+
+		// Clean up all active shaders
+		for (uint32_t i = 0; i < SBGL_MAX_SHADERS; i++) {
+			if (ctx->shaders[i].active) {
+				sbgl_gfx_DestroyShader(ctx, (sbgl_Shader)(i + 1));
+			}
+		}
+
+		// Clean up all active pipelines
+		for (uint32_t i = 0; i < SBGL_MAX_PIPELINES; i++) {
+			if (ctx->pipelines[i].active) {
+				sbgl_gfx_DestroyPipeline(ctx, (sbgl_Pipeline)(i + 1));
+			}
+		}
+
+		// Process any remaining deferred buffers
+		for (uint32_t f = 0; f < SBGL_MAX_FRAMES_IN_FLIGHT; f++) {
+			for (uint32_t i = 0; i < ctx->deferredCount[f]; i++) {
+				sbgl_gfx_DestroyBuffer(ctx, ctx->deferredBuffers[f][i]);
+			}
+			ctx->deferredCount[f] = 0;
+		}
+
 		for (uint32_t i = 0; i < SBGL_MAX_FRAMES_IN_FLIGHT; i++) {
 			ctx->vk.vkDestroySemaphore(ctx->device, ctx->imageAvailableSemaphores[i], NULL);
 			ctx->vk.vkDestroyFence(ctx->device, ctx->inFlightFences[i], NULL);
@@ -801,6 +853,13 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 
 bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float a) {
 	ctx->vk.vkWaitForFences(ctx->device, 1, &ctx->inFlightFences[ctx->currentFrame], VK_TRUE, UINT64_MAX);
+
+	/* The system processes the deferred destruction queue for the current frame slot,
+	   releasing GPU resources that are no longer in flight. */
+	for (uint32_t i = 0; i < ctx->deferredCount[ctx->currentFrame]; i++) {
+		sbgl_gfx_DestroyBuffer(ctx, ctx->deferredBuffers[ctx->currentFrame][i]);
+	}
+	ctx->deferredCount[ctx->currentFrame] = 0;
 
 	if (sbgl_os_WasWindowResized(ctx->window)) {
 		recreate_swapchain(ctx);
@@ -968,7 +1027,10 @@ sbgl_Buffer sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, 
 		.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
 		.size = size,
 		.usage = (usage & SBGL_BUFFER_USAGE_VERTEX ? VK_BUFFER_USAGE_VERTEX_BUFFER_BIT : 0) |
-				 (usage & SBGL_BUFFER_USAGE_INDEX ? VK_BUFFER_USAGE_INDEX_BUFFER_BIT : 0),
+				 (usage & SBGL_BUFFER_USAGE_INDEX ? VK_BUFFER_USAGE_INDEX_BUFFER_BIT : 0) |
+				 (usage & SBGL_BUFFER_USAGE_STORAGE ? VK_BUFFER_USAGE_STORAGE_BUFFER_BIT : 0) |
+				 (usage & SBGL_BUFFER_USAGE_INDIRECT ? VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT : 0) |
+				 VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT,
 		.sharingMode = VK_SHARING_MODE_EXCLUSIVE,
 	};
 
@@ -980,8 +1042,14 @@ sbgl_Buffer sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, 
 	VkMemoryRequirements memRequirements;
 	ctx->vk.vkGetBufferMemoryRequirements(ctx->device, buffer->handle, &memRequirements);
 
+	VkMemoryAllocateFlagsInfo flagsInfo = {
+		.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO,
+		.flags = VK_MEMORY_ALLOCATE_DEVICE_ADDRESS_BIT,
+	};
+
 	VkMemoryAllocateInfo allocInfo = {
 		.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
+		.pNext = &flagsInfo,
 		.allocationSize = memRequirements.size,
 		.memoryTypeIndex = find_memory_type(ctx, 
 			memRequirements.memoryTypeBits,
@@ -1018,6 +1086,36 @@ void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
 	ctx->vk.vkDestroyBuffer(ctx->device, ctx->buffers[index].handle, NULL);
 	ctx->vk.vkFreeMemory(ctx->device, ctx->buffers[index].memory, NULL);
 	ctx->buffers[index].active = false;
+}
+
+void sbgl_gfx_DestroyBufferDeferred(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
+	/* The system queues the buffer for destruction after the current frame's GPU work
+	   is guaranteed to be complete, preventing premature release of in-flight resources. */
+	if (ctx->deferredCount[ctx->currentFrame] < 64) {
+		ctx->deferredBuffers[ctx->currentFrame][ctx->deferredCount[ctx->currentFrame]++] = handle;
+	} else {
+		/* If the deferred queue is full, the system falls back to immediate destruction
+		   after a device idle wait to maintain safety at the cost of performance. */
+		sbgl_gfx_DeviceWaitIdle(ctx);
+		sbgl_gfx_DestroyBuffer(ctx, handle);
+	}
+}
+
+uint64_t sbgl_gfx_GetBufferDeviceAddress(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
+	/* The system retrieves the 64-bit GPU virtual address for the specified buffer,
+	   enabling direct memory access within shaders via Buffer Device Address. */
+	if (handle == SBGL_INVALID_HANDLE)
+		return 0;
+	uint32_t index = (uint32_t)handle - 1;
+	if (index >= SBGL_MAX_BUFFERS || !ctx->buffers[index].active)
+		return 0;
+
+	VkBufferDeviceAddressInfo info = {
+		.sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO,
+		.buffer = ctx->buffers[index].handle,
+	};
+
+	return ctx->vk.vkGetBufferDeviceAddress(ctx->device, &info);
 }
 
 sbgl_Shader sbgl_gfx_LoadShader(sbgl_GfxContext* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size) {
@@ -1320,6 +1418,22 @@ void sbgl_gfx_DrawIndexed(sbgl_GfxContext* ctx, uint32_t indexCount, uint32_t fi
 		firstIndex,
 		vertexOffset,
 		0
+	);
+}
+
+void sbgl_gfx_DrawIndirect(sbgl_GfxContext* ctx, sbgl_Buffer handle, uint32_t drawCount) {
+	if (handle == SBGL_INVALID_HANDLE)
+		return;
+	uint32_t index = (uint32_t)handle - 1;
+	if (index >= SBGL_MAX_BUFFERS || !ctx->buffers[index].active)
+		return;
+
+	ctx->vk.vkCmdDrawIndexedIndirect(
+		ctx->commandBuffers[ctx->currentFrame],
+		ctx->buffers[index].handle,
+		0,
+		drawCount,
+		sizeof(sbgl_IndirectCommand)
 	);
 }
 

@@ -9,7 +9,6 @@
 #ifndef SBGL_MATH_H
 #define SBGL_MATH_H
 
-#include "sbgl_types.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -23,6 +22,15 @@
 #define SBGL_PI 3.14159265358979323846f
 
 // --- Types ---
+
+/**
+ * @brief Parameters for orthographic projection.
+ */
+typedef struct {
+	float left, right;
+	float bottom, top;
+	float near_p, far_p;
+} sbgl_OrthoParams;
 
 /**
  * @brief 2D Vector.

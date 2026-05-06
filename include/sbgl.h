@@ -276,4 +276,49 @@ void sbgl_DrawIndexed(
  */
 void sbgl_PushConstants(sbgl_Context* ctx, size_t size, const void* data);
 
+// --- Automated Batching API ---
+
+struct SblArena;
+
+/**
+ * @brief Creates a thread-local render queue for collecting draw commands.
+ * 
+ * Draw packets are stored in this queue and must be submitted to the 
+ * backend for rendering. Using multiple queues allows for parallel 
+ * command recording.
+ *
+ * @param ctx The engine context.
+ * @param arena The arena to use for queue allocations.
+ * @return A pointer to the newly created render queue.
+ */
+sbgl_RenderQueue* sbgl_CreateRenderQueue(sbgl_Context* ctx, struct SblArena* arena);
+
+/**
+ * @brief Appends a draw command to the render queue.
+ *
+ * This is a high-performance operation. The packets are cached in the 
+ * queue until the next frame.
+ *
+ * @param queue The render queue to append to.
+ * @param mesh The mesh identifier.
+ * @param material The material identifier.
+ * @param key The sort key for minimizing state changes.
+ * @param data Pointer to the per-instance data (transform, color, etc).
+ */
+void sbgl_SubmitDraw(sbgl_RenderQueue* queue, uint32_t mesh, uint32_t material, sbgl_SortKey key, const sbgl_InstanceData* data);
+
+/**
+ * @brief Merges, sorts, and submits all pending draw commands to the GPU.
+ *
+ * This function processes multiple render queues in a single batching 
+ * operation. It performs a stable radix sort on the packets to minimize
+ * state transitions and then bakes them into indirect draw commands.
+ *
+ * @param ctx The engine context.
+ * @param queues Array of pointers to the render queues to be processed.
+ * @param queueCount Number of queues in the array.
+ * @param viewProj Pointer to the view-projection matrix for the frame.
+ */
+void sbgl_RenderQueues(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t queueCount, const sbgl_Mat4* viewProj);
+
 #endif // SBGL_H

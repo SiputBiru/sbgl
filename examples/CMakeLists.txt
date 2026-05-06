@@ -8,12 +8,16 @@ set(TRI_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/triangle.frag")
 set(INT_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/interactive.frag")
 set(PYR_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/pyramid.vert")
 set(PYR_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/pyramid.frag")
+set(BATCH_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/batching.vert")
+set(BATCH_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/batching.frag")
 
 set(TRI_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle.vert.spv")
 set(TRI_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle.frag.spv")
 set(INT_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/interactive.frag.spv")
 set(PYR_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/pyramid.vert.spv")
 set(PYR_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/pyramid.frag.spv")
+set(BATCH_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching.vert.spv")
+set(BATCH_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching.frag.spv")
 
 set(TRI_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_vert.h")
 set(TRI_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_frag.h")
@@ -27,6 +31,8 @@ sbgl_compile_shader_to_spv(${TRI_FRAG} ${TRI_FRAG_SPV})
 sbgl_compile_shader_to_spv(${INT_FRAG} ${INT_FRAG_SPV})
 sbgl_compile_shader_to_spv(${PYR_VERT} ${PYR_VERT_SPV})
 sbgl_compile_shader_to_spv(${PYR_FRAG} ${PYR_FRAG_SPV})
+sbgl_compile_shader_to_spv(${BATCH_VERT} ${BATCH_VERT_SPV})
+sbgl_compile_shader_to_spv(${BATCH_FRAG} ${BATCH_FRAG_SPV})
 
 sbgl_convert_spv_to_header(${TRI_VERT_SPV} ${TRI_VERT_H})
 sbgl_convert_spv_to_header(${TRI_FRAG_SPV} ${TRI_FRAG_H})
@@ -35,6 +41,7 @@ sbgl_convert_spv_to_header(${TRI_FRAG_SPV} ${TRI_FRAG_H})
 add_custom_target(example_shaders DEPENDS 
     ${TRI_VERT_SPV} ${TRI_FRAG_SPV} ${INT_FRAG_SPV} 
     ${PYR_VERT_SPV} ${PYR_FRAG_SPV}
+    ${BATCH_VERT_SPV} ${BATCH_FRAG_SPV}
     ${TRI_VERT_H} ${TRI_FRAG_H}
 )
 
@@ -47,7 +54,7 @@ if(SBGL_BUILD_STANDALONE)
         set_source_files_properties("${CMAKE_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
     endif()
 
-    foreach(example window/hello_window input/input_keyboard input/input_mouse camera/camera_main triangle/triangle_main)
+    foreach(example window/hello_window input/input_keyboard input/input_mouse camera/camera_main triangle/triangle_main batching/batch_main)
         # Extract target name (e.g. hello_window from window/hello_window)
         get_filename_component(target_name ${example} NAME)
         
@@ -82,8 +89,11 @@ else()
     macro(add_example name src)
         add_executable(${name} ${src})
         add_dependencies(${name} example_shaders)
-        target_include_directories(${name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-        target_link_libraries(${name} PRIVATE sbgl)
+        target_include_directories(${name} PRIVATE 
+            ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_SOURCE_DIR}/src
+        )
+        target_link_libraries(${name} PRIVATE sbgl m)
     endmacro()
 
     add_example(hello_window window/hello_window.c)
@@ -91,4 +101,5 @@ else()
     add_example(input_mouse input/input_mouse.c)
     add_example(camera_main camera/camera_main.c)
     add_example(triangle_main triangle/triangle_main.c)
+    add_example(batch_main batching/batch_main.c)
 endif()

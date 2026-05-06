@@ -9,6 +9,19 @@
 
 #define SBGL_INVALID_HANDLE 0
 
+#include "sbgl_math.h"
+
+/**
+ * @brief Per-instance data for automated batching.
+ *
+ * This structure is uploaded to the GPU as an SSBO and accessed
+ * via Buffer Device Address (BDA) in the vertex shader.
+ */
+typedef struct {
+    sbgl_Mat4 transform; /**< World transformation matrix. */
+    sbgl_Vec4 color;     /**< Per-instance color tint. */
+} sbgl_InstanceData;
+
 /**
  * @brief Handle for a GPU-side buffer.
  */
@@ -25,11 +38,33 @@ typedef uint32_t sbgl_Shader;
 typedef uint32_t sbgl_Pipeline;
 
 /**
+ * @brief Bit-packed key used for sorting draw commands to minimize state changes.
+ */
+typedef uint64_t sbgl_SortKey;
+
+/**
+ * @brief Encapsulates all data required to submit a single draw call.
+ */
+typedef struct {
+    sbgl_SortKey key;      /**< Sorting key based on material, mesh, and depth. */
+    uint32_t instanceId;   /**< Index into the per-instance data buffer. */
+    uint32_t meshId;       /**< Identifier for the geometry to be rendered. */
+    uint32_t materialId;   /**< Identifier for the material parameters. */
+} sbgl_DrawPacket;
+
+/**
+ * @brief Internal queue used to batch and sort draw packets before submission.
+ */
+typedef struct sbgl_RenderQueue sbgl_RenderQueue;
+
+/**
  * @brief Buffer usage flags.
  */
 typedef enum {
 	SBGL_BUFFER_USAGE_VERTEX = 0x01,
 	SBGL_BUFFER_USAGE_INDEX = 0x02,
+	SBGL_BUFFER_USAGE_STORAGE = 0x04,
+	SBGL_BUFFER_USAGE_INDIRECT = 0x08,
 } sbgl_BufferUsage;
 
 /**
@@ -76,15 +111,6 @@ typedef struct {
 	sbgl_Shader fragmentShader;
 	sbgl_VertexLayout vertexLayout;
 } sbgl_PipelineConfig;
-
-/**
- * @brief Parameters for orthographic projection.
- */
-typedef struct {
-	float left, right;
-	float bottom, top;
-	float near_p, far_p;
-} sbgl_OrthoParams;
 
 /**
  * @brief Result codes for engine operations.

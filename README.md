@@ -1,282 +1,43 @@
-# SBgl (SiputBiru Graphics Library) {#mainpage}
+# SBgl (SiputBiru Graphics Library)
 
-A bare-metal graphics framework written in C99. Designed for 2D/3D applications with an explicit, context-based API.
+A bare-metal graphics framework written in C99. Provides an explicit, context-based API for 2D/3D applications.
 
-[![C99](https://img.shields.io/badge/C-99-blue.svg)](https://en.wikipedia.org/wiki/C99)
-[![Vulkan](https://img.shields.io/badge/Vulkan-1.3-red.svg)](https://www.vulkan.org/)
-![Platform](https://img.shields.io/badge/Platform-Wayland_|_X11_|_Win32-green.svg)
-
-## Core Philosophy
-
-SBgl is built for developers who want control over the hardware without the overhead of heavy engines.
-
-- **Explicit Context**: No global state. Every operation is tied to an explicit sbgl_Context.
-- **Data-Oriented Design**: APIs and data layouts are designed for cache efficiency and batch processing.
-- **Concurrency**: Implements a Job System for lock-free, data-parallel transformations across worker threads.
-- **Vulkan 1.3**: Utilizes Dynamic Rendering and synchronization.
-- **SIMD Math**: 16-byte aligned vector, matrix, and quaternion library (`sbgl_math.h`).
-- **Native Platform HAL**: Direct integration with Wayland (XDG-Shell) and Win32, preventing header leakage to user code.
-- **Arena-Backed**: Memory is managed via arenas for predictable allocation.
-
-## Prerequisites
-
-- **Compiler**: GCC 9+, Clang 10+, or MSVC 2019+.
-- **Build System**: CMake 3.15+.
-- **Graphics**: Vulkan SDK 1.3+ (Include headers for compilation).
-- **Linux**: Wayland and/or X11 development libraries.
-- **Windows**:
-  - **Native**: Visual Studio 2019+ with C++ desktop development workload.
-  - **Vulkan**: `vulkan-1.dll` must be available in the system PATH or application directory at runtime.
-
-## Integration
-
-SBgl can be integrated into other CMake projects using `FetchContent`.
-
-```C
-include(FetchContent)
-
-FetchContent_Declare(
-  sbgl
-  GIT_REPOSITORY https://github.com/SiputBiru/sbgl.git
-  GIT_TAG        main # Or a specific commit/tag
-)
-
-FetchContent_MakeAvailable(sbgl)
-
-# Link against the library
-target_link_libraries(your_project PRIVATE sbgl)
-```
-
-## Building from Source
-
-This project uses CMake. Follow these steps to configure, build, and run the framework.
-
-### Configure
-
-Create the build directory and generate the compilation database for the LSP (clangd).
-
-**For Wayland (Default):**
+## Quick Start
 
 ```bash
-cmake -B build -S . -DSBGL_USE_WAYLAND=ON
-```
-
-**For X11:**
-
-```bash
-cmake -B build -S . -DSBGL_USE_WAYLAND=OFF
-```
-
-**For Windows (Native MSVC):**
-
-```powershell
-cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON
-cmake --build build --config Release
-```
-
-**For Windows (Cross-compile from Linux):**
-Requires `mingw-w64` toolchain.
-
-```bash
-cmake -B build-win -S . -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -DSBGL_BUILD_EXAMPLES=ON -DCMAKE_EXE_LINKER_FLAGS="-static"
-```
-
-**Enable Examples:**
-To build the example applications alongside the library:
-
-```bash
-cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON
-```
-
-**Enable Tests:**
-To build the unit and integration tests (distinct from examples):
-
-```bash
-cmake -B build -S . -DSBGL_BUILD_TESTS=ON
-```
-
-**Standalone Build (No Library File):**
-Compiles the library source code directly into the example executables (no `libsbgl.a` is created).
-
-```bash
-cmake -B build -S . -DSBGL_BUILD_EXAMPLES=ON -DSBGL_BUILD_STANDALONE=ON
-```
-
-### Build Modes
-
-SBgl utilizes standard CMake build types to toggle development features.
-
-- **Debug (Default)**: Enables Vulkan validation layers, strict compiler warnings (`-Werror`), and debug symbols. This is the recommended mode for active development.
-- **Release**: Disables validation layers and warning-as-errors for maximum performance and deployment stability.
-
-To explicitly set the build type:
-
-```bash
-cmake -B build -DCMAKE_BUILD_TYPE=Release
-```
-
-### Build
-
-Compile the library and all example applications.
-
-```bash
+git clone https://github.com/SiputBiru/sbgl.git
+cmake -B build -DSBGL_BUILD_EXAMPLES=ON
 cmake --build build
-```
-
-### Clean
-
-SBgl supports standard and deep cleaning operations.
-
-**Standard Clean:**
-Removes compiled object files and executables but keeps the configuration.
-
-```bash
-cmake --build build --target clean
-```
-
-**Documentation Clean:**
-Removes the generated `docs/` folder.
-
-```bash
-cmake --build build --target docs-clean
-```
-
-**Deep Clean (Reset):**
-To completely reset the project state, simply delete the build directory.
-
-```bash
-rm -rf build
-```
-
-### Run Examples
-
-After building, examples located in the build directory can be executed.
-
-```bash
-# Run basic window test (Linux natively)
 ./build/examples/hello_window
 ```
 
-### Run Tests
-
-Tests are located in the `tests/` subdirectory of the build folder. They verify the internal logic of the framework (e.g., math and memory management).
-
-```bash
-# Run math library tests
-./build/tests/math_test
-
-# Run memory arena tests
-./build/tests/arena_test
-```
-
-**Testing Windows Builds (via Wine):**
-If you cross-compiled for Windows, you can test the executables directly on Linux using Wine.
-
-```bash
-wine ./build-win/examples/hello_window.exe
-```
-
-## Generating Documentation
-
-SBgl uses **Doxygen** for automated API documentation. A searchable HTML site detailing the internal architecture and public API can be generated.
-
-### Generate
-
-Ensure Doxygen is installed and run the specific documentation target.
-
-```bash
-cmake --build build --target docs
-```
-
-### View
-
-The output is located in `docs/html/index.html` and can be opened in any web browser.
-
-## Basic Example
-
-```c
-#include <sbgl.h>
-#include <stdio.h>
-
-int main() {
-    // Initialize SBgl with a Result Struct pattern
-    sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Window");
-    if (res.error != SBGL_SUCCESS) return 1;
-
-    sbgl_Context* ctx = res.ctx;
-
-    while (!sbgl_WindowShouldClose(ctx)) {
-        const sbgl_InputState* input = sbgl_GetInputState(ctx);
-
-        // Set clear color (RGBA)
-        sbgl_Clear(ctx, 0.1f, 0.2f, 0.3f, 1.0f);
-
-        sbgl_BeginDrawing(ctx);
-        // Rendering logic here...
-        sbgl_EndDrawing(ctx);
-
-        if (input->keysDown[SBGL_KEY_ESCAPE]) {
-            break;
-        }
-    }
-
-    // Explicit Context cleanup
-    sbgl_DeviceWaitIdle(ctx);
-    sbgl_Shutdown(ctx);
-    return 0;
-}
-```
-
-## Rendering Example
-
-```c
-#include <sbgl.h>
-
-// Vertices with Position and Color
-typedef struct { float p[3]; float c[3]; } Vertex;
-Vertex tri[] = { {{0, -0.5, 0}, {1, 0, 0}}, {{0.5, 0.5, 0}, {0, 1, 0}}, {{-0.5, 0.5, 0}, {0, 0, 1}} };
-
-// Loading Shaders (from file or hardcoded bytes)
-size_t v_sz, f_sz;
-uint32_t* v_spv = read_file("shader.vert.spv", &v_sz);
-sbgl_Shader v_shd = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, v_spv, v_sz);
-
-// Create Pipeline
-sbgl_VertexAttribute attr[] = { {0, 0, SBGL_FORMAT_R32G32B32_SFLOAT}, {1, sizeof(float)*3, SBGL_FORMAT_R32G32B32_SFLOAT} };
-sbgl_PipelineConfig cfg = { .vertexShader = v_shd, .fragmentShader = f_shd, 
-                            .vertexLayout = { sizeof(Vertex), 2, attr } };
-sbgl_Pipeline pip = sbgl_CreatePipeline(ctx, &cfg);
-
-// Main Loop
-sbgl_BeginDrawing(ctx);
-sbgl_BindPipeline(ctx, pip);
-sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
-sbgl_Draw(ctx, 3, 0);
-sbgl_EndDrawing(ctx);
-
-// Teardown: Wait for GPU to finish before destroying resources
-sbgl_DeviceWaitIdle(ctx);
-sbgl_DestroyPipeline(ctx, pip);
-sbgl_DestroyShader(ctx, v_shd);
-sbgl_DestroyShader(ctx, f_shd);
-```
-
-## Project Structure
-
-- include/: Public API headers.
-- src/core/: Engine logic, HAL definitions, and memory management.
-- src/platform/: OS-specific implementations (Wayland, Win32).
-- src/backend/: Graphics API implementations (Vulkan 1.3).
-- examples/: Demo applications showing how to use the framework.
-- tests/: Unit and integration tests for framework internals.
-
 ## Documentation
 
-- [PLATFORM.md](docs/PLATFORM.md): Explanation of the Platform Abstraction Layer and window creation.
-- [VULKAN_BACKEND.md](docs/VULKAN_BACKEND.md): Detailed explanation of the graphics layer.
-- [MATH_LIB.md](docs/MATH_LIB.md): Architecture of the vector and matrix library.
-- [ROADMAP.md](docs/ROADMAP.md): Development milestones and future goals.
-- [CHANGELOG.md](CHANGELOG.md): Project history and technical milestones.
+### Getting Started
+*   [Installation](docs/getting_started/installation.md)
+*   [Window Setup](docs/getting_started/window_setup.md)
+*   [First Triangle](docs/getting_started/first_triangle.md)
 
----
-*Created by SiputBiru.*
+### Manual
+*   [Input System](docs/manual/input_system.md)
+*   [Math Library](docs/manual/math_library.md)
+*   [Memory Management](docs/manual/memory_management.md)
+*   [Platform Abstraction](docs/manual/platform_abstraction.md)
+*   [Rendering Pipeline](docs/manual/rendering_pipeline.md)
+*   [Vulkan Backend](docs/manual/vulkan_backend.md)
+*   [Camera System](docs/manual/camera_system.md)
+
+### Resources
+*   [Categorized Examples](docs/examples/index.md)
+*   [Roadmap](docs/roadmap.md)
+*   [Changelog](CHANGELOG.md)
+
+## Features
+
+*   Bare-metal C99 architecture.
+*   Explicit Context-based API (no global state).
+*   Vulkan 1.3 backend.
+*   Data-Oriented Design (DOD) for cache efficiency.
+*   Arena-based memory management.
+*   SIMD-ready math library.
+*   Native Platform HAL (Wayland, X11, Win32).

@@ -25,8 +25,6 @@ int main() {
 
 ```c
 while (!sbgl_WindowShouldClose(ctx)) {
-    sbgl_os_PollEvents(ctx); // OS event processing
-    
     sbgl_BeginDrawing(ctx);
     // Rendering operations
     sbgl_EndDrawing(ctx);

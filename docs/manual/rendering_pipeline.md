@@ -29,7 +29,7 @@ Ideal for development and modding, allowing shaders to be recompiled without reb
 
 ```c
 size_t size;
-uint32_t* bytecode = read_spirv_file("examples/shaders/my_shader.vert.spv", &size);
+uint32_t* bytecode = read_spirv_file("examples/shaders/example_shader.vert.spv", &size);
 sbgl_Shader shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, bytecode, size);
 // ... handle cleanup of bytecode if necessary ...
 ```
@@ -39,14 +39,14 @@ sbgl_Shader shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, bytecode, si
 Recommended for production releases to ensure the application is self-contained and prevents tampering with core assets.
 
 The `xxd` tool facilitates converting a compiled `.spv` file into a C header:
-`xxd -i examples/shaders/my_shader.vert.spv > my_shader_vert.h`
+`xxd -i examples/shaders/example_shader.vert.spv > example_shader_vert.h`
 
 ```c
-#include "my_shader_vert.h"
-// xxd generates an array named 'my_shader_vert_spv' and 'my_shader_vert_spv_len'
+#include "example_shader_vert.h"
+// xxd generates an array named 'example_shader_vert_spv' and 'example_shader_vert_spv_len'
 sbgl_Shader shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, 
-                                     (uint32_t*)my_shader_vert_spv, 
-                                     my_shader_vert_spv_len);
+                                     (uint32_t*)example_shader_vert_spv, 
+                                     example_shader_vert_spv_len);
 ```
 
 ## Vertex Layout Use Case
@@ -57,15 +57,15 @@ Defining a standard vertex with Position and Color attributes:
 typedef struct {
     float pos[3];
     float color[3];
-} MyVertex;
+} ExampleVertex;
 
 sbgl_VertexAttribute attributes[] = {
-    { .location = 0, .offset = offsetof(MyVertex, pos), .format = SBGL_FORMAT_R32G32B32_SFLOAT },
-    { .location = 1, .offset = offsetof(MyVertex, color), .format = SBGL_FORMAT_R32G32B32_SFLOAT }
+    { .location = 0, .offset = offsetof(ExampleVertex, pos), .format = SBGL_FORMAT_R32G32B32_SFLOAT },
+    { .location = 1, .offset = offsetof(ExampleVertex, color), .format = SBGL_FORMAT_R32G32B32_SFLOAT }
 };
 
 sbgl_VertexLayout layout = {
-    .stride = sizeof(MyVertex),
+    .stride = sizeof(ExampleVertex),
     .attributeCount = 2,
     .attributes = attributes
 };
@@ -77,8 +77,8 @@ sbgl_VertexLayout layout = {
 sbgl_BeginDrawing(ctx);
 sbgl_Clear(ctx, 0.0f, 0.0f, 0.0f, 1.0f);
 
-sbgl_BindPipeline(ctx, my_pipeline);
-sbgl_BindBuffer(ctx, my_vbo, SBGL_BUFFER_USAGE_VERTEX);
+sbgl_BindPipeline(ctx, example_pipeline);
+sbgl_BindBuffer(ctx, example_vbo, SBGL_BUFFER_USAGE_VERTEX);
 
 // Update interactive data via Push Constants
 float time = get_current_time();
@@ -90,8 +90,8 @@ sbgl_EndDrawing(ctx);
 
 // Teardown: Wait for GPU to finish before destroying resources
 sbgl_DeviceWaitIdle(ctx);
-sbgl_DestroyPipeline(ctx, my_pipeline);
-sbgl_DestroyBuffer(ctx, my_vbo);
+sbgl_DestroyPipeline(ctx, example_pipeline);
+sbgl_DestroyBuffer(ctx, example_vbo);
 ```
 
 ## Depth Buffering & 3D Sorting

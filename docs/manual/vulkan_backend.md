@@ -26,9 +26,9 @@ Vulkan is platform-agnostic; it does not know what a "window" is. The `VkSurface
 
 The `select_physical_device()` function identifies the most suitable hardware:
 
-1. **Enumeration:** All available GPUs (NVIDIA, AMD, Intel) are queried.
-2. **Preference:** A `VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU` is searched for first.
-3. **Queue Support:** The chosen GPU must have a "Queue Family" that supports **both** Graphics commands and Surface Presentation.
+- **Enumeration:** All available GPUs (NVIDIA, AMD, Intel) are queried.
+- **Preference:** A `VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU` is searched for first.
+- **Queue Support:** The chosen GPU must have a "Queue Family" that supports **both** Graphics commands and Surface Presentation.
 
 ## Logical Device and Queue Management
 
@@ -54,24 +54,24 @@ To prevent flickering, drawing is never done directly to the screen. A **Swapcha
 
 ## Frame Execution Pipeline
 
-### Phase A: `sbgl_gfx_BeginFrame`
+### Frame Initiation
 
-1. **CPU Wait:** The `inFlightFence` is waited upon to ensure the previous frame is fully processed by the GPU.
-2. **Image Grab:** The next image index is acquired from the swapchain.
-3. **Command Recording:** The `VkCommandBuffer` is reset and a new list of operations is started.
-4. **Layout Transition:** A `VkImageMemoryBarrier` is used to signal that the image is no longer for the OS and pixels will now be written to it.
+- **CPU Wait:** The `inFlightFence` is waited upon to ensure the previous frame is fully processed by the GPU.
+- **Image Grab:** The next image index is acquired from the swapchain.
+- **Command Recording:** The `VkCommandBuffer` is reset and a new list of operations is started.
+- **Layout Transition:** A `VkImageMemoryBarrier` is used to signal that the image is no longer for the OS and pixels will now be written to it.
 
-### Phase B: `sbgl_Clear` (Dynamic Rendering)
+### Dynamic Clearing
 
 - `vkCmdBeginRendering` is used.
 - A `clearValue` (RGBA) is provided.
 - The GPU hardware clears the memory area of that specific swapchain image to the requested color.
 
-### Phase C: `sbgl_gfx_EndFrame`
+### Frame Presentation
 
-1. **Layout Transition:** The image is transitioned back to `VK_IMAGE_LAYOUT_PRESENT_SRC_KHR`. This signals that drawing is finished and the image can be returned to the OS.
-2. **Submission:** The command buffer is closed and submitted to the Graphics Queue.
-3. **Presentation:** `vkQueuePresentKHR` is called. This is the final step where the pixels are sent to the compositor to be displayed.
+- **Layout Transition:** The image is transitioned back to `VK_IMAGE_LAYOUT_PRESENT_SRC_KHR`. This signals that drawing is finished and the image can be returned to the OS.
+- **Submission:** The command buffer is closed and submitted to the Graphics Queue.
+- **Presentation:** `vkQueuePresentKHR` is called. This is the final step where the pixels are sent to the compositor to be displayed.
 
 ---
 
@@ -87,9 +87,9 @@ The engine context provides an `SblArena` to the graphics layer during initializ
 
 When a window is resized, the Vulkan swapchain and its associated image views must be destroyed and recreated. To manage this without `free()`:
 
-1. **The Mark**: Before creating the swapchain arrays, the backend creates an `SblArenaMark` (a bookmark of the current arena offset).
-2. **The Rewind**: During the `cleanup_swapchain` phase, the backend calls `sbl_arena_rewind()` to reset the arena to that bookmark.
-3. **The Recreation**: The new, appropriately sized arrays are then pushed back onto the arena at the same location.
+- **The Mark**: Before creating the swapchain arrays, the backend creates an `SblArenaMark` (a bookmark of the current arena offset).
+- **The Rewind**: During the `cleanup_swapchain` phase, the backend calls `sbl_arena_rewind()` to reset the arena to that bookmark.
+- **The Recreation**: The new, appropriately sized arrays are then pushed back onto the arena at the same location.
 
 This pattern allows the engine to handle resize events without increasing the memory footprint or leaking memory.
 

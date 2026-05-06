@@ -56,8 +56,8 @@ typedef union {
 ```
 
 When initializing these types with compound literals:
-1.  The **outer braces** `{}` initialize the `union`.
-2.  The **inner braces** `{}` initialize the anonymous `struct` (the first member of the union).
+-   The **outer braces** `{}` initialize the `union`.
+-   The **inner braces** `{}` initialize the anonymous `struct` (the first member of the union).
 
 Using single braces may result in compiler warnings (e.g., `-Wmissing-braces`) regarding the initialization of subobjects.
 

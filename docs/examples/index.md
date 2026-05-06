@@ -22,7 +22,7 @@ make
 After building, binaries are located in the `build/examples/` directory. For example:
 
 ```bash
-./examples/window/hello_window
+./build/examples/hello_window
 ```
 
 

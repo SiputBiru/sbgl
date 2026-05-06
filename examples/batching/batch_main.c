@@ -144,15 +144,19 @@ int main(void) {
 	float last_time = start_time;
 
 	while (!sbgl_WindowShouldClose(app.ctx)) {
-		if (sbgl_GetInputState(app.ctx)->keysDown[SBGL_KEY_ESCAPE])
+		sbgl_Clear(app.ctx, 0.02f, 0.02f, 0.02f, 1.0f);
+		sbgl_BeginDrawing(app.ctx);
+
+		const sbgl_InputState* input = sbgl_GetInputState(app.ctx);
+		if (input->keysDown[SBGL_KEY_ESCAPE]) {
+			sbgl_EndDrawing(app.ctx);
 			break;
+		}
 
 		float current_time = (float)clock() / CLOCKS_PER_SEC;
 		float dt = current_time - last_time;
 		last_time = current_time;
 		float time = current_time - start_time;
-
-		const sbgl_InputState* input = sbgl_GetInputState(app.ctx);
 
 		if (input->keysPressed[SBGL_KEY_TAB]) {
 			mouse_locked = !mouse_locked;
@@ -181,12 +185,11 @@ int main(void) {
 		if (input->keysDown[SBGL_KEY_S]) camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(front, velocity));
 		if (input->keysDown[SBGL_KEY_A]) camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(right, velocity));
 		if (input->keysDown[SBGL_KEY_D]) camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(right, velocity));
+		if (input->keysDown[SBGL_KEY_E]) camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity));
+		if (input->keysDown[SBGL_KEY_Q]) camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity));
 
 		camera.target = sbgl_Vec3Add(camera.position, front);
 		camera.up = up;
-
-		sbgl_Clear(app.ctx, 0.02f, 0.02f, 0.02f, 1.0f);
-		sbgl_BeginDrawing(app.ctx);
 
 		sbgl_Mat4 vp = sbgl_Mat4Mul(sbgl_CameraGetProjection(&camera), sbgl_CameraGetView(&camera));
 

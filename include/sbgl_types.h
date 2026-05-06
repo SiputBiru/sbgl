@@ -76,7 +76,7 @@ typedef enum {
 } sbgl_ShaderStage;
 
 /**
- * @brief Standard data formats for vertex attributes.
+ * @brief Data formats for vertex attributes.
  */
 typedef enum {
 	SBGL_FORMAT_R32_SFLOAT = 0,
@@ -125,9 +125,9 @@ typedef enum {
 } sbgl_Result;
 
 /**
- * @brief Primary engine context.
+ * @brief Engine context.
  *
- * The context serves as the central handle for all SBgl operations. It utilizes
+ * The context serves as the handle for all SBgl operations. It utilizes
  * an opaque pointer pattern to encapsulate internal engine state, ensuring
  * that OS-specific handles and internal memory management are hidden from
  * the public API.
@@ -137,11 +137,10 @@ typedef struct sbgl_Context {
 	 * @brief Opaque pointer to the internal engine state.
 	 *
 	 * Points to the private `sbgl_InternalContext` structure, which manages
-	 * the following internal subsystems:
-	 * - **Memory Arena**: The persistent `SblArena` used for context-local allocations.
-	 * - **Native Window**: The platform-specific `sbgl_Window` handle.
-	 * - **Graphics State**: Clear colors and frame acquisition flags.
-	 * - **Input State**: The real-time physical state of keys and mouse buttons.
+	 * internal subsystems including the persistent `SblArena` for context-local 
+	 * allocations, the platform-specific `sbgl_Window` handle, graphics 
+	 * state such as clear colors and frame acquisition flags, and the 
+	 * real-time physical state of keys and mouse buttons.
 	 */
 	void* inner;
 
@@ -149,7 +148,7 @@ typedef struct sbgl_Context {
 	 * @brief Status of the last major operation.
 	 *
 	 * Stores the result or error code from the most recent critical API
-	 * call (e.g., initialization or frame acquisition).
+	 * call (for instance, initialization or frame acquisition).
 	 */
 	sbgl_Result result;
 } sbgl_Context;

@@ -110,9 +110,49 @@ To maximize performance and prevent CPU/GPU bottlenecks, SBgl implements a **Fra
 - **Overlapping Execution:** This allows the CPU to begin recording the *next* frame while the GPU is still processing the *previous* one.
 - **Safe Teardown:** Before destroying resources (e.g., exiting an application), you MUST call `sbgl_DeviceWaitIdle(ctx)` to ensure all in-flight GPU work is complete.
 
+## Automated Batching
+
+SBgl provides a high-level automated batching system to minimize CPU-to-GPU communication overhead. This system collects multiple draw requests into a single submission, leveraging GPU-side features like Indirect Drawing.
+
+### Render Queues
+
+A `sbgl_RenderQueue` acts as a collector for draw commands. It is initialized using an `SblArena` to ensure efficient, contiguous memory allocation for the queued data.
+
+```c
+SblArena arena;
+sbl_arena_init(&arena, 1024 * 1024);
+sbgl_RenderQueue* queue = sbgl_CreateRenderQueue(ctx, &arena);
+```
+
+### Submitting Draws
+
+Instead of immediate execution, draw calls are submitted to a queue. The system stores the vertex count, first vertex, and instance count for each draw.
+
+```c
+// Queue up 10,000 instances of a single triangle
+for (int i = 0; i < 10000; i++) {
+    sbgl_SubmitDraw(queue, 3, 0, 1);
+}
+```
+
+### Executing the Queue
+
+The `sbgl_RenderQueues` function processes one or more queues. It performs internal sorting (e.g., via Radix Sort in the backend) and "bakes" the draws into a single Vulkan Indirect Draw command.
+
+```c
+sbgl_BeginDrawing(ctx);
+sbgl_BindPipeline(ctx, pipeline);
+sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
+
+// Process and execute all queued draws
+sbgl_RenderQueues(ctx, &queue, 1);
+
+sbgl_EndDrawing(ctx);
+```
+
 ## Batch Rendering & DOD Alignment
 
-The handle system is designed for batching. By iterating through arrays of transformation data (SoA) and binding buffers once, high-performance geometry submission is achieved. Future phases will extend this with Multi-Draw Indirect (MDI) to further reduce CPU overhead.
+The handle system is designed for batching. By iterating through arrays of transformation data (SoA) and binding buffers once, high-performance geometry submission is achieved. The automated batcher utilizes Multi-Draw Indirect (MDI) to significantly reduce CPU overhead by submitting massive amounts of geometry with a single Vulkan command.
 
 ## Multithreading Considerations
 

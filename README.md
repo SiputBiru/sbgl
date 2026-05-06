@@ -24,15 +24,15 @@ SBgl is built for developers who want control over the hardware without the over
 - **Build System**: CMake 3.15+.
 - **Graphics**: Vulkan SDK 1.3+ (Include headers for compilation).
 - **Linux**: Wayland and/or X11 development libraries.
-- **Windows**: 
-    - **Native**: Visual Studio 2019+ with C++ desktop development workload.
-    - **Vulkan**: `vulkan-1.dll` must be available in the system PATH or application directory at runtime.
+- **Windows**:
+  - **Native**: Visual Studio 2019+ with C++ desktop development workload.
+  - **Vulkan**: `vulkan-1.dll` must be available in the system PATH or application directory at runtime.
 
 ## Integration
 
 SBgl can be integrated into other CMake projects using `FetchContent`.
 
-```cmake
+```C
 include(FetchContent)
 
 FetchContent_Declare(
@@ -110,6 +110,7 @@ SBgl utilizes standard CMake build types to toggle development features.
 - **Release**: Disables validation layers and warning-as-errors for maximum performance and deployment stability.
 
 To explicitly set the build type:
+
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 ```

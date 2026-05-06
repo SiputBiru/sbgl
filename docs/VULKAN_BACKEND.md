@@ -139,6 +139,22 @@ Failure to call `sbgl_DeviceWaitIdle()` before destruction will trigger Vulkan V
 
 SBgl maintains a bare-metal philosophy by keeping this synchronization explicit. This prevents unnecessary stalls during gameplay while ensuring full API correctness during cleanup.
 
+## Buffer Device Address (BDA)
+
+SBgl utilizes the `VK_KHR_buffer_device_address` extension (core in Vulkan 1.3) to achieve high-performance memory access.
+
+- **Pointer-Like Access:** BDA allows the GPU to access buffer memory via 64-bit GPU virtual addresses rather than traditional descriptor sets.
+- **Reduced Binding Overhead:** By passing these addresses directly (e.g., via Push Constants), the engine eliminates the need to frequently update and rebind descriptor sets for every draw call.
+- **DOD Alignment:** This enables more efficient data-oriented structures on the GPU, such as linked lists or trees stored in a single large buffer and traversed using raw addresses.
+
+## Indirect Drawing
+
+To maximize the "Where there is one, there are many" mandate, SBgl employs Indirect Drawing for its automated batching system.
+
+- **CPU Submission:** The CPU records a single `vkCmdDrawIndirect` (or `vkCmdDrawIndexedIndirect`) command.
+- **GPU Execution:** The actual draw parameters (vertex count, instance count, first vertex, etc.) are read by the GPU from a buffer at execution time.
+- **Batch Processing:** This allows thousands of unique draw calls to be submitted with minimal CPU overhead, as the CPU only needs to update a single "draw command buffer" rather than recording individual commands for every object.
+
 ---
 
 ## Technical Summary

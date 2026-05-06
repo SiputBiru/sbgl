@@ -15,12 +15,32 @@ sbgl_Shader v_shd = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, v_spv, v_sz);
 sbgl_Shader f_shd = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, f_spv, f_sz);
 ```
 
+## Vertex Layout
+
+A vertex layout describes how the GPU should interpret raw vertex data. In this example, each vertex consists of a 2D position (2 floats) followed by an RGB color (3 floats).
+
+```c
+sbgl_VertexAttribute attributes[] = {
+    { .location = 0, .format = SBGL_FORMAT_R32G32_SFLOAT, .offset = 0 },
+    { .location = 1, .format = SBGL_FORMAT_R32G32B32_SFLOAT, .offset = 2 * sizeof(float) }
+};
+
+sbgl_VertexLayout layout = {
+    .stride = 5 * sizeof(float),
+    .attributeCount = 2,
+    .attributes = attributes
+};
+```
+
 ## Pipeline Creation
+
+The graphics pipeline encapsulates the shader stages and the vertex layout.
 
 ```c
 sbgl_PipelineConfig cfg = { 
     .vertexShader = v_shd, 
-    .fragmentShader = f_shd 
+    .fragmentShader = f_shd,
+    .vertexLayout = layout
 };
 sbgl_Pipeline pip = sbgl_CreatePipeline(ctx, &cfg);
 ```

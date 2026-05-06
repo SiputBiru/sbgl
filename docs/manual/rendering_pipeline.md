@@ -16,8 +16,8 @@ SBgl requires explicit creation of graphics pipelines. A pipeline encapsulates t
 
 The `sbgl_VertexLayout` structure defines how vertex data in a buffer is mapped to shader input locations.
 
-- **Stride:** Total size in bytes of a single vertex.
-- **Attributes:** Array of `sbgl_VertexAttribute` defining the location and offset of each component.
+*   **Stride:** Total size in bytes of a single vertex.
+*   **Attributes:** Array of `sbgl_VertexAttribute` defining the location and offset of each component.
 
 ## Shader Loading Strategies
 
@@ -98,17 +98,17 @@ sbgl_DestroyBuffer(ctx, example_vbo);
 
 SBgl utilizes a dedicated depth attachment to ensure correct geometry sorting in 3D space. 
 
-- **Automatic Management:** The engine automatically creates a depth buffer matching the window resolution.
-- **Pipeline Integration:** All pipelines created via `sbgl_CreatePipeline` have depth testing and depth writing enabled by default.
-- **Clearing:** Every frame, the depth buffer is automatically cleared to `1.0` during the `sbgl_BeginDrawing` (or `sbgl_Clear`) phase.
+*   **Automatic Management:** The engine automatically creates a depth buffer matching the window resolution.
+*   **Pipeline Integration:** All pipelines created via `sbgl_CreatePipeline` have depth testing and depth writing enabled by default.
+*   **Clearing:** Every frame, the depth buffer is automatically cleared to `1.0` during the `sbgl_BeginDrawing` (or `sbgl_Clear`) phase.
 
 ## Synchronization & Frames in Flight
 
 To maximize efficiency and prevent CPU/GPU bottlenecks, SBgl implements a **Frames in Flight** model.
 
-- **Double Buffering:** The engine uses 2 sets of command buffers and synchronization primitives (semaphores, fences).
-- **Overlapping Execution:** This allows the CPU to begin recording the *next* frame while the GPU is still processing the *previous* one.
-- **Safe Teardown:** Before destroying resources (e.g., exiting an application), `sbgl_DeviceWaitIdle(ctx)` MUST be called to ensure all in-flight GPU work is complete.
+*   **Double Buffering:** The engine uses 2 sets of command buffers and synchronization primitives (semaphores, fences).
+*   **Overlapping Execution:** This allows the CPU to begin recording the *next* frame while the GPU is still processing the *previous* one.
+*   **Safe Teardown:** Before destroying resources (e.g., exiting an application), `sbgl_DeviceWaitIdle(ctx)` MUST be called to ensure all in-flight GPU work is complete.
 
 ## Automated Batching
 
@@ -158,6 +158,6 @@ The handle system is designed for batching. By iterating through arrays of trans
 
 The current implementation records commands into a single primary command buffer per context. To support multithreading:
 
-- The backend will be extended to support Secondary Command Buffers.
-- Each worker thread will record commands into its own buffer.
-- The main thread will execute all recorded buffers in a single submission.
+*   The backend will be extended to support Secondary Command Buffers.
+*   Each worker thread will record commands into its own buffer.
+*   The main thread will execute all recorded buffers in a single submission.

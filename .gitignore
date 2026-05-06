@@ -36,6 +36,7 @@ xdg-shell-protocol.c
 # --- Project Specific ---
 hello_window
 .desloppify/
+reflect_report.txt
 
 # --- AI THINGS ---
 GEMINI.md

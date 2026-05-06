@@ -1,5 +1,10 @@
 # SBgl (SiputBiru Graphics Library)
 
+[![C99](https://img.shields.io/badge/C-99-blue.svg)](https://en.wikipedia.org/wiki/C99)
+[![Vulkan](https://img.shields.io/badge/Vulkan-1.3-red.svg)](https://www.vulkan.org/)
+![Platform](https://img.shields.io/badge/Platform-Wayland_|_X11_|_Win32-green.svg)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/SiputBiru/sbgl)
+
 A bare-metal graphics framework written in C99. Provides an explicit, context-based API for 2D/3D applications.
 
 ## Quick Start

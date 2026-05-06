@@ -90,12 +90,12 @@ typedef enum {
  * @brief Represents the real-time state of physical inputs.
  *
  * Adheres to Data-Oriented Design by storing flat arrays of booleans for 
- * instant lookup and cache-friendly batch processing.
+ * O(1) lookup and contiguous memory access during batch processing.
  */
 typedef struct sbgl_InputState {
-    bool keysDown[SBGL_SCANCODE_MAX];      /**< Current physical state of keys. */
+    bool keysDown[SBGL_SCANCODE_MAX];      /**< Physical state of keys. */
     bool keysPressed[SBGL_SCANCODE_MAX];   /**< Set once when key is pressed, reset every frame. */
-    bool mouseDown[SBGL_MOUSE_BUTTON_MAX]; /**< Current physical state of mouse buttons. */
+    bool mouseDown[SBGL_MOUSE_BUTTON_MAX]; /**< Physical state of mouse buttons. */
     int mouseX, mouseY;                    /**< Absolute window coordinates. */
     int mouseDeltaX, mouseDeltaY;          /**< Relative motion since last frame. */
     int _internalMouseX, _internalMouseY;  /**< Private tracking for delta calculation. */

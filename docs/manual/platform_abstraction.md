@@ -12,9 +12,9 @@ The core interacts with the operating system through a set of explicitly defined
 
 The public `sbgl_Context` structure serves as a thin shell. Its `inner` member points to a private `sbgl_InternalContext`, which encapsulates the platform layer state:
 
-- **Context Shell:** The application maintains a `sbgl_Context*`.
-- **Internal State:** This contains the `sbgl_InternalContext`, which manages engine-wide state (Arena, clear colors, etc.).
-- **Platform Handle:** The `sbgl_InternalContext` holds a pointer to an opaque `sbgl_Window`, which is defined only within the specific platform's source files (e.g., `window_wayland.c`).
+*   **Context Shell:** The application maintains a `sbgl_Context*`.
+*   **Internal State:** This contains the `sbgl_InternalContext`, which manages engine-wide state (Arena, clear colors, etc.).
+*   **Platform Handle:** The `sbgl_InternalContext` holds a pointer to an opaque `sbgl_Window`, which is defined only within the specific platform's source files (e.g., `window_wayland.c`).
 
 This hierarchy allows the engine to pass a generic `sbgl_Context` to the public API while the platform layer internally retrieves the specific handles it needs to communicate with the OS.
 

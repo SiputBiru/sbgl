@@ -2,7 +2,7 @@
 
 SBgl (SiputBiru Graphics Library) is a bare-metal graphics framework in C99. This roadmap outlines the development milestones and technical goals.
 
-## Status: Phase 8 Complete
+## Current Milestone: High-Level Rendering Implementation
 
 ### Core Architecture and HAL
 - [x] Implement explicit Context API (sbgl_Context)

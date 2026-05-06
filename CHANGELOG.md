@@ -8,18 +8,32 @@ All notable changes to this project will be documented in this file.
 - **Vulkan Backend**:
     - Implemented dynamic swapchain format selection via `vkGetPhysicalDeviceSurfaceFormatsKHR` to resolve hardcoded format validation errors.
     - Added support for `VK_FORMAT_B8G8R8A8_SRGB` and `VK_FORMAT_R8G8B8A8_SRGB` as preferred swapchain formats.
+- **Rendering Pipeline**:
+    - Implemented a rendering pipeline using Vulkan 1.3 **Dynamic Rendering**, eliminating RenderPass and Framebuffer management.
+    - **Resource Management**: Introduced a handle-based system (`sbgl_Buffer`, `sbgl_Shader`, `sbgl_Pipeline`) for GPU resources using internal SoA pools for DOD-compliant performance.
+    - **Shader System**: Added SPIR-V shader loading with support for both dynamic file-based loading and hardcoded byte arrays (via `xxd`).
+    - **Explicit PSO**: Implemented Pipeline State Object (PSO) creation with configurable vertex layouts and shader stages.
+    - **Interactive Rendering**: Added **Push Constants** support to the public API and Vulkan backend, enabling per-frame data updates (e.g., mouse position).
+    - **Depth Buffering**: Implemented a dedicated depth attachment and enabled depth testing in the graphics pipeline to correct 3D geometry sorting.
+    - **Synchronization Refactor**: Transitioned to a "Frames in Flight" model (2 overlapping frames) to resolve semaphore reuse validation errors and improve GPU utilization.
+    - **Device Teardown**: Introduced `sbgl_DeviceWaitIdle()` to the public API to ensure the GPU is idle before destroying resources.
+    - **New Examples**:
+        - `examples/triangle/triangle_main.c`: Triangle rendering using vertex buffers and optional push-constant interaction.
+        - `examples/camera/camera_main.c`: 3D example with a rotating pyramid, depth testing, and perspective projection.
+    - **Documentation**: Created `docs/manual/rendering_pipeline.md` covering the architecture and usage workflows.
+    - **Examples Restructure**: Reorganized `examples/` directory into topic-based subdirectories (`window`, `input`, `camera`, `triangle`, `batching`) and added `docs/examples/index.md` to catalog them.
 
 ### Fixed
 - **Vulkan Backend**:
     - Resolved `vkDestroyPipeline` and `vkDestroyBuffer` validation errors (`VUID-vkDestroyPipeline-pipeline-00765`, `VUID-vkDestroyBuffer-buffer-00922`) in examples by adding explicit `sbgl_DeviceWaitIdle()` calls before resource destruction.
-    - Enhanced API documentation in `sbgl.h` and `VULKAN_BACKEND.md` with critical warnings regarding GPU synchronization and teardown sequences.
+    - Enhanced API documentation in `sbgl.h` and `docs/manual/vulkan_backend.md` with critical warnings regarding GPU synchronization and teardown sequences.
     - Resolved `vkCreateSwapchainKHR` crashes (`floating point exception`) caused by zero-extent windows (minimized or unmapped) and unsupported image formats.
     - Improved swapchain image count selection logic to respect physical device limits.
     - Fixed validation errors related to `imageFormat` and `imageColorSpace` mismatches.
 - **Build System**:
     - **Test Relocation**: Decoupled test applications from the `examples/` directory. Tests are now located in a top-level `tests/` directory.
     - **New Build Flag**: Introduced `SBGL_BUILD_TESTS` CMake option to toggle the compilation of internal tests independently of examples.
-    - **Clean Examples**: Refined `SBGL_BUILD_EXAMPLES` to strictly target demonstration applications.
+    - **Examples**: Refined `SBGL_BUILD_EXAMPLES` to strictly target demonstration applications.
     - Implemented a default `Debug` build configuration to ensure development environments have Vulkan validation layers and strict warnings enabled by default.
     - Added strict compiler flags (`-Werror`, `-Wmissing-prototypes`, `-Wstrict-prototypes` on GCC/Clang; `/WX` on MSVC) specifically for `Debug` builds to enforce coding standards.
     - Updated all example and test entry points to use `int main(void)` and ensured all internal functions use explicit `(void)` parameter lists to satisfy strict prototype requirements.
@@ -27,29 +41,10 @@ All notable changes to this project will be documented in this file.
     - Improved shader conversion using `copy_if_different`.
     - Resolved unused variable warnings in test files to maintain a clean `-Werror` build.
 
-### Added
-- **Rendering Pipeline**:
-    - Implemented a rendering pipeline using Vulkan 1.3 **Dynamic Rendering**, eliminating RenderPass and Framebuffer management.
-    - **Resource Management**: Introduced a handle-based system (`sbgl_Buffer`, `sbgl_Shader`, `sbgl_Pipeline`) for GPU resources using internal SoA pools for DOD-compliant performance.
-    - **Buffer Allocator**: Implemented a block-based GPU memory allocator for Vertex and Index buffers with staging support for CPU-to-GPU transfers.
-    - **Shader System**: Added SPIR-V shader loading with support for both dynamic file-based loading and hardcoded byte arrays (via `xxd`).
-    - **Explicit PSO**: Implemented Pipeline State Object (PSO) creation with configurable vertex layouts and shader stages.
-    - **Interactive Rendering**: Added **Push Constants** support to the public API and Vulkan backend, enabling per-frame data updates (e.g., mouse position).
-    - **Depth Buffering**: Implemented a dedicated depth attachment and enabled depth testing in the graphics pipeline to correct 3D geometry sorting.
-    - **Synchronization Refactor**: Transitioned to a "Frames in Flight" model (2 overlapping frames) to resolve semaphore reuse validation errors and improve GPU utilization.
-    - **Safe Teardown**: Introduced `sbgl_DeviceWaitIdle()` to the public API to ensure the GPU is idle before destroying resources.
-    - **New Examples**:
-        - `draw_triangle.c`: Static triangle rendering using VBOs.
-        - `draw_interactive_triangle.c`: Rainbow triangle responding to mouse cursor position.
-        - `draw_hardcoded_triangle.c`: Demonstrates self-contained applications with embedded shaders.
-        - `camera3d_pyramid.c`: 3D example with a rotating colored pyramid, depth via backface culling, and push constants.
-    - **Documentation**: Created `docs/RENDERING_PIPELINE.md` covering the architecture and usage workflows.
-    - **Examples Restructure**: Reorganized `examples/` directory into topic-based subdirectories (`window`, `input`, `camera`, `triangle`, `test`) and added `docs/EXAMPLES.md` to catalog them.
-
 - **Documentation System Refinement**:
     - Decoupled documentation generation from the source tree by relocating Doxygen output from `docs/out` to `build/docs`.
     - Updated `CMakeLists.txt` to dynamically configure Doxygen output paths, ensuring a cleaner root directory.
-    - Automated image asset synchronization within the build-local documentation site.
+    - Image asset synchronization within the build-local documentation site.
 - **Structural Cleanup**:
     - Moved the `shaders/` directory into `examples/shaders/` to reduce root directory clutter and better reflect its purpose as example-only assets.
     - Optimized the shader build pipeline to ensure generated assets stay within the build environment.
@@ -59,7 +54,7 @@ All notable changes to this project will be documented in this file.
     - Optimized memory layouts with 16-byte alignment and padding to facilitate efficient SIMD instruction generation and cache line utilization.
     - Implemented an Inverse Square Root (`sbgl_InvSqrt`) based on the Quake III Arena algorithm using C99-compliant union punning.
     - Provided a set of affine transformations: Translation, Scaling, Rotation (Axis-Angle), Perspective, Orthographic, and LookAt.
-    - Added type-safe constructor functions (e.g., `sbgl_vec3()`) for natural initialization syntax.
+    - Added constructor functions (e.g., `sbgl_vec3()`) for natural initialization syntax.
     - Integrated the math library into the Doxygen documentation system with automatic symbol linking.
     - Created a technical architecture guide (`docs/MATH_LIB.md`) with usage examples and implementation rationales.
 
@@ -90,7 +85,7 @@ All notable changes to this project will be documented in this file.
     - Updated internal HAL signatures to pass the engine context or specialized state pointers instead of relying on globals.
     - Updated `sbgl_gfx_Init` to accept the context's `SblArena` for graphics-layer allocations.
 - **Public API**:
-    - Updated input helpers (`sbgl_IsKeyDown`, etc.) to perform safety checks and read directly from the context's internal state.
+    - Updated input helpers (`sbgl_IsKeyDown`, etc.) to perform validation checks and read directly from the context's internal state.
 
 ### Added
 - **Core Architecture**: Implemented a modular HAL (Hardware Abstraction Layer) separating Core, Platform, and Graphics Backend.
@@ -114,26 +109,26 @@ All notable changes to this project will be documented in this file.
     - Logical Device creation with **Dynamic Rendering** enabled.
     - Swapchain management with image view generation.
     - **Clear Screen**: Implemented `BeginFrame` and `EndFrame` to clear the screen to a color using dynamic rendering.
-- **Public API**: Defined `sbgl.h` with a Raylib-style interface, physical scancode definitions, and explicit Context management.
+- **Public API**: Defined `sbgl.h` with an explicit Context management and physical scancode definitions.
 - **Memory Management**: Integrated `sbl_arena.h` for zero-isolated-malloc window state allocation.
 - **Opaque Types**: Created `sbgl_types.h` to centralize forward declarations and resolve C99 typedef redefinition warnings.
 - **Input Refinement**: 
     - Decoupled the input system into a dedicated HAL (`sbgl_input.h`) and platform-specific implementations.
-    - Replaced raw `memcpy` for keyboard states with type-safe **Struct Assignment**.
+    - Replaced raw `memcpy` for keyboard states with **Struct Assignment**.
     - Added support for one-shot key triggers (`sbgl_IsKeyPressed`).
     - Implemented native pointer support (position, delta, buttons) for Wayland, X11, and Win32.
 - **Git Integration**: Initialized git repository and added a `.gitignore`.
 - **Documentation**: 
-    - Integrated **Doxygen** for automated API documentation generation.
+    - Integrated **Doxygen** for API documentation generation.
     - Added a `docs` target to CMake (`cmake --build build --target docs`).
-    - Added `VULKAN_BACKEND.md` with a detailed explanation of the engine's graphics architecture.
+    - Added `docs/manual/vulkan_backend.md` with a detailed explanation of the engine's graphics architecture.
 - **Examples**: Added `hello_window.c` and `input_test.c` (interactive color switching) to verify the entire stack.
 
 ### Fixed
 - **Compiler Warnings**:
     - Silenced ISO C99 pedantic warnings regarding anonymous structs in `sbgl_math.h` using the `__extension__` keyword.
     - Eliminated unused parameter warnings in Wayland platform callbacks by implementing explicit `(void)` casts, ensuring a clean build with `-Wall -Wextra -Wpedantic`.
-- **Memory Safety**:
+- **Memory**:
  Resolved a segmentation fault in `sbl_arena_free` caused by a Use-After-Free when the arena structure was self-contained within its own memory blocks.
 - **GPU Synchronization**: Fixed a Vulkan driver crash during rapid window resizing by implementing internal frame lifecycle tracking (`isDrawing` flag), preventing out-of-order command submissions.
 - **Wayland Protocol Crashes**: Resolved "listener function is NULL" errors by providing callback implementations for `wl_keyboard` and `wl_pointer`.

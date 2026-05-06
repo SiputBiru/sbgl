@@ -11,12 +11,12 @@ The following diagrams illustrate the core hierarchy and ownership.
 ### Core Hierarchy and Ownership
 
 The public context shell encapsulates the internal state and the physical memory controller.
-<img src="./img/memory_ownership_flow.jpeg" width="600" alt="SBgl Ownership Flow" />
+<img src="../img/memory_ownership_flow.jpeg" width="600" alt="SBgl Ownership Flow" />
 
 ### Memory Block Layout
 
 The linear allocation pattern and the mark/rewind recycling mechanic are used during runtime events like window resizing.
-<img src="./img/memory_block_layout.jpeg" width="600" alt="SBgl Memory Block Layout" />
+<img src="../img/memory_block_layout.jpeg" width="600" alt="SBgl Memory Block Layout" />
 
 ---
 
@@ -24,9 +24,9 @@ The linear allocation pattern and the mark/rewind recycling mechanic are used du
 
 The core of the memory system is the linear arena allocator defined in `sbl_arena.h`. This allocator manages contiguous blocks of memory and satisfies allocation requests by simply incrementing an offset pointer.
 
-- **Complexity**: O(1) for both allocation and deallocation.
-- **Safety**: Individual elements are never freed; instead, the entire arena is released at once, preventing dangling pointers and leaks.
-- **Zero-Initialization**: The `SBL_ARENA_PUSH_STRUCT_ZERO` macro ensures that all allocated state starts in a known, valid zero-state.
+-   **Complexity**: O(1) for both allocation and deallocation.
+-   **Safety**: Individual elements are never freed; instead, the entire arena is released at once, preventing dangling pointers and leaks.
+-   **Zero-Initialization**: The `SBL_ARENA_PUSH_STRUCT_ZERO` macro ensures that all allocated state starts in a known, valid zero-state.
 
 ## Context-Encapsulated Lifecycles
 
@@ -40,9 +40,9 @@ The `sbgl_InternalContext` assumes ownership of the arena. This creates a single
 
 While arenas are typically linear, SBgl implements a **Mark and Rewind** pattern to handle dynamic resources that must be recreated, such as the Vulkan Swapchain.
 
-1. **The Mark**: A bookmark (`SblArenaMark`) is taken before a set of dynamic allocations.
-2. **The Rewind**: When the resources need to be updated (e.g., window resize), the arena is rewound to the bookmark.
-3. **The Recyle**: New resources are pushed onto the exact same memory location, keeping the memory footprint constant regardless of how many times the window is resized.
+-   **The Mark**: A bookmark (`SblArenaMark`) is taken before a set of dynamic allocations.
+-   **The Rewind**: When the resources need to be updated (e.g., window resize), the arena is rewound to the bookmark.
+-   **The Recycle**: New resources are pushed onto the exact same memory location, keeping the memory footprint constant regardless of how many times the window is resized.
 
 ---
 

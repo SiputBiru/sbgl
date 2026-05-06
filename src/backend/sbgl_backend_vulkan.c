@@ -15,8 +15,8 @@
 #include <vulkan/vulkan_xlib.h>
 #define SBGL_VK_LIB "libvulkan.so.1"
 #elif defined(_WIN32)
-#include <vulkan/vulkan_win32.h>
 #include <windows.h>
+#include <vulkan/vulkan_win32.h>
 #define SBGL_VK_LIB "vulkan-1.dll"
 #endif
 
@@ -215,7 +215,7 @@ static bool load_vulkan_library(sbgl_GfxContext* ctx) {
 	}
 
 #ifdef _WIN32
-	void* addr = GetProcAddress((HMODULE)ctx->libHandle, "vkGetInstanceProcAddr");
+	FARPROC addr = GetProcAddress((HMODULE)ctx->libHandle, "vkGetInstanceProcAddr");
 	memcpy(&ctx->vk.vkGetInstanceProcAddr, &addr, sizeof(addr));
 #else
 	void* sym = dlsym(ctx->libHandle, "vkGetInstanceProcAddr");

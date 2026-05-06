@@ -1,8 +1,8 @@
 /**
  * @file sbgl.h
- * @brief Public API for the SiputBiru Graphics Library (SBgl).
+ * @brief API for the SiputBiru Graphics Library (SBgl).
  *
- * This header defines the primary interface for window management,
+ * This header defines the interface for window management,
  * frame lifecycle, and input handling.
  */
 
@@ -97,9 +97,9 @@ void sbgl_Shutdown(sbgl_Context* ctx);
 /**
  * @brief Checks if the user or OS has requested to close the window.
  *
- * This flag is set by the OS (e.g., clicking the 'X' button or Alt+F4).
- * The application must poll this flag in the main loop and manually
- * initiate shutdown by calling sbgl_Shutdown() when it returns true.
+ * This flag is set by the OS (for instance, clicking the 'X' button or Alt+F4).
+ * The application polls this flag in the main loop and manually initiates
+ * shutdown by calling sbgl_Shutdown() when it returns true.
  *
  * @param ctx The active engine context.
  * @return True if a close request is pending, false otherwise.
@@ -118,7 +118,7 @@ void sbgl_GetWindowSize(sbgl_Context* ctx, int* w, int* h);
  * @brief Prepares the engine for a new frame of drawing.
  *
  * This function handles event polling and Vulkan swapchain image acquisition.
- * Must be called before any clearing or drawing commands.
+ * It is called before clearing or drawing commands.
  *
  * @param ctx The engine context.
  */
@@ -136,9 +136,9 @@ void sbgl_EndDrawing(sbgl_Context* ctx);
 /**
  * @brief Synchronizes the CPU with the GPU, waiting for all commands to complete.
  *
- * This must be called before destroying resources (Pipelines, Buffers, Shaders) 
- * to ensure they are no longer in use by the GPU. Failure to do so will 
- * result in Vulkan validation errors and potential instability.
+ * This is called before destroying resources (Pipelines, Buffers, Shaders) 
+ * to ensure they are no longer in use by the GPU. Failure to do so 
+ * results in Vulkan validation errors and instability.
  *
  * @param ctx The engine context.
  */
@@ -156,10 +156,10 @@ void sbgl_DeviceWaitIdle(sbgl_Context* ctx);
 void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a);
 
 /**
- * @brief Retrieves the complete input state for the current frame.
+ * @brief Retrieves the input state for the current frame.
  *
- * Adheres to Data-Oriented Design by providing a read-only view of all
- * input arrays (keys, mouse) for efficient batch processing.
+ * Adheres to Data-Oriented Design by providing a read-only view of 
+ * input arrays (keys, mouse) for batch processing.
  *
  * @param ctx The engine context.
  * @return A read-only pointer to the current input state. Never returns NULL.
@@ -182,7 +182,7 @@ sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const 
 /**
  * @brief Destroys a GPU buffer.
  * 
- * @warning All submitted GPU commands referencing this buffer must have 
+ * All submitted GPU commands referencing this buffer must have 
  * completed before calling this. Use sbgl_DeviceWaitIdle() to synchronize.
  *
  * @param ctx The engine context.
@@ -204,8 +204,8 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 /**
  * @brief Destroys a shader module.
  * 
- * @warning Shaders must not be in use by the GPU. Use sbgl_DeviceWaitIdle() 
- * before bulk destruction during shutdown.
+ * Shaders must not be in use by the GPU. Use sbgl_DeviceWaitIdle() 
+ * before destruction during shutdown.
  *
  * @param ctx The engine context.
  * @param shader The shader handle.
@@ -223,7 +223,7 @@ sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* 
 /**
  * @brief Destroys a graphics pipeline.
  * 
- * @warning The pipeline must not be in use by any submitted command buffers.
+ * The pipeline must not be in use by any submitted command buffers.
  * Use sbgl_DeviceWaitIdle() to ensure safe destruction.
  *
  * @param ctx The engine context.
@@ -283,8 +283,8 @@ struct SblArena;
 /**
  * @brief Creates a thread-local render queue for collecting draw commands.
  * 
- * Draw packets are stored in this queue and must be submitted to the 
- * backend for rendering. Using multiple queues allows for parallel 
+ * Draw packets are stored in this queue and submitted to the 
+ * backend for rendering. Multiple queues enable parallel 
  * command recording.
  *
  * @param ctx The engine context.
@@ -296,8 +296,7 @@ sbgl_RenderQueue* sbgl_CreateRenderQueue(sbgl_Context* ctx, struct SblArena* are
 /**
  * @brief Appends a draw command to the render queue.
  *
- * This is a high-performance operation. The packets are cached in the 
- * queue until the next frame.
+ * The packets are cached in the queue until the next frame.
  *
  * @param queue The render queue to append to.
  * @param mesh The mesh identifier.
@@ -308,11 +307,11 @@ sbgl_RenderQueue* sbgl_CreateRenderQueue(sbgl_Context* ctx, struct SblArena* are
 void sbgl_SubmitDraw(sbgl_RenderQueue* queue, uint32_t mesh, uint32_t material, sbgl_SortKey key, const sbgl_InstanceData* data);
 
 /**
- * @brief Merges, sorts, and submits all pending draw commands to the GPU.
+ * @brief Merges, sorts, and submits pending draw commands to the GPU.
  *
- * This function processes multiple render queues in a single batching 
- * operation. It performs a stable radix sort on the packets to minimize
- * state transitions and then bakes them into indirect draw commands.
+ * This function processes render queues in a batching operation. 
+ * A stable radix sort is performed on the packets to minimize
+ * state transitions, followed by baking them into indirect draw commands.
  *
  * @param ctx The engine context.
  * @param queues Array of pointers to the render queues to be processed.

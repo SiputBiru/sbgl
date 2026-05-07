@@ -1,51 +1,46 @@
-#include "../example_util.h"
+#include "core/sbl_arena.h"
+#include <math.h>
 #include <sbgl.h>
 #include <sbgl_camera.h>
 #include <sbgl_math.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-#include "core/sbl_arena.h"
+#include <stdio.h>
 #include <time.h>
 
-typedef struct {
-	float pos[3];
-	float color[3];
-} Vertex;
-
 int main(void) {
-	ExampleApp app;
-	if (!example_app_init(&app, 800, 600, "SBgl Advanced 3D Batching"))
+	sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Advanced 3D Batching");
+	if (res.error != SBGL_SUCCESS)
 		return 1;
+	sbgl_Context* ctx = res.ctx;
 
 	SblArena arena;
 	sbl_arena_init(&arena, 10 * 1024 * 1024); // 10MB for render queues
 
 	sbgl_Shader vert =
-		example_load_shader(app.ctx, SBGL_SHADER_STAGE_VERTEX, "shaders/batching.vert.spv");
+		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_VERTEX, "shaders/batching.vert.spv");
 	sbgl_Shader frag =
-		example_load_shader(app.ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/batching.frag.spv");
+		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/batching.frag.spv");
 
-	Vertex vertices[] = { // Triangle (Mesh 0)
-						  { { 0.0f, -0.5f, 0.0f }, { 1, 0, 0 } },
-						  { { 0.5f, 0.5f, 0.0f }, { 0, 1, 0 } },
-						  { { -0.5f, 0.5f, 0.0f }, { 0, 0, 1 } },
+	sbgl_Vertex vertices[] = { // Triangle (Mesh 0)
+							   { sbgl_Vec3Set(0.0f, -0.5f, 0.0f), sbgl_Vec3Set(1, 0, 0) },
+							   { sbgl_Vec3Set(0.5f, 0.5f, 0.0f), sbgl_Vec3Set(0, 1, 0) },
+							   { sbgl_Vec3Set(-0.5f, 0.5f, 0.0f), sbgl_Vec3Set(0, 0, 1) },
 
-						  // Cube (Mesh 1)
-						  { { -0.5f, -0.5f, -0.5f }, { 1, 1, 1 } },
-						  { { 0.5f, -0.5f, -0.5f }, { 1, 1, 1 } },
-						  { { 0.5f, 0.5f, -0.5f }, { 1, 1, 1 } },
-						  { { -0.5f, 0.5f, -0.5f }, { 1, 1, 1 } },
-						  { { -0.5f, -0.5f, 0.5f }, { 1, 1, 1 } },
-						  { { 0.5f, -0.5f, 0.5f }, { 1, 1, 1 } },
-						  { { 0.5f, 0.5f, 0.5f }, { 1, 1, 1 } },
-						  { { -0.5f, 0.5f, 0.5f }, { 1, 1, 1 } },
+							   // Cube (Mesh 1)
+							   { sbgl_Vec3Set(-0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { sbgl_Vec3Set(0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { sbgl_Vec3Set(0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { sbgl_Vec3Set(-0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { sbgl_Vec3Set(0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { sbgl_Vec3Set(0.5f, 0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { sbgl_Vec3Set(-0.5f, 0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
 
-						  // Pyramid (Mesh 2)
-						  { { 0.0f, 0.5f, 0.0f }, { 1, 1, 0 } },	// Top
-						  { { -0.5f, -0.5f, -0.5f }, { 1, 0, 1 } }, // base
-						  { { 0.5f, -0.5f, -0.5f }, { 1, 0, 1 } },
-						  { { 0.5f, -0.5f, 0.5f }, { 1, 0, 1 } },
-						  { { -0.5f, -0.5f, 0.5f }, { 1, 0, 1 } }
+							   // Pyramid (Mesh 2)
+							   { sbgl_Vec3Set(0.0f, 0.5f, 0.0f), sbgl_Vec3Set(1, 1, 0) },	 // Top
+							   { sbgl_Vec3Set(-0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 0, 1) }, // base
+							   { sbgl_Vec3Set(0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 0, 1) },
+							   { sbgl_Vec3Set(0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 0, 1) },
+							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 0, 1) }
 	};
 
 	uint32_t indices[] = { // Triangle
@@ -112,24 +107,25 @@ int main(void) {
 						   1
 	};
 
-	sbgl_Buffer vbo =
-		sbgl_CreateBuffer(app.ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
-	sbgl_Buffer ibo = sbgl_CreateBuffer(app.ctx, SBGL_BUFFER_USAGE_INDEX, sizeof(indices), indices);
+	sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
+	sbgl_Buffer ibo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_INDEX, sizeof(indices), indices);
 
 	sbgl_VertexAttribute attributes[] = {
-		{ 0, offsetof(Vertex, pos), SBGL_FORMAT_R32G32B32_SFLOAT },
-		{ 1, offsetof(Vertex, color), SBGL_FORMAT_R32G32B32_SFLOAT }
+		{ 0, offsetof(sbgl_Vertex, position), SBGL_FORMAT_R32G32B32_SFLOAT },
+		{ 1, offsetof(sbgl_Vertex, color), SBGL_FORMAT_R32G32B32_SFLOAT }
 	};
 
 	sbgl_PipelineConfig config = { .vertexShader = vert,
 								   .fragmentShader = frag,
-								   .vertexLayout = { sizeof(Vertex), 2, attributes } };
+								   .vertexLayout = { sizeof(sbgl_Vertex), 2, attributes } };
 
-	sbgl_Pipeline pipeline = sbgl_CreatePipeline(app.ctx, &config);
-	sbgl_RenderQueue* queue = sbgl_CreateRenderQueue(app.ctx, &arena);
+	sbgl_Pipeline pipeline = sbgl_CreatePipeline(ctx, &config);
+	sbgl_RenderQueue* queue = sbgl_CreateRenderQueue(ctx, &arena);
 
+	int width, height;
+	sbgl_GetWindowSize(ctx, &width, &height);
 	sbgl_Camera camera =
-		sbgl_CameraPerspective(SBGL_PI / 4.0f, (float)app.width / (float)app.height, 0.1f, 1000.0f);
+		sbgl_CameraPerspective(SBGL_PI / 4.0f, (float)width / (float)height, 0.1f, 1000.0f);
 	camera.position = sbgl_Vec3Set(0.0f, 50.0f, 200.0f);
 	camera.target = sbgl_Vec3Set(0.0f, 0.0f, 0.0f);
 	camera.up = sbgl_Vec3Set(0.0f, 1.0f, 0.0f);
@@ -143,13 +139,13 @@ int main(void) {
 	float start_time = (float)clock() / CLOCKS_PER_SEC;
 	float last_time = start_time;
 
-	while (!sbgl_WindowShouldClose(app.ctx)) {
-		sbgl_Clear(app.ctx, 0.02f, 0.02f, 0.02f, 1.0f);
-		sbgl_BeginDrawing(app.ctx);
+	while (!sbgl_WindowShouldClose(ctx)) {
+		sbgl_Clear(ctx, 0.02f, 0.02f, 0.02f, 1.0f);
+		sbgl_BeginDrawing(ctx);
 
-		const sbgl_InputState* input = sbgl_GetInputState(app.ctx);
+		const sbgl_InputState* input = sbgl_GetInputState(ctx);
 		if (input->keysDown[SBGL_KEY_ESCAPE]) {
-			sbgl_EndDrawing(app.ctx);
+			sbgl_EndDrawing(ctx);
 			break;
 		}
 
@@ -164,10 +160,12 @@ int main(void) {
 
 		if (mouse_locked) {
 			yaw += (float)input->mouseDeltaX * mouse_sensitivity;
-			pitch -= (float)input->mouseDeltaY * mouse_sensitivity;
+			pitch += (float)input->mouseDeltaY * mouse_sensitivity;
 
-			if (pitch > 1.5f) pitch = 1.5f;
-			if (pitch < -1.5f) pitch = -1.5f;
+			if (pitch > 1.5f)
+				pitch = 1.5f;
+			if (pitch < -1.5f)
+				pitch = -1.5f;
 		}
 
 		sbgl_Vec3 front;
@@ -181,12 +179,24 @@ int main(void) {
 
 		float velocity = move_speed * dt;
 
-		if (input->keysDown[SBGL_KEY_W]) camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(front, velocity));
-		if (input->keysDown[SBGL_KEY_S]) camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(front, velocity));
-		if (input->keysDown[SBGL_KEY_A]) camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(right, velocity));
-		if (input->keysDown[SBGL_KEY_D]) camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(right, velocity));
-		if (input->keysDown[SBGL_KEY_E]) camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity));
-		if (input->keysDown[SBGL_KEY_Q]) camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity));
+		if (input->keysDown[SBGL_KEY_W])
+			camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(front, velocity));
+		if (input->keysDown[SBGL_KEY_S])
+			camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(front, velocity));
+		if (input->keysDown[SBGL_KEY_A])
+			camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(right, velocity));
+		if (input->keysDown[SBGL_KEY_D])
+			camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(right, velocity));
+		if (input->keysDown[SBGL_KEY_Q])
+			camera.position = sbgl_Vec3Add(
+				camera.position,
+				sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity)
+			);
+		if (input->keysDown[SBGL_KEY_E])
+			camera.position = sbgl_Vec3Sub(
+				camera.position,
+				sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity)
+			);
 
 		camera.target = sbgl_Vec3Add(camera.position, front);
 		camera.up = up;
@@ -219,25 +229,25 @@ int main(void) {
 			sbgl_SubmitDraw(queue, meshId, 0, (sbgl_SortKey)meshId, &data);
 		}
 
-		sbgl_BindPipeline(app.ctx, pipeline);
-		sbgl_BindBuffer(app.ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
-		sbgl_BindBuffer(app.ctx, ibo, SBGL_BUFFER_USAGE_INDEX);
+		sbgl_BindPipeline(ctx, pipeline);
+		sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
+		sbgl_BindBuffer(ctx, ibo, SBGL_BUFFER_USAGE_INDEX);
 
-		sbgl_RenderQueues(app.ctx, &queue, 1, &vp);
+		sbgl_RenderQueues(ctx, &queue, 1, &vp);
 
-		sbgl_EndDrawing(app.ctx);
+		sbgl_EndDrawing(ctx);
 	}
 
-	sbgl_DeviceWaitIdle(app.ctx);
+	sbgl_DeviceWaitIdle(ctx);
 
-	sbgl_DestroyPipeline(app.ctx, pipeline);
-	sbgl_DestroyShader(app.ctx, vert);
-	sbgl_DestroyShader(app.ctx, frag);
-	sbgl_DestroyBuffer(app.ctx, vbo);
-	sbgl_DestroyBuffer(app.ctx, ibo);
+	sbgl_DestroyPipeline(ctx, pipeline);
+	sbgl_DestroyShader(ctx, vert);
+	sbgl_DestroyShader(ctx, frag);
+	sbgl_DestroyBuffer(ctx, vbo);
+	sbgl_DestroyBuffer(ctx, ibo);
 
 	sbl_arena_free(&arena);
-	example_app_shutdown(&app);
+	sbgl_Shutdown(ctx);
 
 	return 0;
 }

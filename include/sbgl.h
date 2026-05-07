@@ -202,6 +202,17 @@ sbgl_Shader
 sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size);
 
 /**
+ * @brief Helper function to load a shader directly from a SPIR-V file.
+ * 
+ * @param ctx The engine context.
+ * @param stage The shader stage (Vertex/Fragment).
+ * @param filename Path to the SPIR-V file.
+ * @return A handle to the loaded shader, or SBGL_INVALID_HANDLE on failure.
+ */
+sbgl_Shader
+sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* filename);
+
+/**
  * @brief Destroys a shader module.
  * 
  * Shaders must not be in use by the GPU. Use sbgl_DeviceWaitIdle() 

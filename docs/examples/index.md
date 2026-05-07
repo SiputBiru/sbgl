@@ -32,7 +32,7 @@ After building, binaries are located in the `build/examples/` directory. For exa
 
 * **`window/hello_window.c`**: Demonstrates the basic initialization of the SBgl context, window creation, and the main event loop.
 * **`triangle/triangle_main.c`**: Shows how to load shaders, create vertex buffers, and draw a basic static or interactive triangle.
-* **`camera/camera_main.c`**: A complete 3D example demonstrating the perspective camera, 3D transformations, and depth buffering.
+* **`camera/camera_main.c`**: A complete 3D example demonstrating the perspective camera, 3D transformations, depth buffering, and batch ray-casting collision math.
 * **`input/input_keyboard.c`**: Showcases the Data-Oriented input system, polling for key presses and held states.
 * **`input/input_mouse.c`**: Demonstrates mouse coordinate tracking and color mapping.
 

@@ -51,21 +51,22 @@ sbgl_Shader shader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX,
 
 ## Vertex Layout Use Case
 
-Defining a standard vertex with Position and Color attributes:
+Defining a standard vertex with Position and Color attributes using the library-provided `sbgl_Vertex` structure:
 
 ```c
-typedef struct {
-    float pos[3];
-    float color[3];
-} ExampleVertex;
+// sbgl_Vertex is defined as:
+// typedef struct {
+//     sbgl_Vec3 position;
+//     sbgl_Vec3 color;
+// } sbgl_Vertex;
 
 sbgl_VertexAttribute attributes[] = {
-    { .location = 0, .offset = offsetof(ExampleVertex, pos), .format = SBGL_FORMAT_R32G32B32_SFLOAT },
-    { .location = 1, .offset = offsetof(ExampleVertex, color), .format = SBGL_FORMAT_R32G32B32_SFLOAT }
+    { .location = 0, .offset = offsetof(sbgl_Vertex, position), .format = SBGL_FORMAT_R32G32B32_SFLOAT },
+    { .location = 1, .offset = offsetof(sbgl_Vertex, color), .format = SBGL_FORMAT_R32G32B32_SFLOAT }
 };
 
 sbgl_VertexLayout layout = {
-    .stride = sizeof(ExampleVertex),
+    .stride = sizeof(sbgl_Vertex),
     .attributeCount = 2,
     .attributes = attributes
 };
@@ -131,7 +132,12 @@ Instead of immediate execution, draw calls are submitted to a queue. The system 
 ```c
 // Queue up 10,000 instances of a single triangle
 for (int i = 0; i < 10000; i++) {
-    sbgl_SubmitDraw(queue, 3, 0, 1);
+    sbgl_InstanceData data;
+    data.transform = sbgl_Mat4Translate(sbgl_Vec3Set((float)i * 0.1f, 0.0f, 0.0f));
+    data.color = sbgl_Vec4Set(1.0f, 1.0f, 1.0f, 1.0f);
+    
+    // meshId=0, materialId=0, sortKey=0
+    sbgl_SubmitDraw(queue, 0, 0, 0, &data);
 }
 ```
 
@@ -145,7 +151,8 @@ sbgl_BindPipeline(ctx, pipeline);
 sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
 
 // Process and execute all queued draws
-sbgl_RenderQueues(ctx, &queue, 1);
+sbgl_Mat4 vp = sbgl_Mat4Identity();
+sbgl_RenderQueues(ctx, &queue, 1, &vp);
 
 sbgl_EndDrawing(ctx);
 ```

@@ -43,10 +43,10 @@ The library provides `static inline` constructor functions to initialize types a
 
 ## Data Initialization
 
-The library utilizes a double-brace syntax `{{ ... }}` for vector and quaternion initialization. This is required due to the nested nature of the `union` and anonymous `struct` definitions used to provide component-wise access.
+While the library technically supports brace-enclosed initialization, **it is strongly recommended to use the provided constructor functions** (e.g., `sbgl_Vec3Set()`) for all data initialization.
 
-### Technical Detail
-Types like `sbgl_Vec3` are defined as a `union` where the first member is an anonymous `struct`. 
+### Why use Constructors?
+Types like `sbgl_Vec3` are defined as a `union` with an internal anonymous `struct` that includes a `_pad` field for SIMD alignment.
 
 ```c
 typedef union {
@@ -55,11 +55,13 @@ typedef union {
 } sbgl_Vec3;
 ```
 
-When initializing these types with compound literals:
--   The **outer braces** `{}` initialize the `union`.
--   The **inner braces** `{}` initialize the anonymous `struct` (the first member of the union).
+Using raw brace initialization (e.g., `{ 1.0f, 2.0f, 3.0f }`) often skips the `_pad` field, triggering compiler warnings or errors when `-Wmissing-field-initializers` is enabled. Explicitly using `sbgl_Vec3Set(1.0f, 2.0f, 3.0f)` ensures every field—including padding—is correctly initialized and satisfies strict compilation requirements.
 
-Using single braces may result in compiler warnings (e.g., `-Wmissing-braces`) regarding the initialization of subobjects.
+### Technical Detail (Brace Initialization)
+If brace initialization must be used (e.g., for static global data), a double-brace syntax `{{ ... }}` is required due to the nested nature of the `union`.
+-   The **outer braces** `{}` initialize the `union`.
+-   The **inner braces** `{}` initialize the anonymous `struct`.
+-   **Note**: All fields, including `_pad`, should be specified to avoid warnings.
 
 ## Implementation Examples
 

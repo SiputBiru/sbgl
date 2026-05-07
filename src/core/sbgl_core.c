@@ -9,6 +9,7 @@
 #include "core/sbgl_batcher.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Internal storage for draw packets awaiting submission.
@@ -249,6 +250,41 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 	ctx->result =
 		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 	return res;
+}
+
+sbgl_Shader sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* filename) {
+    FILE* file = fopen(filename, "rb");
+    if (!file) {
+        char fallback[256];
+        snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
+        file = fopen(fallback, "rb");
+        if (!file) {
+            sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
+            return SBGL_INVALID_HANDLE;
+        }
+    }
+
+    fseek(file, 0, SEEK_END);
+    size_t size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    uint32_t* buffer = malloc(size);
+    if (!buffer) {
+        fclose(file);
+        return SBGL_INVALID_HANDLE;
+    }
+
+    size_t read = fread(buffer, 1, size, file);
+    fclose(file);
+
+    if (read != size) {
+        free(buffer);
+        return SBGL_INVALID_HANDLE;
+    }
+
+    sbgl_Shader shader = sbgl_LoadShader(ctx, stage, buffer, size);
+    free(buffer);
+    return shader;
 }
 
 void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader) {

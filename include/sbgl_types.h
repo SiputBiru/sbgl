@@ -18,9 +18,17 @@
  * via Buffer Device Address (BDA) in the vertex shader.
  */
 typedef struct {
-    sbgl_Mat4 transform; /**< World transformation matrix. */
-    sbgl_Vec4 color;     /**< Per-instance color tint. */
+	sbgl_Mat4 transform; /**< World transformation matrix. */
+	sbgl_Vec4 color;	 /**< Per-instance color tint. */
 } sbgl_InstanceData;
+
+/**
+ * @brief Standard vertex structure for basic geometry rendering.
+ */
+typedef struct {
+	sbgl_Vec3 position;
+	sbgl_Vec3 color;
+} sbgl_Vertex;
 
 /**
  * @brief Handle for a GPU-side buffer.

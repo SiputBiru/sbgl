@@ -138,6 +138,8 @@ int main(void) {
 
 	float start_time = (float)clock() / CLOCKS_PER_SEC;
 	float last_time = start_time;
+	float fps_timer = 0.0f;
+	int frame_count = 0;
 
 	while (!sbgl_WindowShouldClose(ctx)) {
 		sbgl_Clear(ctx, 0.02f, 0.02f, 0.02f, 1.0f);
@@ -153,6 +155,15 @@ int main(void) {
 		float dt = current_time - last_time;
 		last_time = current_time;
 		float time = current_time - start_time;
+
+		// Calculate and display FPS
+		frame_count++;
+		fps_timer += dt;
+		if (fps_timer >= 1.0f) {
+			printf("FPS: %d | Frame Time: %.2f ms\n", frame_count, (fps_timer / (float)frame_count) * 1000.0f);
+			fps_timer = 0.0f;
+			frame_count = 0;
+		}
 
 		if (input->keysPressed[SBGL_KEY_TAB]) {
 			mouse_locked = !mouse_locked;

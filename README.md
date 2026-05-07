@@ -68,3 +68,15 @@ target_link_libraries(your_application PRIVATE sbgl)
 * Arena-based memory management.
 * SIMD-ready math library.
 * Native Platform HAL (Wayland, X11, Win32).
+
+## Performance & Rendering Techniques
+
+The system utilizes several modern rendering techniques to ensure high-performance execution and minimal CPU-GPU overhead.
+
+| Technique | Implementation Detail | Performance Benefit |
+| :--- | :--- | :--- |
+| **Multi-Draw Indirect (MDI)** | Draw commands are baked into a GPU-visible buffer and submitted via `vkCmdDrawIndexedIndirect`. | Reduces CPU submission overhead and eliminates per-draw call driver validation. |
+| **Buffer Device Address (BDA)** | Uses `GL_EXT_buffer_reference` to access instance data via 64-bit pointers in push constants. | Eliminates descriptor set updates and provides fast, direct memory access within shaders. |
+| **Data-Oriented Design (DOD)** | Contiguous memory layouts for render queues and instance data. | Maximizes L1/L2 cache utilization during packet submission and sorting phases. |
+| **Stable Radix Sort** | High-performance CPU sorting of draw packets by mesh and material identifiers. | Minimizes pipeline state changes and maximizes the effectiveness of indirect command merging. |
+| **Memory Arenas** | Allocation of render-loop resources through `SblArena`. | Eliminates per-frame heap fragmentation and allocation latency in the hot path. |

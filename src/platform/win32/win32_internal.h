@@ -13,12 +13,14 @@
  * @brief Native Win32 window state.
  */
 struct sbgl_Window {
-	HINSTANCE hinstance;
-	HWND hwnd;
-	bool shouldClose;
-	bool resized;
-	int width, height;
-	sbgl_InputState* input;
+    HINSTANCE hinstance;
+    HWND hwnd;
+    bool shouldClose;
+    bool resized;
+    bool focused;
+    bool cursorVisible;
+    int width, height;
+    sbgl_InputState* input;
 };
 
 // Internal event processing

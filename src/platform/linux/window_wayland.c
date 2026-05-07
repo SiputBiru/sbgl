@@ -24,6 +24,10 @@ static void registry_handle_global(void* data, struct wl_registry* registry, uin
         xdg_wm_base_add_listener(window->wm_base, &wm_base_listener, NULL);
     } else if (strcmp(interface, wl_seat_interface.name) == 0) {
         linux_init_input(registry, name, 1, window);
+    } else if (strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
+        window->pointer_constraints = wl_registry_bind(registry, name, &zwp_pointer_constraints_v1_interface, 1);
+    } else if (strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
+        window->relative_pointer_manager = wl_registry_bind(registry, name, &zwp_relative_pointer_manager_v1_interface, 1);
     }
 }
 static const struct wl_registry_listener registry_listener = { .global = registry_handle_global };
@@ -54,6 +58,11 @@ static void xdg_surface_handle_configure(void* data, struct xdg_surface* surf, u
 }
 static const struct xdg_surface_listener xdg_surface_listener = { .configure = xdg_surface_handle_configure };
 
+// --- Pointer Constraints ---
+static void locked_pointer_locked(void* data, struct zwp_locked_pointer_v1* locked_pointer) { (void)data; (void)locked_pointer; }
+static void locked_pointer_unlocked(void* data, struct zwp_locked_pointer_v1* locked_pointer) { (void)data; (void)locked_pointer; }
+static const struct zwp_locked_pointer_v1_listener locked_pointer_listener = { .locked = locked_pointer_locked, .unlocked = locked_pointer_unlocked };
+
 // --- HAL ---
 sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title) {
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
@@ -61,6 +70,8 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     window->width = width; window->height = height;
     window->shouldClose = false;
     window->resized = false;
+    window->focused = false;
+    window->cursor_visible = true;
     window->input = input;
 
     window->display = wl_display_connect(NULL);
@@ -91,11 +102,18 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
 
 void sbgl_os_PollEvents(sbgl_Window* window) {
     if (!window) return;
+    
+    // Clear deltas if relative pointer is active to allow accumulation in listeners
+    if (window->relative_pointer && window->input) {
+        window->input->mouseDeltaX = 0;
+        window->input->mouseDeltaY = 0;
+    }
+
     while (wl_display_prepare_read(window->display) != 0) wl_display_dispatch_pending(window->display);
     wl_display_flush(window->display);
     wl_display_read_events(window->display);
     wl_display_dispatch_pending(window->display);
-    linux_internal_update_input_states(window->input);
+    linux_internal_update_input_states(window);
 }
 
 bool sbgl_os_WindowShouldClose(sbgl_Window* window) { return window->shouldClose; }
@@ -107,12 +125,59 @@ bool sbgl_os_WasWindowResized(sbgl_Window* window) {
     return r;
 }
 
+bool sbgl_os_IsWindowFocused(sbgl_Window* window) { return window->focused; }
+
+void sbgl_os_SetCursorVisible(sbgl_Window* window, bool visible) {
+    if (!window) return;
+    window->cursor_visible = visible;
+    
+    if (!visible && window->seat) {
+        struct wl_pointer* pointer = wl_seat_get_pointer(window->seat);
+        if (pointer) {
+            // Setting the cursor surface to NULL hides the cursor for this surface.
+            wl_pointer_set_cursor(pointer, window->pointer_serial, NULL, 0, 0);
+        }
+    }
+}
+
+extern const struct zwp_relative_pointer_v1_listener relative_pointer_listener;
+
+void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked) {
+    if (!window || !window->seat || !window->pointer_constraints) return;
+    struct wl_pointer* pointer = wl_seat_get_pointer(window->seat);
+    if (!pointer) return;
+
+    if (locked && !window->locked_pointer) {
+        window->locked_pointer = zwp_pointer_constraints_v1_lock_pointer(
+            window->pointer_constraints, window->surface, pointer, NULL,
+            ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
+        zwp_locked_pointer_v1_add_listener(window->locked_pointer, &locked_pointer_listener, window);
+
+        if (window->relative_pointer_manager) {
+            window->relative_pointer = zwp_relative_pointer_manager_v1_get_relative_pointer(
+                window->relative_pointer_manager, pointer);
+            zwp_relative_pointer_v1_add_listener(window->relative_pointer, &relative_pointer_listener, window);
+        }
+    } else if (!locked && window->locked_pointer) {
+        zwp_locked_pointer_v1_destroy(window->locked_pointer);
+        window->locked_pointer = NULL;
+        if (window->relative_pointer) {
+            zwp_relative_pointer_v1_destroy(window->relative_pointer);
+            window->relative_pointer = NULL;
+        }
+    }
+}
+
 uint64_t sbgl_os_GetPerfCount(void) { struct timespec ts; clock_gettime(CLOCK_MONOTONIC, &ts); return (uint64_t)ts.tv_sec * 1000000000ULL + ts.tv_nsec; }
 uint64_t sbgl_os_GetPerfFreq(void) { return 1000000000ULL; }
 void* sbgl_os_GetNativeWindowHandle(sbgl_Window* window) { return (void*)window->surface; }
 void* sbgl_os_GetNativeDisplayHandle(sbgl_Window* window) { return (void*)window->display; }
 void sbgl_os_DestroyWindow(sbgl_Window* window) { 
     if (!window) return;
+    if (window->relative_pointer) zwp_relative_pointer_v1_destroy(window->relative_pointer);
+    if (window->locked_pointer) zwp_locked_pointer_v1_destroy(window->locked_pointer);
+    if (window->relative_pointer_manager) zwp_relative_pointer_manager_v1_destroy(window->relative_pointer_manager);
+    if (window->pointer_constraints) zwp_pointer_constraints_v1_destroy(window->pointer_constraints);
     xdg_toplevel_destroy(window->xdg_toplevel); 
     xdg_surface_destroy(window->xdg_surface); 
     wl_surface_destroy(window->surface); 

@@ -166,6 +166,13 @@ void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a);
  */
 const sbgl_InputState* sbgl_GetInputState(sbgl_Context* ctx);
 
+/**
+ * @brief Sets the cursor behavior and visibility.
+ * @param ctx The engine context.
+ * @param mode The desired mouse mode.
+ */
+void sbgl_SetMouseMode(sbgl_Context* ctx, sbgl_MouseMode mode);
+
 // --- Rendering API ---
 
 /**

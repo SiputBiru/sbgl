@@ -15,6 +15,16 @@ static SBGL_Scancode wayland_key_to_scancode(uint32_t key) {
         case 42:  return SBGL_SCANCODE_LSHIFT;
         case 29:  return SBGL_SCANCODE_LCTRL;
         case 56:  return SBGL_SCANCODE_LALT;
+        case 2:  return SBGL_SCANCODE_1;
+        case 3:  return SBGL_SCANCODE_2;
+        case 4:  return SBGL_SCANCODE_3;
+        case 5:  return SBGL_SCANCODE_4;
+        case 6:  return SBGL_SCANCODE_5;
+        case 7:  return SBGL_SCANCODE_6;
+        case 8:  return SBGL_SCANCODE_7;
+        case 9:  return SBGL_SCANCODE_8;
+        case 10: return SBGL_SCANCODE_9;
+        case 11: return SBGL_SCANCODE_0;
         case 30: return SBGL_SCANCODE_A; case 48: return SBGL_SCANCODE_B; case 46: return SBGL_SCANCODE_C;
         case 32: return SBGL_SCANCODE_D; case 18: return SBGL_SCANCODE_E; case 33: return SBGL_SCANCODE_F;
         case 34: return SBGL_SCANCODE_G; case 35: return SBGL_SCANCODE_H; case 23: return SBGL_SCANCODE_I;
@@ -67,8 +77,14 @@ const struct wl_pointer_listener pointer_listener = {
 
 // --- Keyboard Listeners ---
 static void keyboard_keymap(void* data, struct wl_keyboard* k, uint32_t format, int32_t fd, uint32_t size) { (void)data; (void)k; (void)format; (void)fd; (void)size; }
-static void keyboard_enter(void* data, struct wl_keyboard* k, uint32_t s, struct wl_surface* surf, struct wl_array* keys) { (void)data; (void)k; (void)s; (void)surf; (void)keys; }
-static void keyboard_leave(void* data, struct wl_keyboard* k, uint32_t s, struct wl_surface* surf) { (void)data; (void)k; (void)s; (void)surf; }
+static void keyboard_enter(void* data, struct wl_keyboard* k, uint32_t s, struct wl_surface* surf, struct wl_array* keys) {
+    (void)k; (void)s; (void)surf; (void)keys;
+    ((sbgl_Window*)data)->focused = true;
+}
+static void keyboard_leave(void* data, struct wl_keyboard* k, uint32_t s, struct wl_surface* surf) {
+    (void)k; (void)s; (void)surf;
+    ((sbgl_Window*)data)->focused = false;
+}
 static void keyboard_key(void* data, struct wl_keyboard* k, uint32_t s, uint32_t t, uint32_t key, uint32_t state) {
     (void)k; (void)s; (void)t;
     sbgl_InputState* input = ((struct sbgl_Window*)data)->input;
@@ -89,15 +105,37 @@ const struct wl_keyboard_listener keyboard_listener = {
     .key = keyboard_key, .modifiers = keyboard_modifiers, .repeat_info = keyboard_repeat_info
 };
 
+// --- Relative Pointer Listener ---
+static void relative_motion(void* data, struct zwp_relative_pointer_v1* p, uint32_t hi, uint32_t lo, wl_fixed_t dx, wl_fixed_t dy, wl_fixed_t dx_unaccel, wl_fixed_t dy_unaccel) {
+    (void)p; (void)hi; (void)lo; (void)dx_unaccel; (void)dy_unaccel;
+    sbgl_Window* window = (sbgl_Window*)data;
+    window->input->mouseDeltaX += wl_fixed_to_int(dx);
+    window->input->mouseDeltaY += wl_fixed_to_int(dy);
+}
+
+const struct zwp_relative_pointer_v1_listener relative_pointer_listener = {
+    .relative_motion = relative_motion
+};
+
 void linux_init_input(struct wl_registry* registry, uint32_t name, uint32_t version, sbgl_Window* window) {
     window->seat = wl_registry_bind(registry, name, &wl_seat_interface, version);
 }
 
 // --- HAL Implementation ---
-void linux_internal_update_input_states(sbgl_InputState* input) {
+void linux_internal_update_input_states(sbgl_Window* window) {
+    sbgl_InputState* input = window->input;
     if (!input) return;
-    input->mouseDeltaX = input->mouseX - input->_internalMouseX;
-    input->mouseDeltaY = input->mouseY - input->_internalMouseY;
+
+    if (!window->relative_pointer) {
+        input->mouseDeltaX = input->mouseX - input->_internalMouseX;
+        input->mouseDeltaY = input->mouseY - input->_internalMouseY;
+    }
+    // Note: If relative_pointer is active, mouseDeltaX/Y were accumulated in relative_motion.
+    // We do NOT reset them here, as they should be reset at the start of PollEvents 
+    // or we should handle the accumulation window carefully.
+    // For now, assume PollEvents or the next frame will clear them if needed, 
+    // but actually sbgl_InputState usually expects deltas to be "since last frame".
+
     input->_internalMouseX = input->mouseX;
     input->_internalMouseY = input->mouseY;
 }

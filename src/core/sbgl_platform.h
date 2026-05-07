@@ -63,6 +63,34 @@ void sbgl_os_GetWindowSize(sbgl_Window* window, int* w, int* h);
 bool sbgl_os_WasWindowResized(sbgl_Window* window);
 
 /**
+ * @brief Sets the visibility of the OS cursor for the given window.
+ *
+ * Provides a platform-agnostic way to show or hide the mouse pointer.
+ *
+ * @param window The native window handle.
+ * @param visible True to show the cursor, false to hide it.
+ */
+void sbgl_os_SetCursorVisible(sbgl_Window* window, bool visible);
+
+/**
+ * @brief Locks or unlocks the cursor within the window bounds.
+ *
+ * When locked, the cursor is typically constrained to the window center
+ * to support relative motion for 3D navigation.
+ *
+ * @param window The native window handle.
+ * @param locked True to capture the cursor, false to release it.
+ */
+void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked);
+
+/**
+ * @brief Checks if the window currently has input focus.
+ * @param window The native window handle.
+ * @return True if focused.
+ */
+bool sbgl_os_IsWindowFocused(sbgl_Window* window);
+
+/**
  * @brief Dispatches OS events (messages/protocol requests).
  * @param window The window to process events for.
  */

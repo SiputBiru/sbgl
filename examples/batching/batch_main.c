@@ -156,6 +156,7 @@ int main(void) {
 
 		if (input->keysPressed[SBGL_KEY_TAB]) {
 			mouse_locked = !mouse_locked;
+			sbgl_SetMouseMode(ctx, mouse_locked ? SBGL_MOUSE_MODE_CAPTURED : SBGL_MOUSE_MODE_NORMAL);
 		}
 
 		if (mouse_locked) {

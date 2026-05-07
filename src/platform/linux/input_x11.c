@@ -7,7 +7,8 @@
 static SBGL_Scancode x11_keysym_to_scancode(KeySym keysym) {
     if (keysym >= 'a' && keysym <= 'z') return (SBGL_Scancode)(SBGL_SCANCODE_A + (keysym - 'a'));
     if (keysym >= 'A' && keysym <= 'Z') return (SBGL_Scancode)(SBGL_SCANCODE_A + (keysym - 'A'));
-    if (keysym >= '0' && keysym <= '9') return (SBGL_Scancode)(SBGL_SCANCODE_0 + (keysym - '0'));
+    if (keysym == '0') return SBGL_SCANCODE_0;
+    if (keysym >= '1' && keysym <= '9') return (SBGL_Scancode)(SBGL_SCANCODE_1 + (keysym - '1'));
 
     switch (keysym) {
         case XK_Escape:    return SBGL_SCANCODE_ESCAPE;
@@ -68,10 +69,19 @@ void x11_internal_process_event(XEvent* event, sbgl_Window* window) {
             if (btn != -1 && btn < SBGL_MOUSE_BUTTON_MAX) input->mouseDown[btn] = down;
             break;
         }
+        case FocusIn: {
+            window->focused = true;
+            break;
+        }
+        case FocusOut: {
+            window->focused = false;
+            break;
+        }
     }
 }
 
-void linux_internal_update_input_states(sbgl_InputState* input) {
+void linux_internal_update_input_states(sbgl_Window* window) {
+    sbgl_InputState* input = window->input;
     if (!input) return;
     input->mouseDeltaX = input->mouseX - input->_internalMouseX;
     input->mouseDeltaY = input->mouseY - input->_internalMouseY;

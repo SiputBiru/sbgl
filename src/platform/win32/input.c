@@ -3,7 +3,8 @@
 
 static SBGL_Scancode win32_vk_to_scancode(WPARAM wparam) {
     if (wparam >= 'A' && wparam <= 'Z') return (SBGL_Scancode)(SBGL_SCANCODE_A + (wparam - 'A'));
-    if (wparam >= '0' && wparam <= '9') return (SBGL_Scancode)(SBGL_SCANCODE_0 + (wparam - '0'));
+    if (wparam == '0') return SBGL_SCANCODE_0;
+    if (wparam >= '1' && wparam <= '9') return (SBGL_Scancode)(SBGL_SCANCODE_1 + (wparam - '1'));
 
     switch (wparam) {
         case VK_ESCAPE: return SBGL_SCANCODE_ESCAPE;
@@ -51,6 +52,13 @@ void win32_internal_process_message(sbgl_InputState* input, UINT msg, WPARAM wpa
         case WM_RBUTTONUP:   input->mouseDown[SBGL_MOUSE_BUTTON_RIGHT] = false; break;
         case WM_MBUTTONDOWN: input->mouseDown[SBGL_MOUSE_BUTTON_MIDDLE] = true; break;
         case WM_MBUTTONUP:   input->mouseDown[SBGL_MOUSE_BUTTON_MIDDLE] = false; break;
+        case WM_KILLFOCUS: {
+            /* Input states are cleared when the window loses focus to prevent 
+               stuck keys or buttons from affecting the simulation. */
+            memset(input->keysDown, 0, sizeof(input->keysDown));
+            memset(input->mouseDown, 0, sizeof(input->mouseDown));
+            break;
+        }
     }
 }
 

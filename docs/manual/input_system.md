@@ -72,6 +72,26 @@ if (input->mouseDown[SBGL_MOUSE_LEFT]) {
 }
 ```
 
+### Mouse Modes
+The engine supports three distinct modes for controlling the cursor's visibility and movement behavior.
+
+| Mode | Behavior | Use Case |
+| :--- | :--- | :--- |
+| `SBGL_MOUSE_MODE_NORMAL` | Standard OS cursor, visible and free to move. | 2D UIs, Desktop-style apps. |
+| `SBGL_MOUSE_MODE_HIDDEN` | Cursor is invisible but moves freely. | Custom software cursors. |
+| `SBGL_MOUSE_MODE_CAPTURED` | Cursor is invisible and locked to the window center. | 3D navigation, FPS cameras. |
+
+#### Controlling the Mouse Mode
+Use `sbgl_SetMouseMode` to switch between behaviors. The engine ensures that modes like `CAPTURED` are persistent; if the window loses and then regains focus, the engine automatically re-locks the cursor.
+
+```c
+// Toggle between standard and FPS-style camera
+if (input->keysPressed[SBGL_KEY_TAB]) {
+    is_fps_mode = !is_fps_mode;
+    sbgl_SetMouseMode(ctx, is_fps_mode ? SBGL_MOUSE_MODE_CAPTURED : SBGL_MOUSE_MODE_NORMAL);
+}
+```
+
 The design adheres to Data-Oriented Design principles by:
 - **Maximizing Cache Efficiency**: Providing direct access to the underlying arrays (`keysDown`, `keysPressed`, `mouseDown`) allows the CPU to prefetch data effectively during batch processing loops.
 - **Eliminating Call Overhead**: Fetching the entire state once per frame avoids the overhead of multiple function calls for individual key checks.

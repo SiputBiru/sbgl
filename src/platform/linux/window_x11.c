@@ -4,6 +4,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
+#include <X11/extensions/Xfixes.h>
 #include <time.h>
 #include <string.h>
 
@@ -24,7 +25,7 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     );
 
     XStoreName(display, win, title);
-    XSelectInput(display, win, ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | StructureNotifyMask | PointerMotionMask);
+    XSelectInput(display, win, ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | StructureNotifyMask | PointerMotionMask | FocusChangeMask);
 
     Atom wmDeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
     XSetWMProtocols(display, win, &wmDeleteMessage, 1);
@@ -72,10 +73,41 @@ bool sbgl_os_WasWindowResized(sbgl_Window* window) {
     return r;
 }
 
+bool sbgl_os_IsWindowFocused(sbgl_Window* window) {
+    return window ? window->focused : false;
+}
+
+void sbgl_os_SetCursorVisible(sbgl_Window* window, bool visible) {
+    if (!window || !window->display) return;
+    
+    // Adjusts cursor visibility using XFixes extension.
+    if (visible) {
+        XFixesShowCursor(window->display, window->window);
+    } else {
+        XFixesHideCursor(window->display, window->window);
+    }
+    XFlush(window->display);
+}
+
+void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked) {
+    if (!window || !window->display) return;
+
+    // Constrains or releases the pointer relative to the window.
+    if (locked) {
+        XGrabPointer(window->display, window->window, False,
+                     ButtonPressMask | ButtonReleaseMask | PointerMotionMask,
+                     GrabModeAsync, GrabModeAsync,
+                     window->window, None, CurrentTime);
+    } else {
+        XUngrabPointer(window->display, CurrentTime);
+    }
+    XFlush(window->display);
+}
+
 void sbgl_os_PollEvents(sbgl_Window* window) {
     if (!window || !window->display) return;
 
-    linux_internal_update_input_states(window->input);
+    linux_internal_update_input_states(window);
 
     while (XPending(window->display)) {
         XEvent event;

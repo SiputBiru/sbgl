@@ -42,6 +42,8 @@ typedef struct {
 	bool isDrawing;		  /**< Internal flag to track frame acquisition success. */
 	bool isIdle; /**< Internal flag to track if sbgl_DeviceWaitIdle was called after drawing */
 	sbgl_InputState input; /**< Physical input state tracking. */
+	sbgl_MouseMode mouseMode; /**< Current intended mouse behavior. */
+	bool wasFocused;          /**< Tracking focus state for re-locking. */
 } sbgl_InternalContext;
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
@@ -73,6 +75,8 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	inner->clearColor[2] = 0.0f;
 	inner->clearColor[3] = 0.0f;
 	inner->isIdle = true;
+	inner->mouseMode = SBGL_MOUSE_MODE_NORMAL;
+	inner->wasFocused = false;
 
 	ctx->inner = inner;
 	ctx->result = SBGL_SUCCESS;
@@ -148,6 +152,16 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 
 	sbgl_os_PollEvents(inner->window);
 
+	// Detect focus transitions to re-apply mouse locking if necessary.
+	bool currentlyFocused = sbgl_os_IsWindowFocused(inner->window);
+	if (currentlyFocused && !inner->wasFocused) {
+		if (inner->mouseMode == SBGL_MOUSE_MODE_CAPTURED) {
+			sbgl_os_SetCursorVisible(inner->window, false);
+			sbgl_os_SetCursorLocked(inner->window, true);
+		}
+	}
+	inner->wasFocused = currentlyFocused;
+
 	inner->isDrawing = sbgl_gfx_BeginFrame(
 		inner->gfx,
 		inner->clearColor[0],
@@ -204,6 +218,20 @@ const sbgl_InputState* sbgl_GetInputState(sbgl_Context* ctx) {
 
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	return &inner->input;
+}
+
+void sbgl_SetMouseMode(sbgl_Context* ctx, sbgl_MouseMode mode) {
+	if (!ctx || !ctx->inner)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	inner->mouseMode = mode;
+
+	bool visible = (mode == SBGL_MOUSE_MODE_NORMAL);
+	bool locked = (mode == SBGL_MOUSE_MODE_CAPTURED);
+
+	sbgl_os_SetCursorVisible(inner->window, visible);
+	sbgl_os_SetCursorLocked(inner->window, locked);
+	ctx->result = SBGL_SUCCESS;
 }
 
 sbgl_Buffer

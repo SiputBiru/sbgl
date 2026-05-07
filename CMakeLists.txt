@@ -71,6 +71,8 @@ elseif(UNIX AND NOT APPLE)
             OUTPUT_STRIP_TRAILING_WHITESPACE
         )
         set(XDG_SHELL_XML "${WAYLAND_PROTOCOLS_DIR}/stable/xdg-shell/xdg-shell.xml")
+        set(POINTER_CONSTRAINTS_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml")
+        set(RELATIVE_POINTER_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/relative-pointer/relative-pointer-unstable-v1.xml")
         
         add_custom_command(
             OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
@@ -83,16 +85,44 @@ elseif(UNIX AND NOT APPLE)
             DEPENDS "${XDG_SHELL_XML}"
         )
 
+        add_custom_command(
+            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
+            COMMAND wayland-scanner client-header "${POINTER_CONSTRAINTS_XML}" "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
+            DEPENDS "${POINTER_CONSTRAINTS_XML}"
+        )
+        add_custom_command(
+            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+            COMMAND wayland-scanner private-code "${POINTER_CONSTRAINTS_XML}" "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+            DEPENDS "${POINTER_CONSTRAINTS_XML}"
+        )
+
+        add_custom_command(
+            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
+            COMMAND wayland-scanner client-header "${RELATIVE_POINTER_XML}" "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
+            DEPENDS "${RELATIVE_POINTER_XML}"
+        )
+        add_custom_command(
+            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
+            COMMAND wayland-scanner private-code "${RELATIVE_POINTER_XML}" "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
+            DEPENDS "${RELATIVE_POINTER_XML}"
+        )
+
         add_custom_target(wayland_protocols 
             DEPENDS 
                 "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
                 "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
+                "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
+                "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+                "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
+                "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
         )
         
         list(APPEND SBGL_SOURCES 
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c 
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c
             "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
+            "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+            "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
         )
         include_directories("${CMAKE_CURRENT_BINARY_DIR}")
         list(APPEND PLATFORM_LIBS ${WAYLAND_CLIENT_LIBRARIES})
@@ -103,7 +133,7 @@ elseif(UNIX AND NOT APPLE)
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_x11.c 
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_x11.c
         )
-        list(APPEND PLATFORM_LIBS X11 m)
+        list(APPEND PLATFORM_LIBS X11 Xfixes m)
         add_definitions(-DSBGL_PLATFORM_X11)
     endif()
 endif()

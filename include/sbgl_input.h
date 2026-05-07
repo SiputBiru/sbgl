@@ -87,6 +87,15 @@ typedef enum {
 } SBGL_MouseButton;
 
 /**
+ * @brief Mouse behavior modes.
+ */
+typedef enum {
+    SBGL_MOUSE_MODE_NORMAL,   /**< Standard OS cursor, visible and free. */
+    SBGL_MOUSE_MODE_HIDDEN,   /**< Cursor is invisible but moves freely. */
+    SBGL_MOUSE_MODE_CAPTURED  /**< Cursor is invisible and locked to window center. */
+} sbgl_MouseMode;
+
+/**
  * @brief Represents the real-time state of physical inputs.
  *
  * Adheres to Data-Oriented Design by storing flat arrays of booleans for 

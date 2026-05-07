@@ -1,7 +1,3 @@
-if(SBGL_BUILD_STANDALONE)
-    # ... (rest of standalone logic)
-endif()
-
 # Define shader files and generated outputs
 set(TRI_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/triangle.vert")
 set(TRI_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/triangle.frag")
@@ -52,9 +48,11 @@ if(SBGL_BUILD_STANDALONE)
     # must mark the Wayland protocol file as generated in this directory too.
     if(SBGL_USE_WAYLAND AND NOT WIN32)
         set_source_files_properties("${CMAKE_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
+        set_source_files_properties("${CMAKE_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
+        set_source_files_properties("${CMAKE_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
     endif()
 
-    foreach(example window/hello_window input/input_keyboard input/input_mouse camera/camera_main triangle/triangle_main batching/batch_main)
+    foreach(example window/hello_window input/input_keyboard input/input_mouse input/mouse_mode camera/camera_main triangle/triangle_main batching/batch_main)
         # Extract target name (e.g. hello_window from window/hello_window)
         get_filename_component(target_name ${example} NAME)
         
@@ -99,6 +97,7 @@ else()
     add_example(hello_window window/hello_window.c)
     add_example(input_keyboard input/input_keyboard.c)
     add_example(input_mouse input/input_mouse.c)
+    add_example(mouse_mode input/mouse_mode.c)
     add_example(camera_main camera/camera_main.c)
     add_example(triangle_main triangle/triangle_main.c)
     add_example(batch_main batching/batch_main.c)

@@ -10,6 +10,8 @@
 #ifdef SBGL_PLATFORM_WAYLAND
 #include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
+#include "pointer-constraints-unstable-v1-client-protocol.h"
+#include "relative-pointer-unstable-v1-client-protocol.h"
 
 /**
  * @brief Native Wayland window state.
@@ -22,9 +24,16 @@ struct sbgl_Window {
     struct wl_surface*    surface;
     struct xdg_surface*   xdg_surface;
     struct xdg_toplevel*  xdg_toplevel;
+    struct zwp_pointer_constraints_v1* pointer_constraints;
+    struct zwp_locked_pointer_v1* locked_pointer;
+    struct zwp_relative_pointer_manager_v1* relative_pointer_manager;
+    struct zwp_relative_pointer_v1* relative_pointer;
     sbgl_InputState*      input;
+    uint32_t              pointer_serial;
     bool shouldClose;
     bool resized;
+    bool focused;
+    bool cursor_visible;
     int width, height;
 };
 
@@ -45,6 +54,7 @@ struct sbgl_Window {
     sbgl_InputState* input;
     bool shouldClose;
     bool resized;
+    bool focused;
     int width, height;
 };
 
@@ -52,6 +62,6 @@ void x11_internal_process_event(XEvent* event, struct sbgl_Window* window);
 #endif
 
 // Internal update function called by PollEvents
-void linux_internal_update_input_states(sbgl_InputState* input);
+void linux_internal_update_input_states(struct sbgl_Window* window);
 
 #endif // LINUX_INTERNAL_H

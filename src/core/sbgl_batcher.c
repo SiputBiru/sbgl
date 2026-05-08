@@ -30,7 +30,13 @@ uint32_t sbgl_bake_commands(
             outCommands[0].firstIndex = 39;
             outCommands[0].vertexOffset = 11;
             break;
+        case 3: // Voxel Chunk (Procedural 32x32 grid of cubes)
+            outCommands[0].indexCount = 36864; // 32 * 32 * 36
+            outCommands[0].firstIndex = 0;    // Generated in shader via gl_VertexIndex
+            outCommands[0].vertexOffset = 0;
+            break;
         default:
+
             outCommands[0].indexCount = 0;
             outCommands[0].firstIndex = 0;
             outCommands[0].vertexOffset = 0;
@@ -75,6 +81,11 @@ uint32_t sbgl_bake_commands(
                     command->indexCount = 18;
                     command->firstIndex = 39;
                     command->vertexOffset = 11;
+                    break;
+                case 3: // Voxel Chunk
+                    command->indexCount = 36864;
+                    command->firstIndex = 0;
+                    command->vertexOffset = 0;
                     break;
                 default:
                     command->indexCount = 0;

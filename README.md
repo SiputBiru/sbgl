@@ -51,6 +51,7 @@ target_link_libraries(your_application PRIVATE sbgl)
 * [Platform Abstraction](docs/manual/platform_abstraction.md)
 * [Rendering Pipeline](docs/manual/rendering_pipeline.md)
 * [Vulkan Backend](docs/manual/vulkan_backend.md)
+* [Voxel Rendering](docs/manual/voxel_rendering.md)
 * [Camera System](docs/manual/camera_system.md)
 
 ### Resources

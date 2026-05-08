@@ -6,6 +6,8 @@ set(PYR_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/pyramid.vert")
 set(PYR_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/pyramid.frag")
 set(BATCH_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/batching.vert")
 set(BATCH_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/batching.frag")
+set(VOXEL_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel.vert")
+set(VOXEL_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel.frag")
 
 set(TRI_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle.vert.spv")
 set(TRI_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle.frag.spv")
@@ -14,6 +16,8 @@ set(PYR_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/pyramid.vert.spv")
 set(PYR_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/pyramid.frag.spv")
 set(BATCH_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching.vert.spv")
 set(BATCH_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching.frag.spv")
+set(VOXEL_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel.vert.spv")
+set(VOXEL_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel.frag.spv")
 
 set(TRI_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_vert.h")
 set(TRI_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_frag.h")
@@ -29,6 +33,8 @@ sbgl_compile_shader_to_spv(${PYR_VERT} ${PYR_VERT_SPV})
 sbgl_compile_shader_to_spv(${PYR_FRAG} ${PYR_FRAG_SPV})
 sbgl_compile_shader_to_spv(${BATCH_VERT} ${BATCH_VERT_SPV})
 sbgl_compile_shader_to_spv(${BATCH_FRAG} ${BATCH_FRAG_SPV})
+sbgl_compile_shader_to_spv(${VOXEL_VERT} ${VOXEL_VERT_SPV})
+sbgl_compile_shader_to_spv(${VOXEL_FRAG} ${VOXEL_FRAG_SPV})
 
 sbgl_convert_spv_to_header(${TRI_VERT_SPV} ${TRI_VERT_H})
 sbgl_convert_spv_to_header(${TRI_FRAG_SPV} ${TRI_FRAG_H})
@@ -38,6 +44,7 @@ add_custom_target(example_shaders DEPENDS
     ${TRI_VERT_SPV} ${TRI_FRAG_SPV} ${INT_FRAG_SPV} 
     ${PYR_VERT_SPV} ${PYR_FRAG_SPV}
     ${BATCH_VERT_SPV} ${BATCH_FRAG_SPV}
+    ${VOXEL_VERT_SPV} ${VOXEL_FRAG_SPV}
     ${TRI_VERT_H} ${TRI_FRAG_H}
 )
 
@@ -52,7 +59,7 @@ if(SBGL_BUILD_STANDALONE)
         set_source_files_properties("${CMAKE_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
     endif()
 
-    foreach(example window/hello_window input/input_keyboard input/input_mouse input/mouse_mode camera/camera_main triangle/triangle_main batching/batch_main)
+    foreach(example window/hello_window input/input_keyboard input/input_mouse input/mouse_mode camera/camera_main triangle/triangle_main batching/batch_main voxels/voxel_main)
         # Extract target name (e.g. hello_window from window/hello_window)
         get_filename_component(target_name ${example} NAME)
         
@@ -101,4 +108,5 @@ else()
     add_example(camera_main camera/camera_main.c)
     add_example(triangle_main triangle/triangle_main.c)
     add_example(batch_main batching/batch_main.c)
+    add_example(voxel_main voxels/voxel_main.c)
 endif()

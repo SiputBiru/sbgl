@@ -427,7 +427,8 @@ sbgl_RenderQueue* sbgl_CreateRenderQueue(sbgl_Context* ctx, SblArena* arena) {
     }
 
     // Initialize the queue with a default capacity of 16,384 packets
-    queue->capacity = 16384;
+    /* Initialize the queue with a high capacity to support massive batching (e.g., voxels). */
+    queue->capacity = 131072;
     queue->count = 0;
     queue->arena = arena;
     queue->packets = SBL_ARENA_PUSH_ARRAY_ZERO(arena, sbgl_DrawPacket, queue->capacity);

@@ -1368,9 +1368,9 @@ void sbgl_gfx_BindPipeline(sbgl_GfxContext* ctx, sbgl_Pipeline handle) {
 
 	VkViewport viewport = {
 		.x = 0.0f,
-		.y = 0.0f,
+		.y = (float)ctx->swapchainExtent.height,
 		.width = (float)ctx->swapchainExtent.width,
-		.height = (float)ctx->swapchainExtent.height,
+		.height = -(float)ctx->swapchainExtent.height,
 		.minDepth = 0.0f,
 		.maxDepth = 1.0f,
 	};

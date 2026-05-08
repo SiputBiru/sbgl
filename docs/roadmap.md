@@ -48,7 +48,8 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 - [x] Implement Procedural Vertex Generation using `gl_VertexIndex`
 - [x] Implement Shader Storage Buffer Objects (SSBOs) for per-instance data
 - [x] Implement Multi-Draw Indirect (MDI) for single-call batching
-- [x] Implement Greedy Meshing algorithms for voxel/grid data
+- [ ] Implement Greedy Meshing algorithms for voxel/grid data
+- [ ] Implement Infinite Voxel World (2.5D Chunked Instancing)
 
 ## High-Level rendering (Text/Sprites)
 - [ ] Implement 2D Sprite batching system (utilizing MDI)
@@ -58,6 +59,7 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 - [ ] Implement Post-processing pipeline
 
 ## Future Considerations
+- Full 3D Voxel Grid rendering (Caves, Overhangs)
 - macOS Platform Layer (Cocoa) and MoltenVK integration
 - Android/NDK Platform support
 - WebAssembly (Wasm) backend via WebGPU

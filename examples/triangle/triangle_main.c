@@ -19,9 +19,9 @@ int main(void) {
 	sbgl_Shader frag =
 		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/interactive.frag.spv");
 
-	sbgl_Vertex vertices[] = { { sbgl_Vec3Set(0.0f, -0.5f, 0.0f), sbgl_Vec3Set(1.0f, 0.0f, 0.0f) },
-							   { sbgl_Vec3Set(0.5f, 0.5f, 0.0f), sbgl_Vec3Set(0.0f, 1.0f, 0.0f) },
-							   { sbgl_Vec3Set(-0.5f, 0.5f, 0.0f), sbgl_Vec3Set(0.0f, 0.0f, 1.0f) } };
+	sbgl_Vertex vertices[] = { { sbgl_Vec3Set(0.0f, 0.5f, 0.0f), sbgl_Vec3Set(1.0f, 0.0f, 0.0f) },
+							   { sbgl_Vec3Set(0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0.0f, 1.0f, 0.0f) },
+							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0.0f, 0.0f, 1.0f) } };
 
 	sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
 

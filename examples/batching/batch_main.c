@@ -21,9 +21,9 @@ int main(void) {
 		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/batching.frag.spv");
 
 	sbgl_Vertex vertices[] = { // Triangle (Mesh 0)
-							   { sbgl_Vec3Set(0.0f, -0.5f, 0.0f), sbgl_Vec3Set(1, 0, 0) },
-							   { sbgl_Vec3Set(0.5f, 0.5f, 0.0f), sbgl_Vec3Set(0, 1, 0) },
-							   { sbgl_Vec3Set(-0.5f, 0.5f, 0.0f), sbgl_Vec3Set(0, 0, 1) },
+							   { sbgl_Vec3Set(0.0f, 0.5f, 0.0f), sbgl_Vec3Set(1, 0, 0) },
+							   { sbgl_Vec3Set(0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0, 1, 0) },
+							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0, 0, 1) },
 
 							   // Cube (Mesh 1)
 							   { sbgl_Vec3Set(-0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
@@ -160,19 +160,26 @@ int main(void) {
 		frame_count++;
 		fps_timer += dt;
 		if (fps_timer >= 1.0f) {
-			printf("FPS: %d | Frame Time: %.2f ms\n", frame_count, (fps_timer / (float)frame_count) * 1000.0f);
+			printf(
+				"FPS: %d | Frame Time: %.2f ms\n",
+				frame_count,
+				(fps_timer / (float)frame_count) * 1000.0f
+			);
 			fps_timer = 0.0f;
 			frame_count = 0;
 		}
 
 		if (input->keysPressed[SBGL_KEY_TAB]) {
 			mouse_locked = !mouse_locked;
-			sbgl_SetMouseMode(ctx, mouse_locked ? SBGL_MOUSE_MODE_CAPTURED : SBGL_MOUSE_MODE_NORMAL);
+			sbgl_SetMouseMode(
+				ctx,
+				mouse_locked ? SBGL_MOUSE_MODE_CAPTURED : SBGL_MOUSE_MODE_NORMAL
+			);
 		}
 
 		if (mouse_locked) {
 			yaw += (float)input->mouseDeltaX * mouse_sensitivity;
-			pitch += (float)input->mouseDeltaY * mouse_sensitivity;
+			pitch -= (float)input->mouseDeltaY * mouse_sensitivity;
 
 			if (pitch > 1.5f)
 				pitch = 1.5f;
@@ -199,12 +206,12 @@ int main(void) {
 			camera.position = sbgl_Vec3Sub(camera.position, sbgl_Vec3Mul(right, velocity));
 		if (input->keysDown[SBGL_KEY_D])
 			camera.position = sbgl_Vec3Add(camera.position, sbgl_Vec3Mul(right, velocity));
-		if (input->keysDown[SBGL_KEY_Q])
+		if (input->keysDown[SBGL_KEY_E])
 			camera.position = sbgl_Vec3Add(
 				camera.position,
 				sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity)
 			);
-		if (input->keysDown[SBGL_KEY_E])
+		if (input->keysDown[SBGL_KEY_Q])
 			camera.position = sbgl_Vec3Sub(
 				camera.position,
 				sbgl_Vec3Mul(sbgl_Vec3Set(0.0f, 1.0f, 0.0f), velocity)

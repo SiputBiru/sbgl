@@ -5,9 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-05-07
 
 ### Added
+- **Voxel Rendering Example**: Completed design specification for a high-performance 2.5D chunked instancing world.
+- **Performance Documentation**: Added comparison table to `README.md` highlighting MDI, BDA, and DOD techniques.
 - **Standardized Vertex Type**: Promoted `sbgl_Vertex` as the primary vertex structure across all examples and core systems, ensuring unified memory layout and improved cache performance.
 
 ### Fixed
+- **Voxel Pipeline Conflict**: Resolved a blank screen state caused by a collision between application-level push constants and internal engine state updates. The engine's automatic `viewProj` and `instanceAddress` updates in `sbgl_RenderQueues` were overwriting custom voxel metadata. Implementation now utilizes a metadata passthrough strategy, embedding chunk offsets within the first entry of the Instance Storage Buffer to ensure data integrity during Multi-Draw Indirect (MDI) submission.
+- **Procedural Attribute Mismatch**: Fixed a Vulkan validation error where procedural shaders were attempting to read non-existent vertex attributes. Transitioned to a "Pure Procedural" model with a null vertex layout, relying entirely on `gl_VertexIndex` for geometry synthesis.
 - **Math Initialization**: Resolved `-Werror=missing-field-initializers` compilation errors by standardizing the use of `sbgl_Vec3Set()` for `sbgl_Vec3` and `sbgl_AABB` structures. This ensures correct initialization of SIMD padding fields across the codebase.
 
 ## [Unreleased] - 2026-05-04

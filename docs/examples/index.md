@@ -38,6 +38,13 @@ After building, binaries are located in the `build/examples/` directory. For exa
 
 ---
 
+## Batching & GPU Optimization
+
+* **`batching/batch_main.c`**: Demonstrates high-performance batching by rendering 10,000 instances using Multi-Draw Indirect (MDI) and Buffer Device Address (BDA).
+* **`voxels/voxel_main.c`**: Showcases "Pure Procedural" rendering. Generates an infinite 2.5D voxel world entirely on the GPU using `gl_VertexIndex`, achieving zero-bandwidth geometry submission.
+
+---
+
 ## Basic Example Pattern
 
 Most SBgl applications follow this standard initialization and main loop pattern:

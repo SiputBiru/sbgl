@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <time.h>
 
+#define PACK_POS(x, y, z) { (int16_t)((x) * 32767.0f), (int16_t)((y) * 32767.0f), (int16_t)((z) * 32767.0f), 0 }
+#define PACK_COL(r, g, b, a) (uint32_t)(((uint32_t)((r)*255.0f) << 0) | ((uint32_t)((g)*255.0f) << 8) | ((uint32_t)((b)*255.0f) << 16) | ((uint32_t)((a)*255.0f) << 24))
+
 int main(void) {
 	sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Advanced 3D Batching");
 	if (res.error != SBGL_SUCCESS)
@@ -21,26 +24,26 @@ int main(void) {
 		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/batching.frag.spv");
 
 	sbgl_Vertex vertices[] = { // Triangle (Mesh 0)
-							   { sbgl_Vec3Set(0.0f, 0.5f, 0.0f), sbgl_Vec3Set(1, 0, 0) },
-							   { sbgl_Vec3Set(0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0, 1, 0) },
-							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0, 0, 1) },
+							   { PACK_POS(0.0f, 0.5f, 0.0f), PACK_COL(1, 0, 0, 1), 0 },
+							   { PACK_POS(0.5f, -0.5f, 0.0f), PACK_COL(0, 1, 0, 1), 0 },
+							   { PACK_POS(-0.5f, -0.5f, 0.0f), PACK_COL(0, 0, 1, 1), 0 },
 
 							   // Cube (Mesh 1)
-							   { sbgl_Vec3Set(-0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
-							   { sbgl_Vec3Set(0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
-							   { sbgl_Vec3Set(0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
-							   { sbgl_Vec3Set(-0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1, 1, 1) },
-							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
-							   { sbgl_Vec3Set(0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
-							   { sbgl_Vec3Set(0.5f, 0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
-							   { sbgl_Vec3Set(-0.5f, 0.5f, 0.5f), sbgl_Vec3Set(1, 1, 1) },
+							   { PACK_POS(-0.5f, -0.5f, -0.5f), PACK_COL(1, 1, 1, 1), 0 },
+							   { PACK_POS(0.5f, -0.5f, -0.5f), PACK_COL(1, 1, 1, 1), 0 },
+							   { PACK_POS(0.5f, 0.5f, -0.5f), PACK_COL(1, 1, 1, 1), 0 },
+							   { PACK_POS(-0.5f, 0.5f, -0.5f), PACK_COL(1, 1, 1, 1), 0 },
+							   { PACK_POS(-0.5f, -0.5f, 0.5f), PACK_COL(1, 1, 1, 1), 0 },
+							   { PACK_POS(0.5f, -0.5f, 0.5f), PACK_COL(1, 1, 1, 1), 0 },
+							   { PACK_POS(0.5f, 0.5f, 0.5f), PACK_COL(1, 1, 1, 1), 0 },
+							   { PACK_POS(-0.5f, 0.5f, 0.5f), PACK_COL(1, 1, 1, 1), 0 },
 
 							   // Pyramid (Mesh 2)
-							   { sbgl_Vec3Set(0.0f, 0.5f, 0.0f), sbgl_Vec3Set(1, 1, 0) },	 // Top
-							   { sbgl_Vec3Set(-0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 0, 1) }, // base
-							   { sbgl_Vec3Set(0.5f, -0.5f, -0.5f), sbgl_Vec3Set(1, 0, 1) },
-							   { sbgl_Vec3Set(0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 0, 1) },
-							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.5f), sbgl_Vec3Set(1, 0, 1) }
+							   { PACK_POS(0.0f, 0.5f, 0.0f), PACK_COL(1, 1, 0, 1), 0 },	 // Top
+							   { PACK_POS(-0.5f, -0.5f, -0.5f), PACK_COL(1, 0, 1, 1), 0 }, // base
+							   { PACK_POS(0.5f, -0.5f, -0.5f), PACK_COL(1, 0, 1, 1), 0 },
+							   { PACK_POS(0.5f, -0.5f, 0.5f), PACK_COL(1, 0, 1, 1), 0 },
+							   { PACK_POS(-0.5f, -0.5f, 0.5f), PACK_COL(1, 0, 1, 1), 0 }
 	};
 
 	uint32_t indices[] = { // Triangle
@@ -111,8 +114,8 @@ int main(void) {
 	sbgl_Buffer ibo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_INDEX, sizeof(indices), indices);
 
 	sbgl_VertexAttribute attributes[] = {
-		{ 0, offsetof(sbgl_Vertex, position), SBGL_FORMAT_R32G32B32_SFLOAT },
-		{ 1, offsetof(sbgl_Vertex, color), SBGL_FORMAT_R32G32B32_SFLOAT }
+		{ 0, offsetof(sbgl_Vertex, position), SBGL_FORMAT_R16G16B16A16_SNORM },
+		{ 1, offsetof(sbgl_Vertex, color), SBGL_FORMAT_R8G8B8A8_UNORM }
 	};
 
 	sbgl_PipelineConfig config = { .vertexShader = vert,
@@ -252,7 +255,7 @@ int main(void) {
 			data.color = sbgl_Vec4Set(r, g, b, 1.0f);
 
 			// Use meshId as the sort key for maximum batching
-			sbgl_SubmitDraw(queue, meshId, 0, (sbgl_SortKey)meshId, &data);
+			sbgl_SubmitDraw(queue, meshId, 0, 0, 0, 0, (sbgl_SortKey)meshId, &data);
 		}
 
 		sbgl_BindPipeline(ctx, pipeline);

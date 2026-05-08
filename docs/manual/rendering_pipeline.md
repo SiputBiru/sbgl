@@ -136,8 +136,8 @@ for (int i = 0; i < 10000; i++) {
     data.transform = sbgl_Mat4Translate(sbgl_Vec3Set((float)i * 0.1f, 0.0f, 0.0f));
     data.color = sbgl_Vec4Set(1.0f, 1.0f, 1.0f, 1.0f);
     
-    // meshId=0, materialId=0, sortKey=0
-    sbgl_SubmitDraw(queue, 0, 0, 0, &data);
+    // meshId=0, materialId=0, blendMode=0, sidedness=0, tags=0, sortKey=0
+    sbgl_SubmitDraw(queue, 0, 0, 0, 0, 0, 0, &data);
 }
 ```
 

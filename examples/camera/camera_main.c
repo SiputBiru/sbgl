@@ -8,6 +8,9 @@ typedef struct {
 	sbgl_Mat4 viewProj;
 } PushData;
 
+#define PACK_POS(x, y, z) { (int16_t)((x) * 32767.0f), (int16_t)((y) * 32767.0f), (int16_t)((z) * 32767.0f), 0 }
+#define PACK_COL(r, g, b, a) (uint32_t)(((uint32_t)((r)*255.0f) << 0) | ((uint32_t)((g)*255.0f) << 8) | ((uint32_t)((b)*255.0f) << 16) | ((uint32_t)((a)*255.0f) << 24))
+
 int main(void) {
 	sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Unified Camera Example");
 	if (res.error != SBGL_SUCCESS) return 1;
@@ -19,32 +22,32 @@ int main(void) {
 		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/pyramid.frag.spv");
 
 	sbgl_Vertex vertices[] = {
-		{ sbgl_Vec3Set(0.0f, -0.5f, 0.0f), sbgl_Vec3Set(1.0f, 0.0f, 0.0f) },
-		{ sbgl_Vec3Set(0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1.0f, 0.0f, 0.0f) },
-		{ sbgl_Vec3Set(-0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1.0f, 0.0f, 0.0f) },
-		{ sbgl_Vec3Set(0.0f, -0.5f, 0.0f), sbgl_Vec3Set(0.0f, 1.0f, 0.0f) },
-		{ sbgl_Vec3Set(0.5f, 0.5f, 0.5f), sbgl_Vec3Set(0.0f, 1.0f, 0.0f) },
-		{ sbgl_Vec3Set(0.5f, 0.5f, -0.5f), sbgl_Vec3Set(0.0f, 1.0f, 0.0f) },
-		{ sbgl_Vec3Set(0.0f, -0.5f, 0.0f), sbgl_Vec3Set(0.0f, 0.0f, 1.0f) },
-		{ sbgl_Vec3Set(-0.5f, 0.5f, 0.5f), sbgl_Vec3Set(0.0f, 0.0f, 1.0f) },
-		{ sbgl_Vec3Set(0.5f, 0.5f, 0.5f), sbgl_Vec3Set(0.0f, 0.0f, 1.0f) },
-		{ sbgl_Vec3Set(0.0f, -0.5f, 0.0f), sbgl_Vec3Set(1.0f, 1.0f, 0.0f) },
-		{ sbgl_Vec3Set(-0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1.0f, 1.0f, 0.0f) },
-		{ sbgl_Vec3Set(-0.5f, 0.5f, 0.5f), sbgl_Vec3Set(1.0f, 1.0f, 0.0f) },
-		{ sbgl_Vec3Set(-0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1.0f, 0.0f, 1.0f) },
-		{ sbgl_Vec3Set(0.5f, 0.5f, -0.5f), sbgl_Vec3Set(1.0f, 0.0f, 1.0f) },
-		{ sbgl_Vec3Set(0.5f, 0.5f, 0.5f), sbgl_Vec3Set(1.0f, 0.0f, 1.0f) },
-		{ sbgl_Vec3Set(-0.5f, 0.5f, -0.5f), sbgl_Vec3Set(0.0f, 1.0f, 1.0f) },
-		{ sbgl_Vec3Set(0.5f, 0.5f, 0.5f), sbgl_Vec3Set(0.0f, 1.0f, 1.0f) },
-		{ sbgl_Vec3Set(-0.5f, 0.5f, 0.5f), sbgl_Vec3Set(0.0f, 1.0f, 1.0f) },
+		{ PACK_POS(0.0f, -0.5f, 0.0f), PACK_COL(1.0f, 0.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(0.5f, 0.5f, -0.5f), PACK_COL(1.0f, 0.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(-0.5f, 0.5f, -0.5f), PACK_COL(1.0f, 0.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(0.0f, -0.5f, 0.0f), PACK_COL(0.0f, 1.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(0.5f, 0.5f, 0.5f), PACK_COL(0.0f, 1.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(0.5f, 0.5f, -0.5f), PACK_COL(0.0f, 1.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(0.0f, -0.5f, 0.0f), PACK_COL(0.0f, 0.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(-0.5f, 0.5f, 0.5f), PACK_COL(0.0f, 0.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(0.5f, 0.5f, 0.5f), PACK_COL(0.0f, 0.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(0.0f, -0.5f, 0.0f), PACK_COL(1.0f, 1.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(-0.5f, 0.5f, -0.5f), PACK_COL(1.0f, 1.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(-0.5f, 0.5f, 0.5f), PACK_COL(1.0f, 1.0f, 0.0f, 1.0f), 0 },
+		{ PACK_POS(-0.5f, 0.5f, -0.5f), PACK_COL(1.0f, 0.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(0.5f, 0.5f, -0.5f), PACK_COL(1.0f, 0.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(0.5f, 0.5f, 0.5f), PACK_COL(1.0f, 0.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(-0.5f, 0.5f, -0.5f), PACK_COL(0.0f, 1.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(0.5f, 0.5f, 0.5f), PACK_COL(0.0f, 1.0f, 1.0f, 1.0f), 0 },
+		{ PACK_POS(-0.5f, 0.5f, 0.5f), PACK_COL(0.0f, 1.0f, 1.0f, 1.0f), 0 },
 	};
 
 	sbgl_Buffer vbo =
 		sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
 
 	sbgl_VertexAttribute attributes[] = {
-		{ 0, offsetof(sbgl_Vertex, position), SBGL_FORMAT_R32G32B32_SFLOAT },
-		{ 1, offsetof(sbgl_Vertex, color), SBGL_FORMAT_R32G32B32_SFLOAT }
+		{ 0, offsetof(sbgl_Vertex, position), SBGL_FORMAT_R16G16B16A16_SNORM },
+		{ 1, offsetof(sbgl_Vertex, color), SBGL_FORMAT_R8G8B8A8_UNORM }
 	};
 
 	sbgl_PipelineConfig config = { .vertexShader = vert,

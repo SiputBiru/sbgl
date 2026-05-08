@@ -13,27 +13,17 @@ static void test_bake_commands(void) {
 	sbgl_DrawPacket packets[5];
 
 	// Group 1: Two identical packets
-	packets[0] = (sbgl_DrawPacket){ .key = 10,
-									.header = SBGL_PACK_HEADER(1, 1, 0, 0, 0),
-									.instanceId = 100 };
-	packets[1] = (sbgl_DrawPacket){ .key = 10,
-									.header = SBGL_PACK_HEADER(1, 1, 0, 0, 0),
-									.instanceId = 101 };
+	packets[0] = (sbgl_DrawPacket){ .key = 10, .header = SBGL_PACK_HEADER(1, 1, 0, 0, 0) };
+	packets[1] = (sbgl_DrawPacket){ .key = 10, .header = SBGL_PACK_HEADER(1, 1, 0, 0, 0) };
 
 	// Group 2: Different mesh
-	packets[2] = (sbgl_DrawPacket){ .key = 10,
-									.header = SBGL_PACK_HEADER(2, 1, 0, 0, 0),
-									.instanceId = 102 };
+	packets[2] = (sbgl_DrawPacket){ .key = 10, .header = SBGL_PACK_HEADER(2, 1, 0, 0, 0) };
 
 	// Group 3: Different material
-	packets[3] = (sbgl_DrawPacket){ .key = 10,
-									.header = SBGL_PACK_HEADER(2, 2, 0, 0, 0),
-									.instanceId = 103 };
+	packets[3] = (sbgl_DrawPacket){ .key = 10, .header = SBGL_PACK_HEADER(2, 2, 0, 0, 0) };
 
 	// Group 4: Different key
-	packets[4] = (sbgl_DrawPacket){ .key = 11,
-									.header = SBGL_PACK_HEADER(2, 2, 0, 0, 0),
-									.instanceId = 104 };
+	packets[4] = (sbgl_DrawPacket){ .key = 11, .header = SBGL_PACK_HEADER(2, 2, 0, 0, 0) };
 
 	sbgl_IndirectCommand commands[5];
 	uint32_t count = sbgl_bake_commands(packets, 5, commands, 5);

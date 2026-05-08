@@ -19,15 +19,17 @@ int main(void) {
 	sbgl_Shader frag =
 		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/interactive.frag.spv");
 
-	sbgl_Vertex vertices[] = { { sbgl_Vec3Set(0.0f, 0.5f, 0.0f), sbgl_Vec3Set(1.0f, 0.0f, 0.0f) },
-							   { sbgl_Vec3Set(0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0.0f, 1.0f, 0.0f) },
-							   { sbgl_Vec3Set(-0.5f, -0.5f, 0.0f), sbgl_Vec3Set(0.0f, 0.0f, 1.0f) } };
+	sbgl_Vertex vertices[] = {
+		{ { 0, 16383, 0, 0 }, 0xFF0000FF, 0 },
+		{ { 16383, -16383, 0, 0 }, 0xFF00FF00, 0 },
+		{ { -16383, -16383, 0, 0 }, 0xFFFF0000, 0 }
+	};
 
 	sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
 
 	sbgl_VertexAttribute attributes[] = {
-		{ 0, offsetof(sbgl_Vertex, position), SBGL_FORMAT_R32G32B32_SFLOAT },
-		{ 1, offsetof(sbgl_Vertex, color), SBGL_FORMAT_R32G32B32_SFLOAT }
+		{ 0, offsetof(sbgl_Vertex, position), SBGL_FORMAT_R16G16B16A16_SNORM },
+		{ 1, offsetof(sbgl_Vertex, color), SBGL_FORMAT_R8G8B8A8_UNORM }
 	};
 
 	sbgl_PipelineConfig config = { .vertexShader = vert,

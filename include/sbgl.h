@@ -333,10 +333,22 @@ sbgl_RenderQueue* sbgl_CreateRenderQueue(sbgl_Context* ctx, struct SblArena* are
  * @param queue The render queue to append to.
  * @param mesh The mesh identifier.
  * @param material The material identifier.
+ * @param blendMode The blend mode identifier.
+ * @param sidedness The sidedness flag (e.g., single/double sided).
+ * @param tags Custom user tags for filtering.
  * @param key The sort key for minimizing state changes.
  * @param data Pointer to the per-instance data (transform, color, etc).
  */
-void sbgl_SubmitDraw(sbgl_RenderQueue* queue, uint32_t mesh, uint32_t material, sbgl_SortKey key, const sbgl_InstanceData* data);
+void sbgl_SubmitDraw(
+	sbgl_RenderQueue* queue,
+	uint32_t mesh,
+	uint32_t material,
+	uint32_t blendMode,
+	uint32_t sidedness,
+	uint32_t tags,
+	sbgl_SortKey key,
+	const sbgl_InstanceData* data
+);
 
 /**
  * @brief Merges, sorts, and submits pending draw commands to the GPU.

@@ -23,10 +23,10 @@ SBgl provides several CMake options to customize the build:
 
 ---
 
-## 1. Installing on Linux (Wayland or X11)
+## Installing on Linux (Wayland or X11)
 
 ### System Dependencies
-Install the required development libraries for your preferred display protocol:
+Install the required development libraries for the preferred display protocol:
 
 *   **Wayland**: `libwayland-dev`, `wayland-protocols`, `libvulkan-dev`.
 *   **X11**: `libx11-dev`, `libvulkan-dev`.
@@ -44,7 +44,7 @@ cmake --build build-x11
 
 ---
 
-## 2. Installing on Windows (Native)
+## Installing on Windows (Native)
 
 ### Prerequisites
 *   **Visual Studio 2019/2022** with the "Desktop development with C++" workload.
@@ -59,7 +59,7 @@ cmake --build build --config Release
 
 ---
 
-## 3. Cross-Compilation (Linux to Windows)
+## Cross-Compilation (Linux to Windows)
 
 SBgl supports building Windows binaries from a Linux host using the MinGW-w64 toolchain.
 
@@ -95,5 +95,5 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(sbgl)
 
-target_link_libraries(your_application PRIVATE sbgl)
+target_link_libraries(target_application PRIVATE sbgl)
 ```

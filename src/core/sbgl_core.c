@@ -36,10 +36,11 @@ struct sbgl_RenderQueue {
  * clear color state.
  */
 typedef struct {
-	SblArena arena;		  /**< Persistent memory for the lifetime of the context. */
-	sbgl_Window* window;  /**< Handle to the native OS window. */
-	sbgl_GfxContext* gfx; /**< Handle to the graphics backend context. */
-	float clearColor[4];  /**< Current RGBA clear color. */
+	SblArena arena;			  /**< Persistent memory for the lifetime of the context. */
+	SblArena transientArena;  /**< Memory reset every frame. */
+	sbgl_Window* window;	  /**< Handle to the native OS window. */
+	sbgl_GfxContext* gfx;	  /**< Handle to the graphics backend context. */
+	float clearColor[4];	  /**< Current RGBA clear color. */
 	struct {
 		uint32_t isDrawing : 1;	  /**< Internal flag to track frame acquisition success. */
 		uint32_t isIdle : 1;	  /**< Internal flag to track if GPU is idle. */
@@ -74,6 +75,7 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	}
 
 	inner->arena = main_arena;
+	sbl_arena_init(&inner->transientArena, 2 * 1024 * 1024);
 	inner->clearColor[0] = 0.0f;
 	inner->clearColor[1] = 0.0f;
 	inner->clearColor[2] = 0.0f;
@@ -128,6 +130,7 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 	if (inner->window)
 		sbgl_os_DestroyWindow(inner->window);
 
+	sbl_arena_free(&inner->transientArena);
 	sbl_arena_free(&inner->arena);
 }
 
@@ -467,6 +470,9 @@ void sbgl_SubmitDraw(
 	sbgl_RenderQueue* queue,
 	uint32_t mesh,
 	uint32_t material,
+	uint32_t blendMode,
+	uint32_t sidedness,
+	uint32_t tags,
 	sbgl_SortKey key,
 	const sbgl_InstanceData* data
 ) {
@@ -474,23 +480,22 @@ void sbgl_SubmitDraw(
 		return;
 	}
 
-	// Check if the queue has reached its maximum capacity
+	// Verify the queue has not reached maximum capacity
 	if (queue->count >= queue->capacity) {
 		return;
 	}
 
-	// Append the draw packet to the contiguous array
+	// The system appends the draw packet to the contiguous array
 	uint32_t index = queue->count++;
 	sbgl_DrawPacket* packet = &queue->packets[index];
 	packet->key = key;
-	packet->header = SBGL_PACK_HEADER(mesh, material, 0, 0, 0);
-	packet->instanceId = index;
+	packet->header = SBGL_PACK_HEADER(mesh, material, blendMode, sidedness, tags);
 
-	// Copy the per-instance data into the queue's parallel array
+	// Per-instance data is copied into the parallel array
 	if (data) {
 		queue->instances[index] = *data;
 	} else {
-		// Use default identity if no data provided
+		// An identity transform and white color are used if no data is provided
 		memset(&queue->instances[index], 0, sizeof(sbgl_InstanceData));
 		queue->instances[index].transform = sbgl_Mat4Identity();
 		queue->instances[index].color = sbgl_Vec4Set(1, 1, 1, 1);
@@ -519,7 +524,7 @@ void sbgl_RenderQueuesEx(
 
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	// Calculate total number of packets across all queues to determine buffer sizes
+	// Total packet count is calculated across all queues to determine buffer requirements
 	uint32_t totalPackets = 0;
 	for (uint32_t i = 0; i < queueCount; ++i) {
 		if (queues[i]) {
@@ -531,26 +536,23 @@ void sbgl_RenderQueuesEx(
 		return;
 	}
 
-	// Allocate temporary host memory for merging and sorting
-	sbgl_DrawPacket* mergedPackets = malloc(sizeof(sbgl_DrawPacket) * totalPackets);
-	sbgl_InstanceData* mergedInstances = malloc(sizeof(sbgl_InstanceData) * totalPackets);
-	sbgl_SortKey* keys = malloc(sizeof(sbgl_SortKey) * totalPackets);
-	uint32_t* indices = malloc(sizeof(uint32_t) * totalPackets);
+	// The transient arena is reset for this frame's batching work
+	sbl_arena_reset(&inner->transientArena);
+
+	// Temporary host memory is allocated for merging and sorting from the transient arena
+	sbgl_DrawPacket* mergedPackets =
+		SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_DrawPacket, totalPackets);
+	sbgl_InstanceData* mergedInstances =
+		SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_InstanceData, totalPackets);
+	sbgl_SortKey* keys = SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_SortKey, totalPackets);
+	uint32_t* indices = SBL_ARENA_PUSH_ARRAY(&inner->transientArena, uint32_t, totalPackets);
 
 	if (!mergedPackets || !mergedInstances || !keys || !indices) {
-		if (mergedPackets)
-			free(mergedPackets);
-		if (mergedInstances)
-			free(mergedInstances);
-		if (keys)
-			free(keys);
-		if (indices)
-			free(indices);
 		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
 		return;
 	}
 
-	// Merge packets and instance data from all queues
+	// Packets and instance data are merged from all queues
 	uint32_t current = 0;
 	for (uint32_t i = 0; i < queueCount; ++i) {
 		if (!queues[i])
@@ -562,25 +564,19 @@ void sbgl_RenderQueuesEx(
 			indices[current] = current;
 			current++;
 		}
-		// Clear the queue for the next frame
+		// The queue is cleared for the next frame
 		queues[i]->count = 0;
 	}
 
-	// Perform a stable radix sort on the packets based on their sort keys
+	// A stable radix sort is performed on the packets based on sort keys
 	sbgl_radix_sort(keys, indices, totalPackets);
 
-	// Reorder packets and instances according to the sorted indices
-	sbgl_DrawPacket* sortedPackets = malloc(sizeof(sbgl_DrawPacket) * totalPackets);
-	sbgl_InstanceData* sortedInstances = malloc(sizeof(sbgl_InstanceData) * totalPackets);
+	// Packets and instances are reordered according to the sorted indices
+	sbgl_DrawPacket* sortedPackets =
+		SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_DrawPacket, totalPackets);
+	sbgl_InstanceData* sortedInstances =
+		SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_InstanceData, totalPackets);
 	if (!sortedPackets || !sortedInstances) {
-		free(mergedPackets);
-		free(mergedInstances);
-		free(keys);
-		free(indices);
-		if (sortedPackets)
-			free(sortedPackets);
-		if (sortedInstances)
-			free(sortedInstances);
 		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
 		return;
 	}
@@ -590,15 +586,10 @@ void sbgl_RenderQueuesEx(
 		sortedInstances[i] = mergedInstances[indices[i]];
 	}
 
-	// Bake the sorted packets into optimized indirect draw commands
-	sbgl_IndirectCommand* commands = malloc(sizeof(sbgl_IndirectCommand) * totalPackets);
+	// Sorted packets are baked into optimized indirect draw commands
+	sbgl_IndirectCommand* commands =
+		SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_IndirectCommand, totalPackets);
 	if (!commands) {
-		free(mergedPackets);
-		free(mergedInstances);
-		free(keys);
-		free(indices);
-		free(sortedPackets);
-		free(sortedInstances);
 		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
 		return;
 	}
@@ -606,7 +597,7 @@ void sbgl_RenderQueuesEx(
 	uint32_t commandCount = sbgl_bake_commands(sortedPackets, totalPackets, commands, totalPackets);
 
 	if (commandCount > 0) {
-		// 1. Upload packed instance data to a GPU storage buffer
+		// Upload packed instance data to a GPU storage buffer
 		sbgl_Buffer instanceBuffer = sbgl_gfx_CreateBuffer(
 			inner->gfx,
 			SBGL_BUFFER_USAGE_STORAGE,
@@ -615,7 +606,7 @@ void sbgl_RenderQueuesEx(
 		);
 
 		if (instanceBuffer != SBGL_INVALID_HANDLE) {
-			// 2. Retrieve BDA address and update push constants
+			// Retrieve BDA address and update push constants
 			uint64_t bdaAddress = sbgl_gfx_GetBufferDeviceAddress(inner->gfx, instanceBuffer);
 
 			struct {
@@ -629,7 +620,7 @@ void sbgl_RenderQueuesEx(
 
 			sbgl_gfx_PushConstants(inner->gfx, sizeof(pc), &pc);
 
-			// 3. Upload baked commands and dispatch MDI
+			// Upload baked commands and dispatch MDI
 			sbgl_Buffer indirectBuffer = sbgl_gfx_CreateBuffer(
 				inner->gfx,
 				SBGL_BUFFER_USAGE_INDIRECT,
@@ -646,15 +637,6 @@ void sbgl_RenderQueuesEx(
 			sbgl_gfx_DestroyBufferDeferred(inner->gfx, instanceBuffer);
 		}
 	}
-
-	// Release temporary host resources
-	free(mergedPackets);
-	free(mergedInstances);
-	free(keys);
-	free(indices);
-	free(sortedPackets);
-	free(sortedInstances);
-	free(commands);
 
 	ctx->result = SBGL_SUCCESS;
 }

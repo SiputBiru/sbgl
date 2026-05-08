@@ -20,6 +20,15 @@ int main(void) {
     // Verify structure size
     sbgl_DrawPacket packet;
     assert(sizeof(packet) == 16);
+    
+    // Verify vertex size
+    assert(sizeof(sbgl_Vertex) == 16);
+
+    // Verify packing/unpacking via packet
+    packet.header = header;
+    assert(SBGL_GET_MESH_ID(packet.header) == mesh);
+    assert(SBGL_GET_MAT_ID(packet.header) == mat);
+    assert(SBGL_GET_BLEND_MODE(packet.header) == blend);
 
     printf("Bit-packed header test passed!\n");
     return 0;

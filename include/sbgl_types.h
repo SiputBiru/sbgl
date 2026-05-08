@@ -5,8 +5,6 @@
 
 #include <stdint.h>
 
-// #include "sbgl_input.h"
-
 #define SBGL_INVALID_HANDLE 0
 
 #include "sbgl_math.h"
@@ -24,10 +22,12 @@ typedef struct {
 
 /**
  * @brief Standard vertex structure for basic geometry rendering.
+ * Optimized for cache density (16 bytes).
  */
 typedef struct {
-	sbgl_Vec3 position;
-	sbgl_Vec3 color;
+	int16_t position[4]; /**< SNORM position [3] + 1 padding. (8 bytes) */
+	uint32_t color;		 /**< Packed RGBA8 color. (4 bytes) */
+	uint32_t _padding;	 /**< Alignment padding. (4 bytes) */
 } sbgl_Vertex;
 
 /**
@@ -74,11 +74,12 @@ typedef uint64_t sbgl_SortKey;
 
 /**
  * @brief Encapsulates all data required to submit a single draw call.
+ * Optimized for cache density (16 bytes).
  */
 typedef struct {
-	sbgl_SortKey key;	 /**< Sorting key based on material, mesh, and depth. (8 bytes) */
-	uint32_t instanceId; /**< Index into the per-instance data buffer. (4 bytes) */
-	uint32_t header;	 /**< Packed MeshID, MaterialID, and rendering flags. (4 bytes) */
+	sbgl_SortKey key;  /**< Sorting key based on material, mesh, and depth. (8 bytes) */
+	uint32_t header;   /**< Packed MeshID, MaterialID, and rendering flags. (4 bytes) */
+	uint32_t _padding; /**< Explicit padding for 16-byte alignment. (4 bytes) */
 } sbgl_DrawPacket;
 
 /**
@@ -112,6 +113,8 @@ typedef enum {
 	SBGL_FORMAT_R32G32_SFLOAT = 1,
 	SBGL_FORMAT_R32G32B32_SFLOAT = 2,
 	SBGL_FORMAT_R32G32B32A32_SFLOAT = 3,
+	SBGL_FORMAT_R16G16B16A16_SNORM = 4,
+	SBGL_FORMAT_R8G8B8A8_UNORM = 5,
 } sbgl_Format;
 
 /**

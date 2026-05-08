@@ -8,11 +8,11 @@
 > [!WARNING]
 > **API Instability Notice**: SBgl is currently in an experimental phase of development. The API is considered unstable and is subject to significant changes or complete removal at any given moment without prior notice. Use in production environments is not recommended.
 
-A "low-level" graphics framework engineered for modern hardware. Built on C99 and Vulkan 1.3, prioritize in Data-Oriented Design to maximize cache efficiency. By employing an explicit, context-based API and handle-based resource management, SBgl eliminates hidden state and provides total control over the rendering pipeline, memory allocation, and multi-threaded command recording.
+A graphics framework engineered for target hardware. Built on C99 and Vulkan 1.3, prioritize in Data-Oriented Design to maximize cache efficiency. By employing an explicit, context-based API and handle-based resource management, SBgl eliminates hidden state and enables control over the rendering pipeline, memory allocation, and multi-threaded command recording.
 
 ## Quick Start
 
-### Try the Examples
+### Examples
 
 ```bash
 git clone https://github.com/SiputBiru/sbgl.git
@@ -21,9 +21,9 @@ cmake --build build
 ./build/examples/hello_window
 ```
 
-### Use SBgl in Your Project
+### Integrating SBgl
 
-The simplest way to integrate SBgl into your own C/C++ project is using CMake's `FetchContent`:
+The simplest way to integrate SBgl into a C/C++ project is using CMake's `FetchContent`:
 
 ```cmake
 include(FetchContent)
@@ -34,7 +34,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(sbgl)
 
-# Link your target against SBgl
+# Link target against SBgl
 target_link_libraries(your_application PRIVATE sbgl)
 ```
 
@@ -75,14 +75,14 @@ target_link_libraries(your_application PRIVATE sbgl)
 
 ## Performance & Rendering Techniques
 
-The system utilizes several modern rendering techniques to ensure high-performance execution and minimal CPU-GPU overhead.
+The system utilizes several rendering techniques to ensure execution efficiency and reduced CPU-GPU overhead.
 
 | Technique | Implementation Detail | Performance Benefit |
 | :--- | :--- | :--- |
 | **Multi-Draw Indirect (MDI)** | Draw commands are baked into a GPU-visible buffer and submitted via `vkCmdDrawIndexedIndirect`. | Reduces CPU submission overhead and eliminates per-draw call driver validation. |
-| **Buffer Device Address (BDA)** | Uses `GL_EXT_buffer_reference` to access instance data via 64-bit pointers in push constants. | Eliminates descriptor set updates and provides fast, direct memory access within shaders. |
+| **Buffer Device Address (BDA)** | Uses `GL_EXT_buffer_reference` to access instance data via 64-bit pointers in push constants. | Eliminates descriptor set updates and provides direct memory access within shaders. |
 | **Data-Oriented Design (DOD)** | Contiguous memory layouts for render queues and instance data. | Maximizes L1/L2 cache utilization during packet submission and sorting phases. |
-| **Stable Radix Sort** | High-performance CPU sorting of draw packets by mesh and material identifiers. | Minimizes pipeline state changes and maximizes the effectiveness of indirect command merging. |
+| **Stable Radix Sort** | Sorting of draw packets by mesh and material identifiers. | Minimizes pipeline state changes and increases the effectiveness of indirect command merging. |
 | **Memory Arenas** | Allocation of render-loop resources through `SblArena`. | Eliminates per-frame heap fragmentation and allocation latency in the hot path. |
 
 * Transition from global includes/definitions to target-scoped properties (target_include_directories, target_compile_definitions) for better encapsulation.

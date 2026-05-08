@@ -119,7 +119,7 @@ int main(void) {
         sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/voxel.frag.spv");
 
     /* Create a dummy VBO. Pure procedural mode does not require one, but binding ensures safety. */
-    sbgl_Vertex dummy_vert = { sbgl_Vec3Set(0, 0, 0), sbgl_Vec3Set(0, 0, 0) };
+    sbgl_Vertex dummy_vert = { {0, 0, 0, 0}, 0, 0 };
     sbgl_Buffer vbo =
         sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(dummy_vert), &dummy_vert);
 
@@ -253,7 +253,7 @@ int main(void) {
             data.transform.m[0][1] = (float)camChunkZ;
             data.transform.m[0][2] = (float)radius;
             
-            sbgl_SubmitDraw(queue, 3, 0, 0, &data);
+            sbgl_SubmitDraw(queue, 3, 0, 0, 0, 0, 0, &data);
         }
 
         VoxelPushConstants pc = {

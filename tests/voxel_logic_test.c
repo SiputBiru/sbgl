@@ -2,19 +2,19 @@
 #include <stdio.h>
 
 // Function to be implemented
-int calculate_instance_count(int radius) {
+static int calculate_instance_count(int radius) {
     int width = (radius * 2 + 1);
     return width * width;
 }
 
-int update_radius(int current, int delta) {
+static int update_radius(int current, int delta) {
     int next = current + delta;
     if (next < 1) return 1;
     if (next > 50) return 50;
     return next;
 }
 
-int main() {
+int main(void) {
     printf("Running Voxel Logic Tests...\n");
 
     // Test 1: Instance count calculation

@@ -45,6 +45,7 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 
 ## GPU Optimization & Batching (MDI/Bit-packing)
 - [x] Implement Bit-Packing for vertex data (32-bit compressed formats)
+- [x] Implement 16-byte Command Packet Header (Mesh/Material/Flag packing)
 - [x] Implement Procedural Vertex Generation using `gl_VertexIndex`
 - [x] Implement Shader Storage Buffer Objects (SSBOs) for per-instance data
 - [x] Implement Multi-Draw Indirect (MDI) for single-call batching

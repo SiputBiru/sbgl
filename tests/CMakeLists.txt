@@ -9,6 +9,7 @@ macro(add_internal_test name src)
     target_include_directories(${name} PRIVATE 
         ${CMAKE_SOURCE_DIR}/include 
         ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/core
     )
 endmacro()
 
@@ -17,6 +18,7 @@ macro(add_engine_test name src)
     target_include_directories(${name} PRIVATE 
         ${CMAKE_SOURCE_DIR}/include 
         ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/core
     )
     target_link_libraries(${name} PRIVATE sbgl m)
 endmacro()

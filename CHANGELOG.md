@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-05-08
 
 ### Added
+- **Bit-Field Optimization**: Reduced `sbgl_DrawPacket` from 24 bytes to 16 bytes by packing MeshID, MaterialID, and rendering flags into a 32-bit header. This increases CPU cache density by 50% during sorting and batching.
 - **Dynamic Render Distance**: Implemented manual far plane scaling in the voxel example to ensure horizon visibility across all render radii (1-50).
 - **Asynchronous Synchronization**: Transitioned the voxel engine to a 2-frame-in-flight asynchronous model, eliminating serial device stalls and increasing GPU throughput.
 - **New Scancodes**: Added `SBGL_KEY_MINUS` and `SBGL_KEY_EQUAL` (for PLUS) to the input API, supporting real-time configuration in examples.

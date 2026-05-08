@@ -5,11 +5,11 @@
 #include <math.h>
 
 // Mocking the shader logic in C
-int get_hX(int worldIX, int worldSize) {
+static int get_hX(int worldIX, int worldSize) {
     return ((worldIX % worldSize) + worldSize) % worldSize;
 }
 
-int main() {
+int main(void) {
     printf("Running Heightmap Coordinate Mapping Test...\n");
 
     const int WORLD_SIZE = 2048;

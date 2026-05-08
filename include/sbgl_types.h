@@ -50,14 +50,35 @@ typedef uint32_t sbgl_Pipeline;
  */
 typedef uint64_t sbgl_SortKey;
 
+#define SBGL_PACKET_MESH_MASK 0x7FF
+#define SBGL_PACKET_MAT_MASK 0x7FF
+#define SBGL_PACKET_BLEND_MASK 0x3
+#define SBGL_PACKET_SIDED_MASK 0x1
+#define SBGL_PACKET_TAGS_MASK 0x7F
+
+#define SBGL_PACKET_MAT_SHIFT 11
+#define SBGL_PACKET_BLEND_SHIFT 22
+#define SBGL_PACKET_SIDED_SHIFT 24
+#define SBGL_PACKET_TAGS_SHIFT 25
+
+#define SBGL_PACK_HEADER(mesh, mat, blend, sided, tags)                                            \
+	(((mesh) & SBGL_PACKET_MESH_MASK) |                                                            \
+	 (((mat) & SBGL_PACKET_MAT_MASK) << SBGL_PACKET_MAT_SHIFT) |                                   \
+	 (((blend) & SBGL_PACKET_BLEND_MASK) << SBGL_PACKET_BLEND_SHIFT) |                             \
+	 (((sided) & SBGL_PACKET_SIDED_MASK) << SBGL_PACKET_SIDED_SHIFT) |                             \
+	 (((tags) & SBGL_PACKET_TAGS_MASK) << SBGL_PACKET_TAGS_SHIFT))
+
+#define SBGL_GET_MESH_ID(h) ((h) & SBGL_PACKET_MESH_MASK)
+#define SBGL_GET_MAT_ID(h) (((h) >> SBGL_PACKET_MAT_SHIFT) & SBGL_PACKET_MAT_MASK)
+#define SBGL_GET_BLEND_MODE(h) (((h) >> SBGL_PACKET_BLEND_SHIFT) & SBGL_PACKET_BLEND_MASK)
+
 /**
  * @brief Encapsulates all data required to submit a single draw call.
  */
 typedef struct {
-	sbgl_SortKey key;	 /**< Sorting key based on material, mesh, and depth. */
-	uint32_t instanceId; /**< Index into the per-instance data buffer. */
-	uint32_t meshId;	 /**< Identifier for the geometry to be rendered. */
-	uint32_t materialId; /**< Identifier for the material parameters. */
+	sbgl_SortKey key;	 /**< Sorting key based on material, mesh, and depth. (8 bytes) */
+	uint32_t instanceId; /**< Index into the per-instance data buffer. (4 bytes) */
+	uint32_t header;	 /**< Packed MeshID, MaterialID, and rendering flags. (4 bytes) */
 } sbgl_DrawPacket;
 
 /**

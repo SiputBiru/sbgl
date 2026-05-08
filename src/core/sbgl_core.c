@@ -1,15 +1,17 @@
 #include "sbgl.h"
 #include "sbgl_types.h"
+
 #define SBL_ARENA_IMPLEMENTATION
+#include "core/sbl_arena.h"
+
 #include "backend/sbgl_graphics_hal.h"
+#include "core/sbgl_batcher.h"
 #include "core/sbgl_internal_log.h"
 #include "core/sbgl_platform.h"
-#include "core/sbl_arena.h"
 #include "core/sbgl_sort.h"
-#include "core/sbgl_batcher.h"
-#include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief Internal storage for draw packets awaiting submission.
@@ -19,13 +21,12 @@
  * command recording.
  */
 struct sbgl_RenderQueue {
-    sbgl_DrawPacket* packets;   /**< Contiguous array of draw commands. */
-    sbgl_InstanceData* instances; /**< Per-instance data (transforms, color). */
-    uint32_t count;             /**< Number of active packets in the queue. */
-    uint32_t capacity;          /**< Total number of packets the queue can hold. */
-    struct SblArena* arena;     /**< Arena used for the packet array allocation. */
+	sbgl_DrawPacket* packets;	  /**< Contiguous array of draw commands. */
+	sbgl_InstanceData* instances; /**< Per-instance data (transforms, color). */
+	uint32_t count;				  /**< Number of active packets in the queue. */
+	uint32_t capacity;			  /**< Total number of packets the queue can hold. */
+	struct SblArena* arena;		  /**< Arena used for the packet array allocation. */
 };
-
 
 /**
  * @brief Internal state for the engine context.
@@ -39,11 +40,14 @@ typedef struct {
 	sbgl_Window* window;  /**< Handle to the native OS window. */
 	sbgl_GfxContext* gfx; /**< Handle to the graphics backend context. */
 	float clearColor[4];  /**< Current RGBA clear color. */
-	bool isDrawing;		  /**< Internal flag to track frame acquisition success. */
-	bool isIdle; /**< Internal flag to track if sbgl_DeviceWaitIdle was called after drawing */
-	sbgl_InputState input; /**< Physical input state tracking. */
+	struct {
+		uint32_t isDrawing : 1;	  /**< Internal flag to track frame acquisition success. */
+		uint32_t isIdle : 1;	  /**< Internal flag to track if GPU is idle. */
+		uint32_t wasFocused : 1;  /**< Tracking focus state for re-locking. */
+		uint32_t mouseLocked : 1; /**< Add this for future use. */
+	} state;
+	sbgl_InputState input;	  /**< Physical input state tracking. */
 	sbgl_MouseMode mouseMode; /**< Current intended mouse behavior. */
-	bool wasFocused;          /**< Tracking focus state for re-locking. */
 } sbgl_InternalContext;
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
@@ -74,9 +78,9 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	inner->clearColor[1] = 0.0f;
 	inner->clearColor[2] = 0.0f;
 	inner->clearColor[3] = 0.0f;
-	inner->isIdle = true;
+	inner->state.isIdle = 1;
 	inner->mouseMode = SBGL_MOUSE_MODE_NORMAL;
-	inner->wasFocused = false;
+	inner->state.wasFocused = 0;
 
 	ctx->inner = inner;
 	ctx->result = SBGL_SUCCESS;
@@ -107,7 +111,7 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 
 	sbgl_internal_log(SBGL_LOG_INFO, "Initiating shutdown...");
 
-	if (!inner->isIdle) {
+	if (!inner->state.isIdle) {
 		sbgl_internal_log(
 			SBGL_LOG_ERROR,
 			"Shutdown called while GPU is busy! Missing sbgl_DeviceWaitIdle."
@@ -154,15 +158,15 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 
 	// Detect focus transitions to re-apply mouse locking if necessary.
 	bool currentlyFocused = sbgl_os_IsWindowFocused(inner->window);
-	if (currentlyFocused && !inner->wasFocused) {
+	if (currentlyFocused && !inner->state.wasFocused) {
 		if (inner->mouseMode == SBGL_MOUSE_MODE_CAPTURED) {
 			sbgl_os_SetCursorVisible(inner->window, false);
 			sbgl_os_SetCursorLocked(inner->window, true);
 		}
 	}
-	inner->wasFocused = currentlyFocused;
+	inner->state.wasFocused = currentlyFocused;
 
-	inner->isDrawing = sbgl_gfx_BeginFrame(
+	inner->state.isDrawing = sbgl_gfx_BeginFrame(
 		inner->gfx,
 		inner->clearColor[0],
 		inner->clearColor[1],
@@ -170,7 +174,7 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 		inner->clearColor[3]
 	);
 
-	ctx->result = inner->isDrawing ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	ctx->result = inner->state.isDrawing ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 }
 
 void sbgl_EndDrawing(sbgl_Context* ctx) {
@@ -178,10 +182,10 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	if (inner->isDrawing) {
+	if (inner->state.isDrawing) {
 		sbgl_gfx_EndFrame(inner->gfx);
-		inner->isDrawing = false;
-		inner->isIdle = false;
+		inner->state.isDrawing = 0;
+		inner->state.isIdle = 0;
 	}
 
 	// Reset pressed states for next frame
@@ -195,7 +199,7 @@ void sbgl_DeviceWaitIdle(sbgl_Context* ctx) {
 
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_gfx_DeviceWaitIdle(inner->gfx);
-	inner->isIdle = true;
+	inner->state.isIdle = 1;
 	ctx->result = SBGL_SUCCESS;
 }
 
@@ -253,7 +257,7 @@ void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
 
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	if (!inner->isIdle) {
+	if (!inner->state.isIdle) {
 		sbgl_internal_log(
 			SBGL_LOG_WARN,
 			"Buffer destroyed while GPU is busy! Missing sbgl_DeviceWaitIdle."
@@ -280,45 +284,46 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 	return res;
 }
 
-sbgl_Shader sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* filename) {
-    FILE* file = fopen(filename, "rb");
-    if (!file) {
-        char fallback[256];
-        // Try examples/shaders/ prefix
-        snprintf(fallback, sizeof(fallback), "examples/%s", filename);
-        file = fopen(fallback, "rb");
-        if (!file) {
-            // Try build/examples/ prefix
-            snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
-            file = fopen(fallback, "rb");
-            if (!file) {
-                sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
-                return SBGL_INVALID_HANDLE;
-            }
-        }
-    }
+sbgl_Shader
+sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* filename) {
+	FILE* file = fopen(filename, "rb");
+	if (!file) {
+		char fallback[256];
+		// Try examples/shaders/ prefix
+		snprintf(fallback, sizeof(fallback), "examples/%s", filename);
+		file = fopen(fallback, "rb");
+		if (!file) {
+			// Try build/examples/ prefix
+			snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
+			file = fopen(fallback, "rb");
+			if (!file) {
+				sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
+				return SBGL_INVALID_HANDLE;
+			}
+		}
+	}
 
-    fseek(file, 0, SEEK_END);
-    size_t size = ftell(file);
-    fseek(file, 0, SEEK_SET);
+	fseek(file, 0, SEEK_END);
+	size_t size = ftell(file);
+	fseek(file, 0, SEEK_SET);
 
-    uint32_t* buffer = malloc(size);
-    if (!buffer) {
-        fclose(file);
-        return SBGL_INVALID_HANDLE;
-    }
+	uint32_t* buffer = malloc(size);
+	if (!buffer) {
+		fclose(file);
+		return SBGL_INVALID_HANDLE;
+	}
 
-    size_t read = fread(buffer, 1, size, file);
-    fclose(file);
+	size_t read = fread(buffer, 1, size, file);
+	fclose(file);
 
-    if (read != size) {
-        free(buffer);
-        return SBGL_INVALID_HANDLE;
-    }
+	if (read != size) {
+		free(buffer);
+		return SBGL_INVALID_HANDLE;
+	}
 
-    sbgl_Shader shader = sbgl_LoadShader(ctx, stage, buffer, size);
-    free(buffer);
-    return shader;
+	sbgl_Shader shader = sbgl_LoadShader(ctx, stage, buffer, size);
+	free(buffer);
+	return shader;
 }
 
 void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader) {
@@ -326,7 +331,7 @@ void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader) {
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	if (!inner->isIdle) {
+	if (!inner->state.isIdle) {
 		sbgl_internal_log(
 			SBGL_LOG_ERROR,
 			"Destroy Shader called while GPU is busy! Missing sbgl_DeviceWaitIdle."
@@ -357,7 +362,7 @@ void sbgl_DestroyPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	if (!inner->isIdle) {
+	if (!inner->state.isIdle) {
 		sbgl_internal_log(
 			SBGL_LOG_ERROR,
 			"Destroy Pipeline called while GPU is busy! Missing sbgl_DeviceWaitIdle."
@@ -430,196 +435,226 @@ void sbgl_PushConstants(sbgl_Context* ctx, size_t size, const void* data) {
 // --- Automated Batching API ---
 
 sbgl_RenderQueue* sbgl_CreateRenderQueue(sbgl_Context* ctx, SblArena* arena) {
-    if (!ctx || !arena) {
-        return NULL;
-    }
+	if (!ctx || !arena) {
+		return NULL;
+	}
 
-    // Allocate the queue structure from the provided arena
-    sbgl_RenderQueue* queue = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_RenderQueue);
-    if (!queue) {
-        ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
-        return NULL;
-    }
+	// Allocate the queue structure from the provided arena
+	sbgl_RenderQueue* queue = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_RenderQueue);
+	if (!queue) {
+		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
+		return NULL;
+	}
 
-    // Initialize the queue with a default capacity of 16,384 packets
-    /* Initialize the queue with a high capacity to support massive batching (e.g., voxels). */
-    queue->capacity = 131072;
-    queue->count = 0;
-    queue->arena = arena;
-    queue->packets = SBL_ARENA_PUSH_ARRAY_ZERO(arena, sbgl_DrawPacket, queue->capacity);
-    queue->instances = SBL_ARENA_PUSH_ARRAY_ZERO(arena, sbgl_InstanceData, queue->capacity);
+	// Initialize the queue with a default capacity of 16,384 packets
+	/* Initialize the queue with a high capacity to support massive batching (e.g., voxels). */
+	queue->capacity = 131072;
+	queue->count = 0;
+	queue->arena = arena;
+	queue->packets = SBL_ARENA_PUSH_ARRAY_ZERO(arena, sbgl_DrawPacket, queue->capacity);
+	queue->instances = SBL_ARENA_PUSH_ARRAY_ZERO(arena, sbgl_InstanceData, queue->capacity);
 
-    if (!queue->packets || !queue->instances) {
-        ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
-        return NULL;
-    }
+	if (!queue->packets || !queue->instances) {
+		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
+		return NULL;
+	}
 
-    ctx->result = SBGL_SUCCESS;
-    return queue;
+	ctx->result = SBGL_SUCCESS;
+	return queue;
 }
 
-void sbgl_SubmitDraw(sbgl_RenderQueue* queue, uint32_t mesh, uint32_t material, sbgl_SortKey key, const sbgl_InstanceData* data) {
-    if (!queue) {
-        return;
-    }
+void sbgl_SubmitDraw(
+	sbgl_RenderQueue* queue,
+	uint32_t mesh,
+	uint32_t material,
+	sbgl_SortKey key,
+	const sbgl_InstanceData* data
+) {
+	if (!queue) {
+		return;
+	}
 
-    // Check if the queue has reached its maximum capacity
-    if (queue->count >= queue->capacity) {
-        return;
-    }
+	// Check if the queue has reached its maximum capacity
+	if (queue->count >= queue->capacity) {
+		return;
+	}
 
-    // Append the draw packet to the contiguous array
-    uint32_t index = queue->count++;
-    sbgl_DrawPacket* packet = &queue->packets[index];
-    packet->key = key;
-    packet->meshId = mesh;
-    packet->materialId = material;
-    packet->instanceId = index;
+	// Append the draw packet to the contiguous array
+	uint32_t index = queue->count++;
+	sbgl_DrawPacket* packet = &queue->packets[index];
+	packet->key = key;
+	packet->header = SBGL_PACK_HEADER(mesh, material, 0, 0, 0);
+	packet->instanceId = index;
 
-    // Copy the per-instance data into the queue's parallel array
-    if (data) {
-        queue->instances[index] = *data;
-    } else {
-        // Use default identity if no data provided
-        memset(&queue->instances[index], 0, sizeof(sbgl_InstanceData));
-        queue->instances[index].transform = sbgl_Mat4Identity();
-        queue->instances[index].color = sbgl_Vec4Set(1, 1, 1, 1);
-    }
+	// Copy the per-instance data into the queue's parallel array
+	if (data) {
+		queue->instances[index] = *data;
+	} else {
+		// Use default identity if no data provided
+		memset(&queue->instances[index], 0, sizeof(sbgl_InstanceData));
+		queue->instances[index].transform = sbgl_Mat4Identity();
+		queue->instances[index].color = sbgl_Vec4Set(1, 1, 1, 1);
+	}
 }
 
-void sbgl_RenderQueues(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t queueCount, const sbgl_Mat4* viewProj) {
-    sbgl_RenderQueuesEx(ctx, queues, queueCount, viewProj, 0);
+void sbgl_RenderQueues(
+	sbgl_Context* ctx,
+	sbgl_RenderQueue** queues,
+	uint32_t queueCount,
+	const sbgl_Mat4* viewProj
+) {
+	sbgl_RenderQueuesEx(ctx, queues, queueCount, viewProj, 0);
 }
 
-void sbgl_RenderQueuesEx(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t queueCount, const sbgl_Mat4* viewProj, uint64_t userAddress) {
-    if (!ctx || !ctx->inner || !queues || queueCount == 0) {
-        return;
-    }
+void sbgl_RenderQueuesEx(
+	sbgl_Context* ctx,
+	sbgl_RenderQueue** queues,
+	uint32_t queueCount,
+	const sbgl_Mat4* viewProj,
+	uint64_t userAddress
+) {
+	if (!ctx || !ctx->inner || !queues || queueCount == 0) {
+		return;
+	}
 
-    sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-    // Calculate total number of packets across all queues to determine buffer sizes
-    uint32_t totalPackets = 0;
-    for (uint32_t i = 0; i < queueCount; ++i) {
-        if (queues[i]) {
-            totalPackets += queues[i]->count;
-        }
-    }
+	// Calculate total number of packets across all queues to determine buffer sizes
+	uint32_t totalPackets = 0;
+	for (uint32_t i = 0; i < queueCount; ++i) {
+		if (queues[i]) {
+			totalPackets += queues[i]->count;
+		}
+	}
 
-    if (totalPackets == 0) {
-        return;
-    }
+	if (totalPackets == 0) {
+		return;
+	}
 
-    // Allocate temporary host memory for merging and sorting
-    sbgl_DrawPacket* mergedPackets = malloc(sizeof(sbgl_DrawPacket) * totalPackets);
-    sbgl_InstanceData* mergedInstances = malloc(sizeof(sbgl_InstanceData) * totalPackets);
-    sbgl_SortKey* keys = malloc(sizeof(sbgl_SortKey) * totalPackets);
-    uint32_t* indices = malloc(sizeof(uint32_t) * totalPackets);
+	// Allocate temporary host memory for merging and sorting
+	sbgl_DrawPacket* mergedPackets = malloc(sizeof(sbgl_DrawPacket) * totalPackets);
+	sbgl_InstanceData* mergedInstances = malloc(sizeof(sbgl_InstanceData) * totalPackets);
+	sbgl_SortKey* keys = malloc(sizeof(sbgl_SortKey) * totalPackets);
+	uint32_t* indices = malloc(sizeof(uint32_t) * totalPackets);
 
-    if (!mergedPackets || !mergedInstances || !keys || !indices) {
-        if (mergedPackets) free(mergedPackets);
-        if (mergedInstances) free(mergedInstances);
-        if (keys) free(keys);
-        if (indices) free(indices);
-        ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
-        return;
-    }
+	if (!mergedPackets || !mergedInstances || !keys || !indices) {
+		if (mergedPackets)
+			free(mergedPackets);
+		if (mergedInstances)
+			free(mergedInstances);
+		if (keys)
+			free(keys);
+		if (indices)
+			free(indices);
+		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
+		return;
+	}
 
-    // Merge packets and instance data from all queues
-    uint32_t current = 0;
-    for (uint32_t i = 0; i < queueCount; ++i) {
-        if (!queues[i]) continue;
-        for (uint32_t j = 0; j < queues[i]->count; ++j) {
-            mergedPackets[current] = queues[i]->packets[j];
-            mergedInstances[current] = queues[i]->instances[j];
-            keys[current] = mergedPackets[current].key;
-            indices[current] = current;
-            current++;
-        }
-        // Clear the queue for the next frame
-        queues[i]->count = 0;
-    }
+	// Merge packets and instance data from all queues
+	uint32_t current = 0;
+	for (uint32_t i = 0; i < queueCount; ++i) {
+		if (!queues[i])
+			continue;
+		for (uint32_t j = 0; j < queues[i]->count; ++j) {
+			mergedPackets[current] = queues[i]->packets[j];
+			mergedInstances[current] = queues[i]->instances[j];
+			keys[current] = mergedPackets[current].key;
+			indices[current] = current;
+			current++;
+		}
+		// Clear the queue for the next frame
+		queues[i]->count = 0;
+	}
 
-    // Perform a stable radix sort on the packets based on their sort keys
-    sbgl_radix_sort(keys, indices, totalPackets);
+	// Perform a stable radix sort on the packets based on their sort keys
+	sbgl_radix_sort(keys, indices, totalPackets);
 
-    // Reorder packets and instances according to the sorted indices
-    sbgl_DrawPacket* sortedPackets = malloc(sizeof(sbgl_DrawPacket) * totalPackets);
-    sbgl_InstanceData* sortedInstances = malloc(sizeof(sbgl_InstanceData) * totalPackets);
-    if (!sortedPackets || !sortedInstances) {
-        free(mergedPackets); free(mergedInstances); free(keys); free(indices);
-        if (sortedPackets) free(sortedPackets);
-        if (sortedInstances) free(sortedInstances);
-        ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
-        return;
-    }
+	// Reorder packets and instances according to the sorted indices
+	sbgl_DrawPacket* sortedPackets = malloc(sizeof(sbgl_DrawPacket) * totalPackets);
+	sbgl_InstanceData* sortedInstances = malloc(sizeof(sbgl_InstanceData) * totalPackets);
+	if (!sortedPackets || !sortedInstances) {
+		free(mergedPackets);
+		free(mergedInstances);
+		free(keys);
+		free(indices);
+		if (sortedPackets)
+			free(sortedPackets);
+		if (sortedInstances)
+			free(sortedInstances);
+		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
+		return;
+	}
 
-    for (uint32_t i = 0; i < totalPackets; ++i) {
-        sortedPackets[i] = mergedPackets[indices[i]];
-        sortedInstances[i] = mergedInstances[indices[i]];
-    }
+	for (uint32_t i = 0; i < totalPackets; ++i) {
+		sortedPackets[i] = mergedPackets[indices[i]];
+		sortedInstances[i] = mergedInstances[indices[i]];
+	}
 
-    // Bake the sorted packets into optimized indirect draw commands
-    sbgl_IndirectCommand* commands = malloc(sizeof(sbgl_IndirectCommand) * totalPackets);
-    if (!commands) {
-        free(mergedPackets); free(mergedInstances); free(keys); free(indices);
-        free(sortedPackets); free(sortedInstances);
-        ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
-        return;
-    }
+	// Bake the sorted packets into optimized indirect draw commands
+	sbgl_IndirectCommand* commands = malloc(sizeof(sbgl_IndirectCommand) * totalPackets);
+	if (!commands) {
+		free(mergedPackets);
+		free(mergedInstances);
+		free(keys);
+		free(indices);
+		free(sortedPackets);
+		free(sortedInstances);
+		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
+		return;
+	}
 
-    uint32_t commandCount = sbgl_bake_commands(sortedPackets, totalPackets, commands, totalPackets);
+	uint32_t commandCount = sbgl_bake_commands(sortedPackets, totalPackets, commands, totalPackets);
 
-    if (commandCount > 0) {
-        // 1. Upload packed instance data to a GPU storage buffer
-        sbgl_Buffer instanceBuffer = sbgl_gfx_CreateBuffer(
-            inner->gfx,
-            SBGL_BUFFER_USAGE_STORAGE,
-            sizeof(sbgl_InstanceData) * totalPackets,
-            sortedInstances
-        );
+	if (commandCount > 0) {
+		// 1. Upload packed instance data to a GPU storage buffer
+		sbgl_Buffer instanceBuffer = sbgl_gfx_CreateBuffer(
+			inner->gfx,
+			SBGL_BUFFER_USAGE_STORAGE,
+			sizeof(sbgl_InstanceData) * totalPackets,
+			sortedInstances
+		);
 
-        if (instanceBuffer != SBGL_INVALID_HANDLE) {
-            // 2. Retrieve BDA address and update push constants
-            uint64_t bdaAddress = sbgl_gfx_GetBufferDeviceAddress(inner->gfx, instanceBuffer);
-            
-            struct {
-                sbgl_Mat4 viewProj;
-                uint64_t instanceAddress;
-                uint64_t userAddress;
-            } pc;
-            pc.viewProj = viewProj ? *viewProj : sbgl_Mat4Identity();
-            pc.instanceAddress = bdaAddress;
-            pc.userAddress = userAddress;
+		if (instanceBuffer != SBGL_INVALID_HANDLE) {
+			// 2. Retrieve BDA address and update push constants
+			uint64_t bdaAddress = sbgl_gfx_GetBufferDeviceAddress(inner->gfx, instanceBuffer);
 
-            sbgl_gfx_PushConstants(inner->gfx, sizeof(pc), &pc);
+			struct {
+				sbgl_Mat4 viewProj;
+				uint64_t instanceAddress;
+				uint64_t userAddress;
+			} pc;
+			pc.viewProj = viewProj ? *viewProj : sbgl_Mat4Identity();
+			pc.instanceAddress = bdaAddress;
+			pc.userAddress = userAddress;
 
-            // 3. Upload baked commands and dispatch MDI
-            sbgl_Buffer indirectBuffer = sbgl_gfx_CreateBuffer(
-                inner->gfx, 
-                SBGL_BUFFER_USAGE_INDIRECT, 
-                sizeof(sbgl_IndirectCommand) * commandCount, 
-                commands
-            );
-            
-            if (indirectBuffer != SBGL_INVALID_HANDLE) {
-                sbgl_gfx_DrawIndirect(inner->gfx, indirectBuffer, commandCount);
-                sbgl_gfx_DestroyBufferDeferred(inner->gfx, indirectBuffer);
-            }
-            
-            // Queue instance buffer for destruction after frame
-            sbgl_gfx_DestroyBufferDeferred(inner->gfx, instanceBuffer);
-        }
-    }
+			sbgl_gfx_PushConstants(inner->gfx, sizeof(pc), &pc);
 
-    // Release temporary host resources
-    free(mergedPackets);
-    free(mergedInstances);
-    free(keys);
-    free(indices);
-    free(sortedPackets);
-    free(sortedInstances);
-    free(commands);
+			// 3. Upload baked commands and dispatch MDI
+			sbgl_Buffer indirectBuffer = sbgl_gfx_CreateBuffer(
+				inner->gfx,
+				SBGL_BUFFER_USAGE_INDIRECT,
+				sizeof(sbgl_IndirectCommand) * commandCount,
+				commands
+			);
 
-    ctx->result = SBGL_SUCCESS;
+			if (indirectBuffer != SBGL_INVALID_HANDLE) {
+				sbgl_gfx_DrawIndirect(inner->gfx, indirectBuffer, commandCount);
+				sbgl_gfx_DestroyBufferDeferred(inner->gfx, indirectBuffer);
+			}
+
+			// Queue instance buffer for destruction after frame
+			sbgl_gfx_DestroyBufferDeferred(inner->gfx, instanceBuffer);
+		}
+	}
+
+	// Release temporary host resources
+	free(mergedPackets);
+	free(mergedInstances);
+	free(keys);
+	free(indices);
+	free(sortedPackets);
+	free(sortedInstances);
+	free(commands);
+
+	ctx->result = SBGL_SUCCESS;
 }

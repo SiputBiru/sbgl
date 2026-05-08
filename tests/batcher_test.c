@@ -1,59 +1,70 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
+
 #include "sbgl_batcher.h"
 
 /**
  * Verifies the baking logic by providing a set of sorted draw packets.
- * 
- * The test defines packets with varying mesh, material, and sort keys to 
+ *
+ * The test defines packets with varying mesh, material, and sort keys to
  * ensure that grouping occurs only when all batching criteria are met.
  */
-void test_bake_commands() {
-    sbgl_DrawPacket packets[5];
-    
-    // Group 1: Two identical packets
-    packets[0] = (sbgl_DrawPacket){ .key = 10, .meshId = 1, .materialId = 1, .instanceId = 100 };
-    packets[1] = (sbgl_DrawPacket){ .key = 10, .meshId = 1, .materialId = 1, .instanceId = 101 };
-    
-    // Group 2: Different mesh
-    packets[2] = (sbgl_DrawPacket){ .key = 10, .meshId = 2, .materialId = 1, .instanceId = 102 };
-    
-    // Group 3: Different material
-    packets[3] = (sbgl_DrawPacket){ .key = 10, .meshId = 2, .materialId = 2, .instanceId = 103 };
-    
-    // Group 4: Different key
-    packets[4] = (sbgl_DrawPacket){ .key = 11, .meshId = 2, .materialId = 2, .instanceId = 104 };
+static void test_bake_commands(void) {
+	sbgl_DrawPacket packets[5];
 
-    sbgl_IndirectCommand commands[5];
-    uint32_t count = sbgl_bake_commands(packets, 5, commands, 5);
+	// Group 1: Two identical packets
+	packets[0] = (sbgl_DrawPacket){ .key = 10,
+									.header = SBGL_PACK_HEADER(1, 1, 0, 0, 0),
+									.instanceId = 100 };
+	packets[1] = (sbgl_DrawPacket){ .key = 10,
+									.header = SBGL_PACK_HEADER(1, 1, 0, 0, 0),
+									.instanceId = 101 };
 
-    // The system should identify 4 distinct command groups based on state changes.
-    assert(count == 4);
+	// Group 2: Different mesh
+	packets[2] = (sbgl_DrawPacket){ .key = 10,
+									.header = SBGL_PACK_HEADER(2, 1, 0, 0, 0),
+									.instanceId = 102 };
 
-    // Group 1 verification (2 instances, mesh 1)
-    assert(commands[0].instanceCount == 2);
-    assert(commands[0].indexCount == 1 * 10);
-    assert(commands[0].firstInstance == 0);
+	// Group 3: Different material
+	packets[3] = (sbgl_DrawPacket){ .key = 10,
+									.header = SBGL_PACK_HEADER(2, 2, 0, 0, 0),
+									.instanceId = 103 };
 
-    // Group 2 verification (1 instance, mesh 2)
-    assert(commands[1].instanceCount == 1);
-    assert(commands[1].indexCount == 2 * 10);
-    assert(commands[1].firstInstance == 2);
+	// Group 4: Different key
+	packets[4] = (sbgl_DrawPacket){ .key = 11,
+									.header = SBGL_PACK_HEADER(2, 2, 0, 0, 0),
+									.instanceId = 104 };
 
-    // Group 3 verification (1 instance, mesh 2, new material)
-    assert(commands[2].instanceCount == 1);
-    assert(commands[2].indexCount == 2 * 10);
-    assert(commands[2].firstInstance == 3);
+	sbgl_IndirectCommand commands[5];
+	uint32_t count = sbgl_bake_commands(packets, 5, commands, 5);
 
-    // Group 4 verification (1 instance, mesh 2, new sort key)
-    assert(commands[3].instanceCount == 1);
-    assert(commands[3].indexCount == 2 * 10);
-    assert(commands[3].firstInstance == 4);
+	// The system should identify 4 distinct command groups based on state changes.
+	assert(count == 4);
 
-    printf("PASS: test_bake_commands\n");
+	// Group 1 verification (2 instances, mesh 1 -> 36 indices)
+	assert(commands[0].instanceCount == 2);
+	assert(commands[0].indexCount == 36);
+	assert(commands[0].firstInstance == 0);
+
+	// Group 2 verification (1 instance, mesh 2 -> 18 indices)
+	assert(commands[1].instanceCount == 1);
+	assert(commands[1].indexCount == 18);
+	assert(commands[1].firstInstance == 2);
+
+	// Group 3 verification (1 instance, mesh 2, new material)
+	assert(commands[2].instanceCount == 1);
+	assert(commands[2].indexCount == 18);
+	assert(commands[2].firstInstance == 3);
+
+	// Group 4 verification (1 instance, mesh 2, new sort key)
+	assert(commands[3].instanceCount == 1);
+	assert(commands[3].indexCount == 18);
+	assert(commands[3].firstInstance == 4);
+
+	printf("PASS: test_bake_commands\n");
 }
 
-int main() {
-    test_bake_commands();
-    return 0;
+int main(void) {
+	test_bake_commands();
+	return 0;
 }

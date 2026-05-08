@@ -13,9 +13,17 @@ INPUT                  = include \
                          docs \
                          README.md \
                          CHANGELOG.md \
-                         docs/manual/math_library.md \
+                         docs/getting_started/first_triangle.md \
+                         docs/getting_started/installation.md \
+                         docs/getting_started/window_setup.md \
                          docs/manual/camera_system.md \
-                         docs/manual/rendering_pipeline.md
+                         docs/manual/input_system.md \
+                         docs/manual/math_library.md \
+                         docs/manual/memory_management.md \
+                         docs/manual/platform_abstraction.md \
+                         docs/manual/rendering_pipeline.md \
+                         docs/manual/voxel_rendering.md \
+                         docs/manual/vulkan_backend.md
 
 EXCLUDE_PATTERNS       = */.git/* \
                          */build/* \
@@ -30,7 +38,7 @@ GENERATE_HTML          = YES
 HAVE_DOT               = NO
 WARN_IF_UNDOCUMENTED   = NO
 MARKDOWN_SUPPORT       = YES
-IMAGE_PATH             = 
+IMAGE_PATH             = docs/img
 USE_MDFILE_AS_MAINPAGE = README.md
 
 # --- Source Browsing ---

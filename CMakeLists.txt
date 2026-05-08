@@ -21,6 +21,13 @@ option(SBGL_BUILD_STANDALONE "Build examples by compiling sources directly (no l
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
+# --- Tool Discovery ---
+# The build process requires specific external utilities for shader compilation
+# and data embedding. These programs are located once at the top level to
+# ensure they are available for all sub-modules and functions.
+find_program(GLSLC_EXE NAMES glslc)
+find_program(XXD_EXE NAMES xxd)
+
 if(MSVC)
     add_compile_options(/W4 /wd4201)
     # Strict mode for Debug
@@ -46,6 +53,7 @@ set(SBGL_SOURCES
 )
 
 set(PLATFORM_LIBS "")
+set(SBGL_PLATFORM_DEFINITIONS "")
 
 if(WIN32)
     list(APPEND SBGL_SOURCES 
@@ -54,10 +62,6 @@ if(WIN32)
     )
     if(MINGW)
         list(APPEND PLATFORM_LIBS user32 gdi32 shell32)
-        # Use local Vulkan headers if they exist (for cross-compilation)
-        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/third_party")
-            include_directories("${CMAKE_CURRENT_SOURCE_DIR}/third_party")
-        endif()
     endif()
 elseif(UNIX AND NOT APPLE)
     if(SBGL_USE_WAYLAND)
@@ -65,11 +69,11 @@ elseif(UNIX AND NOT APPLE)
         pkg_check_modules(WAYLAND_CLIENT REQUIRED wayland-client)
         pkg_check_modules(WAYLAND_PROTOCOLS REQUIRED wayland-protocols)
         
-        execute_process(
-            COMMAND pkg-config --variable=pkgdatadir wayland-protocols
-            OUTPUT_VARIABLE WAYLAND_PROTOCOLS_DIR
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+        # The path to the system-installed Wayland protocol XML files is
+        # retrieved via pkg-config to ensure compatibility across different
+        # Linux distributions.
+        pkg_get_variable(WAYLAND_PROTOCOLS_DIR wayland-protocols pkgdatadir)
+
         set(XDG_SHELL_XML "${WAYLAND_PROTOCOLS_DIR}/stable/xdg-shell/xdg-shell.xml")
         set(POINTER_CONSTRAINTS_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml")
         set(RELATIVE_POINTER_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/relative-pointer/relative-pointer-unstable-v1.xml")
@@ -124,9 +128,8 @@ elseif(UNIX AND NOT APPLE)
             "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
             "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
         )
-        include_directories("${CMAKE_CURRENT_BINARY_DIR}")
         list(APPEND PLATFORM_LIBS ${WAYLAND_CLIENT_LIBRARIES})
-        add_definitions(-DSBGL_PLATFORM_WAYLAND)
+        list(APPEND SBGL_PLATFORM_DEFINITIONS SBGL_PLATFORM_WAYLAND)
     else()
         find_package(X11 REQUIRED)
         list(APPEND SBGL_SOURCES 
@@ -134,7 +137,7 @@ elseif(UNIX AND NOT APPLE)
             ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_x11.c
         )
         list(APPEND PLATFORM_LIBS X11 Xfixes m)
-        add_definitions(-DSBGL_PLATFORM_X11)
+        list(APPEND SBGL_PLATFORM_DEFINITIONS SBGL_PLATFORM_X11)
     endif()
 endif()
 
@@ -148,6 +151,8 @@ if(NOT SBGL_BUILD_STANDALONE)
         set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
     endif()
 
+    target_compile_definitions(sbgl PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
+
     target_include_directories(sbgl
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -156,6 +161,10 @@ if(NOT SBGL_BUILD_STANDALONE)
             ${CMAKE_CURRENT_SOURCE_DIR}/src
             ${CMAKE_CURRENT_BINARY_DIR}
     )
+
+    if(WIN32 AND MINGW)
+        target_include_directories(sbgl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
+    endif()
 
     # Allow subprojects to find the headers
     target_include_directories(sbgl SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -167,10 +176,13 @@ if(NOT SBGL_BUILD_STANDALONE)
 endif()
 
 # --- Shader Compilation Functions ---
+
+# Shaders are compiled from GLSL source files into SPIR-V binary format
+# using the Vulkan shader compiler. This transformation is necessary for
+# the graphics backend to process and execute the shader logic on the GPU.
 function(sbgl_compile_shader_to_spv SHADER_SOURCE OUTPUT_SPV)
-    find_program(GLSLC_EXE NAMES glslc)
     if(NOT GLSLC_EXE)
-        message(FATAL_ERROR "glslc not found! Required for shader compilation.")
+        message(FATAL_ERROR "The shader compiler (glslc) was not found during tool discovery.")
     endif()
 
     add_custom_command(
@@ -182,10 +194,13 @@ function(sbgl_compile_shader_to_spv SHADER_SOURCE OUTPUT_SPV)
     )
 endfunction()
 
+# SPIR-V binaries are converted into C headers to allow for direct embedding
+# within the application executable. This approach eliminates the need for
+# runtime file loading and ensures that the required shader data is always
+# available to the rendering system.
 function(sbgl_convert_spv_to_header INPUT_SPV OUTPUT_HEADER)
-    find_program(XXD_EXE NAMES xxd)
     if(NOT XXD_EXE)
-        message(FATAL_ERROR "xxd not found! Required for shader header generation.")
+        message(FATAL_ERROR "The data embedding utility (xxd) was not found during tool discovery.")
     endif()
 
     get_filename_component(OUTPUT_DIR ${OUTPUT_HEADER} DIRECTORY)

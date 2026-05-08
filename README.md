@@ -84,3 +84,10 @@ The system utilizes several modern rendering techniques to ensure high-performan
 | **Data-Oriented Design (DOD)** | Contiguous memory layouts for render queues and instance data. | Maximizes L1/L2 cache utilization during packet submission and sorting phases. |
 | **Stable Radix Sort** | High-performance CPU sorting of draw packets by mesh and material identifiers. | Minimizes pipeline state changes and maximizes the effectiveness of indirect command merging. |
 | **Memory Arenas** | Allocation of render-loop resources through `SblArena`. | Eliminates per-frame heap fragmentation and allocation latency in the hot path. |
+
+* Transition from global includes/definitions to target-scoped properties (target_include_directories, target_compile_definitions) for better encapsulation.
+* Move tool discovery (glslc, xxd) to top-level CMake to avoid redundant lookups.
+* Modernize Wayland protocol discovery using pkg_get_variable.
+* Enable missing engine tests (batcher, sort, heightmap, voxel_logic) in tests/CMakeLists.txt with a dedicated add_engine_test macro.
+* Update Doxyfile to include all manual/getting_started documentation and correctly map the image asset path.
+* Standardize on PROJECT_BINARY_DIR for generated assets to ensure compatibility when integrated as a subproject.

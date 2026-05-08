@@ -54,9 +54,9 @@ if(SBGL_BUILD_STANDALONE)
     # In CMake < 3.18, the GENERATED property is directory-scoped.
     # must mark the Wayland protocol file as generated in this directory too.
     if(SBGL_USE_WAYLAND AND NOT WIN32)
-        set_source_files_properties("${CMAKE_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
-        set_source_files_properties("${CMAKE_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
-        set_source_files_properties("${CMAKE_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
+        set_source_files_properties("${PROJECT_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
+        set_source_files_properties("${PROJECT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
+        set_source_files_properties("${PROJECT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
     endif()
 
     foreach(example window/hello_window input/input_keyboard input/input_mouse input/mouse_mode camera/camera_main triangle/triangle_main batching/batch_main voxels/voxel_main)
@@ -71,11 +71,13 @@ if(SBGL_BUILD_STANDALONE)
             add_dependencies(${target_name} wayland_protocols)
         endif()
 
+        target_compile_definitions(${target_name} PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
+
         target_include_directories(${target_name} PRIVATE 
             ${CMAKE_SOURCE_DIR}/include 
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_CURRENT_BINARY_DIR}
-            ${CMAKE_BINARY_DIR}
+            ${PROJECT_BINARY_DIR}
         )
         
         target_link_libraries(${target_name} PRIVATE 
@@ -84,8 +86,8 @@ if(SBGL_BUILD_STANDALONE)
 
         # Ensure Wayland protocols are generated before compilation
         if(SBGL_USE_WAYLAND AND NOT WIN32)
-            set_source_files_properties(${CMAKE_SOURCE_DIR}/src/platform/linux/window_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/xdg-shell-client-protocol.h")
-            set_source_files_properties(${CMAKE_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/xdg-shell-client-protocol.h")
+            set_source_files_properties(${CMAKE_SOURCE_DIR}/src/platform/linux/window_wayland.c PROPERTIES OBJECT_DEPENDS "${PROJECT_BINARY_DIR}/xdg-shell-client-protocol.h")
+            set_source_files_properties(${CMAKE_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${PROJECT_BINARY_DIR}/xdg-shell-client-protocol.h")
         endif()
     endforeach()
 else()
@@ -94,6 +96,9 @@ else()
     macro(add_example name src)
         add_executable(${name} ${src})
         add_dependencies(${name} example_shaders)
+
+        target_compile_definitions(${name} PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
+
         target_include_directories(${name} PRIVATE 
             ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}/src

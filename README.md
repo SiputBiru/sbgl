@@ -5,6 +5,9 @@
 ![Platform](https://img.shields.io/badge/Platform-Wayland_|_X11_|_Win32-green.svg)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/SiputBiru/sbgl)
 
+> [!WARNING]
+> **API Instability Notice**: SBgl is currently in an experimental phase of development. The API is considered unstable and is subject to significant changes or complete removal at any given moment without prior notice. Use in production environments is not recommended.
+
 A "low-level" graphics framework engineered for modern hardware. Built on C99 and Vulkan 1.3, prioritize in Data-Oriented Design to maximize cache efficiency. By employing an explicit, context-based API and handle-based resource management, SBgl eliminates hidden state and provides total control over the rendering pipeline, memory allocation, and multi-threaded command recording.
 
 ## Quick Start

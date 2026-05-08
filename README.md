@@ -40,28 +40,13 @@ target_link_libraries(your_application PRIVATE sbgl)
 
 ## Documentation
 
-### Getting Started
+Comprehensive documentation organized by the development lifecycle is available in the [Documentation Index](docs/INDEX.md).
 
-* [Installation](docs/getting_started/installation.md)
-* [Window Setup](docs/getting_started/window_setup.md)
-* [First Triangle](docs/getting_started/first_triangle.md)
-
-### Manual
-
-* [Input System](docs/manual/input_system.md)
-* [Math Library](docs/manual/math_library.md)
-* [Memory Management](docs/manual/memory_management.md)
-* [Platform Abstraction](docs/manual/platform_abstraction.md)
-* [Rendering Pipeline](docs/manual/rendering_pipeline.md)
-* [Vulkan Backend](docs/manual/vulkan_backend.md)
-* [Voxel Rendering](docs/manual/voxel_rendering.md)
-* [Camera System](docs/manual/camera_system.md)
-
-### Resources
-
-* [Categorized Examples](docs/examples/index.md)
-* [Roadmap](docs/roadmap.md)
-* [Changelog](CHANGELOG.md)
+### Chapters
+1. **Foundations**: Initialization, Windowing, and Input.
+2. **Graphics HAL**: Shaders, Buffers, and Pipelines.
+3. **Data-Oriented Pipeline**: Render Queues, Sorting, and Batching.
+4. **Advanced Techniques**: BDA, MDI, and Arena Management.
 
 ## Features
 

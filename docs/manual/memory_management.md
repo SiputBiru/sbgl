@@ -32,6 +32,25 @@ The core of the memory system is the linear arena allocator defined in `sbl_aren
 
 The `sbgl_Context` holds the primary `SblArena` for the entire engine instance. When `sbgl_Init` is called, the arena is initialized first, and then the context shell and all internal platform structures (like the window state) are allocated directly from it.
 
+### The Transient Arena
+
+While the primary arena manages the context lifecycle, SBgl utilizes a **Transient Arena** for data that only needs to exist for the duration of a single frame (e.g., sort keys, merged draw packets, temporary math buffers). This arena is reset at the beginning of every frame processing cycle, providing zero-latency "scratch" memory without the overhead of heap fragmentation.
+
+### Arena Hierarchy (ASCII)
+```text
+[ Context Memory Block ]
+|
+|-- [ Persistent Pool ] (Allocated once at Init)
+|   |-- Window State
+|   |-- Graphics Backend State
+|   |-- Render Queues (Fixed Capacity)
+|
+|-- [ Transient Pool ] (Reset every frame)
+|   |-- Merged Draw Packets
+|   |-- Radix Sort Key/Index Buffers
+|   |-- Temporary Transformation Workspace
+```
+
 ### Ownership Transfer
 
 The `sbgl_InternalContext` assumes ownership of the arena. This creates a single point of failure and success: calling `sbl_arena_free()` during shutdown automatically releases every byte of memory used by the core, platform, and graphics layers.

@@ -74,6 +74,11 @@ void sbgl_gfx_DeviceWaitIdle(sbgl_GfxContext* gfx) {
     (void)gfx;
 }
 
+float sbgl_gfx_GetGpuTime(sbgl_GfxContext* gfx) {
+    (void)gfx;
+    return 0.5f;
+}
+
 sbgl_Buffer sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
     (void)ctx; (void)usage; (void)size; (void)data;
     return (sbgl_Buffer)1;

@@ -121,10 +121,21 @@ typedef enum {
  * @brief Vertex attribute definition.
  */
 typedef struct {
-	uint32_t location;	/**< Shader input location. */
-	uint32_t offset;	/**< Byte offset within the vertex structure. */
-	sbgl_Format format; /**< Data format of the attribute. */
+  uint32_t location;	/**< Shader input location. */
+  uint32_t offset;	/**< Byte offset within the vertex structure. */
+  sbgl_Format format; /**< Data format of the attribute. */
 } sbgl_VertexAttribute;
+
+/**
+ * @brief Performance telemetry data for a single frame.
+ */
+typedef struct {
+  float cpu_frame_time;    /**< Total frame duration (ms). */
+  float cpu_sort_time;     /**< Time spent in sort/bake (ms). */
+  float gpu_render_time;   /**< Actual GPU execution time (ms). */
+  uint32_t draw_calls;     /**< Total indirect batches submitted. */
+  uint32_t instance_count; /**< Total instances rendered. */
+} sbgl_Telemetry;
 
 /**
  * @brief Vertex input layout definition.

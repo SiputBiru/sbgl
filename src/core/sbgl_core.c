@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 /**
  * @brief Internal storage for draw packets awaiting submission.
@@ -49,7 +50,35 @@ typedef struct {
 	} state;
 	sbgl_InputState input;	  /**< Physical input state tracking. */
 	sbgl_MouseMode mouseMode; /**< Current intended mouse behavior. */
+	sbgl_Telemetry lastFrame;
+	sbgl_Telemetry currentFrame;
+#ifdef linux
+	struct timespec frameStartTime;
+	struct timespec sortStartTime;
+#endif
 } sbgl_InternalContext;
+
+#ifdef linux
+/**
+ * @brief Retrieves the current monotonic system time with nanosecond precision.
+ * @return The absolute system time in a timespec structure.
+ */
+static struct timespec sbgl_internal_GetTime(void) {
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts;
+}
+
+/**
+ * @brief Calculates the elapsed time in milliseconds between two time points.
+ * @param start The beginning of the measured interval.
+ * @param end The end of the measured interval.
+ * @return The duration in milliseconds.
+ */
+static float sbgl_internal_GetElapsedMs(struct timespec start, struct timespec end) {
+	return (float)((end.tv_sec - start.tv_sec) * 1000.0 + (end.tv_nsec - start.tv_nsec) / 1000000.0);
+}
+#endif
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
@@ -169,6 +198,15 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 	}
 	inner->state.wasFocused = currentlyFocused;
 
+#ifdef linux
+	inner->frameStartTime = sbgl_internal_GetTime();
+#endif
+
+	// Performance counters are reset at the start of every frame
+	inner->currentFrame.draw_calls = 0;
+	inner->currentFrame.instance_count = 0;
+	inner->currentFrame.cpu_sort_time = 0.0f;
+
 	inner->state.isDrawing = sbgl_gfx_BeginFrame(
 		inner->gfx,
 		inner->clearColor[0],
@@ -189,6 +227,18 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 		sbgl_gfx_EndFrame(inner->gfx);
 		inner->state.isDrawing = 0;
 		inner->state.isIdle = 0;
+
+#ifdef linux
+		struct timespec frameEndTime = sbgl_internal_GetTime();
+		inner->currentFrame.cpu_frame_time =
+			sbgl_internal_GetElapsedMs(inner->frameStartTime, frameEndTime);
+#endif
+
+		// GPU performance data is retrieved from the graphics backend
+		inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
+
+		// The completed telemetry data is archived for user retrieval
+		inner->lastFrame = inner->currentFrame;
 	}
 
 	// Reset pressed states for next frame
@@ -239,6 +289,14 @@ void sbgl_SetMouseMode(sbgl_Context* ctx, sbgl_MouseMode mode) {
 	sbgl_os_SetCursorVisible(inner->window, visible);
 	sbgl_os_SetCursorLocked(inner->window, locked);
 	ctx->result = SBGL_SUCCESS;
+}
+
+sbgl_Telemetry sbgl_GetTelemetry(sbgl_Context* ctx) {
+	if (!ctx || !ctx->inner) {
+		return (sbgl_Telemetry){ 0 };
+	}
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	return inner->lastFrame;
 }
 
 sbgl_Buffer
@@ -539,6 +597,10 @@ void sbgl_RenderQueuesEx(
 	// The transient arena is reset for this frame's batching work
 	sbl_arena_reset(&inner->transientArena);
 
+#ifdef linux
+	inner->sortStartTime = sbgl_internal_GetTime();
+#endif
+
 	// Temporary host memory is allocated for merging and sorting from the transient arena
 	sbgl_DrawPacket* mergedPackets =
 		SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_DrawPacket, totalPackets);
@@ -595,6 +657,15 @@ void sbgl_RenderQueuesEx(
 	}
 
 	uint32_t commandCount = sbgl_bake_commands(sortedPackets, totalPackets, commands, totalPackets);
+
+#ifdef linux
+	struct timespec sortEndTime = sbgl_internal_GetTime();
+	inner->currentFrame.cpu_sort_time +=
+		sbgl_internal_GetElapsedMs(inner->sortStartTime, sortEndTime);
+#endif
+
+	inner->currentFrame.draw_calls += commandCount;
+	inner->currentFrame.instance_count += totalPackets;
 
 	if (commandCount > 0) {
 		// Upload packed instance data to a GPU storage buffer

@@ -176,6 +176,13 @@ const sbgl_InputState* sbgl_GetInputState(sbgl_Context* ctx);
  */
 void sbgl_SetMouseMode(sbgl_Context* ctx, sbgl_MouseMode mode);
 
+/**
+ * @brief Retrieves the performance telemetry data for the previous frame.
+ * @param ctx The active engine context.
+ * @return A structure containing CPU and GPU timing data.
+ */
+sbgl_Telemetry sbgl_GetTelemetry(sbgl_Context* ctx);
+
 // --- Rendering API ---
 
 /**

@@ -136,7 +136,7 @@ for (int i = 0; i < 10000; i++) {
     data.transform = sbgl_Mat4Translate(sbgl_Vec3Set((float)i * 0.1f, 0.0f, 0.0f));
     data.color = sbgl_Vec4Set(1.0f, 1.0f, 1.0f, 1.0f);
     
-    // meshId=0, materialId=0, blendMode=0, sidedness=0, tags=0, sortKey=0
+    // meshId=0, materialId=0, blend=0, sided=0, tags=0, sortKey=0
     sbgl_SubmitDraw(queue, 0, 0, 0, 0, 0, 0, &data);
 }
 ```
@@ -161,9 +161,51 @@ sbgl_EndDrawing(ctx);
 
 The handle system is designed for batching. By iterating through arrays of transformation data (SoA) and binding buffers once, geometry submission is achieved. The automated batcher utilizes Multi-Draw Indirect (MDI) to reduce CPU overhead by submitting geometry with a single Vulkan command.
 
+### Dynamic Vertex Updates
+
+For CPU-driven effects (e.g., particle systems), vertex buffers can be recreated or updated every frame. The system handles the underlying synchronization to ensure the GPU has finished using the old buffer before it is destroyed.
+
+```c
+// Updating a vertex array every frame
+sbgl_Vertex particles[100];
+simulate_particles(particles, 100);
+
+// Create a new buffer for this frame
+sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(particles), particles);
+
+// Bind and draw
+sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
+sbgl_Draw(ctx, 100, 0);
+
+// Use deferred destruction to safely release the buffer after the frame is retired
+sbgl_DestroyBufferDeferred(ctx, vbo);
+```
+
+### Multi-Queue Submission
+
+Managing separate render queues allows for logical separation of draw calls (e.g., Opaque, Transparent, UI). These queues can be merged and processed in a single backend call to optimize pipeline state changes.
+
+```c
+sbgl_RenderQueue* opaque_queue;
+sbgl_RenderQueue* ui_queue;
+
+// ... populate queues ...
+
+sbgl_RenderQueue* queues[] = { opaque_queue, ui_queue };
+sbgl_Mat4 vp = get_view_proj();
+
+// Process all queues, performing cross-queue sorting for state optimization
+sbgl_RenderQueues(ctx, queues, 2, &vp);
+```
+
 ## Multithreading Considerations
 
 The current implementation records commands into a single primary command buffer per context. To support multithreading:
+
+*   The backend will be extended to support Secondary Command Buffers.
+*   Each worker thread will record commands into its own buffer.
+*   The main thread will execute all recorded buffers in a single submission.
+support multithreading:
 
 *   The backend will be extended to support Secondary Command Buffers.
 *   Each worker thread will record commands into its own buffer.

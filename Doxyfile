@@ -7,23 +7,14 @@ EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
 RECURSIVE              = YES
-INPUT                  = include \
-                         src \
-                         examples \
-                         docs \
+INPUT                  = docs/INDEX.md \
                          README.md \
                          CHANGELOG.md \
-                         docs/getting_started/first_triangle.md \
-                         docs/getting_started/installation.md \
-                         docs/getting_started/window_setup.md \
-                         docs/manual/camera_system.md \
-                         docs/manual/input_system.md \
-                         docs/manual/math_library.md \
-                         docs/manual/memory_management.md \
-                         docs/manual/platform_abstraction.md \
-                         docs/manual/rendering_pipeline.md \
-                         docs/manual/voxel_rendering.md \
-                         docs/manual/vulkan_backend.md
+                         include \
+                         src \
+                         examples \
+                         docs
+RECURSIVE              = YES
 
 EXCLUDE_PATTERNS       = */.git/* \
                          */build/* \

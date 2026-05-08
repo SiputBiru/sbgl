@@ -99,6 +99,29 @@ The design adheres to Data-Oriented Design principles by:
 
 By exposing the state as a contiguous block of data, the engine enables iteration and transformation of input data without the overhead of object-oriented getters.
 
+### Input-to-Transform Mapping
+
+The Data-Oriented API facilitates direct mapping of scancodes to transformation data, enabling efficient camera or entity controls without branching logic.
+
+```c
+const sbgl_InputState* input = sbgl_GetInputState(ctx);
+
+// Calculate velocity vector from key map bit-mask
+float speed = 5.0f * delta_time;
+sbgl_Vec3 velocity = sbgl_Vec3Set(0, 0, 0);
+
+if (input->keysDown[SBGL_KEY_W]) velocity.z += speed;
+if (input->keysDown[SBGL_KEY_S]) velocity.z -= speed;
+if (input->keysDown[SBGL_KEY_A]) velocity.x -= speed;
+if (input->keysDown[SBGL_KEY_D]) velocity.x += speed;
+
+// Map directly to a transformation matrix
+entity->transform = sbgl_Mat4Mul(
+    entity->transform, 
+    sbgl_Mat4Translate(velocity)
+);
+```
+
 ---
 
 ## Technical Summary

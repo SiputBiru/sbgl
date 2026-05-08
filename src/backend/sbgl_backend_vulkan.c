@@ -108,6 +108,12 @@ typedef struct {
 	PFN_vkCmdSetScissor vkCmdSetScissor;
 	PFN_vkCmdPushConstants vkCmdPushConstants;
 
+	PFN_vkCreateQueryPool vkCreateQueryPool;
+	PFN_vkDestroyQueryPool vkDestroyQueryPool;
+	PFN_vkCmdResetQueryPool vkCmdResetQueryPool;
+	PFN_vkGetQueryPoolResults vkGetQueryPoolResults;
+	PFN_vkCmdWriteTimestamp vkCmdWriteTimestamp;
+
 	PFN_vkGetBufferDeviceAddress vkGetBufferDeviceAddress;
 } SBGL_VulkanDispatch;
 
@@ -178,6 +184,9 @@ struct sbgl_GfxContext {
 
 	sbgl_Buffer deferredBuffers[SBGL_MAX_FRAMES_IN_FLIGHT][64];
 	uint32_t deferredCount[SBGL_MAX_FRAMES_IN_FLIGHT];
+
+	VkQueryPool queryPool;
+	float timestampPeriod;
 };
 
 static void cleanup_swapchain(sbgl_GfxContext* ctx) {
@@ -338,6 +347,12 @@ static bool load_device_functions(sbgl_GfxContext* ctx) {
 	LOAD_DEV(vkCmdSetViewport);
 	LOAD_DEV(vkCmdSetScissor);
 	LOAD_DEV(vkCmdPushConstants);
+
+	LOAD_DEV(vkCreateQueryPool);
+	LOAD_DEV(vkDestroyQueryPool);
+	LOAD_DEV(vkCmdResetQueryPool);
+	LOAD_DEV(vkGetQueryPoolResults);
+	LOAD_DEV(vkCmdWriteTimestamp);
 
 	LOAD_DEV(vkGetBufferDeviceAddress);
 
@@ -835,6 +850,28 @@ static bool create_sync_and_command(sbgl_GfxContext* ctx) {
 	return true;
 }
 
+static bool create_telemetry_resources(sbgl_GfxContext* ctx) {
+	/* The system initializes a query pool with two timestamp slots to track GPU execution time
+	   for each frame, enabling performance telemetry. */
+	VkQueryPoolCreateInfo queryPoolInfo = {
+		.sType = VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO,
+		.queryType = VK_QUERY_TYPE_TIMESTAMP,
+		.queryCount = 2,
+	};
+
+	if (ctx->vk.vkCreateQueryPool(ctx->device, &queryPoolInfo, NULL, &ctx->queryPool) != VK_SUCCESS) {
+		return false;
+	}
+
+	/* The timestamp period is retrieved from physical device properties to convert
+	   GPU clock cycles into nanoseconds. */
+	VkPhysicalDeviceProperties props;
+	ctx->vk.vkGetPhysicalDeviceProperties(ctx->physicalDevice, &props);
+	ctx->timestampPeriod = props.limits.timestampPeriod;
+
+	return true;
+}
+
 sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 	sbgl_GfxContext* ctx = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_GfxContext);
 	if (!ctx)
@@ -845,7 +882,8 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 
 	if (!load_vulkan_library(ctx) || !create_instance(ctx) || !create_surface(ctx, window) ||
 		!select_physical_device(ctx) || !create_logical_device(ctx) ||
-		!create_swapchain(ctx, window) || !create_sync_and_command(ctx)) {
+		!create_swapchain(ctx, window) || !create_sync_and_command(ctx) ||
+		!create_telemetry_resources(ctx)) {
 		sbgl_gfx_Shutdown(ctx);
 		return NULL;
 	}
@@ -895,6 +933,7 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 		for (uint32_t i = 0; i < SBGL_MAX_SWAPCHAIN_IMAGES; i++) {
 			ctx->vk.vkDestroySemaphore(ctx->device, ctx->renderFinishedSemaphores[i], NULL);
 		}
+		ctx->vk.vkDestroyQueryPool(ctx->device, ctx->queryPool, NULL);
 		ctx->vk.vkDestroyCommandPool(ctx->device, ctx->commandPool, NULL);
 		cleanup_swapchain(ctx);
 		ctx->vk.vkDestroyDevice(ctx->device, NULL);
@@ -952,6 +991,15 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 	ctx->vk.vkResetCommandBuffer(ctx->commandBuffers[ctx->currentFrame], 0);
 	VkCommandBufferBeginInfo beginInfo = { .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
 	ctx->vk.vkBeginCommandBuffer(ctx->commandBuffers[ctx->currentFrame], &beginInfo);
+
+	/* The system resets the query pool and records the starting timestamp at the beginning of the frame. */
+	ctx->vk.vkCmdResetQueryPool(ctx->commandBuffers[ctx->currentFrame], ctx->queryPool, 0, 2);
+	ctx->vk.vkCmdWriteTimestamp(
+		ctx->commandBuffers[ctx->currentFrame],
+		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+		ctx->queryPool,
+		0
+	);
 
 	VkImageMemoryBarrier barriers[2] = { 0 };
 	barriers[0].sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -1019,6 +1067,14 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 }
 
 void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
+	/* The system records the ending timestamp at the conclusion of the frame's rendering commands. */
+	ctx->vk.vkCmdWriteTimestamp(
+		ctx->commandBuffers[ctx->currentFrame],
+		VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+		ctx->queryPool,
+		1
+	);
+
 	ctx->vk.vkCmdEndRendering(ctx->commandBuffers[ctx->currentFrame]);
 
 	VkImageMemoryBarrier barrier = {
@@ -1531,4 +1587,28 @@ void sbgl_gfx_PushConstants(sbgl_GfxContext* ctx, size_t size, const void* data)
 		(uint32_t)size,
 		data
 	);
+}
+
+float sbgl_gfx_GetGpuTime(sbgl_GfxContext* ctx) {
+	/* The system retrieves the recorded timestamps from the GPU and calculates the elapsed time
+	   in milliseconds, providing a non-blocking performance measurement. */
+	uint64_t results[2] = { 0 };
+	VkResult res = ctx->vk.vkGetQueryPoolResults(
+		ctx->device,
+		ctx->queryPool,
+		0,
+		2,
+		sizeof(results),
+		results,
+		sizeof(uint64_t),
+		VK_QUERY_RESULT_64_BIT
+	);
+
+	if (res == VK_SUCCESS) {
+		uint64_t start = results[0];
+		uint64_t end = results[1];
+		return (float)(end - start) * ctx->timestampPeriod / 1e6f;
+	}
+
+	return 0.0f;
 }

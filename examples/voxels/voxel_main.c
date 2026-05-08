@@ -182,10 +182,13 @@ int main(void) {
         frame_count++;
         fps_timer += dt;
         if (fps_timer >= 1.0f) {
+            sbgl_Telemetry tel = sbgl_GetTelemetry(ctx);
             printf(
-                "FPS: %d | Frame Time: %.2f ms\n",
+                "FPS: %d | CPU: %.2fms (Sort: %.2fms) | GPU: %.2fms\n",
                 frame_count,
-                (fps_timer / (float)frame_count) * 1000.0f
+                tel.cpu_frame_time,
+                tel.cpu_sort_time,
+                tel.gpu_render_time
             );
             fps_timer = 0.0f;
             frame_count = 0;

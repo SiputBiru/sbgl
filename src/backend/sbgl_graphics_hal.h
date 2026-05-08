@@ -98,4 +98,12 @@ void sbgl_gfx_DestroyBufferDeferred(sbgl_GfxContext* ctx, sbgl_Buffer buffer);
 
 void sbgl_gfx_PushConstants(sbgl_GfxContext* ctx, size_t size, const void* data);
 
+/**
+ * @brief Retrieves the elapsed GPU time for the previous frame in milliseconds.
+ *
+ * @param ctx The graphics context.
+ * @return The duration in milliseconds.
+ */
+float sbgl_gfx_GetGpuTime(sbgl_GfxContext* ctx);
+
 #endif // SBGL_GRAPHICS_HAL_H

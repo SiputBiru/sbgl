@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - **Packed Vertex Format**: Transitioned `sbgl_Vertex` to a 16-byte cache-aligned structure using `int16_t[4]` for positions (SNORM) and `uint32_t` for packed RGBA8 colors, reducing GPU vertex bandwidth by over 50%.
 - **Transient Arena Management**: Introduced a frame-local `transientArena` in the engine context to handle merge-and-sort operations, eliminating heap allocations in the hot path.
 - **Extended Submission API**: Updated `sbgl_SubmitDraw` to expose bit-packed rendering flags (`blendMode`, `sidedness`, `tags`) directly to the public API.
+- **Real-time Telemetry**: Implemented a high-precision profiling system using Vulkan Timestamp Queries and platform timers to measure independent CPU and GPU execution times.
 - **New Verification Test**: Added `packet_packing_test.c` to ensure structural alignment and bit-packing logic integrity.
 
 ### Fixed

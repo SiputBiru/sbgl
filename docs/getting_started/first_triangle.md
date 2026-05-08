@@ -13,16 +13,16 @@ sbgl_Shader f_shd = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "sh
 
 ## Vertex Layout
 
-A vertex layout describes how the GPU should interpret raw vertex data. In this example, each vertex consists of a 2D position (2 floats) followed by an RGB color (3 floats).
+A vertex layout describes how the GPU should interpret raw vertex data. The system utilizes the `sbgl_Vertex` structure, which is optimized for cache density (16 bytes). It consists of a 4D position (3D + padding) using 16-bit signed normalized integers (SNORM) and a packed RGBA8 color.
 
 ```c
 sbgl_VertexAttribute attributes[] = {
-    { .location = 0, .format = SBGL_FORMAT_R32G32_SFLOAT, .offset = 0 },
-    { .location = 1, .format = SBGL_FORMAT_R32G32B32_SFLOAT, .offset = 2 * sizeof(float) }
+    { .location = 0, .format = SBGL_FORMAT_R16G16B16A16_SNORM, .offset = offsetof(sbgl_Vertex, position) },
+    { .location = 1, .format = SBGL_FORMAT_R8G8B8A8_UNORM, .offset = offsetof(sbgl_Vertex, color) }
 };
 
 sbgl_VertexLayout layout = {
-    .stride = 5 * sizeof(float),
+    .stride = sizeof(sbgl_Vertex),
     .attributeCount = 2,
     .attributes = attributes
 };
@@ -43,11 +43,13 @@ sbgl_Pipeline pip = sbgl_CreatePipeline(ctx, &cfg);
 
 ## Vertex Buffer
 
+Vertices are initialized using the `sbgl_Vertex` structure. Positions are quantized to the 16-bit range (`-32767` to `32767`), representing `-1.0` to `1.0`.
+
 ```c
-float vertices[] = {
-     0.0f, -0.5f, 1.0f, 0.0f, 0.0f,
-     0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
-    -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
+sbgl_Vertex vertices[] = {
+    { .position = { 0, 16383, 0, 0 },    .color = 0xFF0000FF }, // Top (Red)
+    { .position = { 16383, -16383, 0, 0 }, .color = 0xFF00FF00 }, // Bottom Right (Green)
+    { .position = { -16383, -16383, 0, 0 }, .color = 0xFFFF0000 }  // Bottom Left (Blue)
 };
 
 sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);

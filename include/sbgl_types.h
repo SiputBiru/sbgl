@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-#include "sbgl_input.h"
+// #include "sbgl_input.h"
 
 #define SBGL_INVALID_HANDLE 0
 
@@ -54,10 +54,10 @@ typedef uint64_t sbgl_SortKey;
  * @brief Encapsulates all data required to submit a single draw call.
  */
 typedef struct {
-    sbgl_SortKey key;      /**< Sorting key based on material, mesh, and depth. */
-    uint32_t instanceId;   /**< Index into the per-instance data buffer. */
-    uint32_t meshId;       /**< Identifier for the geometry to be rendered. */
-    uint32_t materialId;   /**< Identifier for the material parameters. */
+	sbgl_SortKey key;	 /**< Sorting key based on material, mesh, and depth. */
+	uint32_t instanceId; /**< Index into the per-instance data buffer. */
+	uint32_t meshId;	 /**< Identifier for the geometry to be rendered. */
+	uint32_t materialId; /**< Identifier for the material parameters. */
 } sbgl_DrawPacket;
 
 /**
@@ -145,9 +145,9 @@ typedef struct sbgl_Context {
 	 * @brief Opaque pointer to the internal engine state.
 	 *
 	 * Points to the private `sbgl_InternalContext` structure, which manages
-	 * internal subsystems including the persistent `SblArena` for context-local 
-	 * allocations, the platform-specific `sbgl_Window` handle, graphics 
-	 * state such as clear colors and frame acquisition flags, and the 
+	 * internal subsystems including the persistent `SblArena` for context-local
+	 * allocations, the platform-specific `sbgl_Window` handle, graphics
+	 * state such as clear colors and frame acquisition flags, and the
 	 * real-time physical state of keys and mouse buttons.
 	 */
 	void* inner;

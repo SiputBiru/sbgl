@@ -15,8 +15,8 @@
 #include <vulkan/vulkan_xlib.h>
 #define SBGL_VK_LIB "libvulkan.so.1"
 #elif defined(_WIN32)
-#include <windows.h>
 #include <vulkan/vulkan_win32.h>
+#include <windows.h>
 #define SBGL_VK_LIB "vulkan-1.dll"
 #endif
 
@@ -231,7 +231,8 @@ static bool load_vulkan_library(sbgl_GfxContext* ctx) {
 	if (!ctx->vk.vkGetInstanceProcAddr)
 		return false;
 
-	ctx->vk.vkCreateInstance = (PFN_vkCreateInstance)ctx->vk.vkGetInstanceProcAddr(NULL, "vkCreateInstance");
+	ctx->vk.vkCreateInstance =
+		(PFN_vkCreateInstance)ctx->vk.vkGetInstanceProcAddr(NULL, "vkCreateInstance");
 	if (!ctx->vk.vkCreateInstance)
 		return false;
 
@@ -348,15 +349,21 @@ static bool load_device_functions(sbgl_GfxContext* ctx) {
 
 static VkFormat sbgl_to_vk_format(sbgl_Format format) {
 	switch (format) {
-		case SBGL_FORMAT_R32_SFLOAT: return VK_FORMAT_R32_SFLOAT;
-		case SBGL_FORMAT_R32G32_SFLOAT: return VK_FORMAT_R32G32_SFLOAT;
-		case SBGL_FORMAT_R32G32B32_SFLOAT: return VK_FORMAT_R32G32B32_SFLOAT;
-		case SBGL_FORMAT_R32G32B32A32_SFLOAT: return VK_FORMAT_R32G32B32A32_SFLOAT;
-		default: return VK_FORMAT_UNDEFINED;
+	case SBGL_FORMAT_R32_SFLOAT:
+		return VK_FORMAT_R32_SFLOAT;
+	case SBGL_FORMAT_R32G32_SFLOAT:
+		return VK_FORMAT_R32G32_SFLOAT;
+	case SBGL_FORMAT_R32G32B32_SFLOAT:
+		return VK_FORMAT_R32G32B32_SFLOAT;
+	case SBGL_FORMAT_R32G32B32A32_SFLOAT:
+		return VK_FORMAT_R32G32B32A32_SFLOAT;
+	default:
+		return VK_FORMAT_UNDEFINED;
 	}
 }
 
-static uint32_t find_memory_type(sbgl_GfxContext* ctx, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
+static uint32_t
+find_memory_type(sbgl_GfxContext* ctx, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
 	VkPhysicalDeviceMemoryProperties memProperties;
 	ctx->vk.vkGetPhysicalDeviceMemoryProperties(ctx->physicalDevice, &memProperties);
 
@@ -422,7 +429,8 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.display = (struct wl_display*)sbgl_os_GetNativeDisplayHandle(window),
 		.surface = (struct wl_surface*)sbgl_os_GetNativeWindowHandle(window),
 	};
-	if (ctx->vk.vkCreateWaylandSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
+	if (ctx->vk.vkCreateWaylandSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) !=
+		VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create Wayland surface\n");
 		return false;
 	}
@@ -432,7 +440,8 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.dpy = (Display*)sbgl_os_GetNativeDisplayHandle(window),
 		.window = (Window)(uintptr_t)sbgl_os_GetNativeWindowHandle(window),
 	};
-	if (ctx->vk.vkCreateXlibSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
+	if (ctx->vk.vkCreateXlibSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) !=
+		VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create Xlib surface\n");
 		return false;
 	}
@@ -442,7 +451,8 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.hinstance = (HINSTANCE)sbgl_os_GetNativeInstanceHandle(window),
 		.hwnd = (HWND)sbgl_os_GetNativeWindowHandle(window),
 	};
-	if (ctx->vk.vkCreateWin32SurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
+	if (ctx->vk.vkCreateWin32SurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) !=
+		VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create Win32 surface\n");
 		return false;
 	}
@@ -462,7 +472,8 @@ static bool select_physical_device(sbgl_GfxContext* ctx) {
 
 	SblArenaMark mark = sbl_arena_mark(ctx->arena);
 	VkPhysicalDevice* devices = SBL_ARENA_PUSH_ARRAY(ctx->arena, VkPhysicalDevice, deviceCount);
-	if (!devices) return false;
+	if (!devices)
+		return false;
 	ctx->vk.vkEnumeratePhysicalDevices(ctx->instance, &deviceCount, devices);
 
 	for (uint32_t i = 0; i < deviceCount; i++) {
@@ -493,13 +504,23 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 	SblArenaMark mark = sbl_arena_mark(ctx->arena);
 	VkQueueFamilyProperties* queueFamilies =
 		SBL_ARENA_PUSH_ARRAY(ctx->arena, VkQueueFamilyProperties, queueFamilyCount);
-	if (!queueFamilies) return false;
-	ctx->vk.vkGetPhysicalDeviceQueueFamilyProperties(ctx->physicalDevice, &queueFamilyCount, queueFamilies);
+	if (!queueFamilies)
+		return false;
+	ctx->vk.vkGetPhysicalDeviceQueueFamilyProperties(
+		ctx->physicalDevice,
+		&queueFamilyCount,
+		queueFamilies
+	);
 
 	int graphicsFamily = -1;
 	for (uint32_t i = 0; i < queueFamilyCount; i++) {
 		VkBool32 presentSupport = false;
-		ctx->vk.vkGetPhysicalDeviceSurfaceSupportKHR(ctx->physicalDevice, i, ctx->surface, &presentSupport);
+		ctx->vk.vkGetPhysicalDeviceSurfaceSupportKHR(
+			ctx->physicalDevice,
+			i,
+			ctx->surface,
+			&presentSupport
+		);
 		if ((queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) && presentSupport) {
 			graphicsFamily = i;
 			break;
@@ -530,8 +551,14 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 									   VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME,
 									   VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME };
 
+	VkPhysicalDeviceVulkan11Features features11 = {
+		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES,
+		.shaderDrawParameters = VK_TRUE,
+	};
+
 	VkPhysicalDeviceVulkan12Features features12 = {
 		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES,
+		.pNext = &features11,
 		.bufferDeviceAddress = VK_TRUE,
 	};
 
@@ -551,7 +578,8 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 		.ppEnabledExtensionNames = deviceExtensions,
 	};
 
-	if (ctx->vk.vkCreateDevice(ctx->physicalDevice, &createInfo, NULL, &ctx->device) != VK_SUCCESS) {
+	if (ctx->vk.vkCreateDevice(ctx->physicalDevice, &createInfo, NULL, &ctx->device) !=
+		VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create logical device\n");
 		return false;
 	}
@@ -565,7 +593,8 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 }
 
 static bool find_depth_format(sbgl_GfxContext* ctx) {
-	VkFormat candidates[] = { VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT,
+	VkFormat candidates[] = { VK_FORMAT_D32_SFLOAT,
+							  VK_FORMAT_D32_SFLOAT_S8_UINT,
 							  VK_FORMAT_D24_UNORM_S8_UINT };
 	for (uint32_t i = 0; i < 3; i++) {
 		VkFormatProperties props;
@@ -607,8 +636,11 @@ static bool create_depth_resources(sbgl_GfxContext* ctx) {
 	VkMemoryAllocateInfo allocInfo = {
 		.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
 		.allocationSize = memRequirements.size,
-		.memoryTypeIndex = find_memory_type(ctx, memRequirements.memoryTypeBits,
-											VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT),
+		.memoryTypeIndex = find_memory_type(
+			ctx,
+			memRequirements.memoryTypeBits,
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+		),
 	};
 
 	if (ctx->vk.vkAllocateMemory(ctx->device, &allocInfo, NULL, &ctx->depthMemory) != VK_SUCCESS)
@@ -637,7 +669,11 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	sbgl_os_GetWindowSize(window, &w, &h);
 
 	VkSurfaceCapabilitiesKHR capabilities;
-	ctx->vk.vkGetPhysicalDeviceSurfaceCapabilitiesKHR(ctx->physicalDevice, ctx->surface, &capabilities);
+	ctx->vk.vkGetPhysicalDeviceSurfaceCapabilitiesKHR(
+		ctx->physicalDevice,
+		ctx->surface,
+		&capabilities
+	);
 
 	VkExtent2D extent = { (uint32_t)w, (uint32_t)h };
 	if (capabilities.currentExtent.width != 0xFFFFFFFF) {
@@ -649,7 +685,12 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	}
 
 	uint32_t formatCount;
-	ctx->vk.vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, NULL);
+	ctx->vk.vkGetPhysicalDeviceSurfaceFormatsKHR(
+		ctx->physicalDevice,
+		ctx->surface,
+		&formatCount,
+		NULL
+	);
 	if (formatCount == 0) {
 		fprintf(stderr, "[Vulkan] No supported surface formats found\n");
 		return false;
@@ -657,7 +698,12 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	VkSurfaceFormatKHR formats[64];
 	if (formatCount > 64)
 		formatCount = 64;
-	ctx->vk.vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, formats);
+	ctx->vk.vkGetPhysicalDeviceSurfaceFormatsKHR(
+		ctx->physicalDevice,
+		ctx->surface,
+		&formatCount,
+		formats
+	);
 
 	VkSurfaceFormatKHR selectedFormat = formats[0];
 	for (uint32_t i = 0; i < formatCount; i++) {
@@ -690,7 +736,8 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.clipped = VK_TRUE,
 	};
 
-	if (ctx->vk.vkCreateSwapchainKHR(ctx->device, &createInfo, NULL, &ctx->swapchain) != VK_SUCCESS) {
+	if (ctx->vk.vkCreateSwapchainKHR(ctx->device, &createInfo, NULL, &ctx->swapchain) !=
+		VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create swapchain\n");
 		return false;
 	}
@@ -702,11 +749,13 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 
 	ctx->swapchainMark = sbl_arena_mark(ctx->arena);
 	ctx->images = SBL_ARENA_PUSH_ARRAY(ctx->arena, VkImage, ctx->imageCount);
-	if (!ctx->images) return false;
+	if (!ctx->images)
+		return false;
 	ctx->vk.vkGetSwapchainImagesKHR(ctx->device, ctx->swapchain, &ctx->imageCount, ctx->images);
 
 	ctx->imageViews = SBL_ARENA_PUSH_ARRAY(ctx->arena, VkImageView, ctx->imageCount);
-	if (!ctx->imageViews) return false;
+	if (!ctx->imageViews)
+		return false;
 	for (uint32_t i = 0; i < ctx->imageCount; i++) {
 		VkImageViewCreateInfo viewInfo = {
 			.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
@@ -749,7 +798,8 @@ static bool create_sync_and_command(sbgl_GfxContext* ctx) {
 		.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
 		.commandBufferCount = SBGL_MAX_FRAMES_IN_FLIGHT,
 	};
-	if (ctx->vk.vkAllocateCommandBuffers(ctx->device, &allocInfo, ctx->commandBuffers) != VK_SUCCESS)
+	if (ctx->vk.vkAllocateCommandBuffers(ctx->device, &allocInfo, ctx->commandBuffers) !=
+		VK_SUCCESS)
 		return false;
 
 	VkSemaphoreCreateInfo semInfo = { .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO };
@@ -757,15 +807,24 @@ static bool create_sync_and_command(sbgl_GfxContext* ctx) {
 									.flags = VK_FENCE_CREATE_SIGNALED_BIT };
 
 	for (uint32_t i = 0; i < SBGL_MAX_FRAMES_IN_FLIGHT; i++) {
-		if (ctx->vk.vkCreateSemaphore(ctx->device, &semInfo, NULL, &ctx->imageAvailableSemaphores[i]) !=
-				VK_SUCCESS ||
-			ctx->vk.vkCreateFence(ctx->device, &fenceInfo, NULL, &ctx->inFlightFences[i]) != VK_SUCCESS)
+		if (ctx->vk.vkCreateSemaphore(
+				ctx->device,
+				&semInfo,
+				NULL,
+				&ctx->imageAvailableSemaphores[i]
+			) != VK_SUCCESS ||
+			ctx->vk.vkCreateFence(ctx->device, &fenceInfo, NULL, &ctx->inFlightFences[i]) !=
+				VK_SUCCESS)
 			return false;
 	}
 
 	for (uint32_t i = 0; i < SBGL_MAX_SWAPCHAIN_IMAGES; i++) {
-		if (ctx->vk.vkCreateSemaphore(ctx->device, &semInfo, NULL, &ctx->renderFinishedSemaphores[i]) !=
-			VK_SUCCESS)
+		if (ctx->vk.vkCreateSemaphore(
+				ctx->device,
+				&semInfo,
+				NULL,
+				&ctx->renderFinishedSemaphores[i]
+			) != VK_SUCCESS)
 			return false;
 	}
 
@@ -774,18 +833,15 @@ static bool create_sync_and_command(sbgl_GfxContext* ctx) {
 
 sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 	sbgl_GfxContext* ctx = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_GfxContext);
-	if (!ctx) return NULL;
+	if (!ctx)
+		return NULL;
 
 	ctx->window = window;
 	ctx->arena = arena;
 
-	if (!load_vulkan_library(ctx) ||
-		!create_instance(ctx) ||
-		!create_surface(ctx, window) ||
-		!select_physical_device(ctx) ||
-		!create_logical_device(ctx) ||
-		!create_swapchain(ctx, window) ||
-		!create_sync_and_command(ctx)) {
+	if (!load_vulkan_library(ctx) || !create_instance(ctx) || !create_surface(ctx, window) ||
+		!select_physical_device(ctx) || !create_logical_device(ctx) ||
+		!create_swapchain(ctx, window) || !create_sync_and_command(ctx)) {
 		sbgl_gfx_Shutdown(ctx);
 		return NULL;
 	}
@@ -793,7 +849,8 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 }
 
 void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
-	if (!ctx) return;
+	if (!ctx)
+		return;
 
 	if (ctx->device) {
 		ctx->vk.vkDeviceWaitIdle(ctx->device);
@@ -852,7 +909,13 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 }
 
 bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float a) {
-	ctx->vk.vkWaitForFences(ctx->device, 1, &ctx->inFlightFences[ctx->currentFrame], VK_TRUE, UINT64_MAX);
+	ctx->vk.vkWaitForFences(
+		ctx->device,
+		1,
+		&ctx->inFlightFences[ctx->currentFrame],
+		VK_TRUE,
+		UINT64_MAX
+	);
 
 	/* The system processes the deferred destruction queue for the current frame slot,
 	   releasing GPU resources that are no longer in flight. */
@@ -891,25 +954,26 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 	barriers[0].oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	barriers[0].newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 	barriers[0].image = ctx->images[ctx->currentImageIndex];
-	barriers[0].subresourceRange = (VkImageSubresourceRange){ .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-															  .levelCount = 1,
-															  .layerCount = 1 };
+	barriers[0].subresourceRange =
+		(VkImageSubresourceRange){ .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+								   .levelCount = 1,
+								   .layerCount = 1 };
 	barriers[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
 	barriers[1].sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
 	barriers[1].oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	barriers[1].newLayout = VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
 	barriers[1].image = ctx->depthImage;
-	barriers[1].subresourceRange = (VkImageSubresourceRange){ .aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
-															  .levelCount = 1,
-															  .layerCount = 1 };
+	barriers[1].subresourceRange =
+		(VkImageSubresourceRange){ .aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT,
+								   .levelCount = 1,
+								   .layerCount = 1 };
 	barriers[1].dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
 
 	ctx->vk.vkCmdPipelineBarrier(
 		ctx->commandBuffers[ctx->currentFrame],
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT |
-			VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT,
+		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT,
 		0,
 		0,
 		NULL,
@@ -990,7 +1054,8 @@ void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
 		.signalSemaphoreCount = 1,
 		.pSignalSemaphores = &ctx->renderFinishedSemaphores[ctx->currentImageIndex],
 	};
-	ctx->vk.vkQueueSubmit(ctx->graphicsQueue, 1, &submitInfo, ctx->inFlightFences[ctx->currentFrame]);
+	ctx->vk
+		.vkQueueSubmit(ctx->graphicsQueue, 1, &submitInfo, ctx->inFlightFences[ctx->currentFrame]);
 
 	VkPresentInfoKHR presentInfo = {
 		.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
@@ -1014,7 +1079,8 @@ void sbgl_gfx_DeviceWaitIdle(sbgl_GfxContext* ctx) {
 	}
 }
 
-sbgl_Buffer sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
+sbgl_Buffer
+sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
 	uint32_t index = 0;
 	for (; index < SBGL_MAX_BUFFERS; index++) {
 		if (!ctx->buffers[index].active)
@@ -1051,7 +1117,8 @@ sbgl_Buffer sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, 
 		.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
 		.pNext = &flagsInfo,
 		.allocationSize = memRequirements.size,
-		.memoryTypeIndex = find_memory_type(ctx, 
+		.memoryTypeIndex = find_memory_type(
+			ctx,
 			memRequirements.memoryTypeBits,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
 		),
@@ -1118,7 +1185,12 @@ uint64_t sbgl_gfx_GetBufferDeviceAddress(sbgl_GfxContext* ctx, sbgl_Buffer handl
 	return ctx->vk.vkGetBufferDeviceAddress(ctx->device, &info);
 }
 
-sbgl_Shader sbgl_gfx_LoadShader(sbgl_GfxContext* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size) {
+sbgl_Shader sbgl_gfx_LoadShader(
+	sbgl_GfxContext* ctx,
+	sbgl_ShaderStage stage,
+	const uint32_t* bytecode,
+	size_t size
+) {
 	uint32_t index = 0;
 	for (; index < SBGL_MAX_SHADERS; index++) {
 		if (!ctx->shaders[index].active)
@@ -1164,7 +1236,7 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 		return SBGL_INVALID_HANDLE;
 
 	VkPipelineShaderStageCreateInfo shaderStages[2] = { 0 };
-	
+
 	// Vertex Shader
 	uint32_t vsIndex = config->vertexShader - 1;
 	if (ctx->shaders[vsIndex].stage != SBGL_SHADER_STAGE_VERTEX) {
@@ -1205,7 +1277,8 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 	for (uint32_t i = 0; i < config->vertexLayout.attributeCount; i++) {
 		attributeDescriptions[i].binding = 0;
 		attributeDescriptions[i].location = config->vertexLayout.attributes[i].location;
-		attributeDescriptions[i].format = sbgl_to_vk_format(config->vertexLayout.attributes[i].format);
+		attributeDescriptions[i].format =
+			sbgl_to_vk_format(config->vertexLayout.attributes[i].format);
 		attributeDescriptions[i].offset = config->vertexLayout.attributes[i].offset;
 	}
 
@@ -1410,7 +1483,12 @@ void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVer
 	ctx->vk.vkCmdDraw(ctx->commandBuffers[ctx->currentFrame], vertexCount, 1, firstVertex, 0);
 }
 
-void sbgl_gfx_DrawIndexed(sbgl_GfxContext* ctx, uint32_t indexCount, uint32_t firstIndex, int32_t vertexOffset) {
+void sbgl_gfx_DrawIndexed(
+	sbgl_GfxContext* ctx,
+	uint32_t indexCount,
+	uint32_t firstIndex,
+	int32_t vertexOffset
+) {
 	ctx->vk.vkCmdDrawIndexed(
 		ctx->commandBuffers[ctx->currentFrame],
 		indexCount,

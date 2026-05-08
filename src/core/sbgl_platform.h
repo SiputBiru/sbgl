@@ -10,6 +10,7 @@
 #define SBGL_PLATFORM_H
 
 #include "sbgl_types.h"
+#include "sbgl_input.h"
 #include <stdbool.h>
 #include <stdint.h>
 

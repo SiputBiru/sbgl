@@ -19,6 +19,7 @@ layout(buffer_reference, std430) readonly buffer InstanceBuffer {
 layout(push_constant) uniform PushConstants {
     mat4 viewProj;
     uint64_t instanceAddress;
+    uint64_t userAddress;
 } pc;
 
 void main() {

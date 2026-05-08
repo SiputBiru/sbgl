@@ -284,11 +284,17 @@ sbgl_Shader sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, c
     FILE* file = fopen(filename, "rb");
     if (!file) {
         char fallback[256];
-        snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
+        // Try examples/shaders/ prefix
+        snprintf(fallback, sizeof(fallback), "examples/%s", filename);
         file = fopen(fallback, "rb");
         if (!file) {
-            sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
-            return SBGL_INVALID_HANDLE;
+            // Try build/examples/ prefix
+            snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
+            file = fopen(fallback, "rb");
+            if (!file) {
+                sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
+                return SBGL_INVALID_HANDLE;
+            }
         }
     }
 
@@ -383,6 +389,15 @@ void sbgl_BindBuffer(sbgl_Context* ctx, sbgl_Buffer buffer, sbgl_BufferUsage usa
 	ctx->result = SBGL_SUCCESS;
 }
 
+uint64_t sbgl_GetBufferDeviceAddress(sbgl_Context* ctx, sbgl_Buffer buffer) {
+	if (!ctx || !ctx->inner)
+		return 0;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	uint64_t addr = sbgl_gfx_GetBufferDeviceAddress(inner->gfx, buffer);
+	ctx->result = (addr != 0) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	return addr;
+}
+
 void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex) {
 	if (!ctx || !ctx->inner)
 		return;
@@ -473,6 +488,10 @@ void sbgl_SubmitDraw(sbgl_RenderQueue* queue, uint32_t mesh, uint32_t material, 
 }
 
 void sbgl_RenderQueues(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t queueCount, const sbgl_Mat4* viewProj) {
+    sbgl_RenderQueuesEx(ctx, queues, queueCount, viewProj, 0);
+}
+
+void sbgl_RenderQueuesEx(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t queueCount, const sbgl_Mat4* viewProj, uint64_t userAddress) {
     if (!ctx || !ctx->inner || !queues || queueCount == 0) {
         return;
     }
@@ -567,9 +586,11 @@ void sbgl_RenderQueues(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t qu
             struct {
                 sbgl_Mat4 viewProj;
                 uint64_t instanceAddress;
+                uint64_t userAddress;
             } pc;
             pc.viewProj = viewProj ? *viewProj : sbgl_Mat4Identity();
             pc.instanceAddress = bdaAddress;
+            pc.userAddress = userAddress;
 
             sbgl_gfx_PushConstants(inner->gfx, sizeof(pc), &pc);
 

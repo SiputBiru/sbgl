@@ -49,7 +49,7 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 - [x] Implement Shader Storage Buffer Objects (SSBOs) for per-instance data
 - [x] Implement Multi-Draw Indirect (MDI) for single-call batching
 - [ ] Implement Greedy Meshing algorithms for voxel/grid data
-- [ ] Implement Infinite Voxel World (2.5D Chunked Instancing)
+- [x] Implement Infinite Voxel World (2.5D Chunked Instancing)
 
 ## High-Level rendering (Text/Sprites)
 - [ ] Implement 2D Sprite batching system (utilizing MDI)

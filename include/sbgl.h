@@ -265,6 +265,17 @@ void sbgl_BindPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline);
 void sbgl_BindBuffer(sbgl_Context* ctx, sbgl_Buffer buffer, sbgl_BufferUsage usage);
 
 /**
+ * @brief Retrieves the 64-bit GPU virtual address for a buffer.
+ *
+ * This address is used for Buffer Device Address (BDA) lookups in shaders.
+ *
+ * @param ctx The engine context.
+ * @param buffer The buffer handle.
+ * @return The 64-bit GPU address, or 0 on failure.
+ */
+uint64_t sbgl_GetBufferDeviceAddress(sbgl_Context* ctx, sbgl_Buffer buffer);
+
+/**
  * @brief Submits a non-indexed draw command.
  * @param ctx The engine context.
  * @param vertexCount Number of vertices to draw.
@@ -337,5 +348,16 @@ void sbgl_SubmitDraw(sbgl_RenderQueue* queue, uint32_t mesh, uint32_t material, 
  * @param viewProj Pointer to the view-projection matrix for the frame.
  */
 void sbgl_RenderQueues(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t queueCount, const sbgl_Mat4* viewProj);
+
+/**
+ * @brief Extended version of sbgl_RenderQueues with user metadata.
+ *
+ * @param ctx The engine context.
+ * @param queues Array of render queues.
+ * @param queueCount Number of queues.
+ * @param viewProj View-projection matrix.
+ * @param userAddress A 64-bit GPU address for user-defined data (e.g., SSBO heightmap).
+ */
+void sbgl_RenderQueuesEx(sbgl_Context* ctx, sbgl_RenderQueue** queues, uint32_t queueCount, const sbgl_Mat4* viewProj, uint64_t userAddress);
 
 #endif // SBGL_H

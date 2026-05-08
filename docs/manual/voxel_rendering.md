@@ -2,14 +2,57 @@
 
 The system utilizes a "Pure Procedural" GPU-driven pipeline to render massive voxel environments with minimal CPU overhead. By leveraging Vulkan 1.3 features such as Multi-Draw Indirect (MDI) and Buffer Device Address (BDA), the engine can synthesize geometry mathematically on the GPU rather than streaming it from host memory.
 
+## Comparison: Procedural vs. Traditional Meshing
+
+Most voxel engines (like Minecraft) use **CPU-side Meshing**. The procedural approach used in SBgl prioritizes memory bandwidth and CPU cycles over per-face culling.
+
+| Feature | CPU-Side Meshing (Traditional) | SBgl Procedural Pipeline |
+| :--- | :--- | :--- |
+| **Data Flow** | CPU generates mesh -> GPU uploads VBO | GPU synthesizes mesh from metadata |
+| **Memory Usage** | High (stores vertices for every chunk) | **Near-Zero** (only stores height/metadata) |
+| **CPU Load** | High (Greedy meshing, face culling) | **Zero** (CPU only submits a draw count) |
+| **GPU Load** | Low (pre-culled geometry) | Moderate (renders all cube faces) |
+| **Responsibility** | CPU manages geometry | **GPU manages geometry** |
+
+While the procedural method renders more triangles (as internal faces are not culled by the CPU), modern GPUs are highly efficient at processing vertices. The trade-off is a massive reduction in memory bandwidth and CPU stalls during chunk loading.
+
 ## Procedural Geometry Synthesis
 
 Traditional rendering requires the CPU to upload vertex and index data for every mesh. The voxel system eliminates this bandwidth bottleneck by synthesizing the cube topology directly in the Vertex Shader using the `gl_VertexIndex` built-in variable.
 
-### Geometry Generation Logic
-- **Cube Topology**: A lookup table (LUT) within the shader defines the 8 corners and 36 indices of a unit cube.
-- **Index Decoding**: The shader uses `gl_VertexIndex % 36` to retrieve the current vertex's local coordinates.
-- **Grid Translation**: The shader uses `gl_VertexIndex / 36` to determine the block's $(x, z)$ position within a $32 \times 32$ chunk.
+### Implementation Snippet
+
+The following logic (simplified from `voxel.vert`) demonstrates how a single index can be decoded into a 3D cube vertex:
+
+```C
+// Cube topology defined as a local lookup table
+const vec3 CUBE_VERTS[8] = vec3[](
+    vec3(-0.5, -0.5, -0.5), vec3( 0.5, -0.5, -0.5), ...
+);
+
+const int CUBE_INDICES[36] = int[](
+    0,3,2, 2,1,0, // Back face
+    ...
+);
+
+void main() {
+    // Decode the vertex ID into a specific cube and its local vertex
+    int cubeId = gl_VertexIndex / 36;
+    int vertId = gl_VertexIndex % 36;
+
+    // Map the cubeId to its 2D position within a chunk
+    int localX = cubeId % 32;
+    int localZ = cubeId / 32;
+
+    // Fetch the height and synthesize the world position
+    float worldY = get_height(worldX, worldZ);
+    vec3 localPos = CUBE_VERTS[CUBE_INDICES[vertId]];
+
+    gl_Position = pc.viewProj * vec4(localPos.x + worldX, 
+                                     localPos.y + worldY, 
+                                     localPos.z + worldZ, 1.0);
+}
+```
 
 ## Data-Oriented Metadata Passthrough
 
@@ -30,5 +73,12 @@ To maintain performance, the system avoids frequent descriptor set updates. Inst
 
 Surface normals are approximated in the shader by analyzing the local vertex position relative to the cube center. This allows for dynamic coloring (e.g., Grass tops vs. Dirt sides) without storing normal attributes in memory.
 
-### Pillar Optimization
-To resolve visual gaps (blue holes) on steep 2.5D terrain slopes, the shader implements a "Pillar" logic. Vertices at the base of a block are mathematically extended downwards into the ground, ensuring a solid visual surface regardless of terrain verticality.
+### Seamless Tiling & Periodicity
+
+To ensure the procedurally generated world tiles seamlessly across the 2048x2048 heightmap boundaries, the system synchronizes the Perlin noise frequencies with the internal wrapping parameters of the generator.
+
+- **Power-of-Two Frequencies**: The base frequency is calculated as $16.0 / WORLD\_SIZE$. Utilizing a power-of-two numerator ensures that the period in the noise function's coordinate space is exactly 16. This alignment is critical because the underlying noise implementation (STB Perlin) requires power-of-two wrap periods for mathematical continuity at the edges.
+- **Octave-Specific Wrapping**: Each octave in the Fractional Brownian Motion (FBM) sum doubles the frequency, which effectively halves the period. To maintain seamlessness, the `wrap` parameter is dynamically adjusted for each octave (e.g., 16, 32, 64, 128, 256). These wrap values are capped at 256 to remain within the implementation's internal limits while preserving global periodicity.
+- **Coordinate Mapping Optimization**: The world $(X, Z)$ coordinates are mapped to the noise function's $(X, Y)$ slots, leaving the $(Z)$ slot constant. This mapping utilizes the most precise coordinate paths in the noise generator, eliminating sub-pixel precision drifts that can occur at high-coordinate wrap boundaries.
+
+By aligning the data structures and mathematical parameters in this manner, the engine eliminates the "cliff" artifacts typically found at procedural world boundaries, resulting in a continuous, infinite-feeling terrain.

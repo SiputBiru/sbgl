@@ -49,20 +49,20 @@ void main() {
     int localZ = cubeId / 32;
 
     // IMPORTANT: In a batched environment, gl_InstanceIndex is absolute.
-    // We must subtract gl_BaseInstanceARB to get the 0-based ID within our chunk batch.
+    // Subtraction of gl_BaseInstanceARB is required to obtain the 0-based ID within the chunk batch.
     int relativeInstance = gl_InstanceIndex - gl_BaseInstanceARB;
 
-    // Use relativeInstance to identify the chunk in the 11x11 grid.
-    const int RADIUS = 5;
-    const int GRID_WIDTH = (RADIUS * 2 + 1);
-    int chunkXOffset = (relativeInstance % GRID_WIDTH) - RADIUS;
-    int chunkZOffset = (relativeInstance / GRID_WIDTH) - RADIUS;
-
-    // Retrieve camera chunk metadata from the start of our specific batch.
+    // Retrieve camera chunk metadata and radius from the start of the specific batch.
     InstanceBuffer instanceData = InstanceBuffer(pc.instanceAddress);
     InstanceData metadata = instanceData.instances[gl_BaseInstanceARB];
     int camX = int(round(metadata.transform[0][0]));
     int camZ = int(round(metadata.transform[0][1]));
+    int radius = int(round(metadata.transform[0][2]));
+
+    // Use relativeInstance to identify the chunk in the (radius*2 + 1) grid.
+    int gridWidth = (radius * 2 + 1);
+    int chunkXOffset = (relativeInstance % gridWidth) - radius;
+    int chunkZOffset = (relativeInstance / gridWidth) - radius;
 
     // Calculate integer world coordinates for lookup.
     int worldIX = localX + (camX + chunkXOffset) * 32;

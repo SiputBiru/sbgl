@@ -25,6 +25,8 @@ static SBGL_Scancode wayland_key_to_scancode(uint32_t key) {
         case 9:  return SBGL_SCANCODE_8;
         case 10: return SBGL_SCANCODE_9;
         case 11: return SBGL_SCANCODE_0;
+        case 12: return SBGL_SCANCODE_MINUS;
+        case 13: return SBGL_SCANCODE_EQUAL;
         case 30: return SBGL_SCANCODE_A; case 48: return SBGL_SCANCODE_B; case 46: return SBGL_SCANCODE_C;
         case 32: return SBGL_SCANCODE_D; case 18: return SBGL_SCANCODE_E; case 33: return SBGL_SCANCODE_F;
         case 34: return SBGL_SCANCODE_G; case 35: return SBGL_SCANCODE_H; case 23: return SBGL_SCANCODE_I;

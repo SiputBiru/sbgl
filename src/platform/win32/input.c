@@ -19,6 +19,8 @@ static SBGL_Scancode win32_vk_to_scancode(WPARAM wparam) {
         case VK_SHIFT:   return SBGL_SCANCODE_LSHIFT;
         case VK_CONTROL: return SBGL_SCANCODE_LCTRL;
         case VK_MENU:    return SBGL_SCANCODE_LALT;
+        case 0xBB:       return SBGL_SCANCODE_EQUAL; // VK_OEM_PLUS
+        case 0xBD:       return SBGL_SCANCODE_MINUS; // VK_OEM_MINUS
         default:         return SBGL_SCANCODE_UNKNOWN;
     }
 }

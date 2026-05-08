@@ -62,6 +62,10 @@ int main(void) {
 
 	float start_time = (float)clock() / CLOCKS_PER_SEC;
 
+	printf("--- Camera Controls ---\n");
+	printf("ESC: Exit\n");
+	printf("-----------------------\n");
+
 	// Define a batch of AABBs for collision testing
 	sbgl_AABB boxes[] = {
 		{ sbgl_Vec3Set(-1.0f, -1.0f, -1.0f), sbgl_Vec3Set(1.0f, 1.0f, 1.0f) },

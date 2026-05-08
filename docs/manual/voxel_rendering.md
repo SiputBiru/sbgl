@@ -81,4 +81,19 @@ To ensure the procedurally generated world tiles seamlessly across the 2048x2048
 - **Octave-Specific Wrapping**: Each octave in the Fractional Brownian Motion (FBM) sum doubles the frequency, which effectively halves the period. To maintain seamlessness, the `wrap` parameter is dynamically adjusted for each octave (e.g., 16, 32, 64, 128, 256). These wrap values are capped at 256 to remain within the implementation's internal limits while preserving global periodicity.
 - **Coordinate Mapping Optimization**: The world $(X, Z)$ coordinates are mapped to the noise function's $(X, Y)$ slots, leaving the $(Z)$ slot constant. This mapping utilizes the most precise coordinate paths in the noise generator, eliminating sub-pixel precision drifts that can occur at high-coordinate wrap boundaries.
 
+## Render Distance Control
+
+Render distance is managed by a synchronized "Grid Radius" system between the application and the vertex shader.
+
+- **Grid Radius ($R$):** Defines the number of chunks rendered in every direction from the camera chunk.
+- **Instance Count:** The total number of chunks submitted is calculated as $(R \times 2 + 1)^2$.
+- **Shader Synchronization:** To ensure data integrity across engine updates, the $R$ value is embedded within the `sbgl_InstanceData` transform matrix (`m[0][2]`) rather than push constants.
+- **Interactive Control**: The render distance can be adjusted in real-time using the `SBGL_KEY_EQUAL` (+) and `SBGL_KEY_MINUS` (-) keys.
+
+### Performance & Clipping Considerations
+
+Increasing the render distance has a quadratic impact on performance. For example, a radius of 5 renders 121 chunks (~4.4 million triangles), while a radius of 100 renders 40,401 chunks (~1.5 billion triangles). 
+
+Additionally, the camera's **Far Clipping Plane** must be adjusted to accommodate the expanded radius. If the grid extends 3200 units ($100 \times 32$) but the far plane is 2000 units, a large portion of the world will be clipped, resulting in empty space or the background clear color being visible.
+
 By aligning the data structures and mathematical parameters in this manner, the engine eliminates the "cliff" artifacts typically found at procedural world boundaries, resulting in a continuous, infinite-feeling terrain.

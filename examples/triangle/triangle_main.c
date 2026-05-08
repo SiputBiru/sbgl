@@ -37,6 +37,10 @@ int main(void) {
 	sbgl_Pipeline pipeline = sbgl_CreatePipeline(ctx, &config);
     float start_time = (float)clock() / CLOCKS_PER_SEC;
 
+	printf("--- Triangle Controls ---\n");
+	printf("ESC: Exit\n");
+	printf("-------------------------\n");
+
     while (!sbgl_WindowShouldClose(ctx)) {
         const sbgl_InputState* input = sbgl_GetInputState(ctx);
         if (input->keysDown[SBGL_KEY_ESCAPE]) break;

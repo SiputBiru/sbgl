@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-05-07
 
 ### Added
+- **New Scancodes**: Added `SBGL_KEY_MINUS` and `SBGL_KEY_EQUAL` (for PLUS) to the input API, supporting real-time configuration in examples.
 - **Voxel Rendering Example**: Completed design specification for a high-performance 2.5D chunked instancing world.
 - **Performance Documentation**: Added comparison table to `README.md` highlighting MDI, BDA, and DOD techniques.
 - **Standardized Vertex Type**: Promoted `sbgl_Vertex` as the primary vertex structure across all examples and core systems, ensuring unified memory layout and improved cache performance.
 
 ### Fixed
+- **Input Scancode Detection**: Fixed an issue where `SBGL_KEY_MINUS` and `SBGL_KEY_EQUAL` (PLUS) were not being detected by adding missing scancode mappings to Wayland, X11, and Win32 platform layers.
 - **Voxel Boundary Continuity**: Resolved a "cliff" artifact at world boundaries (e.g., transitioning from coordinate 2047 to 0) by synchronizing Perlin noise frequencies with power-of-two wrap parameters. Optimized the noise coordinate mapping to use the noise function's X and Y slots for world X and Z, ensuring perfect periodicity across the 2048x2048 heightmap.
 - **Voxel Pipeline Conflict**: Resolved a blank screen state caused by a collision between application-level push constants and internal engine state updates. The engine's automatic `viewProj` and `instanceAddress` updates in `sbgl_RenderQueues` were overwriting custom voxel metadata. Implementation now utilizes a metadata passthrough strategy, embedding chunk offsets within the first entry of the Instance Storage Buffer to ensure data integrity during Multi-Draw Indirect (MDI) submission.
 - **Procedural Attribute Mismatch**: Fixed a Vulkan validation error where procedural shaders were attempting to read non-existent vertex attributes. Transitioned to a "Pure Procedural" model with a null vertex layout, relying entirely on `gl_VertexIndex` for geometry synthesis.

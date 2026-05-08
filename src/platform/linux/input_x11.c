@@ -11,6 +11,8 @@ static SBGL_Scancode x11_keysym_to_scancode(KeySym keysym) {
     if (keysym >= '1' && keysym <= '9') return (SBGL_Scancode)(SBGL_SCANCODE_1 + (keysym - '1'));
 
     switch (keysym) {
+        case XK_minus:     return SBGL_SCANCODE_MINUS;
+        case XK_equal:     return SBGL_SCANCODE_EQUAL;
         case XK_Escape:    return SBGL_SCANCODE_ESCAPE;
         case XK_Return:    return SBGL_SCANCODE_RETURN;
         case XK_BackSpace: return SBGL_SCANCODE_BACKSPACE;

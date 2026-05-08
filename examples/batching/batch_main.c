@@ -141,6 +141,13 @@ int main(void) {
 	float fps_timer = 0.0f;
 	int frame_count = 0;
 
+	printf("--- Batching Controls ---\n");
+	printf("W/A/S/D: Move\n");
+	printf("Q/E: Vertical Move\n");
+	printf("TAB: Lock/Unlock Mouse\n");
+	printf("ESC: Exit\n");
+	printf("-------------------------\n");
+
 	while (!sbgl_WindowShouldClose(ctx)) {
 		sbgl_Clear(ctx, 0.02f, 0.02f, 0.02f, 1.0f);
 		sbgl_BeginDrawing(ctx);

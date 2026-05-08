@@ -18,6 +18,16 @@ Orthographic cameras provide a parallel projection where parallel lines remain p
 
 The system utilizes a look-at model for the view matrix. By defining a position, a target point, and an up vector, the system computes the transformation required to orient the world relative to the camera's local coordinate system.
 
+## Far Plane Management
+
+Applications are responsible for managing the far clipping plane to ensure optimal depth buffer precision and visibility in varied environments. Architectural decoupling necessitates that the camera system remains agnostic to world size or chunked data structures.
+
+For large-scale environments, such as voxel-based worlds, a dynamic far plane is recommended. A common heuristic for calculating the far plane distance based on the render radius and chunk size is:
+
+`(radius + 1) * chunk_size * 1.5`
+
+When the far plane or other projection parameters are modified within the `sbgl_Camera` structure, the projection matrix is updated during the subsequent call to `sbgl_CameraGetProjection`.
+
 ## Batch Collision Math
 
 To adhere to Data-Oriented Design principles, the collision system is designed to process multiple objects in a single call. This minimizes function call overhead and improves cache efficiency when testing a single ray against a collection of primitive shapes.

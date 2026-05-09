@@ -8,10 +8,10 @@
   <a href="https://github.com/SiputBiru/sbgl"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build Status"></a>
 </p>
 
+A graphics framework engineered for target hardware. Built on C99 and Vulkan 1.3, prioritize in Data-Oriented Design to maximize cache efficiency. By employing an explicit, context-based API and handle-based resource management, SBgl eliminates hidden state and enables control over the rendering pipeline, memory allocation, and multi-threaded command recording.
+
 > [!WARNING]
 > **API Instability Notice**: SBgl is currently in an experimental phase of development. The API is considered unstable and is subject to significant changes or complete removal at any given moment without prior notice. Use in production environments is not recommended.
-
-A graphics framework engineered for target hardware. Built on C99 and Vulkan 1.3, prioritize in Data-Oriented Design to maximize cache efficiency. By employing an explicit, context-based API and handle-based resource management, SBgl eliminates hidden state and enables control over the rendering pipeline, memory allocation, and multi-threaded command recording.
 
 ## Quick Start
 
@@ -83,13 +83,15 @@ The system utilizes several rendering techniques to ensure execution efficiency 
 | **Stable Radix Sort** | Sorting of draw packets by mesh and material identifiers. | Minimizes pipeline state changes and increases the effectiveness of indirect command merging. |
 | **Memory Arenas** | Allocation of render-loop resources through `SblArena`. | Eliminates per-frame heap fragmentation and allocation latency in the hot path. |
 
-* Transition from global includes/definitions to target-scoped properties (target_include_directories, target_compile_definitions) for better encapsulation.
-* Move tool discovery (glslc, xxd) to top-level CMake to avoid redundant lookups.
-* Modernize Wayland protocol discovery using pkg_get_variable.
-* Enable missing engine tests (batcher, sort, heightmap, voxel_logic) in tests/CMakeLists.txt with a dedicated add_engine_test macro.
-* Update Doxyfile to include all manual/getting_started documentation and correctly map the image asset path.
-* Standardize on PROJECT_BINARY_DIR for generated assets to ensure compatibility when integrated as a subproject.
+## Internal Development Notes
+
+* Transition from global includes/definitions to target-scoped properties (`target_include_directories`, `target_compile_definitions`) for better encapsulation.
+* Move tool discovery (`glslc`, `xxd`) to top-level CMake to avoid redundant lookups.
+* Modernize Wayland protocol discovery using `pkg_get_variable`.
+* Enable missing engine tests (batcher, sort, heightmap, voxel_logic) in `tests/CMakeLists.txt` with a dedicated `add_engine_test` macro.
+* Update `Doxyfile` to include all manual/getting_started documentation and correctly map the image asset path.
+* Standardize on `PROJECT_BINARY_DIR` for generated assets to ensure compatibility when integrated as a subproject.
 
 ## License
 
-SBgl is licensed under the [zlib License](LICENSE).
+SBgl is licensed under the [zlib License](./LICENSE).

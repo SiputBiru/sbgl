@@ -14,7 +14,6 @@ INPUT                  = docs/INDEX.md \
                          src \
                          examples \
                          docs
-RECURSIVE              = YES
 
 EXCLUDE_PATTERNS       = */.git/* \
                          */build/* \

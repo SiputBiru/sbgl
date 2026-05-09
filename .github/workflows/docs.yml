@@ -20,6 +20,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y graphviz cmake
 
+      - name: Prepare Documentation Directory
+        run: mkdir -p build/docs
+
       - name: Setup and Run Doxygen
         uses: mattnotmitt/doxygen-action@v1
         with:

@@ -19,7 +19,7 @@ jobs:
 
       - name: Generate Documentation
         run: |
-          cmake -B build -DSBGL_BUILD_DOCS=ON
+          cmake -B build -DSBGL_DOCS_ONLY=ON
           cmake --build build --target docs
 
       - name: Deploy to GitHub Pages

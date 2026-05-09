@@ -4,227 +4,225 @@ project(SBgl VERSION 0.1.0 LANGUAGES C)
 # --- LSP Support ---
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# --- Default Build Type ---
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    message(STATUS "Setting build type to 'Debug' as none was specified.")
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
-    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
-
 # --- Options ---
-option(SBGL_USE_WAYLAND "Use native Wayland instead of X11" ON)
-option(SBGL_BUILD_EXAMPLES "Build example applications" OFF)
-option(SBGL_BUILD_TESTS "Build test applications" OFF)
-option(SBGL_BUILD_STANDALONE "Build examples by compiling sources directly (no libsbgl.a)" OFF)
+option(SBGL_DOCS_ONLY "Only build documentation (bypass all system dependencies)" OFF)
 
-# --- Compiler Settings ---
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-
-# --- Tool Discovery ---
-# The build process requires specific external utilities for shader compilation
-# and data embedding. These programs are located once at the top level to
-# ensure they are available for all sub-modules and functions.
-find_program(GLSLC_EXE NAMES glslc)
-find_program(XXD_EXE NAMES xxd)
-
-if(MSVC)
-    add_compile_options(/W4 /wd4201)
-    # Strict mode for Debug
-    add_compile_options($<$<CONFIG:Debug>:/WX>)
-else()
-    add_compile_options(-Wall -Wextra -Wpedantic)
-    # Strict mode for Debug
-    add_compile_options($<$<CONFIG:Debug>:-Werror>)
-    add_compile_options($<$<CONFIG:Debug>:-Wmissing-prototypes>)
-    add_compile_options($<$<CONFIG:Debug>:-Wstrict-prototypes>)
-endif()
-
-# --- Find Dependencies ---
-# Vulkan is no longer linked against statically to allow for dynamic loading.
-
-# --- Source Files ---
-set(SBGL_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_core.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_log.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_sort.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_batcher.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/sbgl_backend_vulkan.c
-)
-
-set(PLATFORM_LIBS "")
-set(SBGL_PLATFORM_DEFINITIONS "")
-
-if(WIN32)
-    list(APPEND SBGL_SOURCES 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/window.c 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/input.c
-    )
-    if(MINGW)
-        list(APPEND PLATFORM_LIBS user32 gdi32 shell32)
+if(NOT SBGL_DOCS_ONLY)
+    # --- Default Build Type ---
+    if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+        message(STATUS "Setting build type to 'Debug' as none was specified.")
+        set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
+        set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
     endif()
-elseif(UNIX AND NOT APPLE)
-    if(SBGL_USE_WAYLAND)
-        find_package(PkgConfig REQUIRED)
-        pkg_check_modules(WAYLAND_CLIENT REQUIRED wayland-client)
-        pkg_check_modules(WAYLAND_PROTOCOLS REQUIRED wayland-protocols)
-        
-        # The path to the system-installed Wayland protocol XML files is
-        # retrieved via pkg-config to ensure compatibility across different
-        # Linux distributions.
-        pkg_get_variable(WAYLAND_PROTOCOLS_DIR wayland-protocols pkgdatadir)
 
-        set(XDG_SHELL_XML "${WAYLAND_PROTOCOLS_DIR}/stable/xdg-shell/xdg-shell.xml")
-        set(POINTER_CONSTRAINTS_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml")
-        set(RELATIVE_POINTER_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/relative-pointer/relative-pointer-unstable-v1.xml")
-        
-        add_custom_command(
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
-            COMMAND wayland-scanner client-header "${XDG_SHELL_XML}" "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
-            DEPENDS "${XDG_SHELL_XML}"
-        )
-        add_custom_command(
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
-            COMMAND wayland-scanner private-code "${XDG_SHELL_XML}" "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
-            DEPENDS "${XDG_SHELL_XML}"
-        )
+    option(SBGL_USE_WAYLAND "Use native Wayland instead of X11" ON)
+    option(SBGL_BUILD_EXAMPLES "Build example applications" OFF)
+    option(SBGL_BUILD_TESTS "Build test applications" OFF)
+    option(SBGL_BUILD_STANDALONE "Build examples by compiling sources directly (no libsbgl.a)" OFF)
 
-        add_custom_command(
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
-            COMMAND wayland-scanner client-header "${POINTER_CONSTRAINTS_XML}" "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
-            DEPENDS "${POINTER_CONSTRAINTS_XML}"
-        )
-        add_custom_command(
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
-            COMMAND wayland-scanner private-code "${POINTER_CONSTRAINTS_XML}" "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
-            DEPENDS "${POINTER_CONSTRAINTS_XML}"
-        )
+    # --- Compiler Settings ---
+    set(CMAKE_C_STANDARD 99)
+    set(CMAKE_C_STANDARD_REQUIRED ON)
 
-        add_custom_command(
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
-            COMMAND wayland-scanner client-header "${RELATIVE_POINTER_XML}" "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
-            DEPENDS "${RELATIVE_POINTER_XML}"
-        )
-        add_custom_command(
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
-            COMMAND wayland-scanner private-code "${RELATIVE_POINTER_XML}" "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
-            DEPENDS "${RELATIVE_POINTER_XML}"
-        )
+    # --- Tool Discovery ---
+    # The build process requires specific external utilities for shader compilation
+    # and data embedding. These programs are located once at the top level to
+    # ensure they are available for all sub-modules and functions.
+    find_program(GLSLC_EXE NAMES glslc)
+    find_program(XXD_EXE NAMES xxd)
 
-        add_custom_target(wayland_protocols 
-            DEPENDS 
-                "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
-                "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
-                "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
-                "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
-                "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
-                "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
-        )
-        
-        list(APPEND SBGL_SOURCES 
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c 
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c
-            "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
-            "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
-            "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
-        )
-        list(APPEND PLATFORM_LIBS ${WAYLAND_CLIENT_LIBRARIES})
-        list(APPEND SBGL_PLATFORM_DEFINITIONS SBGL_PLATFORM_WAYLAND)
+    if(MSVC)
+        add_compile_options(/W4 /wd4201)
+        # Strict mode for Debug
+        add_compile_options($<$<CONFIG:Debug>:/WX>)
     else()
-        find_package(X11 REQUIRED)
+        add_compile_options(-Wall -Wextra -Wpedantic)
+        # Strict mode for Debug
+        add_compile_options($<$<CONFIG:Debug>:-Werror>)
+        add_compile_options($<$<CONFIG:Debug>:-Wmissing-prototypes>)
+        add_compile_options($<$<CONFIG:Debug>:-Wstrict-prototypes>)
+    endif()
+
+    # --- Source Files ---
+    set(SBGL_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_core.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_log.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_sort.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_batcher.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/sbgl_backend_vulkan.c
+    )
+
+    set(PLATFORM_LIBS "")
+    set(SBGL_PLATFORM_DEFINITIONS "")
+
+    if(WIN32)
         list(APPEND SBGL_SOURCES 
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_x11.c 
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_x11.c
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/window.c 
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/win32/input.c
         )
-        list(APPEND PLATFORM_LIBS X11 Xfixes m)
-        list(APPEND SBGL_PLATFORM_DEFINITIONS SBGL_PLATFORM_X11)
+        if(MINGW)
+            list(APPEND PLATFORM_LIBS user32 gdi32 shell32)
+        endif()
+    elseif(UNIX AND NOT APPLE)
+        if(SBGL_USE_WAYLAND)
+            find_package(PkgConfig REQUIRED)
+            pkg_check_modules(WAYLAND_CLIENT REQUIRED wayland-client)
+            pkg_check_modules(WAYLAND_PROTOCOLS REQUIRED wayland-protocols)
+            
+            # The path to the system-installed Wayland protocol XML files is
+            # retrieved via pkg-config to ensure compatibility across different
+            # Linux distributions.
+            pkg_get_variable(WAYLAND_PROTOCOLS_DIR wayland-protocols pkgdatadir)
+
+            set(XDG_SHELL_XML "${WAYLAND_PROTOCOLS_DIR}/stable/xdg-shell/xdg-shell.xml")
+            set(POINTER_CONSTRAINTS_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml")
+            set(RELATIVE_POINTER_XML "${WAYLAND_PROTOCOLS_DIR}/unstable/relative-pointer/relative-pointer-unstable-v1.xml")
+            
+            add_custom_command(
+                OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
+                COMMAND wayland-scanner client-header "${XDG_SHELL_XML}" "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
+                DEPENDS "${XDG_SHELL_XML}"
+            )
+            add_custom_command(
+                OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
+                COMMAND wayland-scanner private-code "${XDG_SHELL_XML}" "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
+                DEPENDS "${XDG_SHELL_XML}"
+            )
+
+            add_custom_command(
+                OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
+                COMMAND wayland-scanner client-header "${POINTER_CONSTRAINTS_XML}" "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
+                DEPENDS "${POINTER_CONSTRAINTS_XML}"
+            )
+            add_custom_command(
+                OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+                COMMAND wayland-scanner private-code "${POINTER_CONSTRAINTS_XML}" "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+                DEPENDS "${POINTER_CONSTRAINTS_XML}"
+            )
+
+            add_custom_command(
+                OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
+                COMMAND wayland-scanner client-header "${RELATIVE_POINTER_XML}" "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
+                DEPENDS "${RELATIVE_POINTER_XML}"
+            )
+            add_custom_command(
+                OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
+                COMMAND wayland-scanner private-code "${RELATIVE_POINTER_XML}" "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
+                DEPENDS "${RELATIVE_POINTER_XML}"
+            )
+
+            add_custom_target(wayland_protocols 
+                DEPENDS 
+                    "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h"
+                    "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
+                    "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-client-protocol.h"
+                    "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+                    "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-client-protocol.h"
+                    "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
+            )
+            
+            list(APPEND SBGL_SOURCES 
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c 
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c
+                "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-protocol.c"
+                "${CMAKE_CURRENT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c"
+                "${CMAKE_CURRENT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c"
+            )
+            list(APPEND PLATFORM_LIBS ${WAYLAND_CLIENT_LIBRARIES} rt)
+            list(APPEND SBGL_PLATFORM_DEFINITIONS SBGL_PLATFORM_WAYLAND)
+        else()
+            find_package(X11 REQUIRED)
+            list(APPEND SBGL_SOURCES 
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_x11.c 
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_x11.c
+            )
+            list(APPEND PLATFORM_LIBS X11 Xfixes m)
+            list(APPEND SBGL_PLATFORM_DEFINITIONS SBGL_PLATFORM_X11)
+        endif()
     endif()
-endif()
 
-# --- Library Target ---
-if(NOT SBGL_BUILD_STANDALONE)
-    add_library(sbgl STATIC ${SBGL_SOURCES})
+    # --- Library Target ---
+    if(NOT SBGL_BUILD_STANDALONE)
+        add_library(sbgl STATIC ${SBGL_SOURCES})
 
-    if(SBGL_USE_WAYLAND AND NOT WIN32)
-        add_dependencies(sbgl wayland_protocols)
-        set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
-        set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
+        if(SBGL_USE_WAYLAND AND NOT WIN32)
+            add_dependencies(sbgl wayland_protocols)
+            set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/window_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
+            set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client-protocol.h")
+        endif()
+
+        target_compile_definitions(sbgl PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
+
+        target_include_directories(sbgl
+            PUBLIC
+                $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                $<INSTALL_INTERFACE:include>
+            PRIVATE
+                ${CMAKE_CURRENT_SOURCE_DIR}/src
+                ${CMAKE_CURRENT_BINARY_DIR}
+        )
+
+        if(WIN32 AND MINGW)
+            target_include_directories(sbgl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
+        endif()
+
+        # Allow subprojects to find the headers
+        target_include_directories(sbgl SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+        target_link_libraries(sbgl
+            PRIVATE
+                ${PLATFORM_LIBS}
+        )
     endif()
 
-    target_compile_definitions(sbgl PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
+    # --- Shader Compilation Functions ---
 
-    target_include_directories(sbgl
-        PUBLIC
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-            $<INSTALL_INTERFACE:include>
-        PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/src
-            ${CMAKE_CURRENT_BINARY_DIR}
-    )
+    # Shaders are compiled from GLSL source files into SPIR-V binary format
+    # using the Vulkan shader compiler. This transformation is necessary for
+    # the graphics backend to process and execute the shader logic on the GPU.
+    function(sbgl_compile_shader_to_spv SHADER_SOURCE OUTPUT_SPV)
+        if(NOT GLSLC_EXE)
+            message(FATAL_ERROR "The shader compiler (glslc) was not found during tool discovery.")
+        endif()
 
-    if(WIN32 AND MINGW)
-        target_include_directories(sbgl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
-    endif()
+        add_custom_command(
+            OUTPUT ${OUTPUT_SPV}
+            COMMAND ${GLSLC_EXE} ${SHADER_SOURCE} -o ${OUTPUT_SPV}
+            DEPENDS ${SHADER_SOURCE}
+            COMMENT "Compiling ${SHADER_SOURCE} to ${OUTPUT_SPV}"
+            VERBATIM
+        )
+    endfunction()
 
-    # Allow subprojects to find the headers
-    target_include_directories(sbgl SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    # available to the rendering system.
+    function(sbgl_convert_spv_to_header INPUT_SPV OUTPUT_HEADER)
+        if(NOT XXD_EXE)
+            message(FATAL_ERROR "The data embedding utility (xxd) was not found during tool discovery.")
+        endif()
 
-    target_link_libraries(sbgl
-        PRIVATE
-            ${PLATFORM_LIBS}
-    )
-endif()
+        get_filename_component(OUTPUT_DIR ${OUTPUT_HEADER} DIRECTORY)
+        get_filename_component(INPUT_NAME ${INPUT_SPV} NAME)
+        
+        add_custom_command(
+            OUTPUT ${OUTPUT_HEADER}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${INPUT_SPV} ${OUTPUT_DIR}/${INPUT_NAME}
+            COMMAND ${XXD_EXE} -i ${INPUT_NAME} > ${OUTPUT_HEADER}
+            DEPENDS ${INPUT_SPV}
+            WORKING_DIRECTORY ${OUTPUT_DIR}
+            COMMENT "Converting ${INPUT_SPV} to C header ${OUTPUT_HEADER}"
+            VERBATIM
+        )
+    endfunction()
 
-# --- Shader Compilation Functions ---
-
-# Shaders are compiled from GLSL source files into SPIR-V binary format
-# using the Vulkan shader compiler. This transformation is necessary for
-# the graphics backend to process and execute the shader logic on the GPU.
-function(sbgl_compile_shader_to_spv SHADER_SOURCE OUTPUT_SPV)
-    if(NOT GLSLC_EXE)
-        message(FATAL_ERROR "The shader compiler (glslc) was not found during tool discovery.")
-    endif()
-
-    add_custom_command(
-        OUTPUT ${OUTPUT_SPV}
-        COMMAND ${GLSLC_EXE} ${SHADER_SOURCE} -o ${OUTPUT_SPV}
-        DEPENDS ${SHADER_SOURCE}
-        COMMENT "Compiling ${SHADER_SOURCE} to ${OUTPUT_SPV}"
-        VERBATIM
-    )
-endfunction()
-
-# SPIR-V binaries are converted into C headers to allow for direct embedding
-# within the application executable. This approach eliminates the need for
-# runtime file loading and ensures that the required shader data is always
-# available to the rendering system.
-function(sbgl_convert_spv_to_header INPUT_SPV OUTPUT_HEADER)
-    if(NOT XXD_EXE)
-        message(FATAL_ERROR "The data embedding utility (xxd) was not found during tool discovery.")
-    endif()
-
-    get_filename_component(OUTPUT_DIR ${OUTPUT_HEADER} DIRECTORY)
-    get_filename_component(INPUT_NAME ${INPUT_SPV} NAME)
-    
-    add_custom_command(
-        OUTPUT ${OUTPUT_HEADER}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${INPUT_SPV} ${OUTPUT_DIR}/${INPUT_NAME}
-        COMMAND ${XXD_EXE} -i ${INPUT_NAME} > ${OUTPUT_HEADER}
-        DEPENDS ${INPUT_SPV}
-        WORKING_DIRECTORY ${OUTPUT_DIR}
-        COMMENT "Converting ${INPUT_SPV} to C header ${OUTPUT_HEADER}"
-        VERBATIM
-    )
-endfunction()
-
-# --- Optional Examples & Tests ---
-# Only build examples/tests if SBgl is the top-level project
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    if(SBGL_BUILD_EXAMPLES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
-        add_subdirectory(examples)
-    endif()
-    if(SBGL_BUILD_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt")
-        add_subdirectory(tests)
+    # --- Optional Examples & Tests ---
+    # Only build examples/tests if SBgl is the top-level project
+    if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+        if(SBGL_BUILD_EXAMPLES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt")
+            add_subdirectory(examples)
+        endif()
+        if(SBGL_BUILD_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt")
+            add_subdirectory(tests)
+        endif()
     endif()
 endif()
 

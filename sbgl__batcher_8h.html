@@ -9,9 +9,20 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +34,7 @@
   <td id="projectalign">
    <div id="projectname">SBgl<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Bare-metal graphics framework in C99</div>
+   <div id="projectbrief">A graphics framework in C99</div>
   </td>
  </tr>
  </tbody>
@@ -47,6 +58,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('sbgl__batcher_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,11 +96,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
@@ -84,6 +107,44 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="sbgl__graphics__hal_8h_source.html">backend/sbgl_graphics_hal.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for sbgl_batcher.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="sbgl__batcher_8h__incl.png" border="0" usemap="#asrc_2core_2sbgl__batcher_8h" alt=""/></div>
+<map name="asrc_2core_2sbgl__batcher_8h" id="asrc_2core_2sbgl__batcher_8h">
+<area shape="rect" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="83,5,254,31"/>
+<area shape="rect" href="sbgl__graphics__hal_8h.html" title=" " alt="" coords="145,79,315,119"/>
+<area shape="poly" title=" " alt="" coords="180,29,209,66,205,69,176,32"/>
+<area shape="rect" href="sbgl__types_8h.html" title=" " alt="" coords="59,167,163,192"/>
+<area shape="poly" title=" " alt="" coords="162,32,148,54,135,80,124,118,117,153,112,152,118,117,130,78,144,51,158,30"/>
+<area shape="rect" title=" " alt="" coords="193,313,275,339"/>
+<area shape="poly" title=" " alt="" coords="249,117,264,139,277,166,281,203,275,241,263,275,250,302,246,300,259,273,270,239,276,203,271,167,260,142,245,120"/>
+<area shape="rect" title=" " alt="" coords="187,167,262,192"/>
+<area shape="poly" title=" " alt="" coords="231,119,229,153,224,153,226,119"/>
+<area shape="poly" title=" " alt="" coords="203,121,142,161,139,157,200,117"/>
+<area shape="poly" title=" " alt="" coords="136,190,168,210,199,238,218,269,230,299,225,301,213,271,195,242,164,214,133,194"/>
+<area shape="rect" title=" " alt="" coords="5,313,76,339"/>
+<area shape="poly" title=" " alt="" coords="104,194,71,241,49,301,44,299,66,239,99,191"/>
+<area shape="rect" href="sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="81,240,184,265"/>
+<area shape="poly" title=" " alt="" coords="117,192,128,226,123,228,112,193"/>
+<area shape="poly" title=" " alt="" coords="150,263,208,303,205,307,147,268"/>
+<area shape="poly" title=" " alt="" coords="120,267,68,307,65,303,116,263"/>
+<area shape="rect" title=" " alt="" coords="100,313,168,339"/>
+<area shape="poly" title=" " alt="" coords="136,266,136,300,131,300,130,266"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="sbgl__batcher_8h__dep__incl.png" border="0" usemap="#asrc_2core_2sbgl__batcher_8hdep" alt=""/></div>
+<map name="asrc_2core_2sbgl__batcher_8hdep" id="asrc_2core_2sbgl__batcher_8hdep">
+<area shape="rect" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="97,5,268,31"/>
+<area shape="rect" href="sbgl__batcher_8c.html" title=" " alt="" coords="5,79,176,104"/>
+<area shape="poly" title=" " alt="" coords="159,41,107,81,104,76,156,37"/>
+<area shape="rect" href="sbgl__core_8c.html" title=" " alt="" coords="201,79,351,104"/>
+<area shape="poly" title=" " alt="" coords="210,37,262,76,259,81,207,41"/>
+</map>
+</div>
 </div>
 <p><a href="sbgl__batcher_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -262,9 +323,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li><li class="navelem"><a class="el" href="sbgl__batcher_8h.html">sbgl_batcher.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

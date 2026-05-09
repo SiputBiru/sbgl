@@ -1,0 +1,18 @@
+<map id="src/backend/sbgl_graphics_hal.h" name="src/backend/sbgl_graphics_hal.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="129,5,321,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="193,240,275,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,44,263,66,277,93,282,130,276,167,264,201,251,229,246,227,259,199,271,166,276,130,271,94,259,69,242,47"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="187,93,262,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,46,227,79,222,79,222,46"/>
+<area shape="rect" id="Node000004" href="$sbgl__types_8h.html" title=" " alt="" coords="59,93,163,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="199,48,141,87,138,83,196,43"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="136,116,168,137,199,165,218,196,230,226,225,228,213,198,195,168,164,141,133,121"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,240,76,265"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="104,120,72,168,50,228,45,226,68,165,100,118"/>
+<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="81,167,184,192"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="117,118,128,153,123,154,112,120"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="150,190,208,230,205,234,147,194"/>
+<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="120,194,68,234,65,229,116,190"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="100,240,168,265"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="136,192,136,226,131,227,130,192"/>
+</map>

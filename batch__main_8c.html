@@ -9,9 +9,20 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +34,7 @@
   <td id="projectalign">
    <div id="projectname">SBgl<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Bare-metal graphics framework in C99</div>
+   <div id="projectbrief">A graphics framework in C99</div>
   </td>
  </tr>
  </tbody>
@@ -47,6 +58,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('batch__main_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,11 +96,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_d28a4824dc47e487b107a5db32ef43c4.html">examples</a></li><li class="navelem"><a class="el" href="dir_e73a5111dac8e78acc87eaa4b031b590.html">batching</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
@@ -87,6 +110,52 @@ $(function() {
 <code>#include &lt;<a class="el" href="sbgl__math_8h_source.html">sbgl_math.h</a>&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for batch_main.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="batch__main_8c__incl.png" border="0" usemap="#aexamples_2batching_2batch__main_8c" alt=""/></div>
+<map name="aexamples_2batching_2batch__main_8c" id="aexamples_2batching_2batch__main_8c">
+<area shape="rect" title=" " alt="" coords="562,5,749,45"/>
+<area shape="rect" href="sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="65,93,195,119"/>
+<area shape="poly" title=" " alt="" coords="562,43,209,96,208,90,561,38"/>
+<area shape="rect" title=" " alt="" coords="619,313,687,339"/>
+<area shape="poly" title=" " alt="" coords="674,44,696,72,716,108,730,149,732,171,729,193,718,224,703,255,672,304,668,301,698,252,713,222,723,191,726,171,725,150,712,110,691,75,670,47"/>
+<area shape="rect" href="sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="325,93,386,119"/>
+<area shape="poly" title=" " alt="" coords="584,48,400,96,399,91,583,43"/>
+<area shape="rect" href="sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="503,240,605,265"/>
+<area shape="poly" title=" " alt="" coords="647,47,587,168,564,228,559,226,582,166,643,44"/>
+<area shape="rect" href="sbgl__camera_8h.html" title="Camera system and batch collision math for SBgl." alt="" coords="597,167,714,192"/>
+<area shape="poly" title=" " alt="" coords="658,46,658,153,653,153,653,46"/>
+<area shape="rect" title=" " alt="" coords="789,93,855,119"/>
+<area shape="poly" title=" " alt="" coords="696,43,786,85,784,90,694,48"/>
+<area shape="rect" title=" " alt="" coords="879,93,943,119"/>
+<area shape="poly" title=" " alt="" coords="717,43,867,88,865,93,716,48"/>
+<area shape="rect" title=" " alt="" coords="167,167,242,192"/>
+<area shape="poly" title=" " alt="" coords="144,117,184,155,181,159,140,121"/>
+<area shape="rect" title=" " alt="" coords="351,313,421,339"/>
+<area shape="poly" title=" " alt="" coords="133,119,139,154,146,173,157,190,181,210,204,219,230,225,261,238,315,271,361,303,358,307,312,276,258,242,228,230,202,224,178,215,153,194,142,175,134,155,128,120"/>
+<area shape="rect" title=" " alt="" coords="155,313,238,339"/>
+<area shape="poly" title=" " alt="" coords="84,121,53,133,26,148,10,168,8,179,11,191,23,212,37,231,74,263,114,288,152,306,149,311,111,293,70,267,33,234,18,215,6,193,3,179,5,166,23,144,51,128,82,116"/>
+<area shape="rect" title=" " alt="" coords="21,167,92,192"/>
+<area shape="poly" title=" " alt="" coords="120,121,80,159,77,155,116,117"/>
+<area shape="poly" title=" " alt="" coords="332,121,243,163,241,158,330,116"/>
+<area shape="poly" title=" " alt="" coords="360,119,385,299,380,300,354,119"/>
+<area shape="poly" title=" " alt="" coords="346,121,307,156,255,194,220,208,188,212,161,219,148,227,136,241,132,257,138,273,151,289,167,303,164,307,147,293,133,276,127,258,132,239,145,224,158,214,187,207,218,203,253,190,304,152,342,117"/>
+<area shape="rect" href="sbgl__types_8h.html" title=" " alt="" coords="418,167,522,192"/>
+<area shape="poly" title=" " alt="" coords="375,116,441,157,438,162,372,121"/>
+<area shape="rect" href="include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="146,240,247,265"/>
+<area shape="poly" title=" " alt="" coords="352,120,331,155,300,194,269,218,237,236,234,232,266,213,296,190,327,152,347,118"/>
+<area shape="poly" title=" " alt="" coords="465,194,402,303,397,300,461,191"/>
+<area shape="poly" title=" " alt="" coords="449,195,231,309,229,305,447,190"/>
+<area shape="poly" title=" " alt="" coords="485,190,531,229,528,233,482,194"/>
+<area shape="poly" title=" " alt="" coords="528,268,427,310,425,305,526,263"/>
+<area shape="poly" title=" " alt="" coords="503,267,252,316,251,311,502,262"/>
+<area shape="poly" title=" " alt="" coords="571,263,627,303,624,307,568,268"/>
+<area shape="poly" title=" " alt="" coords="228,263,343,306,341,311,226,268"/>
+<area shape="poly" title=" " alt="" coords="199,266,199,300,194,300,194,266"/>
+<area shape="poly" title=" " alt="" coords="641,194,583,234,580,230,638,190"/>
+</map>
+</div>
 </div>
 <p><a href="batch__main_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -561,9 +630,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d28a4824dc47e487b107a5db32ef43c4.html">examples</a></li><li class="navelem"><a class="el" href="dir_e73a5111dac8e78acc87eaa4b031b590.html">batching</a></li><li class="navelem"><a class="el" href="batch__main_8c.html">batch_main.c</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

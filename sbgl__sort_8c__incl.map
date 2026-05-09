@@ -1,0 +1,22 @@
+<map id="src/core/sbgl_sort.c" name="src/core/sbgl_sort.c">
+<area shape="rect" id="Node000001" title="Implementation of radix sort for 64&#45;bit keys." alt="" coords="247,5,393,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__sort_8h.html" title="Sorting utilities for the SBgl batching system." alt="" coords="167,79,260,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="304,33,244,73,241,69,301,28"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="285,79,355,104"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="323,31,323,65,317,65,317,31"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="379,79,450,104"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="337,29,390,68,387,72,334,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="205,299,275,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="221,103,236,151,243,224,244,285,238,285,238,224,231,153,216,105"/>
+<area shape="rect" id="Node000004" href="$sbgl__types_8h.html" title=" " alt="" coords="117,152,221,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="208,106,186,142,181,139,204,103"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="180,176,210,224,235,284,230,286,206,227,176,179"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,299,88,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="146,180,114,199,83,227,66,256,55,286,50,284,61,254,79,224,111,195,143,175"/>
+<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="93,225,195,251"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="168,179,155,213,150,212,163,177"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="161,249,215,288,212,292,158,253"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="130,253,75,292,72,288,127,249"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="113,299,181,324"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="147,251,148,285,143,285,142,251"/>
+</map>

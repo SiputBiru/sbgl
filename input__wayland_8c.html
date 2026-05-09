@@ -9,9 +9,20 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +34,7 @@
   <td id="projectalign">
    <div id="projectname">SBgl<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Bare-metal graphics framework in C99</div>
+   <div id="projectbrief">A graphics framework in C99</div>
   </td>
  </tr>
  </tbody>
@@ -47,6 +58,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('input__wayland_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,11 +96,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4b68c2fef3e151b6b93d5e93b14f1857.html">platform</a></li><li class="navelem"><a class="el" href="dir_7a28b23fbf41965e0daf488b4f1ef717.html">linux</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a> &#124;
@@ -82,6 +105,40 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="linux__internal_8h_source.html">linux_internal.h</a>&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for input_wayland.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="input__wayland_8c__incl.png" border="0" usemap="#asrc_2platform_2linux_2input__wayland_8c" alt=""/></div>
+<map name="asrc_2platform_2linux_2input__wayland_8c" id="asrc_2platform_2linux_2input__wayland_8c">
+<area shape="rect" title=" " alt="" coords="275,5,412,45"/>
+<area shape="rect" href="linux__internal_8h.html" title=" " alt="" coords="222,93,345,119"/>
+<area shape="poly" title=" " alt="" coords="331,47,303,84,299,81,327,44"/>
+<area shape="rect" title=" " alt="" coords="370,93,440,119"/>
+<area shape="poly" title=" " alt="" coords="361,44,390,81,385,84,356,47"/>
+<area shape="rect" href="sbgl__types_8h.html" title=" " alt="" coords="232,167,336,192"/>
+<area shape="poly" title=" " alt="" coords="286,119,286,153,281,153,281,119"/>
+<area shape="rect" title=" " alt="" coords="96,328,178,353"/>
+<area shape="poly" title=" " alt="" coords="223,118,118,138,72,152,43,169,21,195,10,221,10,248,23,279,35,293,50,306,84,323,82,328,47,310,31,297,19,281,5,249,5,220,16,192,39,165,70,147,117,133,222,113"/>
+<area shape="rect" title=" " alt="" coords="338,328,408,353"/>
+<area shape="poly" title=" " alt="" coords="302,117,326,138,350,165,367,203,376,243,379,282,378,314,373,314,374,282,371,244,362,205,345,168,323,141,298,121"/>
+<area shape="rect" href="src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="53,167,186,192"/>
+<area shape="poly" title=" " alt="" coords="258,121,160,164,158,159,256,116"/>
+<area shape="rect" title=" " alt="" coords="461,167,549,192"/>
+<area shape="poly" title=" " alt="" coords="320,116,457,160,456,165,318,121"/>
+<area shape="poly" title=" " alt="" coords="273,194,223,242,157,319,152,315,219,238,269,190"/>
+<area shape="poly" title=" " alt="" coords="303,190,327,211,350,239,366,277,373,313,368,315,361,278,345,241,323,215,299,194"/>
+<area shape="rect" href="sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="232,247,335,273"/>
+<area shape="poly" title=" " alt="" coords="286,192,286,233,281,233,281,192"/>
+<area shape="poly" title=" " alt="" coords="263,275,172,324,169,319,261,270"/>
+<area shape="poly" title=" " alt="" coords="299,271,351,317,348,321,295,275"/>
+<area shape="rect" title=" " alt="" coords="246,328,314,353"/>
+<area shape="poly" title=" " alt="" coords="286,273,284,314,278,314,280,273"/>
+<area shape="rect" href="include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="32,240,156,280"/>
+<area shape="poly" title=" " alt="" coords="118,193,107,228,102,226,113,191"/>
+<area shape="poly" title=" " alt="" coords="107,279,126,315,122,317,102,281"/>
+<area shape="poly" title=" " alt="" coords="157,276,325,323,324,328,156,281"/>
+</map>
+</div>
 </div>
 <p><a href="input__wayland_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -1386,9 +1443,13 @@ Variables</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4b68c2fef3e151b6b93d5e93b14f1857.html">platform</a></li><li class="navelem"><a class="el" href="dir_7a28b23fbf41965e0daf488b4f1ef717.html">linux</a></li><li class="navelem"><a class="el" href="input__wayland_8c.html">input_wayland.c</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

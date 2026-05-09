@@ -1,0 +1,30 @@
+<map id="sbgl_InternalContext" name="sbgl_InternalContext">
+<area shape="rect" id="Node000001" title="Internal state for the engine context." alt="" coords="815,113,972,139"/>
+<area shape="rect" id="Node000002" href="$structSblArena.html" title="Arena allocator." alt="" coords="268,137,348,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="362,145,814,127,815,132,362,151"/>
+<area shape="rect" id="Node000006" href="$structsbgl__GfxContext.html" title=" " alt="" coords="544,193,675,219"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="362,157,544,191,543,197,361,162"/>
+<area shape="rect" id="Node000003" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="9,193,125,219"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="135,188,267,156,269,162,136,193"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="44,178,51,170,67,167,80,169,88,176,90,185,86,194,81,192,84,184,83,178,78,174,67,172,54,175,49,182"/>
+<area shape="rect" id="Node000008" href="$structSblArenaMark.html" title="Bookmark for arena state." alt="" coords="251,236,365,261"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="139,216,252,236,251,241,138,221"/>
+<area shape="rect" id="Node000004" href="$structsbgl__Window.html" title="Native X11 window state." alt="" coords="254,35,362,60"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="376,53,520,73,815,113,814,118,520,78,375,59"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="353,63,432,100,521,146,591,191,588,195,519,151,429,105,350,68"/>
+<area shape="rect" id="Node000005" href="$structsbgl__InputState.html" title="Represents the real&#45;time state of physical inputs." alt="" coords="5,5,128,31"/>
+<area shape="poly" id="edge15_Node000001_Node000005" title=" " alt="" coords="142,12,152,11,203,11,336,15,440,21,543,33,675,55,734,67,792,83,864,111,862,116,790,89,733,72,674,61,543,38,440,26,336,20,203,17,152,17,142,17"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="142,25,152,26,254,38,253,44,152,31,141,30"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="676,187,790,157,854,136,856,141,791,162,677,193"/>
+<area shape="rect" id="Node000007" href="$structSBGL__VulkanDispatch.html" title=" " alt="" coords="227,335,389,360"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="403,350,433,346,464,339,493,327,518,309,529,291,530,272,531,251,542,230,559,217,562,221,546,233,536,253,536,272,534,293,522,313,495,331,466,344,434,351,403,355"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="378,241,520,223,556,216,557,221,520,229,379,246"/>
+<area shape="rect" id="Node000009" href="$structSBGL__VulkanBuffer.html" title=" " alt="" coords="235,384,381,409"/>
+<area shape="poly" id="edge12_Node000006_Node000009" title=" " alt="" coords="394,405,427,404,460,398,491,387,518,368,530,352,535,337,532,303,527,267,531,249,542,230,558,217,561,221,546,233,536,250,533,267,537,302,540,337,535,355,522,372,494,392,462,404,428,409,395,411"/>
+<area shape="rect" id="Node000010" href="$structSBGL__VulkanShader.html" title=" " alt="" coords="233,285,383,311"/>
+<area shape="poly" id="edge13_Node000006_Node000010" title=" " alt="" coords="397,292,459,281,490,271,518,257,530,244,542,229,566,216,568,221,546,233,534,248,522,261,492,276,460,286,398,298"/>
+<area shape="rect" id="Node000011" href="$structSBGL__VulkanPipeline.html" title=" " alt="" coords="229,187,387,212"/>
+<area shape="poly" id="edge14_Node000006_Node000011" title=" " alt="" coords="401,202,413,202,544,204,544,209,413,207,401,207"/>
+<area shape="rect" id="Node000012" href="$structsbgl__Telemetry.html" title="Performance telemetry data for a single frame." alt="" coords="549,243,670,268"/>
+<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="683,247,737,235,789,216,817,198,843,177,880,137,884,141,846,181,821,202,792,220,738,241,684,252"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="sbgl_Camera" name="sbgl_Camera">
+<area shape="rect" id="Node000001" title="Stateful camera representation." alt="" coords="5,123,112,148"/>
+<area shape="rect" id="Node000002" href="$unionsbgl__Vec3.html" title="3D Vector, 16&#45;byte aligned and padded for SIMD safety." alt="" coords="15,5,102,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,44,61,123,56,123,56,44"/>
+</map>

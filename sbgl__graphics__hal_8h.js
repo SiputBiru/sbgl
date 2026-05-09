@@ -1,0 +1,27 @@
+var sbgl__graphics__hal_8h =
+[
+    [ "sbgl_IndirectCommand", "structsbgl__IndirectCommand.html", "structsbgl__IndirectCommand" ],
+    [ "sbgl_GfxTransientAllocation", "structsbgl__GfxTransientAllocation.html", "structsbgl__GfxTransientAllocation" ],
+    [ "sbgl_GfxContext", "sbgl__graphics__hal_8h.html#a9e08526838f420e7a0ad819bb9f4b031", null ],
+    [ "sbgl_gfx_AllocateTransient", "sbgl__graphics__hal_8h.html#aa45aff1bf8922d822d70af3a4fbc5f37", null ],
+    [ "sbgl_gfx_BeginFrame", "sbgl__graphics__hal_8h.html#a37479182779c7115e97489a6c70869ac", null ],
+    [ "sbgl_gfx_BindBuffer", "sbgl__graphics__hal_8h.html#a3abda7f9a574273cd31e3693860b53ef", null ],
+    [ "sbgl_gfx_BindPipeline", "sbgl__graphics__hal_8h.html#a2ea2398605c832a97a83f981b61d6712", null ],
+    [ "sbgl_gfx_CreateBuffer", "sbgl__graphics__hal_8h.html#a137f1a31cca317e81437d6a5ecae5860", null ],
+    [ "sbgl_gfx_CreatePipeline", "sbgl__graphics__hal_8h.html#a7a09d9e57825a7bead65f93c1ad5b281", null ],
+    [ "sbgl_gfx_DestroyBuffer", "sbgl__graphics__hal_8h.html#a1dbe89a42db3efe7ee5668113a676030", null ],
+    [ "sbgl_gfx_DestroyBufferDeferred", "sbgl__graphics__hal_8h.html#acabd7113e3735df8c8d6076d11d3b90e", null ],
+    [ "sbgl_gfx_DestroyPipeline", "sbgl__graphics__hal_8h.html#ab97711d19b1936e4bb0908d4718e8d3d", null ],
+    [ "sbgl_gfx_DestroyShader", "sbgl__graphics__hal_8h.html#aa72089cf2d5c00deded063f31fa1b7f7", null ],
+    [ "sbgl_gfx_DeviceWaitIdle", "sbgl__graphics__hal_8h.html#ab355d2927a93a7874d065487e4990040", null ],
+    [ "sbgl_gfx_Draw", "sbgl__graphics__hal_8h.html#a45c1824e07c89253d55e1ba395f60aec", null ],
+    [ "sbgl_gfx_DrawIndexed", "sbgl__graphics__hal_8h.html#aac5bf8397f192ce8d394015a3a60913f", null ],
+    [ "sbgl_gfx_DrawIndirect", "sbgl__graphics__hal_8h.html#a997f271596d5e8055626a10437ac7ffe", null ],
+    [ "sbgl_gfx_EndFrame", "sbgl__graphics__hal_8h.html#af1cf1e299fc9aa56e255fbc9c7678b21", null ],
+    [ "sbgl_gfx_GetBufferDeviceAddress", "sbgl__graphics__hal_8h.html#a2c3894cec1e8deefb8a9a19ca1627594", null ],
+    [ "sbgl_gfx_GetGpuTime", "sbgl__graphics__hal_8h.html#a660f9015563e3ffa45db9b67627c5330", null ],
+    [ "sbgl_gfx_Init", "sbgl__graphics__hal_8h.html#a74b408a114b2c5dc6c75280de76dac33", null ],
+    [ "sbgl_gfx_LoadShader", "sbgl__graphics__hal_8h.html#a76fe29f00656b11d023893f6c8356714", null ],
+    [ "sbgl_gfx_PushConstants", "sbgl__graphics__hal_8h.html#a848c58bd9048758ea6af96d4631ff537", null ],
+    [ "sbgl_gfx_Shutdown", "sbgl__graphics__hal_8h.html#a0479c120e9bee08a47469c2392277149", null ]
+];

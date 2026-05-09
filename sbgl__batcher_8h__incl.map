@@ -1,0 +1,21 @@
+<map id="src/core/sbgl_batcher.h" name="src/core/sbgl_batcher.h">
+<area shape="rect" id="Node000001" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="83,5,254,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__graphics__hal_8h.html" title=" " alt="" coords="145,79,315,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,29,209,66,205,69,176,32"/>
+<area shape="rect" id="Node000005" href="$sbgl__types_8h.html" title=" " alt="" coords="59,167,163,192"/>
+<area shape="poly" id="edge11_Node000001_Node000005" title=" " alt="" coords="162,32,148,54,135,80,124,118,117,153,112,152,118,117,130,78,144,51,158,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,313,275,339"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="249,117,264,139,277,166,281,203,275,241,263,275,250,302,246,300,259,273,270,239,276,203,271,167,260,142,245,120"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="187,167,262,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="231,119,229,153,224,153,226,119"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="203,121,142,161,139,157,200,117"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="136,190,168,210,199,238,218,269,230,299,225,301,213,271,195,242,164,214,133,194"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,313,76,339"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="104,194,71,241,49,301,44,299,66,239,99,191"/>
+<area shape="rect" id="Node000007" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="81,240,184,265"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="117,192,128,226,123,228,112,193"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="150,263,208,303,205,307,147,268"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="120,267,68,307,65,303,116,263"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="100,313,168,339"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="136,266,136,300,131,300,130,266"/>
+</map>

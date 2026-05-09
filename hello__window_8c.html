@@ -9,9 +9,20 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,7 +34,7 @@
   <td id="projectalign">
    <div id="projectname">SBgl<span id="projectnumber">&#160;0.1.0</span>
    </div>
-   <div id="projectbrief">Bare-metal graphics framework in C99</div>
+   <div id="projectbrief">A graphics framework in C99</div>
   </td>
  </tr>
  </tbody>
@@ -47,6 +58,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('hello__window_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,11 +96,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_d28a4824dc47e487b107a5db32ef43c4.html">examples</a></li><li class="navelem"><a class="el" href="dir_a85a42af422e76f24731052c630ef527.html">window</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
@@ -80,6 +103,36 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="sbgl_8h_source.html">sbgl.h</a>&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for hello_window.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="hello__window_8c__incl.png" border="0" usemap="#aexamples_2window_2hello__window_8c" alt=""/></div>
+<map name="aexamples_2window_2hello__window_8c" id="aexamples_2window_2hello__window_8c">
+<area shape="rect" title=" " alt="" coords="162,5,338,45"/>
+<area shape="rect" href="sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="219,93,281,119"/>
+<area shape="poly" title=" " alt="" coords="253,46,253,79,247,79,247,46"/>
+<area shape="rect" href="sbgl__types_8h.html" title=" " alt="" coords="198,167,302,192"/>
+<area shape="poly" title=" " alt="" coords="253,119,253,153,247,153,247,119"/>
+<area shape="rect" title=" " alt="" coords="69,313,151,339"/>
+<area shape="poly" title=" " alt="" coords="220,116,171,131,113,155,84,172,56,191,32,215,12,241,9,251,9,260,19,278,40,293,64,306,62,310,37,297,15,281,4,262,3,250,8,239,28,211,53,187,81,167,110,150,169,126,218,111"/>
+<area shape="rect" title=" " alt="" coords="304,313,375,339"/>
+<area shape="poly" title=" " alt="" coords="268,117,293,137,316,165,332,199,341,236,344,300,338,300,335,237,327,201,312,168,289,141,265,121"/>
+<area shape="rect" title=" " alt="" coords="427,167,502,192"/>
+<area shape="poly" title=" " alt="" coords="282,115,418,160,416,165,280,120"/>
+<area shape="rect" href="include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="22,240,123,265"/>
+<area shape="poly" title=" " alt="" coords="237,121,99,233,96,229,234,117"/>
+<area shape="poly" title=" " alt="" coords="239,194,189,242,131,305,127,301,185,238,235,190"/>
+<area shape="poly" title=" " alt="" coords="269,190,293,211,316,239,330,269,338,299,333,300,325,271,312,241,289,215,265,194"/>
+<area shape="rect" href="sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="199,240,301,265"/>
+<area shape="poly" title=" " alt="" coords="253,192,253,226,247,226,247,192"/>
+<area shape="poly" title=" " alt="" coords="229,268,146,309,144,305,226,263"/>
+<area shape="poly" title=" " alt="" coords="266,263,316,302,312,307,263,267"/>
+<area shape="rect" title=" " alt="" coords="212,313,280,339"/>
+<area shape="poly" title=" " alt="" coords="252,266,250,300,245,300,247,266"/>
+<area shape="poly" title=" " alt="" coords="81,264,100,300,95,303,76,267"/>
+<area shape="poly" title=" " alt="" coords="116,263,291,309,290,314,115,268"/>
+</map>
+</div>
 </div>
 <p><a href="hello__window_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -139,9 +192,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d28a4824dc47e487b107a5db32ef43c4.html">examples</a></li><li class="navelem"><a class="el" href="dir_a85a42af422e76f24731052c630ef527.html">window</a></li><li class="navelem"><a class="el" href="hello__window_8c.html">hello_window.c</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
 </body>
 </html>

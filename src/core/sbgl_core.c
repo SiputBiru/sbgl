@@ -37,11 +37,11 @@ struct sbgl_RenderQueue {
  * clear color state.
  */
 typedef struct {
-	SblArena arena;			  /**< Persistent memory for the lifetime of the context. */
-	SblArena transientArena;  /**< Memory reset every frame. */
-	sbgl_Window* window;	  /**< Handle to the native OS window. */
-	sbgl_GfxContext* gfx;	  /**< Handle to the graphics backend context. */
-	float clearColor[4];	  /**< Current RGBA clear color. */
+	SblArena arena;			 /**< Persistent memory for the lifetime of the context. */
+	SblArena transientArena; /**< Memory reset every frame. */
+	sbgl_Window* window;	 /**< Handle to the native OS window. */
+	sbgl_GfxContext* gfx;	 /**< Handle to the graphics backend context. */
+	float clearColor[4];	 /**< Current RGBA clear color. */
 	struct {
 		uint32_t isDrawing : 1;	  /**< Internal flag to track frame acquisition success. */
 		uint32_t isIdle : 1;	  /**< Internal flag to track if GPU is idle. */
@@ -76,7 +76,8 @@ static struct timespec sbgl_internal_GetTime(void) {
  * @return The duration in milliseconds.
  */
 static float sbgl_internal_GetElapsedMs(struct timespec start, struct timespec end) {
-	return (float)((end.tv_sec - start.tv_sec) * 1000.0 + (end.tv_nsec - start.tv_nsec) / 1000000.0);
+	return (float)((end.tv_sec - start.tv_sec) * 1000.0 +
+				   (end.tv_nsec - start.tv_nsec) / 1000000.0);
 }
 #endif
 
@@ -684,11 +685,7 @@ void sbgl_RenderQueuesEx(
 		);
 
 		if (instanceAlloc.buffer != SBGL_INVALID_HANDLE) {
-			memcpy(
-				instanceAlloc.mapped,
-				sortedInstances,
-				sizeof(sbgl_InstanceData) * totalPackets
-			);
+			memcpy(instanceAlloc.mapped, sortedInstances, sizeof(sbgl_InstanceData) * totalPackets);
 
 			// Retrieve BDA address and update push constants
 			uint64_t bdaAddress = instanceAlloc.deviceAddress;
@@ -712,11 +709,7 @@ void sbgl_RenderQueuesEx(
 			);
 
 			if (indirectAlloc.buffer != SBGL_INVALID_HANDLE) {
-				memcpy(
-					indirectAlloc.mapped,
-					commands,
-					sizeof(sbgl_IndirectCommand) * commandCount
-				);
+				memcpy(indirectAlloc.mapped, commands, sizeof(sbgl_IndirectCommand) * commandCount);
 				sbgl_gfx_DrawIndirect(
 					inner->gfx,
 					indirectAlloc.buffer,

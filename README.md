@@ -46,6 +46,7 @@ target_link_libraries(your_application PRIVATE sbgl)
 Comprehensive documentation organized by the development lifecycle is available in the [Documentation Index](docs/INDEX.md).
 
 ### Chapters
+
 1. **Foundations**: Initialization, Windowing, and Input.
 2. **Graphics HAL**: Shaders, Buffers, and Pipelines.
 3. **Data-Oriented Pipeline**: Render Queues, Sorting, and Batching.
@@ -60,6 +61,15 @@ Comprehensive documentation organized by the development lifecycle is available 
 * Arena-based memory management.
 * SIMD-ready math library.
 * Native Platform HAL (Wayland, X11, Win32).
+
+## Limitations
+
+As a "bare-metal" framework in active development, SBgl has several known technical constraints:
+
+* **2.5D Voxel Rendering**: The current procedural voxel system is optimized for heightmap-based generation (2.5D). True 3D voxel grids with complex overhangs and caves are not yet natively implemented in the primary examples.
+* **Single Command Stream**: While the API supports multiple contexts, command recording is currently serialized into a single primary command buffer per frame. Asynchronous, multi-threaded command recording is on the roadmap but not yet available.
+* **Linux-First Maturity**: Although Win32 is supported, the Linux (Wayland/X11) platform layers are the primary development targets and currently offer the highest stability and feature parity.
+* **Resource Limits**: Internal pools for buffers, shaders, and pipelines use fixed-capacity arrays (e.g., `SBGL_MAX_BUFFERS`) to ensure O(1) handle lookups and avoid heap fragmentation.
 
 ## Performance & Rendering Techniques
 

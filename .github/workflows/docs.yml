@@ -31,6 +31,7 @@ jobs:
 
       - name: Post-process Documentation
         run: |
+          sudo chown -R $USER:$USER build/docs
           mkdir -p build/docs/html
           touch build/docs/html/.nojekyll
 

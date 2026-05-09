@@ -1,15 +1,7 @@
 var index =
 [
-    [ "Quick Start", "index.html#autotoc_md6", [
-      [ "Examples", "index.html#autotoc_md7", null ],
-      [ "Integrating SBgl", "index.html#autotoc_md8", null ]
-    ] ],
-    [ "Documentation", "index.html#autotoc_md9", [
-      [ "Chapters", "index.html#autotoc_md10", null ]
-    ] ],
-    [ "Features", "index.html#autotoc_md11", null ],
-    [ "Limitations", "index.html#autotoc_md12", null ],
-    [ "Performance & Rendering Techniques", "index.html#autotoc_md13", null ],
-    [ "Internal Development Notes", "index.html#autotoc_md14", null ],
-    [ "License", "index.html#autotoc_md15", null ]
+    [ "Chapter 1: Foundations", "index.html#autotoc_md1", null ],
+    [ "Chapter 2: The Graphics HAL", "index.html#autotoc_md2", null ],
+    [ "Chapter 3: The Data-Oriented Pipeline", "index.html#autotoc_md3", null ],
+    [ "Chapter 4: Advanced Techniques", "index.html#autotoc_md4", null ]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['documentation_20index_0',['SBgl Documentation Index',['../md_docs_2INDEX.html',1,'']]]
+  ['documentation_20index_0',['SBgl Documentation Index',['../index.html',1,'']]]
 ];

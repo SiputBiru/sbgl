@@ -21,7 +21,7 @@ var searchData=
   ['rendering_20dod_20alignment_18',['Batch Rendering &amp; DOD Alignment',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md169',1,'']]],
   ['rendering_20guide_19',['Triangle Rendering Guide',['../md_docs_2getting__started_2first__triangle.html',1,'']]],
   ['rendering_20pipeline_20',['SBgl Rendering Pipeline',['../md_docs_2manual_2rendering__pipeline.html',1,'']]],
-  ['rendering_20techniques_21',['Performance &amp; Rendering Techniques',['../index.html#autotoc_md13',1,'']]],
+  ['rendering_20techniques_21',['Performance &amp; Rendering Techniques',['../md_README.html#autotoc_md13',1,'']]],
   ['rendering_20text_20sprites_22',['High-Level rendering (Text/Sprites)',['../md_docs_2ROADMAP.html#autotoc_md232',1,'']]],
   ['rendering_5fpipeline_2emd_23',['rendering_pipeline.md',['../rendering__pipeline_8md.html',1,'']]],
   ['resized_24',['resized',['../structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6',1,'sbgl_Window']]],

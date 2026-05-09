@@ -5,7 +5,7 @@ var searchData=
   ['active_2',['active',['../structSBGL__VulkanBuffer.html#ad8cb1d843e59a2f051d3018dc6dd55cd',1,'SBGL_VulkanBuffer::active'],['../structSBGL__VulkanShader.html#aea2b6318abaed5b222f344889b2db2a3',1,'SBGL_VulkanShader::active'],['../structSBGL__VulkanPipeline.html#a5d73a7f029161d731b8de7b7b23d5579',1,'SBGL_VulkanPipeline::active']]],
   ['added_3',['Added',['../md_CHANGELOG.html#autotoc_md18',1,'Added'],['../md_CHANGELOG.html#autotoc_md22',1,'Added'],['../md_CHANGELOG.html#autotoc_md25',1,'Added'],['../md_CHANGELOG.html#autotoc_md29',1,'Added'],['../md_CHANGELOG.html#autotoc_md31',1,'Added']]],
   ['address_20bda_4',['Buffer Device Address (BDA)',['../md_docs_2manual_2vulkan__backend.html#autotoc_md217',1,'']]],
-  ['advanced_20techniques_5',['Chapter 4: Advanced Techniques',['../md_docs_2INDEX.html#autotoc_md4',1,'']]],
+  ['advanced_20techniques_5',['Chapter 4: Advanced Techniques',['../index.html#autotoc_md4',1,'']]],
   ['advanced_3a_20interactive_20shaders_6',['Advanced: Interactive Shaders',['../md_docs_2examples_2index.html#autotoc_md45',1,'']]],
   ['alignment_7',['Batch Rendering &amp; DOD Alignment',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md169',1,'']]],
   ['allocation_8',['Ring-Buffer Sub-allocation',['../md_docs_2manual_2memory__management.html#autotoc_md128',1,'']]],

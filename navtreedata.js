@@ -25,12 +25,20 @@
 var NAVTREE =
 [
   [ "SBgl", "index.html", [
-    [ "SBgl (SiputBiru Graphics Library)", "index.html", "index" ],
-    [ "SBgl Documentation Index", "md_docs_2INDEX.html", [
-      [ "Chapter 1: Foundations", "md_docs_2INDEX.html#autotoc_md1", null ],
-      [ "Chapter 2: The Graphics HAL", "md_docs_2INDEX.html#autotoc_md2", null ],
-      [ "Chapter 3: The Data-Oriented Pipeline", "md_docs_2INDEX.html#autotoc_md3", null ],
-      [ "Chapter 4: Advanced Techniques", "md_docs_2INDEX.html#autotoc_md4", null ]
+    [ "SBgl Documentation Index", "index.html", "index" ],
+    [ "SBgl (SiputBiru Graphics Library)", "md_README.html", [
+      [ "Quick Start", "md_README.html#autotoc_md6", [
+        [ "Examples", "md_README.html#autotoc_md7", null ],
+        [ "Integrating SBgl", "md_README.html#autotoc_md8", null ]
+      ] ],
+      [ "Documentation", "md_README.html#autotoc_md9", [
+        [ "Chapters", "md_README.html#autotoc_md10", null ]
+      ] ],
+      [ "Features", "md_README.html#autotoc_md11", null ],
+      [ "Limitations", "md_README.html#autotoc_md12", null ],
+      [ "Performance & Rendering Techniques", "md_README.html#autotoc_md13", null ],
+      [ "Internal Development Notes", "md_README.html#autotoc_md14", null ],
+      [ "License", "md_README.html#autotoc_md15", null ]
     ] ],
     [ "Changelog", "md_CHANGELOG.html", [
       [ "[Unreleased] - 2026-05-09", "md_CHANGELOG.html#autotoc_md17", [
@@ -295,7 +303,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"md_CHANGELOG.html#autotoc_md22",
+"md_CHANGELOG.html#autotoc_md28",
 "sbgl_8h.html#ab64905fb7ecdb7ecbc111cbed9e4bd7c",
 "sbgl__types_8h.html#ace2724fddb622a385379c65e44fc6347",
 "structsbgl__InternalContext.html#ad850e4314963cbecbf1913882ccaedef"

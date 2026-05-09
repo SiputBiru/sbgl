@@ -25,7 +25,6 @@ jobs:
         with:
           doxyfile-path: ./Doxyfile
           working-directory: .
-          enable-latex: true
 
       - name: Generate Documentation (via CMake)
         run: |

@@ -1,0 +1,29 @@
+name: Deploy Documentation
+on:
+  # push:
+  #   branches:
+  #     - main # Trigger only on pushes to main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz cmake
+
+      - name: Generate Documentation
+        run: |
+          cmake -B build -DSBGL_BUILD_DOCS=ON
+          cmake --build build --target docs
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build/docs/html
+          branch: gh-pages

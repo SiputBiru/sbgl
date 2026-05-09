@@ -4,9 +4,9 @@ This guide covers setting up the development environment and building SBgl for d
 
 ## Prerequisites
 
-*   **Compiler**: GCC 9+, Clang 10+, or MSVC 2019+.
-*   **Build System**: CMake 3.15+.
-*   **Graphics**: Vulkan SDK 1.3+ (Include headers for compilation).
+* **Compiler**: GCC 9+, Clang 10+, or MSVC 2019+.
+* **Build System**: CMake 3.15+.
+* **Graphics**: Vulkan SDK 1.3+ (Include headers for compilation).
 
 ---
 
@@ -19,19 +19,21 @@ SBgl provides several CMake options to customize the build:
 | `SBGL_BUILD_EXAMPLES` | Compiles the example applications in `examples/`. | `OFF` |
 | `SBGL_BUILD_TESTS` | Compiles the unit tests in `tests/`. | `OFF` |
 | `SBGL_USE_WAYLAND` | (Linux Only) Uses native Wayland. If `OFF`, X11 is used. | `ON` |
-| `CMAKE_BUILD_TYPE` | Set to `Debug` for development or `Release` for performance. | `Debug` |
+| `CMAKE_BUILD_TYPE` | Set to `Debug` for development or `Release` for performance. | `Release` |
 
 ---
 
 ## Installing on Linux (Wayland or X11)
 
 ### System Dependencies
+
 Install the required development libraries for the preferred display protocol:
 
-*   **Wayland**: `libwayland-dev`, `wayland-protocols`, `libvulkan-dev`.
-*   **X11**: `libx11-dev`, `libvulkan-dev`.
+* **Wayland**: `libwayland-dev`, `wayland-protocols`, `libvulkan-dev`.
+* **X11**: `libx11-dev`, `libvulkan-dev`.
 
 ### Build Instructions
+
 ```bash
 # Default build (Wayland enabled)
 cmake -B build -DSBGL_BUILD_EXAMPLES=ON
@@ -47,11 +49,14 @@ cmake --build build-x11
 ## Installing on Windows (Native)
 
 ### Prerequisites
-*   **Visual Studio 2019/2022** with the "Desktop development with C++" workload.
-*   **Vulkan SDK**: Ensure `VULKAN_SDK` environment variable is set.
+
+* **Visual Studio 2019/2022** with the "Desktop development with C++" workload.
+* **Vulkan SDK**: Ensure `VULKAN_SDK` environment variable is set.
 
 ### Build Instructions
+
 Using the Developer Command Prompt or PowerShell:
+
 ```powershell
 cmake -B build -DSBGL_BUILD_EXAMPLES=ON
 cmake --build build --config Release
@@ -64,11 +69,14 @@ cmake --build build --config Release
 SBgl supports building Windows binaries from a Linux host using the MinGW-w64 toolchain.
 
 ### Prerequisites
+
 Install the MinGW-w64 compiler:
-*   **Debian/Ubuntu**: `sudo apt install mingw-w64`
-*   **Arch**: `sudo pacman -S mingw-w64-gcc`
+
+* **Debian/Ubuntu**: `sudo apt install mingw-w64`
+* **Arch**: `sudo pacman -S mingw-w64-gcc`
 
 ### Build Instructions
+
 Specify the Windows system name and the MinGW compiler to CMake:
 
 ```bash

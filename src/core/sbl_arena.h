@@ -35,6 +35,7 @@ typedef struct SblArenaBlock {
 	uint64_t size;				/**< Total capacity of this block. */
 	uint64_t offset;			/**< Current allocation offset. */
 	struct SblArenaBlock* next; /**< Pointer to the next block in the chain. */
+	uint64_t _padding;			/**< Ensure 16-byte alignment of header. */
 } SblArenaBlock;
 
 /**
@@ -140,7 +141,7 @@ void sbl_arena_free(SblArena* arena) {
 
 void* sbl_arena_alloc(SblArena* arena, uint64_t size) {
 	if (!arena || !arena->current) return NULL;
-	uint64_t align = 8;
+	uint64_t align = 16;
 	SblArenaBlock* b = arena->current;
 
 	uintptr_t curr_ptr = (uintptr_t)b + sizeof(SblArenaBlock) + b->offset;
@@ -156,7 +157,7 @@ void* sbl_arena_alloc(SblArena* arena, uint64_t size) {
 		b->next = next;
 		arena->current = next;
 		b = next;
-		aligned_ptr = (uintptr_t)b + sizeof(SblArenaBlock);
+		aligned_ptr = sbl_arena__align_forward((uintptr_t)b + sizeof(SblArenaBlock), align);
 	}
 
 	void* ptr = (void*)aligned_ptr;

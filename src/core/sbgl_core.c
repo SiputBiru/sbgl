@@ -105,7 +105,7 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	}
 
 	inner->arena = main_arena;
-	sbl_arena_init(&inner->transientArena, 2 * 1024 * 1024);
+	sbl_arena_init(&inner->transientArena, 16 * 1024 * 1024);
 	inner->clearColor[0] = 0.0f;
 	inner->clearColor[1] = 0.0f;
 	inner->clearColor[2] = 0.0f;

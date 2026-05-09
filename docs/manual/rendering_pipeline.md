@@ -121,7 +121,7 @@ A `sbgl_RenderQueue` acts as a collector for draw commands. It is initialized us
 
 ```c
 SblArena arena;
-sbl_arena_init(&arena, 1024 * 1024);
+sbl_arena_init(&arena, 16 * 1024 * 1024); // 16MB for high-frequency batching
 sbgl_RenderQueue* queue = sbgl_CreateRenderQueue(ctx, &arena);
 ```
 

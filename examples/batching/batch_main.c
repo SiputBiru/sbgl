@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define PACK_POS(x, y, z) { (int16_t)((x) * 32767.0f), (int16_t)((y) * 32767.0f), (int16_t)((z) * 32767.0f), 0 }
+#define PACK_POS(x, y, z) { (int16_t)((x) * 32767.0f), (int16_t)((y) * 32767.0f), (int16_t)((z) * 32767.0f), 32767 }
 #define PACK_COL(r, g, b, a) (uint32_t)(((uint32_t)((r)*255.0f) << 0) | ((uint32_t)((g)*255.0f) << 8) | ((uint32_t)((b)*255.0f) << 16) | ((uint32_t)((a)*255.0f) << 24))
 
 int main(void) {

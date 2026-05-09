@@ -20,9 +20,9 @@ int main(void) {
 		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/interactive.frag.spv");
 
 	sbgl_Vertex vertices[] = {
-		{ { 0, 16383, 0, 0 }, 0xFF0000FF, 0 },
-		{ { 16383, -16383, 0, 0 }, 0xFF00FF00, 0 },
-		{ { -16383, -16383, 0, 0 }, 0xFFFF0000, 0 }
+		{ { 0, 16383, 0, 32767 }, 0xFF0000FF, 0 },
+		{ { 16383, -16383, 0, 32767 }, 0xFF00FF00, 0 },
+		{ { -16383, -16383, 0, 32767 }, 0xFFFF0000, 0 }
 	};
 
 	sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);

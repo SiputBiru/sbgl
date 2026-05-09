@@ -3,6 +3,7 @@
 SBgl is a bare-metal graphics framework in C99. This roadmap outlines the development milestones and technical goals.
 
 ## HAL & Context Foundation
+
 - [x] Implement explicit Context API (`sbgl_Context`)
 - [x] Standardize error handling with result structures (`sbgl_InitResult`)
 - [x] Define Internal Platform HAL for OS-agnostic windowing (`sbgl_platform.h`)
@@ -11,6 +12,7 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 - [x] Centralize shared opaque types to prevent C99 redefinition conflicts (`sbgl_types.h`)
 
 ## Native Wayland & Vulkan Clear
+
 - [x] Implement native Linux Wayland platform layer using XDG-Shell protocols
 - [x] Implement Linux X11 platform layer for legacy display server support
 - [x] Implement Win32 platform layer with full virtual key mapping
@@ -21,39 +23,47 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 - [x] Implement Data-Oriented Design (DOD) Input API for batch processing
 
 ## Core Matrix & Math (simd-ready)
+
 - [x] Implement SIMD-ready Vector math (Vec2, Vec3, Vec4) using SoA-friendly layouts
 - [x] Implement Matrix math (Mat4) for 3D transformations
 - [x] Implement Quaternion math for rotations
 - [x] Implement technical architecture guide (`docs/manual/math_library.md`)
 
 ## Camera System & Batch Collision
+
 - [x] Implement Camera system (Orthographic and Perspective)
 - [x] Implement Ray-casting and basic collision math optimized for batch testing
 
 ## Vertex Buffers & Triangle Rendering
+
 - [x] Implement Vertex Buffer and Index Buffer management with DOD alignment
 - [x] Implement Shader loading and SPIR-V integration
 - [x] Implement Batch-oriented Geometry rendering (Transformation pipelines)
 
 ## Context-Based Backend Refactor (Multi-Context Support)
+
 - [x] Transition graphics backend to use context-local state pointers
 - [x] Enable multi-window and multi-threaded execution environments
 
 ## API Standardization & Error Handling
+
 - [x] Implement `sbgl_Result` status tracking in the context
 - [x] Standardize naming conventions across the public API surface
 
 ## GPU Optimization & Batching (MDI/Bit-packing)
+
 - [x] Implement Bit-Packing for vertex data (32-bit compressed formats)
 - [x] Implement 16-byte Command Packet Header (Mesh/Material/Flag packing)
 - [x] Implement Procedural Vertex Generation using `gl_VertexIndex`
 - [x] Implement Shader Storage Buffer Objects (SSBOs) for per-instance data
 - [x] Implement Multi-Draw Indirect (MDI) for single-call batching
-- [x] Implement Greedy Meshing algorithms for voxel/grid data
+- [ ] Implement Greedy Meshing algorithms (Replaced by GPU Procedural Synthesis)
 - [x] Implement Infinite Voxel World (2.5D Chunked Instancing)
+
 - [ ] Granular Profiling (per-queue timestamps)
 
 ## High-Level rendering (Text/Sprites)
+
 - [ ] Implement 2D Sprite batching system (utilizing MDI)
 - [ ] Implement Text rendering using signed-distance fields (SDF)
 - [ ] Implement Primitive batching (Circles, Lines, Gradients)
@@ -61,6 +71,7 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 - [ ] Implement Post-processing pipeline
 
 ## Future Considerations
+
 - Full 3D Voxel Grid rendering (Caves, Overhangs)
 - macOS Platform Layer (Cocoa) and MoltenVK integration
 - Android/NDK Platform support

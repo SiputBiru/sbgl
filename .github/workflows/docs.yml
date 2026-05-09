@@ -20,16 +20,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y graphviz cmake
 
-      - name: Setup Doxygen
+      - name: Setup and Run Doxygen
         uses: mattnotmitt/doxygen-action@v1
         with:
           doxyfile-path: ./Doxyfile
           working-directory: .
 
-      - name: Generate Documentation (via CMake)
+      - name: Post-process Documentation
         run: |
-          cmake -B build -DSBGL_DOCS_ONLY=ON
-          cmake --build build --target docs
+          mkdir -p build/docs/html
           touch build/docs/html/.nojekyll
 
       - name: Deploy to GitHub Pages

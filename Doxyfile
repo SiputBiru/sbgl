@@ -1,7 +1,7 @@
 PROJECT_NAME           = "SBgl"
 PROJECT_NUMBER         = "0.1.0"
 PROJECT_BRIEF          = "A graphics framework in C99"
-OUTPUT_DIRECTORY       = 
+OUTPUT_DIRECTORY       = build/docs
 OPTIMIZE_OUTPUT_FOR_C  = YES
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES

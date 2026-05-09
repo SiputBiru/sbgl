@@ -19,8 +19,15 @@ A graphics framework engineered for target hardware. Built on C99 and Vulkan 1.3
 
 ```bash
 git clone https://github.com/SiputBiru/sbgl.git
+
+# Release build (default)
 cmake -B build -DSBGL_BUILD_EXAMPLES=ON
 cmake --build build
+
+# Debug build (with symbols, no optimization)
+cmake -B build -DCMAKE_BUILD_TYPE=Debug -DSBGL_BUILD_EXAMPLES=ON
+cmake --build build
+
 ./build/examples/hello_window
 ```
 
@@ -47,10 +54,10 @@ Comprehensive documentation organized by the development lifecycle is available 
 
 ### Chapters
 
-1. **Foundations**: Initialization, Windowing, and Input.
-2. **Graphics HAL**: Shaders, Buffers, and Pipelines.
-3. **Data-Oriented Pipeline**: Render Queues, Sorting, and Batching.
-4. **Advanced Techniques**: BDA, MDI, and Arena Management.
+* **Foundations**: Initialization, Windowing, and Input.
+* **Graphics HAL**: Shaders, Buffers, and Pipelines.
+* **Data-Oriented Pipeline**: Render Queues, Sorting, and Batching.
+* **Advanced Techniques**: BDA, MDI, and Arena Management.
 
 ## Features
 
@@ -91,6 +98,7 @@ The system utilizes several rendering techniques to ensure execution efficiency 
 * Enable missing engine tests (batcher, sort, heightmap, voxel_logic) in `tests/CMakeLists.txt` with a dedicated `add_engine_test` macro.
 * Update `Doxyfile` to include all manual/getting_started documentation and correctly map the image asset path.
 * Standardize on `PROJECT_BINARY_DIR` for generated assets to ensure compatibility when integrated as a subproject.
+* Implemented a default Release build configuration. Use -DCMAKE_BUILD_TYPE=Debug to enable symbols and strict warnings for development.
 
 ## License
 

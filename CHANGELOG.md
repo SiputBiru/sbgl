@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - **GPU Transient Allocator**: Added `sbgl_gfx_AllocateTransient` to the internal HAL to enable low-overhead, linear sub-allocation from the persistent transient buffers.
 
 ### Changed
+- **Default Build Type**: Changed the default CMake build configuration from `Debug` to `Release` to prioritize performance.
 - **Optimized Radix Sort**: Refactored `sbgl_radix_sort` to use 8-bit passes (256 buckets) instead of 16-bit passes (65,536 buckets). This significantly reduces CPU cache misses and stack zeroing overhead.
 - **Allocation-Free Hot Path**: Updated `sbgl_radix_sort` to accept external workspace buffers, eliminating per-frame `malloc`/`free` calls in the core batching system.
 - **Render Queue Refactor**: Updated `sbgl_RenderQueuesEx` to use the transient GPU allocator and optimized sorter, resolving the CPU bottleneck in the voxel example.

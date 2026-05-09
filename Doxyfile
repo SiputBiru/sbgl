@@ -1,6 +1,6 @@
 PROJECT_NAME           = "SBgl"
 PROJECT_NUMBER         = "0.1.0"
-PROJECT_BRIEF          = "Bare-metal graphics framework in C99"
+PROJECT_BRIEF          = "A graphics framework in C99"
 OUTPUT_DIRECTORY       = 
 OPTIMIZE_OUTPUT_FOR_C  = YES
 EXTRACT_ALL            = YES
@@ -24,13 +24,20 @@ EXCLUDE_PATTERNS       = */.git/* \
 MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = YES
 PREDEFINED             = SBGL_ALIGN(n)=
-GENERATE_LATEX         = YES
+GENERATE_LATEX         = NO
 GENERATE_HTML          = YES
-HAVE_DOT               = NO
+HAVE_DOT               = YES
 WARN_IF_UNDOCUMENTED   = NO
 MARKDOWN_SUPPORT       = YES
 IMAGE_PATH             = docs/img
 USE_MDFILE_AS_MAINPAGE = README.md
+
+# --- Modern HTML Settings ---
+GENERATE_TREEVIEW      = YES
+HTML_DYNAMIC_MENUS     = YES
+USE_MATHJAX            = YES
+MATHJAX_FORMAT         = HTML-CSS
+MATHJAX_RELPATH        = https://cdn.jsdelivr.net/npm/mathjax@2
 
 # --- Source Browsing ---
 SOURCE_BROWSER         = YES

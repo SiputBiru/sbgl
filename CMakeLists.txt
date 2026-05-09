@@ -236,8 +236,6 @@ if(DOXYGEN_FOUND)
         COMMAND ${CMAKE_COMMAND} -E echo "OUTPUT_DIRECTORY = ${DOXYGEN_OUT_DIR}" > ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.extra
         COMMAND ${CMAKE_COMMAND} -E cat ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.extra > ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.combined
         COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.combined
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUT_DIR}/html/img
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/docs/img ${DOXYGEN_OUT_DIR}/html/img
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating API documentation with Doxygen"
     )

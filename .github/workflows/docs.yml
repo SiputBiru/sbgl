@@ -1,13 +1,16 @@
 name: Deploy Documentation
 on:
-  # push:
-  #   branches:
-  #     - main # Trigger only on pushes to main
+  push:
+    branches:
+      - main
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4

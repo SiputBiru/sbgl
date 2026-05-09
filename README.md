@@ -4,7 +4,7 @@
   <a href="https://en.wikipedia.org/wiki/C99"><img src="https://img.shields.io/badge/C-99-blue.svg" alt="C99"></a>
   <a href="https://www.vulkan.org/"><img src="https://img.shields.io/badge/Vulkan-1.3-red.svg" alt="Vulkan 1.3"></a>
   <img src="https://img.shields.io/badge/Platform-Wayland%20%7C%20X11%20%7C%20Win32-green.svg" alt="Platform">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-zlib-lightgrey.svg" alt="License"></a>
+  <a href="https://github.com/SiputBiru/sbgl/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-zlib-lightgrey.svg" alt="License"></a>
   <a href="https://github.com/SiputBiru/sbgl"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build Status"></a>
 </p>
 
@@ -94,4 +94,4 @@ The system utilizes several rendering techniques to ensure execution efficiency 
 
 ## License
 
-SBgl is licensed under the [zlib License](./LICENSE).
+SBgl is licensed under the [zlib License](https://github.com/SiputBiru/sbgl/blob/main/LICENSE).

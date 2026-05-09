@@ -10,17 +10,24 @@ permissions:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Install Build Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y doxygen graphviz cmake
+          sudo apt-get install -y graphviz cmake
 
-      - name: Generate Documentation
+      - name: Setup Doxygen
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          doxyfile-path: ./Doxyfile
+          working-directory: .
+          enable-latex: true
+
+      - name: Generate Documentation (via CMake)
         run: |
           cmake -B build -DSBGL_DOCS_ONLY=ON
           cmake --build build --target docs

@@ -1,6 +1,9 @@
 # SBgl Documentation Index
 
-Welcome to the SBgl Documentation. This guide is organized by the development lifecycle to help progress from foundation to advanced optimization.
+*   [**Project README (Overview & Quick Start)**](../README.md)
+
+Welcome to the SBgl Documentation.
+ This guide is organized by the development lifecycle to help progress from foundation to advanced optimization.
 
 > [!NOTE]
 > **AI-Assisted Documentation**: Parts of this project's documentation, including technical manuals and implementation plans, have been generated or refined using AI assistants. While technical accuracy is prioritized, users are encouraged to verify critical implementation details against the source code.

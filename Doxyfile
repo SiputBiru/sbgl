@@ -29,7 +29,7 @@ HAVE_DOT               = YES
 WARN_IF_UNDOCUMENTED   = NO
 MARKDOWN_SUPPORT       = YES
 IMAGE_PATH             = docs/img
-USE_MDFILE_AS_MAINPAGE = README.md
+USE_MDFILE_AS_MAINPAGE = docs/INDEX.md
 
 # --- Modern HTML Settings ---
 GENERATE_TREEVIEW      = YES

@@ -43,7 +43,7 @@ target_link_libraries(your_application PRIVATE sbgl)
 
 ## Documentation
 
-Comprehensive documentation organized by the development lifecycle is available in the [Documentation Index](docs/INDEX.md).
+Comprehensive documentation organized by the development lifecycle is available in the [Documentation Index](docs/INDEX.md) or [Documentation website](https://siputbiru.github.io/sbgl).
 
 ### Chapters
 

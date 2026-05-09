@@ -21,6 +21,7 @@ jobs:
         run: |
           cmake -B build -DSBGL_DOCS_ONLY=ON
           cmake --build build --target docs
+          touch build/docs/html/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

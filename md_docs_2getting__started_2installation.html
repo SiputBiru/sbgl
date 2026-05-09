@@ -130,7 +130,7 @@ Configuration Flags</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft"><code>SBGL_USE_WAYLAND</code>   </td><td class="markdownTableBodyLeft">(Linux Only) Uses native Wayland. If <code>OFF</code>, X11 is used.   </td><td class="markdownTableBodyLeft"><code>ON</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyLeft"><code>CMAKE_BUILD_TYPE</code>   </td><td class="markdownTableBodyLeft">Set to <code>Debug</code> for development or <code>Release</code> for performance.   </td><td class="markdownTableBodyLeft"><code>Debug</code>   </td></tr>
+<td class="markdownTableBodyLeft"><code>CMAKE_BUILD_TYPE</code>   </td><td class="markdownTableBodyLeft">Set to <code>Debug</code> for development or <code>Release</code> for performance.   </td><td class="markdownTableBodyLeft"><code>Release</code>   </td></tr>
 </table>
 <hr  />
 <h1><a class="anchor" id="autotoc_md58"></a>
@@ -162,7 +162,8 @@ Prerequisites</h2>
 </ul>
 <h2><a class="anchor" id="autotoc_md64"></a>
 Build Instructions</h2>
-<p>Using the Developer Command Prompt or PowerShell: </p><div class="fragment"><div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON</div>
+<p>Using the Developer Command Prompt or PowerShell:</p>
+<div class="fragment"><div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON</div>
 <div class="line">cmake --build build --config Release</div>
 </div><!-- fragment --><hr  />
 <h1><a class="anchor" id="autotoc_md66"></a>
@@ -170,7 +171,8 @@ Cross-Compilation (Linux to Windows)</h1>
 <p>SBgl supports building Windows binaries from a Linux host using the MinGW-w64 toolchain.</p>
 <h2><a class="anchor" id="autotoc_md67"></a>
 Prerequisites</h2>
-<p>Install the MinGW-w64 compiler:</p><ul>
+<p>Install the MinGW-w64 compiler:</p>
+<ul>
 <li><b>Debian/Ubuntu</b>: <code>sudo apt install mingw-w64</code></li>
 <li><b>Arch</b>: <code>sudo pacman -S mingw-w64-gcc</code></li>
 </ul>

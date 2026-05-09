@@ -198,6 +198,9 @@ Internal Development Notes</h1>
 <li>Update <code>Doxyfile</code> to include all manual/getting_started documentation and correctly map the image asset path.</li>
 <li>Standardize on <code>PROJECT_BINARY_DIR</code> for generated assets to ensure compatibility when integrated as a subproject.</li>
 <li>Implemented a default Release build configuration. Use -DCMAKE_BUILD_TYPE=Debug to enable symbols and strict warnings for development.</li>
+<li>Enforced 16-byte alignment in <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code> to support SIMD-optimized types in Release builds.</li>
+<li>Standardized vertex position <code>w</code> component to <code>1.0</code> in examples to ensure correct perspective projection in shaders.</li>
+<li>Increased default <code>transientArena</code> size to 16MB to support high-frequency batching of up to 100,000 instances.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md15"></a>
 License</h1>

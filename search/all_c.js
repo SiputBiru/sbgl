@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['geometry_20synthesis_0',['Procedural Geometry Synthesis',['../md_docs_2manual_2voxel__rendering.html#autotoc_md187',1,'']]],
+  ['geometry_20synthesis_0',['Procedural Geometry Synthesis',['../md_docs_2manual_2voxel__rendering.html#autotoc_md188',1,'']]],
   ['getting_20started_1',['Getting Started',['../md_docs_2examples_2index.html#autotoc_md35',1,'']]],
   ['gfx_2',['gfx',['../structsbgl__InternalContext.html#a6672667fd0a3298adae0dc205b4a6f4d',1,'sbgl_InternalContext']]],
-  ['gpu_20buffers_3',['Transient GPU Buffers',['../md_docs_2manual_2memory__management.html#autotoc_md127',1,'']]],
-  ['gpu_20interaction_20ascii_4',['CPU-GPU Interaction (ASCII)',['../md_docs_2manual_2memory__management.html#autotoc_md129',1,'']]],
+  ['gpu_20buffers_3',['Transient GPU Buffers',['../md_docs_2manual_2memory__management.html#autotoc_md128',1,'']]],
+  ['gpu_20interaction_20ascii_4',['CPU-GPU Interaction (ASCII)',['../md_docs_2manual_2memory__management.html#autotoc_md130',1,'']]],
   ['gpu_20optimization_5',['Batching &amp; GPU Optimization',['../md_docs_2examples_2index.html#autotoc_md41',1,'']]],
-  ['gpu_20optimization_20batching_20mdi_20bit_20packing_6',['GPU Optimization &amp; Batching (MDI/Bit-packing)',['../md_docs_2ROADMAP.html#autotoc_md231',1,'']]],
-  ['gpu_20synchronization_20teardown_7',['GPU Synchronization &amp; Teardown',['../md_docs_2manual_2vulkan__backend.html#autotoc_md214',1,'']]],
+  ['gpu_20optimization_20batching_20mdi_20bit_20packing_6',['GPU Optimization &amp; Batching (MDI/Bit-packing)',['../md_docs_2ROADMAP.html#autotoc_md232',1,'']]],
+  ['gpu_20synchronization_20teardown_7',['GPU Synchronization &amp; Teardown',['../md_docs_2manual_2vulkan__backend.html#autotoc_md215',1,'']]],
   ['gpu_5frender_5ftime_8',['gpu_render_time',['../structsbgl__Telemetry.html#a073e367be8e10fbf0a7ca149ca2ad800',1,'sbgl_Telemetry']]],
   ['graphics_20hal_9',['Chapter 2: The Graphics HAL',['../index.html#autotoc_md2',1,'']]],
   ['graphics_20library_10',['SBgl (SiputBiru Graphics Library)',['../md_README.html',1,'']]],

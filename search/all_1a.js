@@ -1,15 +1,15 @@
 var searchData=
 [
   ['v_0',['v',['../unionsbgl__Vec2.html#a7e4b6ffd7276c89a36150c4a5b164353',1,'sbgl_Vec2::v'],['../unionsbgl__Vec3.html#ae126be75ca791061baad56de2c3d2137',1,'sbgl_Vec3::v'],['../unionsbgl__Vec4.html#a010668985caa5415227948443729d5f9',1,'sbgl_Vec4::v'],['../unionsbgl__Quat.html#a92aa7453642b3c76254e06ca4773571d',1,'sbgl_Quat::v']]],
-  ['validation_1',['Debugging &amp; Validation',['../md_docs_2manual_2vulkan__backend.html#autotoc_md201',1,'']]],
-  ['validation_20errors_2',['Validation Errors',['../md_docs_2manual_2vulkan__backend.html#autotoc_md216',1,'']]],
+  ['validation_1',['Debugging &amp; Validation',['../md_docs_2manual_2vulkan__backend.html#autotoc_md202',1,'']]],
+  ['validation_20errors_2',['Validation Errors',['../md_docs_2manual_2vulkan__backend.html#autotoc_md217',1,'']]],
   ['vector_20operations_3',['Vector Operations',['../md_docs_2manual_2math__library.html#autotoc_md106',1,'Vector Operations'],['../md_docs_2manual_2math__library.html#autotoc_md113',1,'Vector Operations']]],
   ['vertex_20buffer_4',['Vertex Buffer',['../md_docs_2getting__started_2first__triangle.html#autotoc_md50',1,'']]],
-  ['vertex_20buffers_20triangle_20rendering_5',['Vertex Buffers &amp; Triangle Rendering',['../md_docs_2ROADMAP.html#autotoc_md228',1,'']]],
-  ['vertex_20input_20layout_6',['Vertex Input Layout',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md154',1,'']]],
+  ['vertex_20buffers_20triangle_20rendering_5',['Vertex Buffers &amp; Triangle Rendering',['../md_docs_2ROADMAP.html#autotoc_md229',1,'']]],
+  ['vertex_20input_20layout_6',['Vertex Input Layout',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md155',1,'']]],
   ['vertex_20layout_7',['Vertex Layout',['../md_docs_2getting__started_2first__triangle.html#autotoc_md48',1,'']]],
-  ['vertex_20layout_20use_20case_8',['Vertex Layout Use Case',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md158',1,'']]],
-  ['vertex_20updates_9',['Dynamic Vertex Updates',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md170',1,'']]],
+  ['vertex_20layout_20use_20case_8',['Vertex Layout Use Case',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md159',1,'']]],
+  ['vertex_20updates_9',['Dynamic Vertex Updates',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md171',1,'']]],
   ['vertexlayout_10',['vertexLayout',['../structsbgl__PipelineConfig.html#ac3550304f58bc79999aba049dce8e7dc',1,'sbgl_PipelineConfig']]],
   ['vertexoffset_11',['vertexOffset',['../structsbgl__IndirectCommand.html#a38e5444b04572d481f005f44c4c7deed',1,'sbgl_IndirectCommand']]],
   ['vertexshader_12',['vertexShader',['../structsbgl__PipelineConfig.html#a2f36a5caf035fe18d6a1912cd8817080',1,'sbgl_PipelineConfig']]],
@@ -100,8 +100,8 @@ var searchData=
   ['voxel_5frendering_2emd_97',['voxel_rendering.md',['../voxel__rendering_8md.html',1,'']]],
   ['voxel_5fworld_5fsize_98',['VOXEL_WORLD_SIZE',['../voxel__main_8c.html#a1783cf62199e1e30d42d78836ce5d0b1',1,'voxel_main.c']]],
   ['voxelpushconstants_99',['VoxelPushConstants',['../structVoxelPushConstants.html',1,'']]],
-  ['vs_20traditional_20meshing_100',['Comparison: Procedural vs. Traditional Meshing',['../md_docs_2manual_2voxel__rendering.html#autotoc_md186',1,'']]],
+  ['vs_20traditional_20meshing_100',['Comparison: Procedural vs. Traditional Meshing',['../md_docs_2manual_2voxel__rendering.html#autotoc_md187',1,'']]],
   ['vulkan_20backend_20architecture_101',['SBgl Vulkan Backend Architecture',['../md_docs_2manual_2vulkan__backend.html',1,'']]],
-  ['vulkan_20clear_102',['Native Wayland &amp; Vulkan Clear',['../md_docs_2ROADMAP.html#autotoc_md225',1,'']]],
+  ['vulkan_20clear_102',['Native Wayland &amp; Vulkan Clear',['../md_docs_2ROADMAP.html#autotoc_md226',1,'']]],
   ['vulkan_5fbackend_2emd_103',['vulkan_backend.md',['../vulkan__backend_8md.html',1,'']]]
 ];

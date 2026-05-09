@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"structsbgl__InternalContext.html#ab2f99fa34cabf1e071749abed58215c5":[17,0,12,12],
+"structsbgl__InternalContext.html#abc16dc0c73bd37ca89d96b9e1a4c8e47":[17,0,12,5],
 "structsbgl__InternalContext.html#ad850e4314963cbecbf1913882ccaedef":[17,0,12,0],
 "structsbgl__InternalContext.html#add7dfdd323efab5e0ce3704a51fbbb9d":[17,0,12,9],
 "structsbgl__InternalContext.html#adf2dcd3d28f3a35e49ffae521e354bbf":[17,0,12,11],

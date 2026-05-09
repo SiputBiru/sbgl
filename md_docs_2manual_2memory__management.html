@@ -115,26 +115,44 @@ Memory Visualization</h1>
 <p>The following diagrams illustrate the core hierarchy and ownership.</p>
 <h2><a class="anchor" id="autotoc_md120"></a>
 Core Hierarchy and Ownership</h2>
-<p>The public context shell encapsulates the internal state and the physical memory controller. <img src="memory_ownership_flow.jpeg" alt="SBgl Ownership Flow" width="600" class="inline"/></p>
+<p>The public context shell encapsulates the internal state and the physical memory controller. <img src="ownership_flow.svg" alt="SBgl Ownership Flow" style="pointer-events: none;" width="600" class="inline"/></p>
+<ul>
+<li><b>Persistent Arena (4MB)</b>: Where the Window and Gfx state live.</li>
+<li><b>Transient Arena (16MB)</b>: Where high-frequency, frame-local data lives (e.g., sort keys, merged packets).</li>
+</ul>
 <h2><a class="anchor" id="autotoc_md121"></a>
 Memory Block Layout</h2>
-<p>The linear allocation pattern and the mark/rewind recycling mechanic are used during runtime events like window resizing. <img src="memory_block_layout.jpeg" alt="SBgl Memory Block Layout" width="600" class="inline"/></p>
+<p>The linear allocation pattern and the mark/rewind recycling mechanic are used during runtime events like window resizing. <img src="memory_block_layout.svg" alt="SBgl Memory Block Layout" style="pointer-events: none;" width="600" class="inline"/></p>
+<p>TECHNICAL SPECIFICATIONS</p>
+<ol type="1">
+<li>MINIMUM ALIGNMENT: 16 Bytes Satisfies requirements for SIMD types (<a class="el" href="structsbgl__Mat4.html" title="4x4 Matrix, 16-byte aligned, column-major.">sbgl_Mat4</a>, <a class="el" href="unionsbgl__Vec4.html" title="4D Vector, 16-byte aligned.">sbgl_Vec4</a>) and Vulkan Buffer Device Address (BDA) storage alignment.</li>
+<li>HEADER SIZE: 32 Bytes The <a class="el" href="structSblArenaBlock.html" title="A single block of memory in the arena.">SblArenaBlock</a> header is explicitly padded. Since 32 is a multiple of 16, the data payload in every block starts perfectly aligned, preventing "misalignment drift" in multi-block arenas.</li>
+<li>ALLOCATION LOGIC (O(1)): ptr = (aligned_offset + size) The "Increment Only" pattern ensures zero heap contention and zero fragmentation during the frame-processing hot path.</li>
+</ol>
 <hr  />
 <h1><a class="anchor" id="autotoc_md123"></a>
 The Arena Allocator (SblArena)</h1>
 <p>The core of the memory system is the linear arena allocator defined in <code><a class="el" href="sbl__arena_8h.html" title="Arena allocator implementation.">sbl_arena.h</a></code>. This allocator manages contiguous blocks of memory and satisfies allocation requests by simply incrementing an offset pointer.</p>
 <ul>
-<li><b>Complexity</b>: O(1) for both allocation and deallocation.</li>
+<li><b>Complexity</b>: O(1) for both allocation and deallocation. The allocator satisfies requests by simply <b>incrementing an internal offset pointer</b>. This design eliminates the need to traverse free-lists or communicate with the OS kernel during the performance-critical render loop, ensuring zero-latency memory access.</li>
+<li><b>Alignment</b>: The allocator enforces a default <b>16-byte alignment</b> for all allocations. This is a critical requirement for SIMD-optimized data types (like <code><a class="el" href="structsbgl__Mat4.html" title="4x4 Matrix, 16-byte aligned, column-major.">sbgl_Mat4</a></code> and <code><a class="el" href="structsbgl__InstanceData.html" title="Per-instance data for automated batching.">sbgl_InstanceData</a></code>) which trigger hardware exceptions if accessed on unaligned boundaries.</li>
 <li><b>Safety</b>: Individual elements are never freed; instead, the entire arena is released at once, preventing dangling pointers and leaks.</li>
 <li><b>Zero-Initialization</b>: The <code>SBL_ARENA_PUSH_STRUCT_ZERO</code> macro ensures that all allocated state starts in a known, valid zero-state.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md124"></a>
+<h2><a class="anchor" id="autotoc_md124"></a>
+Block Header Architecture</h2>
+<p>To maintain strict alignment across multiple memory blocks, the <code><a class="el" href="structSblArenaBlock.html" title="A single block of memory in the arena.">SblArenaBlock</a></code> header is explicitly padded to 32 bytes. This ensures that the start of the data payload in every new block is already aligned to a 16-byte boundary, preventing "drift" when the arena grows.</p>
+<h1><a class="anchor" id="autotoc_md125"></a>
 Context-Encapsulated Lifecycles</h1>
 <p>The <code><a class="el" href="structsbgl__Context.html" title="Engine context.">sbgl_Context</a></code> holds the primary <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code> for the entire engine instance. When <code>sbgl_Init</code> is called, the arena is initialized first, and then the context shell and all internal platform structures (like the window state) are allocated directly from it.</p>
-<h2><a class="anchor" id="autotoc_md125"></a>
-The Transient Arena</h2>
-<p>While the primary arena manages the context lifecycle, SBgl utilizes a <b>Transient Arena</b> for data that only needs to exist for the duration of a single frame (e.g., sort keys, merged draw packets, temporary math buffers). This arena is reset at the beginning of every frame processing cycle, providing zero-latency "scratch" memory without the overhead of heap fragmentation.</p>
 <h2><a class="anchor" id="autotoc_md126"></a>
+The Transient Arena</h2>
+<p>While the primary arena manages the context lifecycle, SBgl utilizes a <b>Transient Arena</b> for data that only needs to exist for the duration of a single frame (e.g., sort keys, merged draw packets, temporary math buffers).</p>
+<ul>
+<li><b>Default Size</b>: Initialized to <b>16MB</b> to support high-frequency batching of up to 100,000 instances without triggering runtime reallocations.</li>
+<li><b>Lifecycle</b>: This arena is reset at the beginning of every frame processing cycle, providing zero-latency "scratch" memory without the overhead of heap fragmentation.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md127"></a>
 Arena Hierarchy (ASCII)</h2>
 <div class="fragment"><div class="line">[ Context Memory Block ]</div>
 <div class="line">|</div>
@@ -147,10 +165,10 @@ Arena Hierarchy (ASCII)</h2>
 <div class="line">|   |-- Merged Draw Packets</div>
 <div class="line">|   |-- Radix Sort Key/Index Buffers</div>
 <div class="line">|   |-- Temporary Transformation Workspace</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md127"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md128"></a>
 Transient GPU Buffers</h1>
 <p>For high-frequency GPU data that changes every frame (such as instance transforms and indirect draw commands), SBgl avoids standard buffer creation and destruction. Instead, it utilizes a <b>GPU Transient Buffer</b> system.</p>
-<h2><a class="anchor" id="autotoc_md128"></a>
+<h2><a class="anchor" id="autotoc_md129"></a>
 Ring-Buffer Sub-allocation</h2>
 <p>The Vulkan backend pre-allocates a large, persistently mapped buffer (default 16MB) for each frame in flight.</p>
 <ul>
@@ -158,7 +176,7 @@ Ring-Buffer Sub-allocation</h2>
 <li><b>Reset</b>: At the start of each frame, the offset for that frame's buffer is reset to zero.</li>
 <li><b>Safety</b>: Because each frame in flight has its own dedicated buffer, the CPU can write new data for the next frame while the GPU is still reading data for the previous frame.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md129"></a>
+<h2><a class="anchor" id="autotoc_md130"></a>
 CPU-GPU Interaction (ASCII)</h2>
 <div class="fragment"><div class="line">[ Frame 0 Buffer ] &lt;--- GPU Reading (Render Loop)</div>
 <div class="line">[ Frame 1 Buffer ] &lt;--- CPU Writing (Submission Loop)</div>
@@ -166,10 +184,10 @@ CPU-GPU Interaction (ASCII)</h2>
 <div class="line">      |-- Offset 0: Instances [ Chunk A ]</div>
 <div class="line">      |-- Offset N: Indirect Commands [ Draw 1 ]</div>
 <div class="line">      |-- Offset M: Instances [ Chunk B ]</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md130"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md131"></a>
 Ownership Transfer</h2>
 <p>The <code><a class="el" href="structsbgl__InternalContext.html" title="Internal state for the engine context.">sbgl_InternalContext</a></code> assumes ownership of the arena. This creates a single point of failure and success: calling <code><a class="el" href="sbl__arena_8h.html#a97efbcea33cd0d6157770efea863c44c">sbl_arena_free()</a></code> during shutdown automatically releases every byte of memory used by the core, platform, and graphics layers.</p>
-<h1><a class="anchor" id="autotoc_md131"></a>
+<h1><a class="anchor" id="autotoc_md132"></a>
 Dynamic Resource Management (Mark/Rewind)</h1>
 <p>While arenas are typically linear, SBgl implements a <b>Mark and Rewind</b> pattern to handle dynamic resources that must be recreated, such as the Vulkan Swapchain.</p>
 <ul>
@@ -178,7 +196,7 @@ Dynamic Resource Management (Mark/Rewind)</h1>
 <li><b>The Recycle</b>: New resources are pushed onto the exact same memory location, keeping the memory footprint constant regardless of how many times the window is resized.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md133"></a>
+<h1><a class="anchor" id="autotoc_md134"></a>
 Technical Summary</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">

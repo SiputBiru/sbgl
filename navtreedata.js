@@ -160,122 +160,124 @@ var NAVTREE =
         [ "Core Hierarchy and Ownership", "md_docs_2manual_2memory__management.html#autotoc_md120", null ],
         [ "Memory Block Layout", "md_docs_2manual_2memory__management.html#autotoc_md121", null ]
       ] ],
-      [ "The Arena Allocator (SblArena)", "md_docs_2manual_2memory__management.html#autotoc_md123", null ],
-      [ "Context-Encapsulated Lifecycles", "md_docs_2manual_2memory__management.html#autotoc_md124", [
-        [ "The Transient Arena", "md_docs_2manual_2memory__management.html#autotoc_md125", null ],
-        [ "Arena Hierarchy (ASCII)", "md_docs_2manual_2memory__management.html#autotoc_md126", null ]
+      [ "The Arena Allocator (SblArena)", "md_docs_2manual_2memory__management.html#autotoc_md123", [
+        [ "Block Header Architecture", "md_docs_2manual_2memory__management.html#autotoc_md124", null ]
       ] ],
-      [ "Transient GPU Buffers", "md_docs_2manual_2memory__management.html#autotoc_md127", [
-        [ "Ring-Buffer Sub-allocation", "md_docs_2manual_2memory__management.html#autotoc_md128", null ],
-        [ "CPU-GPU Interaction (ASCII)", "md_docs_2manual_2memory__management.html#autotoc_md129", null ],
-        [ "Ownership Transfer", "md_docs_2manual_2memory__management.html#autotoc_md130", null ]
+      [ "Context-Encapsulated Lifecycles", "md_docs_2manual_2memory__management.html#autotoc_md125", [
+        [ "The Transient Arena", "md_docs_2manual_2memory__management.html#autotoc_md126", null ],
+        [ "Arena Hierarchy (ASCII)", "md_docs_2manual_2memory__management.html#autotoc_md127", null ]
       ] ],
-      [ "Dynamic Resource Management (Mark/Rewind)", "md_docs_2manual_2memory__management.html#autotoc_md131", null ],
-      [ "Technical Summary", "md_docs_2manual_2memory__management.html#autotoc_md133", null ]
+      [ "Transient GPU Buffers", "md_docs_2manual_2memory__management.html#autotoc_md128", [
+        [ "Ring-Buffer Sub-allocation", "md_docs_2manual_2memory__management.html#autotoc_md129", null ],
+        [ "CPU-GPU Interaction (ASCII)", "md_docs_2manual_2memory__management.html#autotoc_md130", null ],
+        [ "Ownership Transfer", "md_docs_2manual_2memory__management.html#autotoc_md131", null ]
+      ] ],
+      [ "Dynamic Resource Management (Mark/Rewind)", "md_docs_2manual_2memory__management.html#autotoc_md132", null ],
+      [ "Technical Summary", "md_docs_2manual_2memory__management.html#autotoc_md134", null ]
     ] ],
     [ "SBgl Platform Abstraction Layer (HAL)", "md_docs_2manual_2platform__abstraction.html", [
-      [ "The Interface (sbgl_platform.h)", "md_docs_2manual_2platform__abstraction.html#autotoc_md136", [
-        [ "Relationship with sbgl_Context", "md_docs_2manual_2platform__abstraction.html#autotoc_md137", null ]
+      [ "The Interface (sbgl_platform.h)", "md_docs_2manual_2platform__abstraction.html#autotoc_md137", [
+        [ "Relationship with sbgl_Context", "md_docs_2manual_2platform__abstraction.html#autotoc_md138", null ]
       ] ],
-      [ "Core HAL Interface", "md_docs_2manual_2platform__abstraction.html#autotoc_md139", null ],
-      [ "Window Lifecycle and Closure", "md_docs_2manual_2platform__abstraction.html#autotoc_md141", [
-        [ "Platform-Specific Triggers", "md_docs_2manual_2platform__abstraction.html#autotoc_md142", null ],
-        [ "User Responsibility", "md_docs_2manual_2platform__abstraction.html#autotoc_md143", null ],
-        [ "Windows (Win32)", "md_docs_2manual_2platform__abstraction.html#autotoc_md145", null ],
-        [ "Linux (Wayland)", "md_docs_2manual_2platform__abstraction.html#autotoc_md146", null ],
-        [ "Linux (X11)", "md_docs_2manual_2platform__abstraction.html#autotoc_md147", null ]
+      [ "Core HAL Interface", "md_docs_2manual_2platform__abstraction.html#autotoc_md140", null ],
+      [ "Window Lifecycle and Closure", "md_docs_2manual_2platform__abstraction.html#autotoc_md142", [
+        [ "Platform-Specific Triggers", "md_docs_2manual_2platform__abstraction.html#autotoc_md143", null ],
+        [ "User Responsibility", "md_docs_2manual_2platform__abstraction.html#autotoc_md144", null ],
+        [ "Windows (Win32)", "md_docs_2manual_2platform__abstraction.html#autotoc_md146", null ],
+        [ "Linux (Wayland)", "md_docs_2manual_2platform__abstraction.html#autotoc_md147", null ],
+        [ "Linux (X11)", "md_docs_2manual_2platform__abstraction.html#autotoc_md148", null ]
       ] ],
-      [ "References & Further Reading", "md_docs_2manual_2platform__abstraction.html#autotoc_md149", null ]
+      [ "References & Further Reading", "md_docs_2manual_2platform__abstraction.html#autotoc_md150", null ]
     ] ],
     [ "SBgl Rendering Pipeline", "md_docs_2manual_2rendering__pipeline.html", [
-      [ "Key Concepts", "md_docs_2manual_2rendering__pipeline.html#autotoc_md151", [
-        [ "Handle-Based Resource Management", "md_docs_2manual_2rendering__pipeline.html#autotoc_md152", null ],
-        [ "Explicit Pipeline State Objects (PSO)", "md_docs_2manual_2rendering__pipeline.html#autotoc_md153", null ],
-        [ "Vertex Input Layout", "md_docs_2manual_2rendering__pipeline.html#autotoc_md154", null ]
+      [ "Key Concepts", "md_docs_2manual_2rendering__pipeline.html#autotoc_md152", [
+        [ "Handle-Based Resource Management", "md_docs_2manual_2rendering__pipeline.html#autotoc_md153", null ],
+        [ "Explicit Pipeline State Objects (PSO)", "md_docs_2manual_2rendering__pipeline.html#autotoc_md154", null ],
+        [ "Vertex Input Layout", "md_docs_2manual_2rendering__pipeline.html#autotoc_md155", null ]
       ] ],
-      [ "Shader Loading Strategies", "md_docs_2manual_2rendering__pipeline.html#autotoc_md155", [
-        [ "Dynamic File Loading", "md_docs_2manual_2rendering__pipeline.html#autotoc_md156", null ],
-        [ "Hardcoded (Static) Loading", "md_docs_2manual_2rendering__pipeline.html#autotoc_md157", null ]
+      [ "Shader Loading Strategies", "md_docs_2manual_2rendering__pipeline.html#autotoc_md156", [
+        [ "Dynamic File Loading", "md_docs_2manual_2rendering__pipeline.html#autotoc_md157", null ],
+        [ "Hardcoded (Static) Loading", "md_docs_2manual_2rendering__pipeline.html#autotoc_md158", null ]
       ] ],
-      [ "Vertex Layout Use Case", "md_docs_2manual_2rendering__pipeline.html#autotoc_md158", null ],
-      [ "Complete Drawing Example", "md_docs_2manual_2rendering__pipeline.html#autotoc_md159", null ],
-      [ "Depth Buffering & 3D Sorting", "md_docs_2manual_2rendering__pipeline.html#autotoc_md160", null ],
-      [ "Synchronization & Frames in Flight", "md_docs_2manual_2rendering__pipeline.html#autotoc_md161", null ],
-      [ "Automated Batching", "md_docs_2manual_2rendering__pipeline.html#autotoc_md162", [
-        [ "Render Queues", "md_docs_2manual_2rendering__pipeline.html#autotoc_md163", null ],
-        [ "Submitting Draws", "md_docs_2manual_2rendering__pipeline.html#autotoc_md164", null ],
-        [ "Executing the Queue", "md_docs_2manual_2rendering__pipeline.html#autotoc_md165", null ]
+      [ "Vertex Layout Use Case", "md_docs_2manual_2rendering__pipeline.html#autotoc_md159", null ],
+      [ "Complete Drawing Example", "md_docs_2manual_2rendering__pipeline.html#autotoc_md160", null ],
+      [ "Depth Buffering & 3D Sorting", "md_docs_2manual_2rendering__pipeline.html#autotoc_md161", null ],
+      [ "Synchronization & Frames in Flight", "md_docs_2manual_2rendering__pipeline.html#autotoc_md162", null ],
+      [ "Automated Batching", "md_docs_2manual_2rendering__pipeline.html#autotoc_md163", [
+        [ "Render Queues", "md_docs_2manual_2rendering__pipeline.html#autotoc_md164", null ],
+        [ "Submitting Draws", "md_docs_2manual_2rendering__pipeline.html#autotoc_md165", null ],
+        [ "Executing the Queue", "md_docs_2manual_2rendering__pipeline.html#autotoc_md166", null ]
       ] ],
-      [ "Optimized Batch Submission", "md_docs_2manual_2rendering__pipeline.html#autotoc_md166", [
-        [ "Persistent Mapping", "md_docs_2manual_2rendering__pipeline.html#autotoc_md167", null ],
-        [ "Multi-Draw Indirect (MDI)", "md_docs_2manual_2rendering__pipeline.html#autotoc_md168", null ]
+      [ "Optimized Batch Submission", "md_docs_2manual_2rendering__pipeline.html#autotoc_md167", [
+        [ "Persistent Mapping", "md_docs_2manual_2rendering__pipeline.html#autotoc_md168", null ],
+        [ "Multi-Draw Indirect (MDI)", "md_docs_2manual_2rendering__pipeline.html#autotoc_md169", null ]
       ] ],
-      [ "Batch Rendering & DOD Alignment", "md_docs_2manual_2rendering__pipeline.html#autotoc_md169", [
-        [ "Dynamic Vertex Updates", "md_docs_2manual_2rendering__pipeline.html#autotoc_md170", null ],
-        [ "Multi-Queue Submission", "md_docs_2manual_2rendering__pipeline.html#autotoc_md171", null ]
+      [ "Batch Rendering & DOD Alignment", "md_docs_2manual_2rendering__pipeline.html#autotoc_md170", [
+        [ "Dynamic Vertex Updates", "md_docs_2manual_2rendering__pipeline.html#autotoc_md171", null ],
+        [ "Multi-Queue Submission", "md_docs_2manual_2rendering__pipeline.html#autotoc_md172", null ]
       ] ],
-      [ "Multithreading Considerations", "md_docs_2manual_2rendering__pipeline.html#autotoc_md172", null ]
+      [ "Multithreading Considerations", "md_docs_2manual_2rendering__pipeline.html#autotoc_md173", null ]
     ] ],
     [ "Performance Telemetry System", "md_docs_2manual_2telemetry.html", [
-      [ "Architecture", "md_docs_2manual_2telemetry.html#autotoc_md175", [
-        [ "Timing Precision", "md_docs_2manual_2telemetry.html#autotoc_md176", null ]
+      [ "Architecture", "md_docs_2manual_2telemetry.html#autotoc_md176", [
+        [ "Timing Precision", "md_docs_2manual_2telemetry.html#autotoc_md177", null ]
       ] ],
-      [ "The Telemetry Structure", "md_docs_2manual_2telemetry.html#autotoc_md178", null ],
-      [ "Usage Example", "md_docs_2manual_2telemetry.html#autotoc_md180", null ],
-      [ "Bottleneck Identification", "md_docs_2manual_2telemetry.html#autotoc_md182", null ],
-      [ "Future Considerations", "md_docs_2manual_2telemetry.html#autotoc_md184", null ]
+      [ "The Telemetry Structure", "md_docs_2manual_2telemetry.html#autotoc_md179", null ],
+      [ "Usage Example", "md_docs_2manual_2telemetry.html#autotoc_md181", null ],
+      [ "Bottleneck Identification", "md_docs_2manual_2telemetry.html#autotoc_md183", null ],
+      [ "Future Considerations", "md_docs_2manual_2telemetry.html#autotoc_md185", null ]
     ] ],
     [ "Voxel Rendering Architecture", "md_docs_2manual_2voxel__rendering.html", [
-      [ "Comparison: Procedural vs. Traditional Meshing", "md_docs_2manual_2voxel__rendering.html#autotoc_md186", null ],
-      [ "Procedural Geometry Synthesis", "md_docs_2manual_2voxel__rendering.html#autotoc_md187", [
-        [ "Implementation Snippet", "md_docs_2manual_2voxel__rendering.html#autotoc_md188", null ]
+      [ "Comparison: Procedural vs. Traditional Meshing", "md_docs_2manual_2voxel__rendering.html#autotoc_md187", null ],
+      [ "Procedural Geometry Synthesis", "md_docs_2manual_2voxel__rendering.html#autotoc_md188", [
+        [ "Implementation Snippet", "md_docs_2manual_2voxel__rendering.html#autotoc_md189", null ]
       ] ],
-      [ "Data-Oriented Metadata Passthrough", "md_docs_2manual_2voxel__rendering.html#autotoc_md189", null ],
-      [ "Performance Characteristics", "md_docs_2manual_2voxel__rendering.html#autotoc_md190", null ],
-      [ "Procedural Shading", "md_docs_2manual_2voxel__rendering.html#autotoc_md191", [
-        [ "Seamless Tiling & Periodicity", "md_docs_2manual_2voxel__rendering.html#autotoc_md192", null ]
+      [ "Data-Oriented Metadata Passthrough", "md_docs_2manual_2voxel__rendering.html#autotoc_md190", null ],
+      [ "Performance Characteristics", "md_docs_2manual_2voxel__rendering.html#autotoc_md191", null ],
+      [ "Procedural Shading", "md_docs_2manual_2voxel__rendering.html#autotoc_md192", [
+        [ "Seamless Tiling & Periodicity", "md_docs_2manual_2voxel__rendering.html#autotoc_md193", null ]
       ] ],
-      [ "Render Distance Control", "md_docs_2manual_2voxel__rendering.html#autotoc_md193", [
-        [ "Performance & Clipping Considerations", "md_docs_2manual_2voxel__rendering.html#autotoc_md194", null ]
+      [ "Render Distance Control", "md_docs_2manual_2voxel__rendering.html#autotoc_md194", [
+        [ "Performance & Clipping Considerations", "md_docs_2manual_2voxel__rendering.html#autotoc_md195", null ]
       ] ]
     ] ],
     [ "SBgl Vulkan Backend Architecture", "md_docs_2manual_2vulkan__backend.html", [
-      [ "Instance Initialization", "md_docs_2manual_2vulkan__backend.html#autotoc_md197", null ],
-      [ "Surface Integration", "md_docs_2manual_2vulkan__backend.html#autotoc_md198", null ],
-      [ "Physical Device Selection", "md_docs_2manual_2vulkan__backend.html#autotoc_md199", null ],
-      [ "Logical Device and Queue Management", "md_docs_2manual_2vulkan__backend.html#autotoc_md200", null ],
-      [ "Debugging & Validation", "md_docs_2manual_2vulkan__backend.html#autotoc_md201", null ],
-      [ "Swapchain Infrastructure", "md_docs_2manual_2vulkan__backend.html#autotoc_md202", null ],
-      [ "Frame Execution Pipeline", "md_docs_2manual_2vulkan__backend.html#autotoc_md203", [
-        [ "Frame Initiation", "md_docs_2manual_2vulkan__backend.html#autotoc_md204", null ],
-        [ "Dynamic Clearing", "md_docs_2manual_2vulkan__backend.html#autotoc_md205", null ],
-        [ "Frame Presentation", "md_docs_2manual_2vulkan__backend.html#autotoc_md206", null ]
+      [ "Instance Initialization", "md_docs_2manual_2vulkan__backend.html#autotoc_md198", null ],
+      [ "Surface Integration", "md_docs_2manual_2vulkan__backend.html#autotoc_md199", null ],
+      [ "Physical Device Selection", "md_docs_2manual_2vulkan__backend.html#autotoc_md200", null ],
+      [ "Logical Device and Queue Management", "md_docs_2manual_2vulkan__backend.html#autotoc_md201", null ],
+      [ "Debugging & Validation", "md_docs_2manual_2vulkan__backend.html#autotoc_md202", null ],
+      [ "Swapchain Infrastructure", "md_docs_2manual_2vulkan__backend.html#autotoc_md203", null ],
+      [ "Frame Execution Pipeline", "md_docs_2manual_2vulkan__backend.html#autotoc_md204", [
+        [ "Frame Initiation", "md_docs_2manual_2vulkan__backend.html#autotoc_md205", null ],
+        [ "Dynamic Clearing", "md_docs_2manual_2vulkan__backend.html#autotoc_md206", null ],
+        [ "Frame Presentation", "md_docs_2manual_2vulkan__backend.html#autotoc_md207", null ]
       ] ],
-      [ "Memory Management & Lifecycle", "md_docs_2manual_2vulkan__backend.html#autotoc_md208", [
-        [ "Arena-Backed Allocations", "md_docs_2manual_2vulkan__backend.html#autotoc_md209", null ],
-        [ "Dynamic Swapchain Recreation (Mark/Rewind)", "md_docs_2manual_2vulkan__backend.html#autotoc_md210", null ]
+      [ "Memory Management & Lifecycle", "md_docs_2manual_2vulkan__backend.html#autotoc_md209", [
+        [ "Arena-Backed Allocations", "md_docs_2manual_2vulkan__backend.html#autotoc_md210", null ],
+        [ "Dynamic Swapchain Recreation (Mark/Rewind)", "md_docs_2manual_2vulkan__backend.html#autotoc_md211", null ]
       ] ],
-      [ "Context-Based Backend (Multi-Context Support)", "md_docs_2manual_2vulkan__backend.html#autotoc_md212", null ],
-      [ "GPU Synchronization & Teardown", "md_docs_2manual_2vulkan__backend.html#autotoc_md214", [
-        [ "Safe Teardown Pattern", "md_docs_2manual_2vulkan__backend.html#autotoc_md215", null ],
-        [ "Validation Errors", "md_docs_2manual_2vulkan__backend.html#autotoc_md216", null ]
+      [ "Context-Based Backend (Multi-Context Support)", "md_docs_2manual_2vulkan__backend.html#autotoc_md213", null ],
+      [ "GPU Synchronization & Teardown", "md_docs_2manual_2vulkan__backend.html#autotoc_md215", [
+        [ "Safe Teardown Pattern", "md_docs_2manual_2vulkan__backend.html#autotoc_md216", null ],
+        [ "Validation Errors", "md_docs_2manual_2vulkan__backend.html#autotoc_md217", null ]
       ] ],
-      [ "Buffer Device Address (BDA)", "md_docs_2manual_2vulkan__backend.html#autotoc_md217", null ],
-      [ "Indirect Drawing", "md_docs_2manual_2vulkan__backend.html#autotoc_md218", null ],
-      [ "Technical Summary", "md_docs_2manual_2vulkan__backend.html#autotoc_md220", null ],
-      [ "References & Further Reading", "md_docs_2manual_2vulkan__backend.html#autotoc_md222", null ]
+      [ "Buffer Device Address (BDA)", "md_docs_2manual_2vulkan__backend.html#autotoc_md218", null ],
+      [ "Indirect Drawing", "md_docs_2manual_2vulkan__backend.html#autotoc_md219", null ],
+      [ "Technical Summary", "md_docs_2manual_2vulkan__backend.html#autotoc_md221", null ],
+      [ "References & Further Reading", "md_docs_2manual_2vulkan__backend.html#autotoc_md223", null ]
     ] ],
     [ "SBgl Roadmap", "md_docs_2ROADMAP.html", [
-      [ "HAL & Context Foundation", "md_docs_2ROADMAP.html#autotoc_md224", null ],
-      [ "Native Wayland & Vulkan Clear", "md_docs_2ROADMAP.html#autotoc_md225", null ],
-      [ "Core Matrix & Math (simd-ready)", "md_docs_2ROADMAP.html#autotoc_md226", null ],
-      [ "Camera System & Batch Collision", "md_docs_2ROADMAP.html#autotoc_md227", null ],
-      [ "Vertex Buffers & Triangle Rendering", "md_docs_2ROADMAP.html#autotoc_md228", null ],
-      [ "Context-Based Backend Refactor (Multi-Context Support)", "md_docs_2ROADMAP.html#autotoc_md229", null ],
-      [ "API Standardization & Error Handling", "md_docs_2ROADMAP.html#autotoc_md230", null ],
-      [ "GPU Optimization & Batching (MDI/Bit-packing)", "md_docs_2ROADMAP.html#autotoc_md231", null ],
-      [ "High-Level rendering (Text/Sprites)", "md_docs_2ROADMAP.html#autotoc_md232", null ],
-      [ "Future Considerations", "md_docs_2ROADMAP.html#autotoc_md233", null ]
+      [ "HAL & Context Foundation", "md_docs_2ROADMAP.html#autotoc_md225", null ],
+      [ "Native Wayland & Vulkan Clear", "md_docs_2ROADMAP.html#autotoc_md226", null ],
+      [ "Core Matrix & Math (simd-ready)", "md_docs_2ROADMAP.html#autotoc_md227", null ],
+      [ "Camera System & Batch Collision", "md_docs_2ROADMAP.html#autotoc_md228", null ],
+      [ "Vertex Buffers & Triangle Rendering", "md_docs_2ROADMAP.html#autotoc_md229", null ],
+      [ "Context-Based Backend Refactor (Multi-Context Support)", "md_docs_2ROADMAP.html#autotoc_md230", null ],
+      [ "API Standardization & Error Handling", "md_docs_2ROADMAP.html#autotoc_md231", null ],
+      [ "GPU Optimization & Batching (MDI/Bit-packing)", "md_docs_2ROADMAP.html#autotoc_md232", null ],
+      [ "High-Level rendering (Text/Sprites)", "md_docs_2ROADMAP.html#autotoc_md233", null ],
+      [ "Future Considerations", "md_docs_2ROADMAP.html#autotoc_md234", null ]
     ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -304,9 +306,9 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "md_CHANGELOG.html#autotoc_md28",
-"sbgl_8h.html#ab64905fb7ecdb7ecbc111cbed9e4bd7c",
-"sbgl__types_8h.html#ace2724fddb622a385379c65e44fc6347",
-"structsbgl__InternalContext.html#ad850e4314963cbecbf1913882ccaedef"
+"sbgl_8h.html#aabb1326dc4ead367218ac3a5af8ec864",
+"sbgl__types_8h.html#ac59ae34bd66cb646ab3748bffa35c8b3",
+"structsbgl__InternalContext.html#ab2f99fa34cabf1e071749abed58215c5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

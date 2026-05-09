@@ -631,7 +631,15 @@ void sbgl_RenderQueuesEx(
 	}
 
 	// A stable radix sort is performed on the packets based on sort keys
-	sbgl_radix_sort(keys, indices, totalPackets);
+	sbgl_SortKey* temp_keys =
+		SBL_ARENA_PUSH_ARRAY(&inner->transientArena, sbgl_SortKey, totalPackets);
+	uint32_t* temp_indices = SBL_ARENA_PUSH_ARRAY(&inner->transientArena, uint32_t, totalPackets);
+	if (!temp_keys || !temp_indices) {
+		ctx->result = SBGL_ERROR_OUT_OF_MEMORY;
+		return;
+	}
+
+	sbgl_radix_sort(keys, indices, totalPackets, temp_keys, temp_indices);
 
 	// Packets and instances are reordered according to the sorted indices
 	sbgl_DrawPacket* sortedPackets =
@@ -668,17 +676,22 @@ void sbgl_RenderQueuesEx(
 	inner->currentFrame.instance_count += totalPackets;
 
 	if (commandCount > 0) {
-		// Upload packed instance data to a GPU storage buffer
-		sbgl_Buffer instanceBuffer = sbgl_gfx_CreateBuffer(
+		// Allocate transient GPU space for packed instance data
+		sbgl_GfxTransientAllocation instanceAlloc = sbgl_gfx_AllocateTransient(
 			inner->gfx,
-			SBGL_BUFFER_USAGE_STORAGE,
 			sizeof(sbgl_InstanceData) * totalPackets,
-			sortedInstances
+			256 // Storage buffer alignment
 		);
 
-		if (instanceBuffer != SBGL_INVALID_HANDLE) {
+		if (instanceAlloc.buffer != SBGL_INVALID_HANDLE) {
+			memcpy(
+				instanceAlloc.mapped,
+				sortedInstances,
+				sizeof(sbgl_InstanceData) * totalPackets
+			);
+
 			// Retrieve BDA address and update push constants
-			uint64_t bdaAddress = sbgl_gfx_GetBufferDeviceAddress(inner->gfx, instanceBuffer);
+			uint64_t bdaAddress = instanceAlloc.deviceAddress;
 
 			struct {
 				sbgl_Mat4 viewProj;
@@ -691,21 +704,26 @@ void sbgl_RenderQueuesEx(
 
 			sbgl_gfx_PushConstants(inner->gfx, sizeof(pc), &pc);
 
-			// Upload baked commands and dispatch MDI
-			sbgl_Buffer indirectBuffer = sbgl_gfx_CreateBuffer(
+			// Allocate transient GPU space for baked commands and dispatch MDI
+			sbgl_GfxTransientAllocation indirectAlloc = sbgl_gfx_AllocateTransient(
 				inner->gfx,
-				SBGL_BUFFER_USAGE_INDIRECT,
 				sizeof(sbgl_IndirectCommand) * commandCount,
-				commands
+				16 // Indirect buffer alignment
 			);
 
-			if (indirectBuffer != SBGL_INVALID_HANDLE) {
-				sbgl_gfx_DrawIndirect(inner->gfx, indirectBuffer, commandCount);
-				sbgl_gfx_DestroyBufferDeferred(inner->gfx, indirectBuffer);
+			if (indirectAlloc.buffer != SBGL_INVALID_HANDLE) {
+				memcpy(
+					indirectAlloc.mapped,
+					commands,
+					sizeof(sbgl_IndirectCommand) * commandCount
+				);
+				sbgl_gfx_DrawIndirect(
+					inner->gfx,
+					indirectAlloc.buffer,
+					indirectAlloc.offset,
+					commandCount
+				);
 			}
-
-			// Queue instance buffer for destruction after frame
-			sbgl_gfx_DestroyBufferDeferred(inner->gfx, instanceBuffer);
 		}
 	}
 

@@ -51,6 +51,26 @@ While the primary arena manages the context lifecycle, SBgl utilizes a **Transie
 |   |-- Temporary Transformation Workspace
 ```
 
+## Transient GPU Buffers
+
+For high-frequency GPU data that changes every frame (such as instance transforms and indirect draw commands), SBgl avoids standard buffer creation and destruction. Instead, it utilizes a **GPU Transient Buffer** system.
+
+### Ring-Buffer Sub-allocation
+The Vulkan backend pre-allocates a large, persistently mapped buffer (default 16MB) for each frame in flight.
+- **Allocation**: The `sbgl_gfx_AllocateTransient` function sub-allocates from the current frame's buffer using a linear offset.
+- **Reset**: At the start of each frame, the offset for that frame's buffer is reset to zero.
+- **Safety**: Because each frame in flight has its own dedicated buffer, the CPU can write new data for the next frame while the GPU is still reading data for the previous frame.
+
+### CPU-GPU Interaction (ASCII)
+```text
+[ Frame 0 Buffer ] <--- GPU Reading (Render Loop)
+[ Frame 1 Buffer ] <--- CPU Writing (Submission Loop)
+      ^
+      |-- Offset 0: Instances [ Chunk A ]
+      |-- Offset N: Indirect Commands [ Draw 1 ]
+      |-- Offset M: Instances [ Chunk B ]
+```
+
 ### Ownership Transfer
 
 The `sbgl_InternalContext` assumes ownership of the arena. This creates a single point of failure and success: calling `sbl_arena_free()` during shutdown automatically releases every byte of memory used by the core, platform, and graphics layers.

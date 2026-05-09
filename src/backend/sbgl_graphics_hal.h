@@ -48,12 +48,23 @@ void sbgl_gfx_BindBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer, sbgl_BufferUs
  * allowing the GPU to read draw parameters directly from a buffer.
  */
 typedef struct {
-    uint32_t indexCount;    /**< Number of indices to draw. */
-    uint32_t instanceCount; /**< Number of instances to draw. */
-    uint32_t firstIndex;    /**< Byte offset of the first index in the index buffer. */
-    int32_t  vertexOffset;  /**< Value added to each index before addressing the vertex buffer. */
-    uint32_t firstInstance; /**< ID of the first instance to draw. */
+	uint32_t indexCount;	/**< Number of indices to draw. */
+	uint32_t instanceCount; /**< Number of instances to draw. */
+	uint32_t firstIndex;	/**< Byte offset of the first index in the index buffer. */
+	int32_t vertexOffset;	/**< Value added to each index before addressing the vertex buffer. */
+	uint32_t firstInstance; /**< ID of the first instance to draw. */
 } sbgl_IndirectCommand;
+
+/**
+ * @brief Represents a slice of a persistent GPU buffer used for transient data.
+ */
+typedef struct {
+	sbgl_Buffer buffer;		   /**< Handle to the underlying GPU buffer. */
+	uint32_t offset;		   /**< Offset in bytes within the buffer. */
+	uint32_t size;			   /**< Size in bytes of the allocated region. */
+	void* mapped;			   /**< CPU-side pointer for writing data. */
+	uint64_t deviceAddress;	   /**< GPU-side virtual address for the allocation. */
+} sbgl_GfxTransientAllocation;
 
 void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex);
 void sbgl_gfx_DrawIndexed(
@@ -68,9 +79,30 @@ void sbgl_gfx_DrawIndexed(
  *
  * @param ctx The graphics context.
  * @param buffer Handle to the buffer containing an array of sbgl_IndirectCommand.
+ * @param offset The byte offset into the buffer where the commands begin.
  * @param drawCount The number of commands to execute from the buffer.
  */
-void sbgl_gfx_DrawIndirect(sbgl_GfxContext* ctx, sbgl_Buffer buffer, uint32_t drawCount);
+void sbgl_gfx_DrawIndirect(
+	sbgl_GfxContext* ctx,
+	sbgl_Buffer buffer,
+	size_t offset,
+	uint32_t drawCount
+);
+
+/**
+ * @brief Allocates a slice of GPU-visible memory for transient per-frame data.
+ *
+ * This memory is managed by the backend's internal per-frame ring buffers and 
+ * does not require manual destruction.
+ *
+ * @param ctx The graphics context.
+ * @param size The number of bytes to allocate.
+ * @param alignment The required byte alignment for the allocation.
+ * @return A structure containing the allocation metadata and mapped pointer.
+ */
+sbgl_GfxTransientAllocation
+sbgl_gfx_AllocateTransient(sbgl_GfxContext* ctx, size_t size, uint32_t alignment);
+
 
 /**
  * @brief Retrieves the 64-bit GPU virtual address for a buffer.

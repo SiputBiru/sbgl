@@ -157,6 +157,18 @@ sbgl_RenderQueues(ctx, &queue, 1, &vp);
 sbgl_EndDrawing(ctx);
 ```
 
+## Optimized Batch Submission
+
+To resolve CPU bottlenecks during high-frequency geometry submission (e.g., voxels, particle systems), SBgl utilizes an internal **Transient Allocation** system.
+
+### Persistent Mapping
+Dynamic data required for each frame—such as per-instance transformation matrices and indirect draw commands—is written directly into a set of persistently mapped GPU buffers.
+- **Zero Allocation Overhead:** Unlike standard buffer creation, transient allocation simply increments a pointer in a pre-allocated pool.
+- **Cache Efficiency:** Data is written sequentially by the CPU and read sequentially by the GPU, maximizing throughput.
+
+### Multi-Draw Indirect (MDI)
+The system "bakes" sorted draw packets into `sbgl_IndirectCommand` structures. These are submitted using `vkCmdDrawIndexedIndirect`, allowing the GPU to process massive numbers of draw calls with a single command dispatch from the CPU.
+
 ## Batch Rendering & DOD Alignment
 
 The handle system is designed for batching. By iterating through arrays of transformation data (SoA) and binding buffers once, geometry submission is achieved. The automated batcher utilizes Multi-Draw Indirect (MDI) to reduce CPU overhead by submitting geometry with a single Vulkan command.
@@ -201,11 +213,6 @@ sbgl_RenderQueues(ctx, queues, 2, &vp);
 ## Multithreading Considerations
 
 The current implementation records commands into a single primary command buffer per context. To support multithreading:
-
-*   The backend will be extended to support Secondary Command Buffers.
-*   Each worker thread will record commands into its own buffer.
-*   The main thread will execute all recorded buffers in a single submission.
-support multithreading:
 
 *   The backend will be extended to support Secondary Command Buffers.
 *   Each worker thread will record commands into its own buffer.

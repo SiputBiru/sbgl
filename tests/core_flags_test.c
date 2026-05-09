@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "sbgl.h"
 #include "sbgl_types.h"
@@ -122,8 +123,28 @@ void sbgl_gfx_DrawIndexed(sbgl_GfxContext* ctx, uint32_t indexCount, uint32_t fi
     (void)ctx; (void)indexCount; (void)firstIndex; (void)vertexOffset;
 }
 
-void sbgl_gfx_DrawIndirect(sbgl_GfxContext* ctx, sbgl_Buffer buffer, uint32_t drawCount) {
-    (void)ctx; (void)buffer; (void)drawCount;
+void sbgl_gfx_DrawIndirect(
+	sbgl_GfxContext* ctx,
+	sbgl_Buffer buffer,
+	size_t offset,
+	uint32_t drawCount
+) {
+	(void)ctx;
+	(void)buffer;
+	(void)offset;
+	(void)drawCount;
+}
+
+sbgl_GfxTransientAllocation
+sbgl_gfx_AllocateTransient(sbgl_GfxContext* ctx, size_t size, uint32_t alignment) {
+	(void)ctx;
+	(void)alignment;
+	sbgl_GfxTransientAllocation alloc = { .buffer = (sbgl_Buffer)1,
+										  .offset = 0,
+										  .size = (uint32_t)size,
+										  .mapped = malloc(size),
+										  .deviceAddress = 0x2000 };
+	return alloc;
 }
 
 uint64_t sbgl_gfx_GetBufferDeviceAddress(sbgl_GfxContext* ctx, sbgl_Buffer buffer) {

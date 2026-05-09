@@ -5,17 +5,25 @@
 #include <time.h>
 #include "../src/core/sbgl_sort.h"
 
+static double get_time_ms(void) {
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec * 1000.0 + ts.tv_nsec / 1000000.0;
+}
+
 static void test_radix_sort_basic(void) {
-    printf("Testing basic sort... ");
-    uint32_t count = 5;
-    sbgl_SortKey keys[] = { 50, 10, 40, 20, 30 };
-    uint32_t values[] = { 0, 1, 2, 3, 4 };
-    
-    sbgl_radix_sort(keys, values, count);
-    
-    for (uint32_t i = 0; i < count - 1; ++i) {
-        assert(keys[i] <= keys[i+1]);
-    }
+	printf("Testing basic sort... ");
+	uint32_t count = 5;
+	sbgl_SortKey keys[] = { 50, 10, 40, 20, 30 };
+	uint32_t values[] = { 0, 1, 2, 3, 4 };
+	sbgl_SortKey temp_keys[5];
+	uint32_t temp_values[5];
+
+	sbgl_radix_sort(keys, values, count, temp_keys, temp_values);
+
+	for (uint32_t i = 0; i < count - 1; ++i) {
+		assert(keys[i] <= keys[i + 1]);
+	}
     
     // Verify values are still associated
     for (uint32_t i = 0; i < count; ++i) {
@@ -29,16 +37,18 @@ static void test_radix_sort_basic(void) {
 }
 
 static void test_radix_sort_duplicates(void) {
-    printf("Testing duplicates... ");
-    uint32_t count = 6;
-    sbgl_SortKey keys[] = { 10, 20, 10, 30, 20, 10 };
-    uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
-    
-    sbgl_radix_sort(keys, values, count);
-    
-    for (uint32_t i = 0; i < count - 1; ++i) {
-        assert(keys[i] <= keys[i+1]);
-    }
+	printf("Testing duplicates... ");
+	uint32_t count = 6;
+	sbgl_SortKey keys[] = { 10, 20, 10, 30, 20, 10 };
+	uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
+	sbgl_SortKey temp_keys[6];
+	uint32_t temp_values[6];
+
+	sbgl_radix_sort(keys, values, count, temp_keys, temp_values);
+
+	for (uint32_t i = 0; i < count - 1; ++i) {
+		assert(keys[i] <= keys[i + 1]);
+	}
     
     // Stable sort check: for key 10, values should be 0, 2, 5 in that order
     assert(keys[0] == 10 && values[0] == 0);
@@ -54,49 +64,59 @@ static void test_radix_sort_duplicates(void) {
 }
 
 static void test_radix_sort_reverse(void) {
-    printf("Testing reverse sorted... ");
-    uint32_t count = 100;
-    sbgl_SortKey* keys = (sbgl_SortKey*)malloc(sizeof(sbgl_SortKey) * count);
-    uint32_t* values = (uint32_t*)malloc(sizeof(uint32_t) * count);
-    
-    for (uint32_t i = 0; i < count; ++i) {
-        keys[i] = (sbgl_SortKey)(count - i);
-        values[i] = i;
-    }
-    
-    sbgl_radix_sort(keys, values, count);
-    
-    for (uint32_t i = 0; i < count - 1; ++i) {
-        assert(keys[i] <= keys[i+1]);
-        assert(keys[i] == (sbgl_SortKey)(i + 1));
-    }
-    
-    free(keys);
-    free(values);
-    printf("Passed.\n");
+	printf("Testing reverse sorted... ");
+	uint32_t count = 100;
+	sbgl_SortKey* keys = (sbgl_SortKey*)malloc(sizeof(sbgl_SortKey) * count);
+	uint32_t* values = (uint32_t*)malloc(sizeof(uint32_t) * count);
+	sbgl_SortKey* tk = (sbgl_SortKey*)malloc(sizeof(sbgl_SortKey) * count);
+	uint32_t* tv = (uint32_t*)malloc(sizeof(uint32_t) * count);
+
+	for (uint32_t i = 0; i < count; ++i) {
+		keys[i] = (sbgl_SortKey)(count - i);
+		values[i] = i;
+	}
+
+	sbgl_radix_sort(keys, values, count, tk, tv);
+
+	for (uint32_t i = 0; i < count - 1; ++i) {
+		assert(keys[i] <= keys[i + 1]);
+		assert(keys[i] == (sbgl_SortKey)(i + 1));
+	}
+
+	free(keys);
+	free(values);
+	free(tk);
+	free(tv);
+	printf("Passed.\n");
 }
 
 static void test_radix_sort_large(void) {
-    printf("Testing large random array (100,000 elements)... ");
-    uint32_t count = 100000;
-    sbgl_SortKey* keys = (sbgl_SortKey*)malloc(sizeof(sbgl_SortKey) * count);
-    uint32_t* values = (uint32_t*)malloc(sizeof(uint32_t) * count);
-    
-    srand(42);
-    for (uint32_t i = 0; i < count; ++i) {
-        keys[i] = ((sbgl_SortKey)rand() << 32) | (sbgl_SortKey)rand();
-        values[i] = i;
-    }
-    
-    sbgl_radix_sort(keys, values, count);
-    
-    for (uint32_t i = 0; i < count - 1; ++i) {
-        assert(keys[i] <= keys[i+1]);
-    }
-    
-    free(keys);
-    free(values);
-    printf("Passed.\n");
+	printf("Testing large random array (100,000 elements)... ");
+	uint32_t count = 100000;
+	sbgl_SortKey* keys = (sbgl_SortKey*)malloc(sizeof(sbgl_SortKey) * count);
+	uint32_t* values = (uint32_t*)malloc(sizeof(uint32_t) * count);
+	sbgl_SortKey* tk = (sbgl_SortKey*)malloc(sizeof(sbgl_SortKey) * count);
+	uint32_t* tv = (uint32_t*)malloc(sizeof(uint32_t) * count);
+
+	srand(42);
+	for (uint32_t i = 0; i < count; ++i) {
+		keys[i] = ((sbgl_SortKey)rand() << 32) | (sbgl_SortKey)rand();
+		values[i] = i;
+	}
+
+	double start = get_time_ms();
+	sbgl_radix_sort(keys, values, count, tk, tv);
+	double end = get_time_ms();
+
+	for (uint32_t i = 0; i < count - 1; ++i) {
+		assert(keys[i] <= keys[i + 1]);
+	}
+
+	free(keys);
+	free(values);
+	free(tk);
+	free(tv);
+	printf("Passed. Time: %.3fms\n", end - start);
 }
 
 int main(void) {

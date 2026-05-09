@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-05-09
+
+### Added
+- **Transient GPU Buffer System**: Implemented a persistent, per-frame transient buffer pool in the Vulkan backend (16MB per frame in flight). This eliminates per-frame Vulkan buffer allocations, memory mappings, and deallocations for dynamic data like instances and indirect commands.
+- **GPU Transient Allocator**: Added `sbgl_gfx_AllocateTransient` to the internal HAL to enable low-overhead, linear sub-allocation from the persistent transient buffers.
+
+### Changed
+- **Optimized Radix Sort**: Refactored `sbgl_radix_sort` to use 8-bit passes (256 buckets) instead of 16-bit passes (65,536 buckets). This significantly reduces CPU cache misses and stack zeroing overhead.
+- **Allocation-Free Hot Path**: Updated `sbgl_radix_sort` to accept external workspace buffers, eliminating per-frame `malloc`/`free` calls in the core batching system.
+- **Render Queue Refactor**: Updated `sbgl_RenderQueuesEx` to use the transient GPU allocator and optimized sorter, resolving the CPU bottleneck in the voxel example.
+- **Updated HAL Signatures**: Modified `sbgl_gfx_DrawIndirect` to accept a byte offset, supporting multi-draw indirect commands within shared transient buffers.
+
+### Fixed
+- **Voxel Example Performance**: Resolved the primary CPU bottleneck in `voxel_main`, reducing CPU frame time from ~11ms to <2ms for standard render distances.
+
 ## [Unreleased] - 2026-05-08
 
 ### Added

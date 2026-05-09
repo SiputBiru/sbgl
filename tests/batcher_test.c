@@ -1,7 +1,14 @@
 #include <assert.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "sbgl_batcher.h"
+
+static double get_time_us(void) {
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ts.tv_sec * 1000000.0 + ts.tv_nsec / 1000.0;
+}
 
 /**
  * Verifies the baking logic by providing a set of sorted draw packets.
@@ -51,7 +58,17 @@ static void test_bake_commands(void) {
 	assert(commands[3].indexCount == 18);
 	assert(commands[3].firstInstance == 4);
 
-	printf("PASS: test_bake_commands\n");
+	printf("PASS: test_bake_commands (Correctness)\n");
+
+	// Benchmark baking logic
+	printf("Benchmarking baking logic (100,000 iterations)... ");
+	double start = get_time_us();
+	uint32_t iterations = 100000;
+	for (uint32_t i = 0; i < iterations; i++) {
+		sbgl_bake_commands(packets, 5, commands, 5);
+	}
+	double end = get_time_us();
+	printf("Time: %.3f us/call\n", (end - start) / iterations);
 }
 
 int main(void) {

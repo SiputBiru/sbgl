@@ -122,6 +122,7 @@ typedef struct {
 #define SBGL_MAX_PIPELINES 256
 #define SBGL_MAX_FRAMES_IN_FLIGHT 2
 #define SBGL_MAX_SWAPCHAIN_IMAGES 8
+#define SBGL_TRANSIENT_BUFFER_SIZE (16 * 1024 * 1024)
 
 typedef struct {
 	VkBuffer handle;
@@ -181,6 +182,10 @@ struct sbgl_GfxContext {
 	SBGL_VulkanShader shaders[SBGL_MAX_SHADERS];
 	SBGL_VulkanPipeline pipelines[SBGL_MAX_PIPELINES];
 	sbgl_Pipeline boundPipeline;
+
+	sbgl_Buffer transientBuffers[SBGL_MAX_FRAMES_IN_FLIGHT];
+	uint32_t transientOffsets[SBGL_MAX_FRAMES_IN_FLIGHT];
+	void* transientMapped[SBGL_MAX_FRAMES_IN_FLIGHT];
 
 	sbgl_Buffer deferredBuffers[SBGL_MAX_FRAMES_IN_FLIGHT][64];
 	uint32_t deferredCount[SBGL_MAX_FRAMES_IN_FLIGHT];
@@ -872,6 +877,40 @@ static bool create_telemetry_resources(sbgl_GfxContext* ctx) {
 	return true;
 }
 
+static bool create_transient_resources(sbgl_GfxContext* ctx) {
+	/* The system allocates persistent, large-scale buffers for each frame in flight,
+	   enabling high-frequency data updates without the overhead of per-frame allocations. */
+	for (uint32_t i = 0; i < SBGL_MAX_FRAMES_IN_FLIGHT; i++) {
+		ctx->transientBuffers[i] = sbgl_gfx_CreateBuffer(
+			ctx,
+			SBGL_BUFFER_USAGE_STORAGE | SBGL_BUFFER_USAGE_INDIRECT,
+			SBGL_TRANSIENT_BUFFER_SIZE,
+			NULL
+		);
+		if (ctx->transientBuffers[i] == SBGL_INVALID_HANDLE) {
+			return false;
+		}
+
+		uint32_t idx = (uint32_t)ctx->transientBuffers[i] - 1;
+		SBGL_VulkanBuffer* buffer = &ctx->buffers[idx];
+
+		/* Memory is mapped once at initialization and kept open for the duration of the
+		   application's lifecycle to eliminate mapping overhead during the render loop. */
+		if (ctx->vk.vkMapMemory(
+				ctx->device,
+				buffer->memory,
+				0,
+				SBGL_TRANSIENT_BUFFER_SIZE,
+				0,
+				&ctx->transientMapped[i]
+			) != VK_SUCCESS) {
+			return false;
+		}
+		ctx->transientOffsets[i] = 0;
+	}
+	return true;
+}
+
 sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 	sbgl_GfxContext* ctx = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_GfxContext);
 	if (!ctx)
@@ -883,7 +922,7 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 	if (!load_vulkan_library(ctx) || !create_instance(ctx) || !create_surface(ctx, window) ||
 		!select_physical_device(ctx) || !create_logical_device(ctx) ||
 		!create_swapchain(ctx, window) || !create_sync_and_command(ctx) ||
-		!create_telemetry_resources(ctx)) {
+		!create_telemetry_resources(ctx) || !create_transient_resources(ctx)) {
 		sbgl_gfx_Shutdown(ctx);
 		return NULL;
 	}
@@ -966,6 +1005,11 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 		sbgl_gfx_DestroyBuffer(ctx, ctx->deferredBuffers[ctx->currentFrame][i]);
 	}
 	ctx->deferredCount[ctx->currentFrame] = 0;
+
+	/* The transient allocation offset is reset for the current frame, effectively 
+	   recycling the GPU memory for new data while ensuring it does not overlap with 
+	   memory currently in use by other frames in flight. */
+	ctx->transientOffsets[ctx->currentFrame] = 0;
 
 	if (sbgl_os_WasWindowResized(ctx->window)) {
 		recreate_swapchain(ctx);
@@ -1559,7 +1603,12 @@ void sbgl_gfx_DrawIndexed(
 	);
 }
 
-void sbgl_gfx_DrawIndirect(sbgl_GfxContext* ctx, sbgl_Buffer handle, uint32_t drawCount) {
+void sbgl_gfx_DrawIndirect(
+	sbgl_GfxContext* ctx,
+	sbgl_Buffer handle,
+	size_t offset,
+	uint32_t drawCount
+) {
 	if (handle == SBGL_INVALID_HANDLE)
 		return;
 	uint32_t index = (uint32_t)handle - 1;
@@ -1569,10 +1618,38 @@ void sbgl_gfx_DrawIndirect(sbgl_GfxContext* ctx, sbgl_Buffer handle, uint32_t dr
 	ctx->vk.vkCmdDrawIndexedIndirect(
 		ctx->commandBuffers[ctx->currentFrame],
 		ctx->buffers[index].handle,
-		0,
+		(VkDeviceSize)offset,
 		drawCount,
 		sizeof(sbgl_IndirectCommand)
 	);
+}
+
+sbgl_GfxTransientAllocation
+sbgl_gfx_AllocateTransient(sbgl_GfxContext* ctx, size_t size, uint32_t alignment) {
+	/* The system sub-allocates from the current frame's persistent buffer, respecting
+	   the requested alignment to ensure compatibility with Vulkan requirements. */
+	uint32_t frame = ctx->currentFrame;
+	uint32_t offset = ctx->transientOffsets[frame];
+
+	if (alignment > 0) {
+		offset = (offset + alignment - 1) & ~(alignment - 1);
+	}
+
+	if (offset + size > SBGL_TRANSIENT_BUFFER_SIZE) {
+		fprintf(stderr, "[Vulkan] Transient buffer overflow for frame %u!\n", frame);
+		return (sbgl_GfxTransientAllocation){ 0 };
+	}
+
+	sbgl_GfxTransientAllocation alloc = {
+		.buffer = ctx->transientBuffers[frame],
+		.offset = offset,
+		.size = (uint32_t)size,
+		.mapped = (char*)ctx->transientMapped[frame] + offset,
+		.deviceAddress = sbgl_gfx_GetBufferDeviceAddress(ctx, ctx->transientBuffers[frame]) + offset
+	};
+
+	ctx->transientOffsets[frame] = offset + (uint32_t)size;
+	return alloc;
 }
 
 void sbgl_gfx_PushConstants(sbgl_GfxContext* ctx, size_t size, const void* data) {

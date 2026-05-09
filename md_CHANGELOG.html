@@ -120,6 +120,7 @@ Added</h2>
 <h2><a class="anchor" id="autotoc_md19"></a>
 Changed</h2>
 <ul>
+<li><b>Default Build Type</b>: Changed the default CMake build configuration from <code>Debug</code> to <code>Release</code> to prioritize performance.</li>
 <li><b>Optimized Radix Sort</b>: Refactored <code>sbgl_radix_sort</code> to use 8-bit passes (256 buckets) instead of 16-bit passes (65,536 buckets). This significantly reduces CPU cache misses and stack zeroing overhead.</li>
 <li><b>Allocation-Free Hot Path</b>: Updated <code>sbgl_radix_sort</code> to accept external workspace buffers, eliminating per-frame <code>malloc</code>/<code>free</code> calls in the core batching system.</li>
 <li><b>Render Queue Refactor</b>: Updated <code>sbgl_RenderQueuesEx</code> to use the transient GPU allocator and optimized sorter, resolving the CPU bottleneck in the voxel example.</li>

@@ -117,8 +117,15 @@ Quick Start</h1>
 <h2><a class="anchor" id="autotoc_md7"></a>
 Examples</h2>
 <div class="fragment"><div class="line">git clone https://github.com/SiputBiru/sbgl.git</div>
+<div class="line"> </div>
+<div class="line"># Release build (default)</div>
 <div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON</div>
 <div class="line">cmake --build build</div>
+<div class="line"> </div>
+<div class="line"># Debug build (with symbols, no optimization)</div>
+<div class="line">cmake -B build -DCMAKE_BUILD_TYPE=Debug -DSBGL_BUILD_EXAMPLES=ON</div>
+<div class="line">cmake --build build</div>
+<div class="line"> </div>
 <div class="line">./build/examples/hello_window</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
 Integrating SBgl</h2>
@@ -138,12 +145,12 @@ Documentation</h1>
 <p>Comprehensive documentation organized by the development lifecycle is available in the <a class="el" href="index.html#md_docs_2INDEX">Documentation Index</a> or <a href="https://siputbiru.github.io/sbgl">Documentation website</a>.</p>
 <h2><a class="anchor" id="autotoc_md10"></a>
 Chapters</h2>
-<ol type="1">
+<ul>
 <li><b>Foundations</b>: Initialization, Windowing, and Input.</li>
 <li><b>Graphics HAL</b>: Shaders, Buffers, and Pipelines.</li>
 <li><b>Data-Oriented Pipeline</b>: Render Queues, Sorting, and Batching.</li>
 <li><b>Advanced Techniques</b>: BDA, MDI, and Arena Management.</li>
-</ol>
+</ul>
 <h1><a class="anchor" id="autotoc_md11"></a>
 Features</h1>
 <ul>
@@ -190,6 +197,7 @@ Internal Development Notes</h1>
 <li>Enable missing engine tests (batcher, sort, heightmap, voxel_logic) in <code>tests/CMakeLists.txt</code> with a dedicated <code>add_engine_test</code> macro.</li>
 <li>Update <code>Doxyfile</code> to include all manual/getting_started documentation and correctly map the image asset path.</li>
 <li>Standardize on <code>PROJECT_BINARY_DIR</code> for generated assets to ensure compatibility when integrated as a subproject.</li>
+<li>Implemented a default Release build configuration. Use -DCMAKE_BUILD_TYPE=Debug to enable symbols and strict warnings for development.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md15"></a>
 License</h1>

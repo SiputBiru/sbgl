@@ -25,12 +25,14 @@ var searchData=
   ['bottom_22',['bottom',['../structsbgl__OrthoParams.html#a25ae9a8fae73548c7569390f0aaa4614',1,'sbgl_OrthoParams']]],
   ['boundpipeline_23',['boundPipeline',['../structsbgl__GfxContext.html#ad3439cabe68f47a670cfae9d9942b29b',1,'sbgl_GfxContext']]],
   ['brace_20initialization_24',['Technical Detail (Brace Initialization)',['../md_docs_2manual_2math__library.html#autotoc_md111',1,'']]],
-  ['buffer_25',['buffer',['../structsbgl__GfxTransientAllocation.html#a83bb0f558818a483f04b6226b1d4b9f7',1,'sbgl_GfxTransientAllocation::buffer'],['../md_docs_2getting__started_2first__triangle.html#autotoc_md50',1,'Vertex Buffer']]],
-  ['buffer_20device_20address_20bda_26',['Buffer Device Address (BDA)',['../md_docs_2manual_2vulkan__backend.html#autotoc_md217',1,'']]],
-  ['buffer_20sub_20allocation_27',['Ring-Buffer Sub-allocation',['../md_docs_2manual_2memory__management.html#autotoc_md128',1,'']]],
-  ['buffering_203d_20sorting_28',['Depth Buffering &amp; 3D Sorting',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md160',1,'']]],
-  ['buffers_29',['buffers',['../structsbgl__GfxContext.html#ad9edb2c408a025f3fc4b4417ced56c20',1,'sbgl_GfxContext::buffers'],['../md_docs_2manual_2memory__management.html#autotoc_md127',1,'Transient GPU Buffers']]],
-  ['buffers_20triangle_20rendering_30',['Vertex Buffers &amp; Triangle Rendering',['../md_docs_2ROADMAP.html#autotoc_md228',1,'']]],
-  ['build_20instructions_31',['build instructions',['../md_docs_2getting__started_2installation.html#autotoc_md60',1,'Build Instructions'],['../md_docs_2getting__started_2installation.html#autotoc_md64',1,'Build Instructions'],['../md_docs_2getting__started_2installation.html#autotoc_md68',1,'Build Instructions']]],
-  ['building_20the_20examples_32',['Building the Examples',['../md_docs_2examples_2index.html#autotoc_md36',1,'']]]
+  ['buffer_25',['Vertex Buffer',['../md_docs_2getting__started_2first__triangle.html#autotoc_md50',1,'']]],
+  ['buffer_26',['buffer',['../structsbgl__GfxTransientAllocation.html#a83bb0f558818a483f04b6226b1d4b9f7',1,'sbgl_GfxTransientAllocation']]],
+  ['buffer_20device_20address_20bda_27',['Buffer Device Address (BDA)',['../md_docs_2manual_2vulkan__backend.html#autotoc_md217',1,'']]],
+  ['buffer_20sub_20allocation_28',['Ring-Buffer Sub-allocation',['../md_docs_2manual_2memory__management.html#autotoc_md128',1,'']]],
+  ['buffering_203d_20sorting_29',['Depth Buffering &amp; 3D Sorting',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md160',1,'']]],
+  ['buffers_30',['Transient GPU Buffers',['../md_docs_2manual_2memory__management.html#autotoc_md127',1,'']]],
+  ['buffers_31',['buffers',['../structsbgl__GfxContext.html#ad9edb2c408a025f3fc4b4417ced56c20',1,'sbgl_GfxContext']]],
+  ['buffers_20triangle_20rendering_32',['Vertex Buffers &amp; Triangle Rendering',['../md_docs_2ROADMAP.html#autotoc_md228',1,'']]],
+  ['build_20instructions_33',['Build Instructions',['../md_docs_2getting__started_2installation.html#autotoc_md60',1,'Build Instructions'],['../md_docs_2getting__started_2installation.html#autotoc_md64',1,'Build Instructions'],['../md_docs_2getting__started_2installation.html#autotoc_md68',1,'Build Instructions']]],
+  ['building_20the_20examples_34',['Building the Examples',['../md_docs_2examples_2index.html#autotoc_md36',1,'']]]
 ];

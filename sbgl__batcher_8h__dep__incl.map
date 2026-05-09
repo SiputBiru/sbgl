@@ -1,7 +1,7 @@
 <map id="src/core/sbgl_batcher.h" name="src/core/sbgl_batcher.h">
-<area shape="rect" id="Node000001" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="97,5,268,31"/>
-<area shape="rect" id="Node000002" href="$sbgl__batcher_8c.html" title=" " alt="" coords="5,79,176,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,41,107,81,104,76,156,37"/>
-<area shape="rect" id="Node000003" href="$sbgl__core_8c.html" title=" " alt="" coords="201,79,351,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,37,262,76,259,81,207,41"/>
+<area shape="rect" id="Node000001" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="91,5,247,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__batcher_8c.html" title=" " alt="" coords="5,79,162,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,43,99,81,96,77,141,39"/>
+<area shape="rect" id="Node000003" href="$sbgl__core_8c.html" title=" " alt="" coords="186,79,325,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,39,243,77,239,81,194,43"/>
 </map>

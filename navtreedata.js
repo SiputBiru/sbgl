@@ -166,8 +166,8 @@ var NAVTREE =
       [ "Technical Summary", "md_docs_2manual_2memory__management.html#autotoc_md133", null ]
     ] ],
     [ "SBgl Platform Abstraction Layer (HAL)", "md_docs_2manual_2platform__abstraction.html", [
-      [ "The Interface (<tt>sbgl_platform.h</tt>)", "md_docs_2manual_2platform__abstraction.html#autotoc_md136", [
-        [ "Relationship with <tt>sbgl_Context</tt>", "md_docs_2manual_2platform__abstraction.html#autotoc_md137", null ]
+      [ "The Interface (sbgl_platform.h)", "md_docs_2manual_2platform__abstraction.html#autotoc_md136", [
+        [ "Relationship with sbgl_Context", "md_docs_2manual_2platform__abstraction.html#autotoc_md137", null ]
       ] ],
       [ "Core HAL Interface", "md_docs_2manual_2platform__abstraction.html#autotoc_md139", null ],
       [ "Window Lifecycle and Closure", "md_docs_2manual_2platform__abstraction.html#autotoc_md141", [
@@ -298,7 +298,7 @@ var NAVTREEINDEX =
 "md_CHANGELOG.html#autotoc_md22",
 "sbgl_8h.html#ab64905fb7ecdb7ecbc111cbed9e4bd7c",
 "sbgl__types_8h.html#ace2724fddb622a385379c65e44fc6347",
-"structsbgl__InternalContext.html#add7dfdd323efab5e0ce3704a51fbbb9d"
+"structsbgl__InternalContext.html#ad850e4314963cbecbf1913882ccaedef"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

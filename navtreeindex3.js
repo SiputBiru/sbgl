@@ -126,7 +126,8 @@ var NAVTREEINDEX3 =
 "structSBGL__VulkanPipeline.html#a5d73a7f029161d731b8de7b7b23d5579":[17,0,29,0],
 "structSBGL__VulkanPipeline.html#a88aef16094c981565d74cebd8f298844":[17,0,29,2],
 "structSBGL__VulkanShader.html":[17,0,30],
-"structSBGL__VulkanShader.html#a31dc571da58b63e309d779009acc0c8b":[17,0,30,1],
+"structSBGL__VulkanShader.html#a050ac6cb6f44a2f30678c5e89f234ed4":[17,0,30,1],
+"structSBGL__VulkanShader.html#a1e663394f9ee5b94e777cf4b04ffab47":[17,0,30,2],
 "structSBGL__VulkanShader.html#aea2b6318abaed5b222f344889b2db2a3":[17,0,30,0],
 "structSblArena.html":[17,0,32],
 "structSblArena.html#a736afb808f52464d3fdd74dbb332c41d":[17,0,32,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "structsbgl__InternalContext.html#a8f4bb66682ae8f8b1645d1c068d1e113":[17,0,12,6],
 "structsbgl__InternalContext.html#a99364809af14f64bc981ad8e62942bf8":[17,0,12,10],
 "structsbgl__InternalContext.html#ab2f99fa34cabf1e071749abed58215c5":[17,0,12,12],
-"structsbgl__InternalContext.html#abc16dc0c73bd37ca89d96b9e1a4c8e47":[17,0,12,5],
-"structsbgl__InternalContext.html#ad850e4314963cbecbf1913882ccaedef":[17,0,12,0]
+"structsbgl__InternalContext.html#abc16dc0c73bd37ca89d96b9e1a4c8e47":[17,0,12,5]
 };

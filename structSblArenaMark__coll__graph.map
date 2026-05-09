@@ -1,6 +1,6 @@
 <map id="SblArenaMark" name="SblArenaMark">
-<area shape="rect" id="Node000001" title="Bookmark for arena state." alt="" coords="7,93,120,119"/>
-<area shape="rect" id="Node000002" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="5,5,121,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,45,66,93,61,93,61,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="136,9,148,18,140,26,122,28,121,23,138,21,143,18,134,14"/>
+<area shape="rect" id="Node000001" title="Bookmark for arena state." alt="" coords="7,94,111,120"/>
+<area shape="rect" id="Node000002" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="5,5,113,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,47,62,94,56,94,56,47"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="130,10,139,18,131,26,113,29,113,24,129,21,134,18,127,14"/>
 </map>

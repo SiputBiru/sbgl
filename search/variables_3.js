@@ -11,7 +11,7 @@ var searchData=
   ['cpu_5fsort_5ftime_8',['cpu_sort_time',['../structsbgl__Telemetry.html#a247a863f54382adb72ee7f46111e0ca0',1,'sbgl_Telemetry']]],
   ['ctx_9',['ctx',['../structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e',1,'sbgl_InitResult']]],
   ['current_10',['current',['../structSblArena.html#a736afb808f52464d3fdd74dbb332c41d',1,'SblArena']]],
-  ['currentframe_11',['currentframe',['../structsbgl__GfxContext.html#a52c92df5996389238f1f57e401d098c5',1,'sbgl_GfxContext::currentFrame'],['../structsbgl__InternalContext.html#a60f163d18b655b5db05ae50cbb4896eb',1,'sbgl_InternalContext::currentFrame']]],
+  ['currentframe_11',['currentFrame',['../structsbgl__GfxContext.html#a52c92df5996389238f1f57e401d098c5',1,'sbgl_GfxContext::currentFrame'],['../structsbgl__InternalContext.html#a60f163d18b655b5db05ae50cbb4896eb',1,'sbgl_InternalContext::currentFrame']]],
   ['currentimageindex_12',['currentImageIndex',['../structsbgl__GfxContext.html#ac892e9048d9828d2fe5c9d0bde8d2686',1,'sbgl_GfxContext']]],
   ['cursorvisible_13',['cursorVisible',['../structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926',1,'sbgl_Window']]]
 ];

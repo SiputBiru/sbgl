@@ -1,44 +1,44 @@
 <map id="src/platform/linux/window_wayland.c" name="src/platform/linux/window_wayland.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="641,5,790,45"/>
-<area shape="rect" id="Node000002" href="$linux__internal_8h.html" title=" " alt="" coords="246,93,369,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="641,44,381,93,380,88,640,38"/>
-<area shape="rect" id="Node000011" href="$sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="394,93,550,119"/>
-<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="658,48,521,92,520,86,656,43"/>
-<area shape="rect" id="Node000012" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="651,93,780,119"/>
-<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="718,46,718,79,713,79,713,46"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="828,167,899,192"/>
-<area shape="poly" id="edge26_Node000001_Node000014" title=" " alt="" coords="741,44,795,91,849,154,845,157,791,95,738,48"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="856,93,920,119"/>
-<area shape="poly" id="edge27_Node000001_Node000015" title=" " alt="" coords="758,43,851,85,849,90,756,48"/>
-<area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="398,167,502,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="332,116,416,158,414,163,329,121"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="144,328,226,353"/>
-<area shape="poly" id="edge14_Node000002_Node000004" title=" " alt="" coords="246,114,183,120,115,131,56,147,34,157,20,168,9,190,11,212,22,233,41,254,93,291,147,320,144,324,90,296,38,258,18,236,6,213,4,189,16,165,32,152,54,142,114,126,182,115,246,108"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="528,328,599,353"/>
-<area shape="poly" id="edge13_Node000002_Node000005" title=" " alt="" coords="370,116,454,137,491,150,516,165,542,199,557,240,564,280,567,314,561,314,559,281,552,241,537,202,512,169,489,155,453,142,369,121"/>
-<area shape="rect" id="Node000008" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="241,167,374,192"/>
-<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="310,119,310,153,305,153,305,119"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="30,167,118,192"/>
-<area shape="poly" id="edge15_Node000002_Node000010" title=" " alt="" coords="271,121,126,165,124,160,269,116"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="398,194,270,221,217,234,193,242,184,258,180,277,182,314,176,315,175,276,179,256,190,238,215,229,269,216,397,188"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="466,190,490,212,514,238,538,277,556,314,551,316,533,280,509,242,486,215,463,194"/>
-<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="396,247,499,273"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="452,192,451,234,446,233,447,192"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="410,275,237,327,235,322,409,270"/>
-<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="466,271,537,318,534,322,463,275"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="414,328,482,353"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="450,273,450,314,445,314,445,273"/>
-<area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="248,240,372,280"/>
-<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="311,192,312,226,306,226,305,192"/>
-<area shape="poly" id="edge11_Node000009_Node000004" title=" " alt="" coords="281,282,216,323,213,319,278,278"/>
-<area shape="poly" id="edge12_Node000009_Node000005" title=" " alt="" coords="372,277,516,322,514,327,370,283"/>
-<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="471,120,460,154,455,153,465,118"/>
-<area shape="poly" id="edge19_Node000011_Node000004" title=" " alt="" coords="404,121,305,142,260,155,230,169,209,184,195,199,185,216,175,241,172,259,172,279,179,314,173,315,166,279,166,259,170,239,180,214,191,196,206,180,228,164,259,150,303,137,403,116"/>
-<area shape="poly" id="edge20_Node000011_Node000005" title=" " alt="" coords="494,116,527,137,560,165,590,198,609,239,613,260,609,281,599,301,586,319,582,316,594,299,604,279,607,260,604,241,586,201,556,169,524,141,491,121"/>
-<area shape="poly" id="edge18_Node000011_Node000008" title=" " alt="" coords="446,121,348,164,346,159,444,116"/>
-<area shape="poly" id="edge24_Node000012_Node000004" title=" " alt="" coords="694,121,616,157,515,195,472,204,434,207,368,204,337,204,305,209,273,220,237,242,221,258,209,277,193,316,188,314,204,274,217,254,234,238,270,216,304,203,336,199,368,199,434,201,471,198,513,189,614,152,692,116"/>
-<area shape="poly" id="edge23_Node000012_Node000005" title=" " alt="" coords="733,117,748,132,762,150,771,171,767,193,753,217,735,239,693,276,648,305,607,325,605,320,645,300,689,272,731,235,748,214,762,191,765,172,758,153,744,135,729,121"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="678,167,753,192"/>
-<area shape="poly" id="edge22_Node000012_Node000013" title=" " alt="" coords="718,119,718,153,713,153,713,119"/>
-<area shape="poly" id="edge25_Node000012_Node000014" title=" " alt="" coords="740,116,828,158,826,163,738,121"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="613,5,746,46"/>
+<area shape="rect" id="Node000002" href="$linux__internal_8h.html" title=" " alt="" coords="240,94,346,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="613,43,362,94,361,89,612,38"/>
+<area shape="rect" id="Node000011" href="$sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="370,94,509,120"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="620,49,492,91,490,86,619,44"/>
+<area shape="rect" id="Node000012" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="621,94,738,120"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="682,46,682,78,677,78,677,46"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="788,168,851,193"/>
+<area shape="poly" id="edge26_Node000001_Node000014" title=" " alt="" coords="703,44,752,92,803,154,799,157,748,96,699,48"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="813,94,869,120"/>
+<area shape="poly" id="edge27_Node000001_Node000015" title=" " alt="" coords="721,44,803,84,801,89,718,49"/>
+<area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="377,168,470,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,118,389,158,387,162,314,123"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="141,330,215,356"/>
+<area shape="poly" id="edge14_Node000002_Node000004" title=" " alt="" coords="240,115,179,121,113,132,55,148,34,158,20,169,10,191,10,212,21,233,39,254,88,291,139,320,136,325,85,296,35,258,16,236,5,213,4,190,16,166,31,154,53,143,111,127,178,116,239,109"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="498,330,562,356"/>
+<area shape="poly" id="edge13_Node000002_Node000005" title=" " alt="" coords="347,117,426,138,461,151,484,166,509,200,524,241,531,281,533,314,528,315,526,281,519,242,504,203,480,170,458,156,424,143,346,122"/>
+<area shape="rect" id="Node000008" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="233,168,352,193"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="295,120,295,152,290,152,290,120"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="30,168,110,193"/>
+<area shape="poly" id="edge15_Node000002_Node000010" title=" " alt="" coords="256,123,123,165,121,160,254,118"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="377,195,258,222,186,243,178,259,173,277,175,314,169,315,168,277,173,257,183,239,257,217,375,190"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="438,192,480,240,504,278,521,315,517,317,499,281,476,243,434,196"/>
+<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="375,249,466,274"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="426,194,424,233,419,233,420,194"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="384,278,363,285,230,327,229,322,361,279,383,273"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="439,273,502,318,499,323,436,277"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="391,330,451,356"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="423,275,423,314,418,314,418,275"/>
+<area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="240,241,351,282"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="296,194,297,226,292,226,290,194"/>
+<area shape="poly" id="edge11_Node000009_Node000004" title=" " alt="" coords="268,285,210,323,207,319,265,280"/>
+<area shape="poly" id="edge12_Node000009_Node000005" title=" " alt="" coords="352,279,484,323,483,329,350,284"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="439,120,432,153,427,152,434,119"/>
+<area shape="poly" id="edge19_Node000011_Node000004" title=" " alt="" coords="379,123,289,144,249,157,222,170,201,185,187,200,177,218,167,242,164,260,164,279,171,314,165,316,158,280,158,260,162,241,172,215,183,197,198,181,219,165,247,152,288,139,377,118"/>
+<area shape="poly" id="edge20_Node000011_Node000005" title=" " alt="" coords="463,118,495,138,528,166,558,200,575,241,579,262,575,283,566,302,554,320,550,316,562,300,570,281,574,262,570,242,553,202,524,170,492,143,460,122"/>
+<area shape="poly" id="edge18_Node000011_Node000008" title=" " alt="" coords="416,123,333,163,330,158,413,118"/>
+<area shape="poly" id="edge24_Node000012_Node000004" title=" " alt="" coords="657,123,581,159,483,196,444,205,409,208,349,207,320,207,292,212,263,223,230,243,215,259,203,277,187,316,182,314,198,275,211,255,227,239,260,218,291,207,320,202,349,201,409,203,443,200,481,191,579,154,655,118"/>
+<area shape="poly" id="edge23_Node000012_Node000005" title=" " alt="" coords="696,118,710,133,723,152,731,173,727,194,696,239,657,275,614,304,575,325,572,321,611,300,653,271,692,235,722,192,725,173,718,154,706,137,692,122"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="646,168,713,193"/>
+<area shape="poly" id="edge22_Node000012_Node000013" title=" " alt="" coords="682,120,682,152,677,152,677,120"/>
+<area shape="poly" id="edge25_Node000012_Node000014" title=" " alt="" coords="704,118,783,158,781,163,702,123"/>
 </map>

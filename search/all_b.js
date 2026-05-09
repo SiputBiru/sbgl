@@ -11,7 +11,7 @@ var searchData=
   ['first_5ftriangle_2emd_8',['first_triangle.md',['../first__triangle_8md.html',1,'']]],
   ['firstindex_9',['firstIndex',['../structsbgl__IndirectCommand.html#ab943e063bf46837001269cba9ae2732c',1,'sbgl_IndirectCommand']]],
   ['firstinstance_10',['firstInstance',['../structsbgl__IndirectCommand.html#a66fcd75b1cb0a13684ea12d9b0de4432',1,'sbgl_IndirectCommand']]],
-  ['fixed_11',['fixed',['../md_CHANGELOG.html#autotoc_md32',1,'Fixed'],['../md_CHANGELOG.html#autotoc_md26',1,'Fixed'],['../md_CHANGELOG.html#autotoc_md23',1,'Fixed'],['../md_CHANGELOG.html#autotoc_md20',1,'Fixed']]],
+  ['fixed_11',['Fixed',['../md_CHANGELOG.html#autotoc_md20',1,'Fixed'],['../md_CHANGELOG.html#autotoc_md23',1,'Fixed'],['../md_CHANGELOG.html#autotoc_md26',1,'Fixed'],['../md_CHANGELOG.html#autotoc_md32',1,'Fixed']]],
   ['flags_12',['Configuration Flags',['../md_docs_2getting__started_2installation.html#autotoc_md56',1,'']]],
   ['flight_13',['Synchronization &amp; Frames in Flight',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md161',1,'']]],
   ['focused_14',['focused',['../structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce',1,'sbgl_Window']]],
@@ -25,6 +25,6 @@ var searchData=
   ['frame_20lifecycle_22',['Frame Lifecycle',['../md_docs_2manual_2input__system.html#autotoc_md90',1,'']]],
   ['frame_20presentation_23',['Frame Presentation',['../md_docs_2manual_2vulkan__backend.html#autotoc_md206',1,'']]],
   ['frames_20in_20flight_24',['Synchronization &amp; Frames in Flight',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md161',1,'']]],
-  ['further_20reading_25',['further reading',['../md_docs_2manual_2vulkan__backend.html#autotoc_md222',1,'References &amp; Further Reading'],['../md_docs_2manual_2platform__abstraction.html#autotoc_md149',1,'References &amp; Further Reading']]],
-  ['future_20considerations_26',['future considerations',['../md_docs_2manual_2telemetry.html#autotoc_md184',1,'Future Considerations'],['../md_docs_2ROADMAP.html#autotoc_md233',1,'Future Considerations']]]
+  ['further_20reading_25',['Further Reading',['../md_docs_2manual_2platform__abstraction.html#autotoc_md149',1,'References &amp; Further Reading'],['../md_docs_2manual_2vulkan__backend.html#autotoc_md222',1,'References &amp; Further Reading']]],
+  ['future_20considerations_26',['Future Considerations',['../md_docs_2manual_2telemetry.html#autotoc_md184',1,'Future Considerations'],['../md_docs_2ROADMAP.html#autotoc_md233',1,'Future Considerations']]]
 ];

@@ -1,10 +1,10 @@
 var searchData=
 [
   ['objects_20pso_0',['Explicit Pipeline State Objects (PSO)',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md153',1,'']]],
-  ['offset_1',['offset',['../structsbgl__GfxTransientAllocation.html#aeadd9d75e874032ec1cfc08818a0989e',1,'sbgl_GfxTransientAllocation::offset'],['../structSblArenaBlock.html#abc90cf49249776a21d8b374edc4331fe',1,'SblArenaBlock::offset'],['../structSblArenaMark.html#a25445662c7f33d1d8ae9f9091f4bfe03',1,'SblArenaMark::offset'],['../structsbgl__VertexAttribute.html#a83278db0e7f759b1f4b3894ee63d380a',1,'sbgl_VertexAttribute::offset']]],
+  ['offset_1',['offset',['../structsbgl__VertexAttribute.html#a83278db0e7f759b1f4b3894ee63d380a',1,'sbgl_VertexAttribute::offset'],['../structsbgl__GfxTransientAllocation.html#aeadd9d75e874032ec1cfc08818a0989e',1,'sbgl_GfxTransientAllocation::offset'],['../structSblArenaBlock.html#abc90cf49249776a21d8b374edc4331fe',1,'SblArenaBlock::offset'],['../structSblArenaMark.html#a25445662c7f33d1d8ae9f9091f4bfe03',1,'SblArenaMark::offset']]],
   ['on_20linux_20wayland_20or_20x11_2',['Installing on Linux (Wayland or X11)',['../md_docs_2getting__started_2installation.html#autotoc_md58',1,'']]],
   ['on_20windows_20native_3',['Installing on Windows (Native)',['../md_docs_2getting__started_2installation.html#autotoc_md62',1,'']]],
-  ['operations_4',['operations',['../md_docs_2manual_2math__library.html#autotoc_md108',1,'Quaternion Operations'],['../md_docs_2manual_2math__library.html#autotoc_md113',1,'Vector Operations'],['../md_docs_2manual_2math__library.html#autotoc_md106',1,'Vector Operations']]],
+  ['operations_4',['Operations',['../md_docs_2manual_2math__library.html#autotoc_md108',1,'Quaternion Operations'],['../md_docs_2manual_2math__library.html#autotoc_md106',1,'Vector Operations'],['../md_docs_2manual_2math__library.html#autotoc_md113',1,'Vector Operations']]],
   ['optimization_5',['Batching &amp; GPU Optimization',['../md_docs_2examples_2index.html#autotoc_md41',1,'']]],
   ['optimization_20batching_20mdi_20bit_20packing_6',['GPU Optimization &amp; Batching (MDI/Bit-packing)',['../md_docs_2ROADMAP.html#autotoc_md231',1,'']]],
   ['optimized_20batch_20submission_7',['Optimized Batch Submission',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md166',1,'']]],

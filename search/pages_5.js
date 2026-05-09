@@ -1,5 +1,5 @@
 var searchData=
 [
   ['graphics_20library_0',['SBgl (SiputBiru Graphics Library)',['../index.html',1,'']]],
-  ['guide_1',['guide',['../md_docs_2getting__started_2installation.html',1,'Installation Guide'],['../md_docs_2getting__started_2first__triangle.html',1,'Triangle Rendering Guide']]]
+  ['guide_1',['Guide',['../md_docs_2getting__started_2installation.html',1,'Installation Guide'],['../md_docs_2getting__started_2first__triangle.html',1,'Triangle Rendering Guide']]]
 ];

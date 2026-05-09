@@ -13,5 +13,5 @@ var searchData=
   ['graphics_20library_10',['SBgl (SiputBiru Graphics Library)',['../index.html',1,'']]],
   ['graphicsqueue_11',['graphicsQueue',['../structsbgl__GfxContext.html#a3ae4f568ab9a7217abfef1ac68c94cda',1,'sbgl_GfxContext']]],
   ['graphicsqueuefamily_12',['graphicsQueueFamily',['../structsbgl__GfxContext.html#a823c2cd350a0615f01b5a9da45012388',1,'sbgl_GfxContext']]],
-  ['guide_13',['guide',['../md_docs_2getting__started_2installation.html',1,'Installation Guide'],['../md_docs_2getting__started_2first__triangle.html',1,'Triangle Rendering Guide']]]
+  ['guide_13',['Guide',['../md_docs_2getting__started_2installation.html',1,'Installation Guide'],['../md_docs_2getting__started_2first__triangle.html',1,'Triangle Rendering Guide']]]
 ];

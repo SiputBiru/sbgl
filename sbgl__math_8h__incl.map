@@ -1,9 +1,9 @@
 <map id="include/sbgl_math.h" name="include/sbgl_math.h">
-<area shape="rect" id="Node000001" title="Single&#45;header math library for SBgl." alt="" coords="63,5,216,31"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,73,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,33,68,73,65,68,122,29"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="98,79,181,104"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,31,142,65,137,65,137,31"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="205,79,276,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,28,214,68,211,73,154,33"/>
+<area shape="rect" id="Node000001" title="Single&#45;header math library for SBgl." alt="" coords="58,5,194,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,66,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,34,64,72,61,67,109,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="90,79,163,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="129,31,129,63,124,63,124,31"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="186,79,250,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="143,29,193,67,189,72,140,34"/>
 </map>

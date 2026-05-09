@@ -1,13 +1,13 @@
 <map id="src/core/sbgl_platform.h" name="src/core/sbgl_platform.h">
-<area shape="rect" id="Node000001" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="381,5,559,31"/>
-<area shape="rect" id="Node000002" href="$sbgl__backend__vulkan_8c.html" title=" " alt="" coords="5,79,196,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="404,36,190,81,189,76,403,31"/>
-<area shape="rect" id="Node000003" href="$sbgl__core_8c.html" title=" " alt="" coords="220,86,371,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="433,39,322,88,320,84,431,34"/>
-<area shape="rect" id="Node000004" href="$window__wayland_8c.html" title=" " alt="" coords="395,79,545,119"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="473,44,473,79,467,79,467,44"/>
-<area shape="rect" id="Node000005" href="$window__x11_8c.html" title=" " alt="" coords="569,79,707,119"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="508,34,598,76,596,81,506,39"/>
-<area shape="rect" id="Node000006" href="$window_8c.html" title=" " alt="" coords="731,79,875,119"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="532,31,731,78,730,83,531,36"/>
+<area shape="rect" id="Node000001" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="355,5,515,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__backend__vulkan_8c.html" title=" " alt="" coords="5,79,182,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="368,38,179,81,178,76,367,32"/>
+<area shape="rect" id="Node000003" href="$sbgl__core_8c.html" title=" " alt="" coords="206,86,344,112"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="398,41,300,88,298,84,396,36"/>
+<area shape="rect" id="Node000004" href="$window__wayland_8c.html" title=" " alt="" coords="368,79,502,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="438,46,438,79,432,79,432,46"/>
+<area shape="rect" id="Node000005" href="$window__x11_8c.html" title=" " alt="" coords="525,79,646,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="472,36,550,76,547,81,470,41"/>
+<area shape="rect" id="Node000006" href="$window_8c.html" title=" " alt="" coords="669,79,798,120"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="496,33,670,79,668,84,494,38"/>
 </map>

@@ -5,7 +5,7 @@ var searchData=
   ['shaders_2',['shaders',['../structsbgl__GfxContext.html#a51623ef224cc51aec906f7246dacd339',1,'sbgl_GfxContext']]],
   ['shouldclose_3',['shouldClose',['../structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a',1,'sbgl_Window']]],
   ['size_4',['size',['../structSBGL__VulkanBuffer.html#a8784b1d7b47ac1c7e1d26b18d963a546',1,'SBGL_VulkanBuffer::size'],['../structsbgl__GfxTransientAllocation.html#a6cf18240d926762cab697e4dc03567dd',1,'sbgl_GfxTransientAllocation::size'],['../structSblArenaBlock.html#a44198858b18a4ba09bae7f0265489ba9',1,'SblArenaBlock::size']]],
-  ['stage_5',['stage',['../structSBGL__VulkanShader.html#a31dc571da58b63e309d779009acc0c8b',1,'SBGL_VulkanShader']]],
+  ['stage_5',['stage',['../structSBGL__VulkanShader.html#a1e663394f9ee5b94e777cf4b04ffab47',1,'SBGL_VulkanShader']]],
   ['state_6',['state',['../structsbgl__InternalContext.html#a99364809af14f64bc981ad8e62942bf8',1,'sbgl_InternalContext']]],
   ['stride_7',['stride',['../structsbgl__VertexLayout.html#a4d9a059549d4e9df2efc1dc613529bac',1,'sbgl_VertexLayout']]],
   ['surface_8',['surface',['../structsbgl__GfxContext.html#a0fd72c87509d31c61931f95be0cc97e5',1,'sbgl_GfxContext']]],

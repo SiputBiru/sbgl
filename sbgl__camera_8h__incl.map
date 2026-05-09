@@ -1,11 +1,11 @@
 <map id="include/sbgl_camera.h" name="include/sbgl_camera.h">
-<area shape="rect" id="Node000001" title="Camera system and batch collision math for SBgl." alt="" coords="55,5,223,31"/>
-<area shape="rect" id="Node000002" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="88,79,191,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,31,142,65,137,65,137,31"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,152,73,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="125,106,68,146,65,142,122,102"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="98,152,181,177"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="142,104,142,138,137,138,137,104"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="205,152,276,177"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="157,102,214,142,211,146,154,106"/>
+<area shape="rect" id="Node000001" title="Camera system and batch collision math for SBgl." alt="" coords="51,5,201,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="80,79,172,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,31,129,63,124,63,124,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,153,66,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,107,64,145,61,141,109,103"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="90,153,163,178"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="129,105,129,137,124,137,124,105"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="186,153,250,178"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="143,103,193,141,189,145,140,107"/>
 </map>

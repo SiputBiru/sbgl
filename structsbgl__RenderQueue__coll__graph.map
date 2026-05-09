@@ -1,16 +1,16 @@
 <map id="sbgl_RenderQueue" name="sbgl_RenderQueue">
-<area shape="rect" id="Node000001" title="Internal storage for draw packets awaiting submission." alt="" coords="161,196,305,221"/>
-<area shape="rect" id="Node000002" href="$structsbgl__DrawPacket.html" title="Encapsulates all data required to submit a single draw call. Optimized for cache density (16 bytes)." alt="" coords="5,108,137,133"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,138,212,193,209,198,104,142"/>
-<area shape="rect" id="Node000003" href="$structsbgl__InstanceData.html" title="Per&#45;instance data for automated batching." alt="" coords="161,108,304,133"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="235,147,235,195,230,195,230,147"/>
-<area shape="rect" id="Node000004" href="$structsbgl__Mat4.html" title="4x4 Matrix, 16&#45;byte aligned, column&#45;major." alt="" coords="81,5,171,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="137,42,148,63,163,82,180,95,200,105,198,110,177,100,159,86,143,66,132,44"/>
-<area shape="rect" id="Node000005" href="$unionsbgl__Vec4.html" title="4D Vector, 16&#45;byte aligned." alt="" coords="195,5,281,31"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="239,45,236,108,231,108,234,44"/>
-<area shape="rect" id="Node000006" href="$structSblArena.html" title="Arena allocator." alt="" coords="329,108,409,133"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="347,144,306,174,260,198,258,194,303,170,344,140"/>
-<area shape="rect" id="Node000007" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="311,5,427,31"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="371,45,371,108,366,108,366,45"/>
-<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="441,8,450,12,453,18,445,27,427,30,426,25,443,22,448,18,446,16,439,13"/>
+<area shape="rect" id="Node000001" title="Internal storage for draw packets awaiting submission." alt="" coords="152,198,283,223"/>
+<area shape="rect" id="Node000002" href="$structsbgl__DrawPacket.html" title="Encapsulates all data required to submit a single draw call. Optimized for cache density (16 bytes)." alt="" coords="5,109,129,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,140,198,195,195,199,100,145"/>
+<area shape="rect" id="Node000003" href="$structsbgl__InstanceData.html" title="Per&#45;instance data for automated batching." alt="" coords="153,109,282,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,150,220,197,215,197,215,150"/>
+<area shape="rect" id="Node000004" href="$structsbgl__Mat4.html" title="4x4 Matrix, 16&#45;byte aligned, column&#45;major." alt="" coords="74,5,156,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="129,43,142,64,157,83,192,106,189,111,154,87,137,67,125,46"/>
+<area shape="rect" id="Node000005" href="$unionsbgl__Vec4.html" title="4D Vector, 16&#45;byte aligned." alt="" coords="179,5,262,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="222,47,221,109,215,108,217,46"/>
+<area shape="rect" id="Node000006" href="$structSblArena.html" title="Arena allocator." alt="" coords="306,109,380,135"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="320,147,283,176,243,199,241,195,280,171,317,143"/>
+<area shape="rect" id="Node000007" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="289,5,397,31"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="346,47,346,109,340,109,340,47"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="414,9,423,18,415,27,398,30,397,25,413,22,418,18,410,13"/>
 </map>

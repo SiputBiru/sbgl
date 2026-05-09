@@ -4,8 +4,8 @@ var searchData=
   ['teardown_1',['GPU Synchronization &amp; Teardown',['../md_docs_2manual_2vulkan__backend.html#autotoc_md214',1,'']]],
   ['teardown_20pattern_2',['Safe Teardown Pattern',['../md_docs_2manual_2vulkan__backend.html#autotoc_md215',1,'']]],
   ['technical_20detail_20brace_20initialization_3',['Technical Detail (Brace Initialization)',['../md_docs_2manual_2math__library.html#autotoc_md111',1,'']]],
-  ['technical_20summary_4',['technical summary',['../md_docs_2manual_2input__system.html#autotoc_md99',1,'Technical Summary'],['../md_docs_2manual_2vulkan__backend.html#autotoc_md220',1,'Technical Summary'],['../md_docs_2manual_2memory__management.html#autotoc_md133',1,'Technical Summary']]],
-  ['techniques_5',['techniques',['../md_docs_2INDEX.html#autotoc_md4',1,'Chapter 4: Advanced Techniques'],['../index.html#autotoc_md13',1,'Performance &amp; Rendering Techniques']]],
+  ['technical_20summary_4',['Technical Summary',['../md_docs_2manual_2input__system.html#autotoc_md99',1,'Technical Summary'],['../md_docs_2manual_2memory__management.html#autotoc_md133',1,'Technical Summary'],['../md_docs_2manual_2vulkan__backend.html#autotoc_md220',1,'Technical Summary']]],
+  ['techniques_5',['Techniques',['../md_docs_2INDEX.html#autotoc_md4',1,'Chapter 4: Advanced Techniques'],['../index.html#autotoc_md13',1,'Performance &amp; Rendering Techniques']]],
   ['telemetry_20structure_6',['The Telemetry Structure',['../md_docs_2manual_2telemetry.html#autotoc_md178',1,'']]],
   ['telemetry_20system_7',['Performance Telemetry System',['../md_docs_2manual_2telemetry.html',1,'']]],
   ['telemetry_2emd_8',['telemetry.md',['../telemetry_8md.html',1,'']]],
@@ -49,8 +49,9 @@ var searchData=
   ['triangle_20rendering_20guide_46',['Triangle Rendering Guide',['../md_docs_2getting__started_2first__triangle.html',1,'']]],
   ['triangle_5fmain_2ec_47',['triangle_main.c',['../triangle__main_8c.html',1,'']]],
   ['triggers_48',['Platform-Specific Triggers',['../md_docs_2manual_2platform__abstraction.html#autotoc_md142',1,'']]],
-  ['tt_20sbgl_5fcontext_20tt_49',['Relationship with &lt;tt&gt;sbgl_Context&lt;/tt&gt;',['../md_docs_2manual_2platform__abstraction.html#autotoc_md137',1,'']]],
-  ['tt_20sbgl_5fplatform_20h_20tt_50',['The Interface (&lt;tt&gt;sbgl_platform.h&lt;/tt&gt;)',['../md_docs_2manual_2platform__abstraction.html#autotoc_md136',1,'']]],
-  ['type_51',['type',['../structsbgl__Camera.html#a14d1ac6a5b188c2c3025d608f9d5384e',1,'sbgl_Camera']]],
-  ['types_52',['Primary Data Types',['../md_docs_2manual_2math__library.html#autotoc_md102',1,'']]]
+  ['tt_49',['tt',['../md_docs_2manual_2platform__abstraction.html#autotoc_md137',1,'Relationship with &lt;tt&gt;sbgl_Context&lt;/tt&gt;'],['../md_docs_2manual_2platform__abstraction.html#autotoc_md136',1,'The Interface (&lt;tt&gt;sbgl_platform.h&lt;/tt&gt;)']]],
+  ['tt_20sbgl_5fcontext_20tt_50',['Relationship with &lt;tt&gt;sbgl_Context&lt;/tt&gt;',['../md_docs_2manual_2platform__abstraction.html#autotoc_md137',1,'']]],
+  ['tt_20sbgl_5fplatform_20h_20tt_51',['The Interface (&lt;tt&gt;sbgl_platform.h&lt;/tt&gt;)',['../md_docs_2manual_2platform__abstraction.html#autotoc_md136',1,'']]],
+  ['type_52',['type',['../structsbgl__Camera.html#a14d1ac6a5b188c2c3025d608f9d5384e',1,'sbgl_Camera']]],
+  ['types_53',['Primary Data Types',['../md_docs_2manual_2math__library.html#autotoc_md102',1,'']]]
 ];

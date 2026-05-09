@@ -1,5 +1,5 @@
 <map id="sbgl_Window" name="sbgl_Window">
-<area shape="rect" id="Node000001" title="Native X11 window state." alt="" coords="13,93,121,119"/>
-<area shape="rect" id="Node000002" href="$structsbgl__InputState.html" title="Represents the real&#45;time state of physical inputs." alt="" coords="5,5,128,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,45,69,93,64,93,64,45"/>
+<area shape="rect" id="Node000001" title="Native X11 window state." alt="" coords="12,94,111,120"/>
+<area shape="rect" id="Node000002" href="$structsbgl__InputState.html" title="Represents the real&#45;time state of physical inputs." alt="" coords="5,5,118,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,47,64,94,59,94,59,47"/>
 </map>

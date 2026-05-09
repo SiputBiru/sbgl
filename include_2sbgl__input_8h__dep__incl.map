@@ -1,49 +1,49 @@
 <map id="include/sbgl_input.h" name="include/sbgl_input.h">
-<area shape="rect" id="Node000001" title="Public input types and scancodes for SBgl." alt="" coords="1241,5,1393,31"/>
-<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="933,79,1045,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1252,36,1043,81,1042,76,1251,31"/>
-<area shape="rect" id="Node000012" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="1891,79,2047,104"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1407,26,1892,79,1891,84,1407,32"/>
-<area shape="rect" id="Node000003" href="$batch__main_8c.html" title=" " alt="" coords="5,152,192,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="920,98,609,116,408,133,204,155,193,156,192,151,204,149,407,127,609,111,919,93"/>
-<area shape="rect" id="Node000004" href="$camera__main_8c.html" title=" " alt="" coords="216,152,408,192"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="919,101,697,122,420,155,409,156,408,151,420,149,696,117,919,96"/>
-<area shape="rect" id="Node000005" href="$input__keyboard_8c.html" title=" " alt="" coords="432,152,592,192"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="920,105,604,155,593,157,592,152,604,149,919,100"/>
-<area shape="rect" id="Node000006" href="$input__mouse_8c.html" title=" " alt="" coords="616,152,776,192"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="934,110,767,154,766,149,933,105"/>
-<area shape="rect" id="Node000007" href="$mouse__mode_8c.html" title=" " alt="" coords="800,152,971,192"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="965,114,912,154,909,150,962,110"/>
-<area shape="rect" id="Node000008" href="$triangle__main_8c.html" title=" " alt="" coords="995,152,1189,192"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="1017,110,1069,150,1066,154,1014,114"/>
-<area shape="rect" id="Node000009" href="$voxel__main_8c.html" title=" " alt="" coords="1213,152,1384,192"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="1048,105,1225,149,1224,155,1047,110"/>
-<area shape="rect" id="Node000010" href="$hello__window_8c.html" title=" " alt="" coords="1408,152,1584,192"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="1059,99,1396,149,1408,151,1407,157,1396,155,1058,105"/>
-<area shape="rect" id="Node000011" href="$sbgl__core_8c.html" title=" " alt="" coords="1414,247,1565,273"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="1059,92,1202,97,1371,107,1519,124,1570,136,1598,150,1606,165,1606,180,1598,194,1586,208,1552,232,1517,250,1515,245,1549,227,1582,204,1594,191,1601,179,1601,166,1594,154,1568,141,1518,130,1371,113,1202,102,1059,97"/>
-<area shape="rect" id="Node000013" href="$sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="1789,159,1968,185"/>
-<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="1947,115,1894,161,1890,157,1944,111"/>
-<area shape="rect" id="Node000018" href="$linux__internal_8h.html" title=" " alt="" coords="1993,152,2130,192"/>
-<area shape="poly" id="edge18_Node000012_Node000018" title=" " alt="" coords="1995,111,2041,150,2037,154,1992,115"/>
-<area shape="rect" id="Node000021" href="$win32__internal_8h.html" title=" " alt="" coords="2463,152,2607,192"/>
-<area shape="poly" id="edge23_Node000012_Node000021" title=" " alt="" coords="2061,103,2463,158,2462,163,2060,108"/>
-<area shape="poly" id="edge14_Node000013_Node000011" title=" " alt="" coords="1814,190,1542,250,1541,245,1813,185"/>
-<area shape="rect" id="Node000014" href="$sbgl__backend__vulkan_8c.html" title=" " alt="" coords="1589,240,1779,280"/>
-<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1841,193,1728,242,1726,237,1839,188"/>
-<area shape="rect" id="Node000015" href="$window__wayland_8c.html" title=" " alt="" coords="1804,240,1953,280"/>
-<area shape="poly" id="edge15_Node000013_Node000015" title=" " alt="" coords="1881,198,1881,240,1876,240,1876,198"/>
-<area shape="rect" id="Node000016" href="$window__x11_8c.html" title=" " alt="" coords="1978,240,2115,280"/>
-<area shape="poly" id="edge16_Node000013_Node000016" title=" " alt="" coords="1915,189,2011,237,2008,242,1912,193"/>
-<area shape="rect" id="Node000017" href="$window_8c.html" title=" " alt="" coords="2463,240,2607,280"/>
-<area shape="poly" id="edge17_Node000013_Node000017" title=" " alt="" coords="1950,184,1980,189,2112,205,2216,212,2319,220,2451,237,2463,239,2462,245,2450,243,2319,225,2215,217,2112,210,1980,195,1949,190"/>
-<area shape="poly" id="edge21_Node000018_Node000015" title=" " alt="" coords="2010,200,1920,242,1918,238,2008,195"/>
-<area shape="poly" id="edge22_Node000018_Node000016" title=" " alt="" coords="2058,206,2053,240,2047,239,2053,205"/>
-<area shape="rect" id="Node000019" href="$input__wayland_8c.html" title=" " alt="" coords="2139,240,2277,280"/>
-<area shape="poly" id="edge19_Node000018_Node000019" title=" " alt="" coords="2107,197,2177,238,2175,242,2104,201"/>
-<area shape="rect" id="Node000020" href="$input__x11_8c.html" title=" " alt="" coords="2301,240,2438,280"/>
-<area shape="poly" id="edge20_Node000018_Node000020" title=" " alt="" coords="2143,193,2303,237,2301,243,2141,198"/>
-<area shape="poly" id="edge25_Node000021_Node000017" title=" " alt="" coords="2537,206,2537,240,2532,240,2532,206"/>
-<area shape="rect" id="Node000022" href="$input_8c.html" title=" " alt="" coords="2631,240,2775,280"/>
-<area shape="poly" id="edge24_Node000021_Node000022" title=" " alt="" coords="2585,196,2667,238,2665,242,2582,201"/>
+<area shape="rect" id="Node000001" title="Public input types and scancodes for SBgl." alt="" coords="1114,5,1249,31"/>
+<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="835,79,936,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1117,38,936,81,935,76,1115,33"/>
+<area shape="rect" id="Node000012" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="1703,79,1844,105"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1265,27,1702,79,1702,85,1264,32"/>
+<area shape="rect" id="Node000003" href="$batch__main_8c.html" title=" " alt="" coords="5,153,171,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="820,99,542,117,363,133,183,155,171,157,171,152,182,150,363,128,542,112,820,94"/>
+<area shape="rect" id="Node000004" href="$camera__main_8c.html" title=" " alt="" coords="195,153,365,193"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="820,102,622,123,378,155,366,157,365,152,377,150,621,118,820,97"/>
+<area shape="rect" id="Node000005" href="$input__keyboard_8c.html" title=" " alt="" coords="390,153,530,193"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="821,106,542,155,531,158,530,152,541,150,820,101"/>
+<area shape="rect" id="Node000006" href="$input__mouse_8c.html" title=" " alt="" coords="554,153,694,193"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="831,112,690,155,688,150,830,107"/>
+<area shape="rect" id="Node000007" href="$mouse__mode_8c.html" title=" " alt="" coords="718,153,869,193"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="862,117,818,154,814,150,858,113"/>
+<area shape="rect" id="Node000008" href="$triangle__main_8c.html" title=" " alt="" coords="893,153,1062,193"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="913,113,956,150,953,154,909,117"/>
+<area shape="rect" id="Node000009" href="$voxel__main_8c.html" title=" " alt="" coords="1086,153,1237,193"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="943,107,1093,150,1092,155,942,112"/>
+<area shape="rect" id="Node000010" href="$hello__window_8c.html" title=" " alt="" coords="1261,153,1416,193"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="951,100,1250,150,1261,152,1260,157,1249,155,950,106"/>
+<area shape="rect" id="Node000011" href="$sbgl__core_8c.html" title=" " alt="" coords="1263,249,1401,274"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="951,93,1080,99,1230,110,1360,127,1405,138,1430,151,1438,165,1438,180,1431,194,1420,208,1390,232,1358,251,1355,246,1387,228,1416,204,1427,192,1433,179,1433,167,1426,155,1403,143,1359,132,1229,116,1079,105,951,98"/>
+<area shape="rect" id="Node000013" href="$sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="1612,160,1772,186"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="1752,118,1706,162,1703,158,1748,114"/>
+<area shape="rect" id="Node000018" href="$linux__internal_8h.html" title=" " alt="" coords="1796,153,1916,193"/>
+<area shape="poly" id="edge18_Node000012_Node000018" title=" " alt="" coords="1798,113,1837,150,1834,154,1795,117"/>
+<area shape="rect" id="Node000021" href="$win32__internal_8h.html" title=" " alt="" coords="2214,153,2343,193"/>
+<area shape="poly" id="edge23_Node000012_Node000021" title=" " alt="" coords="1860,104,2215,159,2214,164,1859,109"/>
+<area shape="poly" id="edge14_Node000013_Node000011" title=" " alt="" coords="1627,193,1383,251,1382,246,1626,187"/>
+<area shape="rect" id="Node000014" href="$sbgl__backend__vulkan_8c.html" title=" " alt="" coords="1425,241,1602,282"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1654,195,1555,243,1553,238,1652,191"/>
+<area shape="rect" id="Node000015" href="$window__wayland_8c.html" title=" " alt="" coords="1625,241,1759,282"/>
+<area shape="poly" id="edge15_Node000013_Node000015" title=" " alt="" coords="1695,202,1695,241,1689,241,1689,202"/>
+<area shape="rect" id="Node000016" href="$window__x11_8c.html" title=" " alt="" coords="1782,241,1903,282"/>
+<area shape="poly" id="edge16_Node000013_Node000016" title=" " alt="" coords="1727,191,1810,239,1807,243,1725,196"/>
+<area shape="rect" id="Node000017" href="$window_8c.html" title=" " alt="" coords="2214,241,2343,282"/>
+<area shape="poly" id="edge17_Node000013_Node000017" title=" " alt="" coords="1762,187,1784,191,1902,206,1994,213,2086,221,2203,239,2215,241,2214,246,2202,244,2085,227,1993,219,1901,211,1784,196,1761,192"/>
+<area shape="poly" id="edge21_Node000018_Node000015" title=" " alt="" coords="1806,203,1730,243,1728,239,1804,199"/>
+<area shape="poly" id="edge22_Node000018_Node000016" title=" " alt="" coords="1853,209,1848,241,1843,240,1848,209"/>
+<area shape="rect" id="Node000019" href="$input__wayland_8c.html" title=" " alt="" coords="1926,241,2047,282"/>
+<area shape="poly" id="edge19_Node000018_Node000019" title=" " alt="" coords="1900,200,1959,239,1956,243,1897,204"/>
+<area shape="rect" id="Node000020" href="$input__x11_8c.html" title=" " alt="" coords="2070,241,2191,282"/>
+<area shape="poly" id="edge20_Node000018_Node000020" title=" " alt="" coords="1932,195,2071,239,2069,244,1930,200"/>
+<area shape="poly" id="edge25_Node000021_Node000017" title=" " alt="" coords="2281,209,2281,241,2276,241,2276,209"/>
+<area shape="rect" id="Node000022" href="$input_8c.html" title=" " alt="" coords="2366,241,2495,282"/>
+<area shape="poly" id="edge24_Node000021_Node000022" title=" " alt="" coords="2327,199,2398,239,2395,243,2325,203"/>
 </map>

@@ -11,6 +11,6 @@ var searchData=
   ['sbgl_20vulkan_20backend_20architecture_8',['SBgl Vulkan Backend Architecture',['../md_docs_2manual_2vulkan__backend.html',1,'']]],
   ['setup_9',['Window Setup',['../md_docs_2getting__started_2window__setup.html',1,'']]],
   ['siputbiru_20graphics_20library_10',['SBgl (SiputBiru Graphics Library)',['../index.html',1,'']]],
-  ['system_11',['system',['../md_docs_2manual_2telemetry.html',1,'Performance Telemetry System'],['../md_docs_2manual_2camera__system.html',1,'SBgl Camera &amp; Collision System']]],
+  ['system_11',['System',['../md_docs_2manual_2telemetry.html',1,'Performance Telemetry System'],['../md_docs_2manual_2camera__system.html',1,'SBgl Camera &amp; Collision System']]],
   ['system_20architecture_12',['SBgl Input System Architecture',['../md_docs_2manual_2input__system.html',1,'']]]
 ];

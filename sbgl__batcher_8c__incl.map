@@ -1,23 +1,23 @@
 <map id="src/core/sbgl_batcher.c" name="src/core/sbgl_batcher.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="83,5,254,31"/>
-<area shape="rect" id="Node000002" href="$sbgl__batcher_8h.html" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="111,79,227,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,31,171,65,166,65,166,31"/>
-<area shape="rect" id="Node000003" href="$sbgl__graphics__hal_8h.html" title=" " alt="" coords="145,152,315,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="180,103,209,139,205,143,176,106"/>
-<area shape="rect" id="Node000006" href="$sbgl__types_8h.html" title=" " alt="" coords="59,240,163,265"/>
-<area shape="poly" id="edge12_Node000002_Node000006" title=" " alt="" coords="162,106,148,127,135,153,124,191,117,227,112,226,118,190,130,151,144,125,158,103"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="193,387,275,412"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="249,191,264,213,277,239,281,277,275,314,263,348,250,376,246,373,259,346,270,313,276,276,271,241,260,215,245,194"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="187,240,262,265"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="231,192,229,226,224,226,226,192"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="203,194,142,235,139,230,200,190"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="136,263,168,283,199,312,218,342,230,373,225,375,213,345,195,315,164,287,133,268"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="5,387,76,412"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="104,267,71,315,49,374,44,372,66,312,99,264"/>
-<area shape="rect" id="Node000008" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="81,313,184,339"/>
-<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="117,265,128,299,123,301,112,266"/>
-<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="150,336,208,376,205,381,147,341"/>
-<area shape="poly" id="edge11_Node000008_Node000007" title=" " alt="" coords="120,341,68,380,65,376,116,337"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="100,387,168,412"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="136,339,136,373,131,373,130,339"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="76,5,232,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__batcher_8h.html" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="102,79,207,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,31,157,63,152,63,152,31"/>
+<area shape="rect" id="Node000003" href="$sbgl__graphics__hal_8h.html" title=" " alt="" coords="134,153,289,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="165,104,191,138,186,142,161,107"/>
+<area shape="rect" id="Node000006" href="$sbgl__types_8h.html" title=" " alt="" coords="56,241,149,267"/>
+<area shape="poly" id="edge12_Node000002_Node000006" title=" " alt="" coords="149,106,125,154,114,191,108,226,103,225,109,190,120,152,144,104"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="176,389,250,414"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="229,192,243,214,254,241,258,278,253,314,242,348,230,376,225,374,237,346,248,313,253,277,249,242,239,217,225,195"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="173,241,240,267"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="213,194,211,226,206,226,208,194"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="186,196,133,234,130,230,183,192"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="125,265,153,286,180,313,198,343,209,373,204,375,193,345,176,317,150,290,122,270"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="5,389,69,414"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="96,269,66,316,46,375,41,373,61,314,91,266"/>
+<area shape="rect" id="Node000008" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="75,315,167,341"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="108,267,117,299,111,301,103,268"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="138,339,187,377,184,381,135,343"/>
+<area shape="poly" id="edge11_Node000008_Node000007" title=" " alt="" coords="108,343,64,380,61,376,105,339"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="92,389,152,414"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="124,341,124,373,119,373,119,341"/>
 </map>

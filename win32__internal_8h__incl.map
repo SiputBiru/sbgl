@@ -1,23 +1,23 @@
 <map id="src/platform/win32/win32_internal.h" name="src/platform/win32/win32_internal.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="144,5,288,45"/>
-<area shape="rect" id="Node000002" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="5,93,139,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,48,106,89,104,84,180,43"/>
-<area shape="rect" id="Node000006" href="$sbgl__types_8h.html" title=" " alt="" coords="164,93,268,119"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="219,46,219,79,213,79,213,46"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="292,93,383,119"/>
-<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="247,43,309,84,307,88,244,48"/>
-<area shape="rect" id="Node000003" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="6,167,130,207"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="74,119,72,153,67,153,69,119"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="177,255,260,280"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="105,204,185,246,183,250,103,209"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="82,255,153,280"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="82,205,105,242,101,244,78,208"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="219,119,221,241,216,241,214,119"/>
-<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="211,120,134,244,130,241,207,117"/>
-<area shape="rect" id="Node000007" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="257,174,359,199"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="231,117,286,163,282,167,228,121"/>
-<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="297,202,244,248,240,244,293,198"/>
-<area shape="poly" id="edge11_Node000007_Node000005" title=" " alt="" coords="281,202,159,252,157,247,279,197"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="285,255,353,280"/>
-<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="312,199,318,240,313,241,307,200"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="135,5,263,46"/>
+<area shape="rect" id="Node000002" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="6,94,126,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,49,101,88,98,83,165,44"/>
+<area shape="rect" id="Node000006" href="$sbgl__types_8h.html" title=" " alt="" coords="152,94,246,120"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="202,46,202,78,196,78,196,46"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="270,94,352,120"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="228,44,283,82,280,87,225,49"/>
+<area shape="rect" id="Node000003" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="5,168,116,208"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="68,120,65,152,60,152,62,120"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="166,256,240,282"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="97,207,169,246,167,251,95,211"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="80,256,143,282"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="75,207,97,242,93,244,71,210"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="202,120,205,241,200,241,197,120"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="195,121,127,244,123,241,190,119"/>
+<area shape="rect" id="Node000007" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="240,175,332,201"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="214,118,263,163,260,166,211,122"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="275,203,229,247,225,243,271,199"/>
+<area shape="poly" id="edge11_Node000007_Node000005" title=" " alt="" coords="260,204,153,252,150,247,258,199"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="264,256,324,282"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="290,201,294,241,288,241,284,202"/>
 </map>

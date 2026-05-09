@@ -1,13 +1,13 @@
 <map id="include/sbgl_types.h" name="include/sbgl_types.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="69,5,224,31"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,152,88,177"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,33,108,54,85,80,68,110,57,139,52,137,63,108,80,77,105,50,129,29"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="205,152,275,177"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,29,189,50,213,77,228,108,237,138,232,139,223,110,208,80,186,53,161,33"/>
-<area shape="rect" id="Node000004" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="95,79,198,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,31,149,65,144,65,144,31"/>
-<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="132,106,76,146,73,142,129,102"/>
-<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="163,102,216,141,212,146,160,106"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="113,152,181,177"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="149,104,149,138,144,138,144,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="64,5,202,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,153,79,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,33,98,54,78,80,62,110,52,139,47,137,57,108,73,78,95,51,116,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="186,153,250,178"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,29,171,50,192,78,206,108,215,137,210,138,201,110,188,80,167,54,145,33"/>
+<area shape="rect" id="Node000004" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="87,79,178,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="135,31,135,63,130,63,130,31"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="119,107,71,145,67,141,116,103"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="149,103,194,141,191,145,145,107"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="102,153,163,178"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="135,105,135,137,130,137,130,105"/>
 </map>

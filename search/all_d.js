@@ -1,7 +1,7 @@
 var searchData=
 [
   ['h_20tt_0',['The Interface (&lt;tt&gt;sbgl_platform.h&lt;/tt&gt;)',['../md_docs_2manual_2platform__abstraction.html#autotoc_md136',1,'']]],
-  ['hal_1',['hal',['../md_docs_2INDEX.html#autotoc_md2',1,'Chapter 2: The Graphics HAL'],['../md_docs_2manual_2platform__abstraction.html',1,'SBgl Platform Abstraction Layer (HAL)']]],
+  ['hal_1',['HAL',['../md_docs_2INDEX.html#autotoc_md2',1,'Chapter 2: The Graphics HAL'],['../md_docs_2manual_2platform__abstraction.html',1,'SBgl Platform Abstraction Layer (HAL)']]],
   ['hal_20context_20foundation_2',['HAL &amp; Context Foundation',['../md_docs_2ROADMAP.html#autotoc_md224',1,'']]],
   ['hal_20implementation_3',['Input HAL Implementation',['../md_docs_2manual_2input__system.html#autotoc_md88',1,'']]],
   ['hal_20interface_4',['Core HAL Interface',['../md_docs_2manual_2platform__abstraction.html#autotoc_md139',1,'']]],

@@ -32,7 +32,7 @@ var searchData=
   ['dod_20alignment_29',['Batch Rendering &amp; DOD Alignment',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md169',1,'']]],
   ['draw_20indirect_20mdi_30',['Multi-Draw Indirect (MDI)',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md168',1,'']]],
   ['draw_5fcalls_31',['draw_calls',['../structsbgl__Telemetry.html#a5ae42b7ae0508f4a3ff8576518e82947',1,'sbgl_Telemetry']]],
-  ['drawing_32',['drawing',['../md_docs_2getting__started_2first__triangle.html#autotoc_md51',1,'Drawing'],['../md_docs_2manual_2vulkan__backend.html#autotoc_md218',1,'Indirect Drawing']]],
+  ['drawing_32',['Drawing',['../md_docs_2getting__started_2first__triangle.html#autotoc_md51',1,'Drawing'],['../md_docs_2manual_2vulkan__backend.html#autotoc_md218',1,'Indirect Drawing']]],
   ['drawing_20example_33',['Complete Drawing Example',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md159',1,'']]],
   ['draws_34',['Submitting Draws',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md164',1,'']]],
   ['dynamic_20clearing_35',['Dynamic Clearing',['../md_docs_2manual_2vulkan__backend.html#autotoc_md205',1,'']]],

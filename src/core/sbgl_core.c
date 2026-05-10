@@ -43,7 +43,8 @@ typedef struct {
 	sbgl_GfxContext* gfx;	 /**< Handle to the graphics backend context. */
 	float clearColor[4];	 /**< Current RGBA clear color. */
 	struct {
-		uint32_t isDrawing : 1;	  /**< Internal flag to track frame acquisition success. */
+		uint32_t isDrawing : 1;	  /**< Internal flag to track if we are in a render pass. */
+		uint32_t hasStartedFrame : 1; /**< Internal flag to track if BeginFrame was called. */
 		uint32_t isIdle : 1;	  /**< Internal flag to track if GPU is idle. */
 		uint32_t wasFocused : 1;  /**< Tracking focus state for re-locking. */
 		uint32_t mouseLocked : 1; /**< Add this for future use. */
@@ -52,6 +53,7 @@ typedef struct {
 	sbgl_MouseMode mouseMode; /**< Current intended mouse behavior. */
 	sbgl_Telemetry lastFrame;
 	sbgl_Telemetry currentFrame;
+	uint64_t frameCount;
 #ifdef linux
 	struct timespec frameStartTime;
 	struct timespec sortStartTime;
@@ -144,14 +146,8 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 	sbgl_internal_log(SBGL_LOG_INFO, "Initiating shutdown...");
 
 	if (!inner->state.isIdle) {
-		sbgl_internal_log(
-			SBGL_LOG_ERROR,
-			"Shutdown called while GPU is busy! Missing sbgl_DeviceWaitIdle."
-		);
-
-		ctx->result = SBGL_ERROR_DEVICE_BUSY;
-
-		// Force a wait to safely destroy it anyway and prevent driver crash
+		/* If the GPU is still processing commands, the system performs a blocking wait
+		   to ensure all resources can be safely released. */
 		sbgl_DeviceWaitIdle(ctx);
 	}
 
@@ -185,48 +181,59 @@ void sbgl_GetWindowSize(sbgl_Context* ctx, int* w, int* h) {
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_os_GetWindowSize(inner->window, w, h);
 }
-
 void sbgl_BeginDrawing(sbgl_Context* ctx) {
-	if (!ctx || !ctx->inner)
-		return;
-	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+    if (!ctx || !ctx->inner) return;
+    sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	sbgl_os_PollEvents(inner->window);
+    // Reset compute handle to prevent cross-phase push constant delivery
+    sbgl_gfx_BindComputePipeline(inner->gfx, SBGL_INVALID_HANDLE);
 
-	// Detect focus transitions to re-apply mouse locking if necessary.
-	bool currentlyFocused = sbgl_os_IsWindowFocused(inner->window);
-	if (currentlyFocused && !inner->state.wasFocused) {
-		if (inner->mouseMode == SBGL_MOUSE_MODE_CAPTURED) {
-			sbgl_os_SetCursorVisible(inner->window, false);
-			sbgl_os_SetCursorLocked(inner->window, true);
+    if (!inner->state.hasStartedFrame) {
+		sbgl_os_PollEvents(inner->window);
+
+		// Detect focus transitions to re-apply mouse locking if necessary.
+		bool currentlyFocused = sbgl_os_IsWindowFocused(inner->window);
+		if (currentlyFocused && !inner->state.wasFocused) {
+			if (inner->mouseMode == SBGL_MOUSE_MODE_CAPTURED) {
+				sbgl_os_SetCursorVisible(inner->window, false);
+				sbgl_os_SetCursorLocked(inner->window, true);
+			}
 		}
-	}
-	inner->state.wasFocused = currentlyFocused;
+		inner->state.wasFocused = currentlyFocused;
 
 #ifdef linux
-	inner->frameStartTime = sbgl_internal_GetTime();
+		inner->frameStartTime = sbgl_internal_GetTime();
 #endif
 
-	// Performance counters are reset at the start of every frame
-	inner->currentFrame.draw_calls = 0;
-	inner->currentFrame.instance_count = 0;
-	inner->currentFrame.cpu_sort_time = 0.0f;
+		// Performance counters are reset at the start of every frame
+		inner->currentFrame.draw_calls = 0;
+		inner->currentFrame.instance_count = 0;
+		inner->currentFrame.cpu_sort_time = 0.0f;
 
-	inner->state.isDrawing = sbgl_gfx_BeginFrame(
+		if (sbgl_gfx_BeginFrame(inner->gfx)) {
+			inner->state.hasStartedFrame = 1;
+			
+			/* GPU performance data for the previous frame in this slot is now guaranteed 
+			   to be ready. Telemetry is skipped for the very first frames to allow 
+			   the pipeline to prime and avoid uninitialized query errors. */
+			if (inner->frameCount > 2) {
+				inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
+			}
+		} else {
+			ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+			return;
+		}
+	}
+
+	sbgl_gfx_BeginRenderPass(
 		inner->gfx,
 		inner->clearColor[0],
 		inner->clearColor[1],
 		inner->clearColor[2],
 		inner->clearColor[3]
 	);
-
-	if (inner->state.isDrawing) {
-		// GPU performance data for the previous frame in this slot is now guaranteed to be ready
-		// as BeginFrame just finished waiting for its fence.
-		inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
-	}
-
-	ctx->result = inner->state.isDrawing ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	inner->state.isDrawing = 1;
+	ctx->result = SBGL_SUCCESS;
 }
 
 void sbgl_EndDrawing(sbgl_Context* ctx) {
@@ -235,9 +242,15 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
 	if (inner->state.isDrawing) {
-		sbgl_gfx_EndFrame(inner->gfx);
+		sbgl_gfx_EndRenderPass(inner->gfx);
 		inner->state.isDrawing = 0;
+	}
+
+	if (inner->state.hasStartedFrame) {
+		sbgl_gfx_EndFrame(inner->gfx);
+		inner->state.hasStartedFrame = 0;
 		inner->state.isIdle = 0;
+		inner->frameCount++;
 
 #ifdef linux
 		struct timespec frameEndTime = sbgl_internal_GetTime();
@@ -252,6 +265,55 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 	// Reset pressed states for next frame
 	memset(inner->input.keysPressed, 0, sizeof(inner->input.keysPressed));
 	ctx->result = SBGL_SUCCESS;
+}
+
+void sbgl_BeginCompute(sbgl_Context* ctx) {
+	if (!ctx || !ctx->inner)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+
+	// Reset graphics handle to prevent cross-phase push constant delivery
+	sbgl_gfx_BindPipeline(inner->gfx, SBGL_INVALID_HANDLE);
+
+	/* If a frame has not yet been initiated, the system handles event polling,
+	   focus management, and starts the GPU command stream. */
+	if (!inner->state.hasStartedFrame) {
+		sbgl_os_PollEvents(inner->window);
+
+		bool currentlyFocused = sbgl_os_IsWindowFocused(inner->window);
+		if (currentlyFocused && !inner->state.wasFocused) {
+			if (inner->mouseMode == SBGL_MOUSE_MODE_CAPTURED) {
+				sbgl_os_SetCursorVisible(inner->window, false);
+				sbgl_os_SetCursorLocked(inner->window, true);
+			}
+		}
+		inner->state.wasFocused = currentlyFocused;
+
+#ifdef linux
+		inner->frameStartTime = sbgl_internal_GetTime();
+#endif
+
+		inner->currentFrame.draw_calls = 0;
+		inner->currentFrame.instance_count = 0;
+		inner->currentFrame.cpu_sort_time = 0.0f;
+
+		if (sbgl_gfx_BeginFrame(inner->gfx)) {
+			inner->state.hasStartedFrame = 1;
+			if (inner->frameCount > 2) {
+				inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
+			}
+		} else {
+			ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+			return;
+		}
+	}
+	ctx->result = SBGL_SUCCESS;
+}
+
+void sbgl_EndCompute(sbgl_Context* ctx) {
+	/* The compute phase finalize is currently a no-op at the core level,
+	   as command buffer submission is deferred until the main frame end. */
+	(void)ctx;
 }
 
 void sbgl_DeviceWaitIdle(sbgl_Context* ctx) {
@@ -339,6 +401,31 @@ void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
 	}
 
 	sbgl_gfx_DestroyBuffer(inner->gfx, buffer);
+	ctx->result = SBGL_SUCCESS;
+}
+
+void* sbgl_MapBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
+	/* The system maps the specified GPU buffer into the CPU's address space,
+	   allowing for direct memory access. This is essential for reading back
+	   results from compute shaders or updating dynamic vertex data. */
+	if (!ctx || !ctx->inner)
+		return NULL;
+
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	void* ptr = sbgl_gfx_MapBuffer(inner->gfx, buffer);
+
+	ctx->result = (ptr != NULL) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	return ptr;
+}
+
+void sbgl_UnmapBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
+	/* The mapping between the CPU and GPU buffer is released, finalizing any
+	   pending memory writes and ensuring synchronization for subsequent GPU operations. */
+	if (!ctx || !ctx->inner)
+		return;
+
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_UnmapBuffer(inner->gfx, buffer);
 	ctx->result = SBGL_SUCCESS;
 }
 
@@ -447,6 +534,59 @@ void sbgl_DestroyPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
 	ctx->result = SBGL_SUCCESS;
 }
 
+sbgl_ComputePipeline sbgl_CreateComputePipeline(sbgl_Context* ctx, sbgl_Shader shader) {
+	if (!ctx || !ctx->inner)
+		return SBGL_INVALID_HANDLE;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_ComputePipeline res = sbgl_gfx_CreateComputePipeline(inner->gfx, shader);
+	ctx->result =
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	return res;
+}
+
+void sbgl_DestroyComputePipeline(sbgl_Context* ctx, sbgl_ComputePipeline pipeline) {
+	if (!ctx || !ctx->inner)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+
+	if (!inner->state.isIdle) {
+		sbgl_internal_log(
+			SBGL_LOG_ERROR,
+			"Destroy Compute Pipeline called while GPU is busy! Missing sbgl_DeviceWaitIdle."
+		);
+
+		ctx->result = SBGL_ERROR_DEVICE_BUSY;
+		sbgl_DeviceWaitIdle(ctx);
+	}
+
+	sbgl_gfx_DestroyComputePipeline(inner->gfx, pipeline);
+	ctx->result = SBGL_SUCCESS;
+}
+
+void sbgl_BindComputePipeline(sbgl_Context* ctx, sbgl_ComputePipeline pipeline) {
+	if (!ctx || !ctx->inner)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_BindComputePipeline(inner->gfx, pipeline);
+	ctx->result = SBGL_SUCCESS;
+}
+
+void sbgl_DispatchCompute(sbgl_Context* ctx, uint32_t x, uint32_t y, uint32_t z) {
+	if (!ctx || !ctx->inner)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_DispatchCompute(inner->gfx, x, y, z);
+	ctx->result = SBGL_SUCCESS;
+}
+
+void sbgl_MemoryBarrier(sbgl_Context* ctx, sbgl_BarrierType type) {
+	if (!ctx || !ctx->inner)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_MemoryBarrier(inner->gfx, type);
+	ctx->result = SBGL_SUCCESS;
+}
+
 void sbgl_BindPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
 	if (!ctx || !ctx->inner)
 		return;
@@ -490,6 +630,19 @@ void sbgl_DrawIndexed(
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_gfx_DrawIndexed(inner->gfx, indexCount, firstIndex, vertexOffset);
+	ctx->result = SBGL_SUCCESS;
+}
+
+void sbgl_DrawIndirect(
+	sbgl_Context* ctx,
+	sbgl_Buffer buffer,
+	size_t offset,
+	uint32_t drawCount
+) {
+	if (!ctx || !ctx->inner)
+		return;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_DrawIndirect(inner->gfx, buffer, offset, drawCount);
 	ctx->result = SBGL_SUCCESS;
 }
 

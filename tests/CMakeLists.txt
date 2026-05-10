@@ -25,6 +25,8 @@ macro(add_engine_test name src)
 
         add_executable(${name} ${src} ${SBGL_SOURCES})
         
+        add_dependencies(${name} example_shaders)
+
         # Ensure Wayland protocols are generated before compilation if needed
         if(SBGL_USE_WAYLAND AND NOT WIN32)
             add_dependencies(${name} wayland_protocols)
@@ -41,6 +43,7 @@ macro(add_engine_test name src)
         target_link_libraries(${name} PRIVATE ${PLATFORM_LIBS} m volk)
     else()
         add_executable(${name} ${src})
+        add_dependencies(${name} example_shaders)
         target_include_directories(${name} PRIVATE 
             ${CMAKE_SOURCE_DIR}/include 
             ${CMAKE_SOURCE_DIR}/src
@@ -53,6 +56,17 @@ endmacro()
 add_internal_test(math_test math_test.c)
 add_internal_test(arena_test arena_test.c)
 add_internal_test(core_flags_test core_flags_test.c)
+add_internal_test(checkerboard_logic_test checkerboard_logic_test.c)
+add_internal_test(voxel_bitmask_test voxel_bitmask_test.c)
+
+add_executable(voxel_pool_test voxel_pool_test.c ../examples/voxels/voxel_pool.c)
+target_link_libraries(voxel_pool_test PRIVATE m)
+target_include_directories(voxel_pool_test PRIVATE 
+    ${CMAKE_SOURCE_DIR}/include 
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/core
+    ${CMAKE_SOURCE_DIR}/examples
+)
 
 # Engine tests (require core modules)
 add_engine_test(batcher_test batcher_test.c)
@@ -60,3 +74,6 @@ add_engine_test(packet_packing_test packet_packing_test.c)
 add_engine_test(sort_test sort_test.c)
 add_engine_test(heightmap_test heightmap_test.c)
 add_engine_test(voxel_logic_test voxel_logic_test.c)
+add_engine_test(compute_test compute_test.c)
+add_engine_test(voxel_compute_test voxel_compute_test.c)
+add_engine_test(voxel_visibility_test voxel_visibility_test.c)

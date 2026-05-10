@@ -61,6 +61,36 @@ void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked) {
 
 /* Mock implementations for graphics HAL. */
 
+void* sbgl_gfx_MapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer) {
+    (void)ctx; (void)buffer;
+    return NULL;
+}
+
+void sbgl_gfx_UnmapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer) {
+    (void)ctx; (void)buffer;
+}
+
+sbgl_ComputePipeline sbgl_gfx_CreateComputePipeline(sbgl_GfxContext* ctx, sbgl_Shader shader) {
+    (void)ctx; (void)shader;
+    return (sbgl_ComputePipeline)0x1;
+}
+
+void sbgl_gfx_DestroyComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline pipeline) {
+    (void)ctx; (void)pipeline;
+}
+
+void sbgl_gfx_BindComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline pipeline) {
+    (void)ctx; (void)pipeline;
+}
+
+void sbgl_gfx_DispatchCompute(sbgl_GfxContext* ctx, uint32_t x, uint32_t y, uint32_t z) {
+    (void)ctx; (void)x; (void)y; (void)z;
+}
+
+void sbgl_gfx_MemoryBarrier(sbgl_GfxContext* ctx, sbgl_BarrierType type) {
+    (void)ctx; (void)type;
+}
+
 sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
     (void)window; (void)arena;
     return (sbgl_GfxContext*)0x1;

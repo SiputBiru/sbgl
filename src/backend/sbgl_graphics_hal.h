@@ -23,13 +23,39 @@ typedef struct sbgl_GfxContext sbgl_GfxContext;
 sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena);
 void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx);
 
-bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float a);
+/**
+ * @brief Starts a new frame, acquiring an image and starting the command buffer.
+ *
+ * This must be called before any GPU commands (Compute or Graphics) are recorded.
+ */
+bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx);
+
+/**
+ * @brief Submits the current frame's commands and presents the image.
+ */
 void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx);
+
+/**
+ * @brief Starts a graphics rendering pass.
+ *
+ * This must be called before any draw commands are recorded. It handles
+ * clearing the attachments if requested.
+ */
+void sbgl_gfx_BeginRenderPass(sbgl_GfxContext* ctx, float r, float g, float b, float a);
+
+/**
+ * @brief Ends the current graphics rendering pass.
+ */
+void sbgl_gfx_EndRenderPass(sbgl_GfxContext* ctx);
+
 void sbgl_gfx_DeviceWaitIdle(sbgl_GfxContext* ctx);
 
 sbgl_Buffer
 sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size, const void* data);
 void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer);
+
+void* sbgl_gfx_MapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer);
+void sbgl_gfx_UnmapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer);
 
 sbgl_Shader
 sbgl_gfx_LoadShader(sbgl_GfxContext* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size);
@@ -38,40 +64,33 @@ void sbgl_gfx_DestroyShader(sbgl_GfxContext* ctx, sbgl_Shader shader);
 sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineConfig* config);
 void sbgl_gfx_DestroyPipeline(sbgl_GfxContext* ctx, sbgl_Pipeline pipeline);
 
+sbgl_ComputePipeline sbgl_gfx_CreateComputePipeline(sbgl_GfxContext* ctx, sbgl_Shader shader);
+void sbgl_gfx_DestroyComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline pipeline);
+
+void sbgl_gfx_BindComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline pipeline);
+void sbgl_gfx_DispatchCompute(sbgl_GfxContext* ctx, uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
+void sbgl_gfx_MemoryBarrier(sbgl_GfxContext* ctx, sbgl_BarrierType type);
+
 void sbgl_gfx_BindPipeline(sbgl_GfxContext* ctx, sbgl_Pipeline pipeline);
 void sbgl_gfx_BindBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer, sbgl_BufferUsage usage);
-
-/**
- * @brief Data layout for a GPU-side indirect draw command.
- *
- * This structure matches the layout expected by vkCmdDrawIndexedIndirect,
- * allowing the GPU to read draw parameters directly from a buffer.
- */
-typedef struct {
-	uint32_t indexCount;	/**< Number of indices to draw. */
-	uint32_t instanceCount; /**< Number of instances to draw. */
-	uint32_t firstIndex;	/**< Byte offset of the first index in the index buffer. */
-	int32_t vertexOffset;	/**< Value added to each index before addressing the vertex buffer. */
-	uint32_t firstInstance; /**< ID of the first instance to draw. */
-} sbgl_IndirectCommand;
 
 /**
  * @brief Represents a slice of a persistent GPU buffer used for transient data.
  */
 typedef struct {
-	sbgl_Buffer buffer;		   /**< Handle to the underlying GPU buffer. */
-	uint32_t offset;		   /**< Offset in bytes within the buffer. */
-	uint32_t size;			   /**< Size in bytes of the allocated region. */
-	void* mapped;			   /**< CPU-side pointer for writing data. */
-	uint64_t deviceAddress;	   /**< GPU-side virtual address for the allocation. */
+  sbgl_Buffer buffer;       /**< Handle to the underlying GPU buffer. */
+  uint32_t offset;       /**< Offset in bytes within the buffer. */
+  uint32_t size;         /**< Size in bytes of the allocated region. */
+  void* mapped;         /**< CPU-side pointer for writing data. */
+  uint64_t deviceAddress;     /**< GPU-side virtual address for the allocation. */
 } sbgl_GfxTransientAllocation;
 
 void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex);
 void sbgl_gfx_DrawIndexed(
-	sbgl_GfxContext* ctx,
-	uint32_t indexCount,
-	uint32_t firstIndex,
-	int32_t vertexOffset
+  sbgl_GfxContext* ctx,
+  uint32_t indexCount,
+  uint32_t firstIndex,
+  int32_t vertexOffset
 );
 
 /**
@@ -83,10 +102,10 @@ void sbgl_gfx_DrawIndexed(
  * @param drawCount The number of commands to execute from the buffer.
  */
 void sbgl_gfx_DrawIndirect(
-	sbgl_GfxContext* ctx,
-	sbgl_Buffer buffer,
-	size_t offset,
-	uint32_t drawCount
+  sbgl_GfxContext* ctx,
+  sbgl_Buffer buffer,
+  size_t offset,
+  uint32_t drawCount
 );
 
 /**

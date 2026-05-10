@@ -8,6 +8,13 @@ set(BATCH_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/batching.vert")
 set(BATCH_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/batching.frag")
 set(VOXEL_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel.vert")
 set(VOXEL_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel.frag")
+set(VOXEL3D_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel3D.vert")
+set(VOXEL3D_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel3D.frag")
+set(VOXEL3D_CULL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel3D_cull.comp")
+set(VOXEL_CULL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_cull.comp")
+set(VOXEL_GEN "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_gen.comp")
+set(VOXEL_SHELL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_shell.comp")
+set(COMPUTE_TEST "${CMAKE_CURRENT_SOURCE_DIR}/shaders/compute_test.comp")
 
 set(TRI_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle.vert.spv")
 set(TRI_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle.frag.spv")
@@ -18,6 +25,13 @@ set(BATCH_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching.vert.spv")
 set(BATCH_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching.frag.spv")
 set(VOXEL_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel.vert.spv")
 set(VOXEL_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel.frag.spv")
+set(VOXEL3D_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D.vert.spv")
+set(VOXEL3D_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D.frag.spv")
+set(VOXEL3D_CULL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D_cull.comp.spv")
+set(VOXEL_CULL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_cull.comp.spv")
+set(VOXEL_GEN_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_gen.comp.spv")
+set(VOXEL_SHELL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_shell.comp.spv")
+set(COMPUTE_TEST_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/compute_test.comp.spv")
 
 set(TRI_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_vert.h")
 set(TRI_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_frag.h")
@@ -35,6 +49,13 @@ sbgl_compile_shader_to_spv(${BATCH_VERT} ${BATCH_VERT_SPV})
 sbgl_compile_shader_to_spv(${BATCH_FRAG} ${BATCH_FRAG_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_VERT} ${VOXEL_VERT_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_FRAG} ${VOXEL_FRAG_SPV})
+sbgl_compile_shader_to_spv(${VOXEL3D_VERT} ${VOXEL3D_VERT_SPV})
+sbgl_compile_shader_to_spv(${VOXEL3D_FRAG} ${VOXEL3D_FRAG_SPV})
+sbgl_compile_shader_to_spv(${VOXEL3D_CULL} ${VOXEL3D_CULL_SPV})
+sbgl_compile_shader_to_spv(${VOXEL_CULL} ${VOXEL_CULL_SPV})
+sbgl_compile_shader_to_spv(${VOXEL_GEN} ${VOXEL_GEN_SPV})
+sbgl_compile_shader_to_spv(${VOXEL_SHELL} ${VOXEL_SHELL_SPV})
+sbgl_compile_shader_to_spv(${COMPUTE_TEST} ${COMPUTE_TEST_SPV})
 
 sbgl_convert_spv_to_header(${TRI_VERT_SPV} ${TRI_VERT_H})
 sbgl_convert_spv_to_header(${TRI_FRAG_SPV} ${TRI_FRAG_H})
@@ -45,6 +66,9 @@ add_custom_target(example_shaders DEPENDS
     ${PYR_VERT_SPV} ${PYR_FRAG_SPV}
     ${BATCH_VERT_SPV} ${BATCH_FRAG_SPV}
     ${VOXEL_VERT_SPV} ${VOXEL_FRAG_SPV}
+    ${VOXEL3D_VERT_SPV} ${VOXEL3D_FRAG_SPV} ${VOXEL3D_CULL_SPV} ${VOXEL_CULL_SPV}
+    ${VOXEL_GEN_SPV} ${VOXEL_SHELL_SPV}
+    ${COMPUTE_TEST_SPV}
     ${TRI_VERT_H} ${TRI_FRAG_H}
 )
 
@@ -91,6 +115,22 @@ if(SBGL_BUILD_STANDALONE)
             set_source_files_properties(${CMAKE_SOURCE_DIR}/src/platform/linux/input_wayland.c PROPERTIES OBJECT_DEPENDS "${PROJECT_BINARY_DIR}/xdg-shell-client-protocol.h")
         endif()
     endforeach()
+
+    # Voxel3D_main needs voxel_pool.c
+    add_executable(voxel3D_main voxels/voxel3D_main.c voxels/voxel_pool.c ${SBGL_SOURCES})
+    add_dependencies(voxel3D_main example_shaders)
+    if(SBGL_USE_WAYLAND AND NOT WIN32)
+        add_dependencies(voxel3D_main wayland_protocols)
+    endif()
+    target_compile_definitions(voxel3D_main PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
+    target_include_directories(voxel3D_main PRIVATE 
+        ${CMAKE_SOURCE_DIR}/include 
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/examples/voxels
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${PROJECT_BINARY_DIR}
+    )
+    target_link_libraries(voxel3D_main PRIVATE ${PLATFORM_LIBS} volk)
 else()
     # Standard mode: Link against libsbgl.Static library
     
@@ -103,6 +143,7 @@ else()
         target_include_directories(${name} PRIVATE 
             ${CMAKE_CURRENT_BINARY_DIR}
             ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/examples/voxels
         )
         target_link_libraries(${name} PRIVATE sbgl m)
     endmacro()
@@ -115,4 +156,5 @@ else()
     add_example(triangle_main triangle/triangle_main.c)
     add_example(batch_main batching/batch_main.c)
     add_example(voxel_main voxels/voxel_main.c)
+    add_example(voxel3D_main "voxels/voxel3D_main.c;voxels/voxel_pool.c")
 endif()

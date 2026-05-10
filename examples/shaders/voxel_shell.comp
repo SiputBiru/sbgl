@@ -1,0 +1,69 @@
+#version 450
+#extension GL_EXT_buffer_reference : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+
+/**
+ * @file voxel_shell.comp
+ * @brief Compute shader for extracting the visible shell of a voxel chunk.
+ *
+ * This shader identifies voxels that are adjacent to at least one empty cell
+ * and records their indices for rendering. This culling process significantly
+ * reduces the number of instances processed by the graphics pipeline.
+ */
+
+layout(local_size_x = 64) in;
+
+layout(buffer_reference, std430) readonly buffer VoxelMask { uint words[]; };
+layout(buffer_reference, std430) buffer InstanceBuffer { uint data[]; };
+layout(buffer_reference, std430) buffer Counter { uint count; };
+
+/**
+ * @brief GPU addresses for the source bitmask and destination buffers.
+ */
+layout(push_constant) uniform PushConstants {
+  uint64_t maskAddress;     /**< Address of the 32x32x32 bitmask. */
+  uint64_t instanceAddress; /**< Address of the output instance buffer. */
+  uint64_t counterAddress;  /**< Address of the atomic instance counter. */
+} pc;
+
+/**
+ * @brief Samples the occupancy of a voxel at the specified grid coordinate.
+ */
+bool get_bit(VoxelMask mask, int x, int y, int z) {
+  /* Bounds check ensures that neighbor sampling does not overflow the chunk volume. */
+  if (x < 0 || x >= 64 || y < 0 || y >= 64 || z < 0 || z >= 64) return false;
+  
+  /* Bitwise operations are used to map 3D coordinates to the packed bitmask storage. */
+  uint idx = uint(z << 12 | y << 6 | x);
+  return (mask.words[idx >> 5u] & (1u << (idx & 31u))) != 0;
+}
+
+void main() {
+  /* Each invocation checks a single voxel for visibility. */
+  uint gID = gl_GlobalInvocationID.x;
+  if (gID >= 262144) return;
+
+  VoxelMask mask = VoxelMask(pc.maskAddress);
+  
+  /* The system first verifies if the current voxel is solid before checking neighbors. */
+  int x = int(gID & 63u);
+  int y = int((gID >> 6u) & 63u);
+  int z = int(gID >> 12u);
+  
+  if (!get_bit(mask, x, y, z)) return;
+
+  /* A voxel is considered part of the shell if any of its six face neighbors are empty. */
+  bool exposed = !get_bit(mask, x + 1, y, z) || !get_bit(mask, x - 1, y, z) ||
+                 !get_bit(mask, x, y + 1, z) || !get_bit(mask, x, y - 1, z) ||
+                 !get_bit(mask, x, y, z + 1) || !get_bit(mask, x, y, z - 1);
+
+  if (exposed) {
+    /* If the voxel is visible, its index is appended to the instance buffer for rendering. */
+    Counter counter = Counter(pc.counterAddress);
+    uint idx = atomicAdd(counter.count, 1);
+    if (idx < 65536) {
+      InstanceBuffer inst = InstanceBuffer(pc.instanceAddress);
+      inst.data[idx] = gID;
+    }
+  }
+}

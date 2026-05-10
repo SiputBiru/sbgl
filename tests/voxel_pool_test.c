@@ -1,0 +1,56 @@
+#include "voxels/voxel_pool.h"
+#include "core/sbl_arena.h"
+#include <assert.h>
+#include <stdio.h>
+
+static void test_voxel_pool_basic(void) {
+  printf("Running test_voxel_pool_basic...\n");
+  
+  SblArena arena;
+  sbl_arena_init(&arena, 1024 * 1024);
+
+  VoxelPool* pool = VoxelPool_Init(&arena, 4); // Small capacity for testing LRU
+  
+  sbgl_ivec3 p1 = {0, 0, 0};
+  sbgl_ivec3 p2 = {1, 0, 0};
+  sbgl_ivec3 p3 = {0, 1, 0};
+  sbgl_ivec3 p4 = {0, 0, 1};
+  sbgl_ivec3 p5 = {1, 1, 1};
+
+  // Fill the pool
+  int32_t i1 = VoxelPool_AcquireSlot(pool, p1);
+  int32_t i2 = VoxelPool_AcquireSlot(pool, p2);
+  int32_t i3 = VoxelPool_AcquireSlot(pool, p3);
+  int32_t i4 = VoxelPool_AcquireSlot(pool, p4);
+
+  assert(i1 == 0);
+  assert(i2 == 1);
+  assert(i3 == 2);
+  assert(i4 == 3);
+  printf("Initial fill successful.\n");
+
+  // Re-acquire p1, should update LRU but stay at index 0
+  VoxelPool_UpdateFrame(pool, 10);
+  int32_t i1_again = VoxelPool_AcquireSlot(pool, p1);
+  assert(i1_again == 0);
+  assert(pool->last_used_frames[0] == 10);
+  printf("Re-acquisition successful.\n");
+
+  // Acquire p5, should recycle p2 (index 1) because p1 was just used (frame 10) 
+  // and p2, p3, p4 are still at frame 0. p2 is the first oldest one found.
+  VoxelPool_UpdateFrame(pool, 20);
+  int32_t i5 = VoxelPool_AcquireSlot(pool, p5);
+  assert(i5 == 1);
+  assert(pool->positions[1].x == 1);
+  assert(pool->positions[1].y == 1);
+  assert(pool->positions[1].z == 1);
+  printf("LRU recycling successful.\n");
+
+  sbl_arena_free(&arena);
+  printf("test_voxel_pool_basic passed!\n");
+}
+
+int main(void) {
+  test_voxel_pool_basic();
+  return 0;
+}

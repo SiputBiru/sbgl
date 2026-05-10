@@ -25,6 +25,7 @@ typedef struct {
 	VkBuffer handle;
 	VkDeviceMemory memory;
 	size_t size;
+	void* mapped;
 	bool active;
 } SBGL_VulkanBuffer;
 
@@ -39,6 +40,12 @@ typedef struct {
 	VkPipelineLayout layout;
 	bool active;
 } SBGL_VulkanPipeline;
+
+typedef struct {
+	VkPipeline handle;
+	VkPipelineLayout layout;
+	bool active;
+} SBGL_VulkanComputePipeline;
 
 struct sbgl_GfxContext {
 	struct VolkDeviceTable vk;
@@ -67,17 +74,20 @@ struct sbgl_GfxContext {
 
 	VkCommandPool commandPool;
 	VkCommandBuffer commandBuffers[SBGL_MAX_FRAMES_IN_FLIGHT];
-	VkSemaphore imageAvailableSemaphores[SBGL_MAX_FRAMES_IN_FLIGHT];
+	VkSemaphore imageAvailableSemaphores[SBGL_MAX_SWAPCHAIN_IMAGES];
 	VkSemaphore renderFinishedSemaphores[SBGL_MAX_SWAPCHAIN_IMAGES];
 	VkFence inFlightFences[SBGL_MAX_FRAMES_IN_FLIGHT];
 
 	uint32_t currentImageIndex;
 	uint32_t currentFrame;
+	uint32_t semaphoreIndex;
 
 	SBGL_VulkanBuffer buffers[SBGL_MAX_BUFFERS];
 	SBGL_VulkanShader shaders[SBGL_MAX_SHADERS];
 	SBGL_VulkanPipeline pipelines[SBGL_MAX_PIPELINES];
+	SBGL_VulkanComputePipeline computePipelines[SBGL_MAX_PIPELINES];
 	sbgl_Pipeline boundPipeline;
+	sbgl_ComputePipeline boundComputePipeline;
 
 	sbgl_Buffer transientBuffers[SBGL_MAX_FRAMES_IN_FLIGHT];
 	uint32_t transientOffsets[SBGL_MAX_FRAMES_IN_FLIGHT];
@@ -325,6 +335,7 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES,
 		.pNext = &features11,
 		.bufferDeviceAddress = VK_TRUE,
+		.hostQueryReset = VK_TRUE,
 	};
 
 	VkPhysicalDeviceDynamicRenderingFeatures dynamicRenderingFeatures = {
@@ -595,19 +606,19 @@ static bool create_sync_and_command(sbgl_GfxContext* ctx) {
 									.flags = VK_FENCE_CREATE_SIGNALED_BIT };
 
 	for (uint32_t i = 0; i < SBGL_MAX_FRAMES_IN_FLIGHT; i++) {
+		if (ctx->vk.vkCreateFence(ctx->device, &fenceInfo, NULL, &ctx->inFlightFences[i]) !=
+			VK_SUCCESS)
+			return false;
+	}
+
+	for (uint32_t i = 0; i < SBGL_MAX_SWAPCHAIN_IMAGES; i++) {
 		if (ctx->vk.vkCreateSemaphore(
 				ctx->device,
 				&semInfo,
 				NULL,
 				&ctx->imageAvailableSemaphores[i]
 			) != VK_SUCCESS ||
-			ctx->vk.vkCreateFence(ctx->device, &fenceInfo, NULL, &ctx->inFlightFences[i]) !=
-				VK_SUCCESS)
-			return false;
-	}
-
-	for (uint32_t i = 0; i < SBGL_MAX_SWAPCHAIN_IMAGES; i++) {
-		if (ctx->vk.vkCreateSemaphore(
+			ctx->vk.vkCreateSemaphore(
 				ctx->device,
 				&semInfo,
 				NULL,
@@ -620,12 +631,12 @@ static bool create_sync_and_command(sbgl_GfxContext* ctx) {
 }
 
 static bool create_telemetry_resources(sbgl_GfxContext* ctx) {
-	/* The system initializes a query pool with two timestamp slots to track GPU execution time
-	   for each frame, enabling performance telemetry. */
+	/* The system initializes a query pool with two timestamp slots for each frame in flight
+	   to track GPU execution time, enabling performance telemetry across the full pipeline. */
 	VkQueryPoolCreateInfo queryPoolInfo = {
 		.sType = VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO,
 		.queryType = VK_QUERY_TYPE_TIMESTAMP,
-		.queryCount = 2,
+		.queryCount = SBGL_MAX_FRAMES_IN_FLIGHT * 2,
 	};
 
 	if (ctx->vk.vkCreateQueryPool(ctx->device, &queryPoolInfo, NULL, &ctx->queryPool) !=
@@ -659,16 +670,10 @@ static bool create_transient_resources(sbgl_GfxContext* ctx) {
 		uint32_t idx = (uint32_t)ctx->transientBuffers[i] - 1;
 		SBGL_VulkanBuffer* buffer = &ctx->buffers[idx];
 
-		/* Memory is mapped once at initialization and kept open for the duration of the
-		   application's lifecycle to eliminate mapping overhead during the render loop. */
-		if (ctx->vk.vkMapMemory(
-				ctx->device,
-				buffer->memory,
-				0,
-				SBGL_TRANSIENT_BUFFER_SIZE,
-				0,
-				&ctx->transientMapped[i]
-			) != VK_SUCCESS) {
+		/* The system utilizes the persistent mapping established during buffer creation
+		   to provide zero-copy access to the transient memory pools. */
+		ctx->transientMapped[i] = buffer->mapped;
+		if (!ctx->transientMapped[i]) {
 			return false;
 		}
 		ctx->transientOffsets[i] = 0;
@@ -696,6 +701,11 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 		sbgl_gfx_Shutdown(ctx);
 		return NULL;
 	}
+
+	/* The query pool is reset on the host immediately after creation to ensure that all 
+	   queries are in a valid state before the first attempt to retrieve results. */
+	ctx->vk.vkResetQueryPool(ctx->device, ctx->queryPool, 0, SBGL_MAX_FRAMES_IN_FLIGHT * 2);
+
 	return ctx;
 }
 
@@ -725,6 +735,9 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 			if (ctx->pipelines[i].active) {
 				sbgl_gfx_DestroyPipeline(ctx, (sbgl_Pipeline)(i + 1));
 			}
+			if (ctx->computePipelines[i].active) {
+				sbgl_gfx_DestroyComputePipeline(ctx, (sbgl_ComputePipeline)(i + 1));
+			}
 		}
 
 		// Process any remaining deferred buffers
@@ -736,9 +749,16 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 		}
 
 		for (uint32_t i = 0; i < SBGL_MAX_FRAMES_IN_FLIGHT; i++) {
-			ctx->vk.vkDestroySemaphore(ctx->device, ctx->imageAvailableSemaphores[i], NULL);
-			ctx->vk.vkDestroySemaphore(ctx->device, ctx->renderFinishedSemaphores[i], NULL);
 			ctx->vk.vkDestroyFence(ctx->device, ctx->inFlightFences[i], NULL);
+		}
+
+		for (uint32_t i = 0; i < SBGL_MAX_SWAPCHAIN_IMAGES; i++) {
+			if (ctx->imageAvailableSemaphores[i] != VK_NULL_HANDLE) {
+				ctx->vk.vkDestroySemaphore(ctx->device, ctx->imageAvailableSemaphores[i], NULL);
+			}
+			if (ctx->renderFinishedSemaphores[i] != VK_NULL_HANDLE) {
+				ctx->vk.vkDestroySemaphore(ctx->device, ctx->renderFinishedSemaphores[i], NULL);
+			}
 		}
 		ctx->vk.vkDestroyQueryPool(ctx->device, ctx->queryPool, NULL);
 		ctx->vk.vkDestroyCommandPool(ctx->device, ctx->commandPool, NULL);
@@ -751,7 +771,7 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 	}
 }
 
-bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float a) {
+bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx) {
 	ctx->vk.vkWaitForFences(
 		ctx->device,
 		1,
@@ -780,7 +800,7 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 		ctx->device,
 		ctx->swapchain,
 		UINT64_MAX,
-		ctx->imageAvailableSemaphores[ctx->currentFrame],
+		ctx->imageAvailableSemaphores[ctx->semaphoreIndex],
 		VK_NULL_HANDLE,
 		&ctx->currentImageIndex
 	);
@@ -797,14 +817,20 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 	VkCommandBufferBeginInfo beginInfo = { .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
 	ctx->vk.vkBeginCommandBuffer(ctx->commandBuffers[ctx->currentFrame], &beginInfo);
 
-	/* The system resets the query pool and records the starting timestamp at the beginning of the
-	 * frame. */
+	/* The system resets the query pool for the current frame to prepare for new
+	   timestamp recordings. */
 	ctx->vk.vkCmdResetQueryPool(
 		ctx->commandBuffers[ctx->currentFrame],
 		ctx->queryPool,
 		ctx->currentFrame * 2,
 		2
 	);
+
+	return true;
+}
+
+void sbgl_gfx_BeginRenderPass(sbgl_GfxContext* ctx, float r, float g, float b, float a) {
+	/* The system records the starting timestamp at the beginning of the graphics pass. */
 	ctx->vk.vkCmdWriteTimestamp(
 		ctx->commandBuffers[ctx->currentFrame],
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
@@ -874,10 +900,9 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 	};
 
 	ctx->vk.vkCmdBeginRendering(ctx->commandBuffers[ctx->currentFrame], &renderingInfo);
-	return true;
 }
 
-void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
+void sbgl_gfx_EndRenderPass(sbgl_GfxContext* ctx) {
 	/* The system records the ending timestamp at the conclusion of the frame's rendering commands.
 	 */
 	ctx->vk.vkCmdWriteTimestamp(
@@ -912,19 +937,26 @@ void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
 		1,
 		&barrier
 	);
+}
 
+void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
 	ctx->vk.vkEndCommandBuffer(ctx->commandBuffers[ctx->currentFrame]);
 
 	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	
+	/* The system utilizes a semaphore indexed by the current image to signal completion
+	   to the presentation engine, preventing reuse conflicts during high-frequency updates. */
+	VkSemaphore signalSemaphore = ctx->renderFinishedSemaphores[ctx->currentImageIndex];
+
 	VkSubmitInfo submitInfo = {
 		.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
 		.waitSemaphoreCount = 1,
-		.pWaitSemaphores = &ctx->imageAvailableSemaphores[ctx->currentFrame],
+		.pWaitSemaphores = &ctx->imageAvailableSemaphores[ctx->semaphoreIndex],
 		.pWaitDstStageMask = waitStages,
 		.commandBufferCount = 1,
 		.pCommandBuffers = &ctx->commandBuffers[ctx->currentFrame],
 		.signalSemaphoreCount = 1,
-		.pSignalSemaphores = &ctx->renderFinishedSemaphores[ctx->currentFrame],
+		.pSignalSemaphores = &signalSemaphore,
 	};
 	ctx->vk
 		.vkQueueSubmit(ctx->graphicsQueue, 1, &submitInfo, ctx->inFlightFences[ctx->currentFrame]);
@@ -932,7 +964,7 @@ void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
 	VkPresentInfoKHR presentInfo = {
 		.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
 		.waitSemaphoreCount = 1,
-		.pWaitSemaphores = &ctx->renderFinishedSemaphores[ctx->currentFrame],
+		.pWaitSemaphores = &signalSemaphore,
 		.swapchainCount = 1,
 		.pSwapchains = &ctx->swapchain,
 		.pImageIndices = &ctx->currentImageIndex,
@@ -943,6 +975,7 @@ void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
 		recreate_swapchain(ctx);
 	}
 
+	ctx->semaphoreIndex = (ctx->semaphoreIndex + 1) % SBGL_MAX_SWAPCHAIN_IMAGES;
 	ctx->currentFrame = (ctx->currentFrame + 1) % SBGL_MAX_FRAMES_IN_FLIGHT;
 }
 
@@ -1004,15 +1037,23 @@ sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size,
 
 	ctx->vk.vkBindBufferMemory(ctx->device, buffer->handle, buffer->memory, 0);
 
-	if (data) {
-		void* mapped;
-		ctx->vk.vkMapMemory(ctx->device, buffer->memory, 0, size, 0, &mapped);
-		memcpy(mapped, data, size);
-		ctx->vk.vkUnmapMemory(ctx->device, buffer->memory);
+	buffer->size = size;
+	buffer->mapped = NULL;
+	buffer->active = true;
+
+	/* If the buffer is host-visible, it is persistently mapped once at creation to
+	   eliminate the performance cost of per-frame mapping operations. */
+	VkPhysicalDeviceMemoryProperties memProperties;
+	vkGetPhysicalDeviceMemoryProperties(ctx->physicalDevice, &memProperties);
+	if (memProperties.memoryTypes[allocInfo.memoryTypeIndex].propertyFlags &
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) {
+		ctx->vk.vkMapMemory(ctx->device, buffer->memory, 0, memRequirements.size, 0, &buffer->mapped);
 	}
 
-	buffer->size = size;
-	buffer->active = true;
+	if (data && buffer->mapped) {
+		memcpy(buffer->mapped, data, size);
+	}
+
 	return (sbgl_Buffer)(index + 1);
 }
 
@@ -1026,6 +1067,25 @@ void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
 	ctx->vk.vkDestroyBuffer(ctx->device, ctx->buffers[index].handle, NULL);
 	ctx->vk.vkFreeMemory(ctx->device, ctx->buffers[index].memory, NULL);
 	ctx->buffers[index].active = false;
+}
+
+void* sbgl_gfx_MapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
+	/* The system returns the persistently mapped pointer for the specified buffer,
+	   enabling high-performance data updates without the overhead of repeated mapping. */
+	if (handle == SBGL_INVALID_HANDLE)
+		return NULL;
+	uint32_t index = (uint32_t)handle - 1;
+	if (index >= SBGL_MAX_BUFFERS || !ctx->buffers[index].active)
+		return NULL;
+
+	return ctx->buffers[index].mapped;
+}
+
+void sbgl_gfx_UnmapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
+	/* Persistent mapping remains active for the buffer's lifecycle, so unmapping
+	   is a no-op to maintain API compatibility while maximizing performance. */
+	(void)ctx;
+	(void)handle;
 }
 
 void sbgl_gfx_DestroyBufferDeferred(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
@@ -1298,6 +1358,164 @@ void sbgl_gfx_DestroyPipeline(sbgl_GfxContext* ctx, sbgl_Pipeline handle) {
 	ctx->pipelines[index].active = false;
 }
 
+sbgl_ComputePipeline sbgl_gfx_CreateComputePipeline(sbgl_GfxContext* ctx, sbgl_Shader handle) {
+	/* The system scans the internal pipeline storage for an available slot to allocate
+	   the new compute pipeline state. */
+	uint32_t index = 0;
+	for (; index < SBGL_MAX_PIPELINES; index++) {
+		if (!ctx->computePipelines[index].active)
+			break;
+	}
+	if (index == SBGL_MAX_PIPELINES)
+		return SBGL_INVALID_HANDLE;
+
+	uint32_t shaderIndex = handle - 1;
+	if (ctx->shaders[shaderIndex].stage != SBGL_SHADER_STAGE_COMPUTE) {
+		fprintf(stderr, "[Vulkan] Invalid compute shader stage\n");
+		return SBGL_INVALID_HANDLE;
+	}
+
+	VkPipelineShaderStageCreateInfo stageInfo = {
+		.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+		.stage = VK_SHADER_STAGE_COMPUTE_BIT,
+		.module = ctx->shaders[shaderIndex].module,
+		.pName = "main",
+	};
+
+	VkPipelineLayoutCreateInfo layoutInfo = {
+		.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
+	};
+
+	/* The system utilizes a standardized push constant block across both graphics
+	   and compute pipelines to maintain architectural consistency. */
+	VkPushConstantRange pushConstantRange = {
+		.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT,
+		.offset = 0,
+		.size = SBGL_VK_PUSH_CONSTANT_SIZE,
+	};
+	layoutInfo.pushConstantRangeCount = 1;
+	layoutInfo.pPushConstantRanges = &pushConstantRange;
+
+	if (ctx->vk.vkCreatePipelineLayout(
+			ctx->device,
+			&layoutInfo,
+			NULL,
+			&ctx->computePipelines[index].layout
+		) != VK_SUCCESS) {
+		return SBGL_INVALID_HANDLE;
+	}
+
+	VkComputePipelineCreateInfo pipelineInfo = {
+		.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
+		.stage = stageInfo,
+		.layout = ctx->computePipelines[index].layout,
+	};
+
+	if (ctx->vk.vkCreateComputePipelines(
+			ctx->device,
+			VK_NULL_HANDLE,
+			1,
+			&pipelineInfo,
+			NULL,
+			&ctx->computePipelines[index].handle
+		) != VK_SUCCESS) {
+		ctx->vk.vkDestroyPipelineLayout(ctx->device, ctx->computePipelines[index].layout, NULL);
+		return SBGL_INVALID_HANDLE;
+	}
+
+	ctx->computePipelines[index].active = true;
+	return (sbgl_ComputePipeline)(index + 1);
+}
+
+void sbgl_gfx_DestroyComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline handle) {
+	/* The system releases the GPU-side pipeline and layout resources and marks
+	   the internal slot as inactive for future reuse. */
+	if (handle == SBGL_INVALID_HANDLE)
+		return;
+	uint32_t index = (uint32_t)handle - 1;
+	if (index >= SBGL_MAX_PIPELINES || !ctx->computePipelines[index].active)
+		return;
+
+	ctx->vk.vkDestroyPipeline(ctx->device, ctx->computePipelines[index].handle, NULL);
+	ctx->vk.vkDestroyPipelineLayout(ctx->device, ctx->computePipelines[index].layout, NULL);
+	ctx->computePipelines[index].active = false;
+}
+
+void sbgl_gfx_BindComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline handle) {
+	/* The currently active command buffer is updated to utilize the specified compute
+	   pipeline for all subsequent dispatch operations. */
+	if (handle == SBGL_INVALID_HANDLE)
+		return;
+	uint32_t index = (uint32_t)handle - 1;
+	if (index >= SBGL_MAX_PIPELINES || !ctx->computePipelines[index].active)
+		return;
+
+	ctx->vk.vkCmdBindPipeline(
+		ctx->commandBuffers[ctx->currentFrame],
+		VK_PIPELINE_BIND_POINT_COMPUTE,
+		ctx->computePipelines[index].handle
+	);
+	ctx->boundComputePipeline = handle;
+}
+
+void sbgl_gfx_DispatchCompute(sbgl_GfxContext* ctx, uint32_t x, uint32_t y, uint32_t z) {
+	/* A compute dispatch command is recorded into the current frame's command buffer,
+	   triggering parallel execution across the specified workgroup dimensions. */
+	ctx->vk.vkCmdDispatch(ctx->commandBuffers[ctx->currentFrame], x, y, z);
+}
+
+void sbgl_gfx_MemoryBarrier(sbgl_GfxContext* ctx, sbgl_BarrierType type) {
+	/* The system injects a pipeline barrier into the command stream to synchronize
+	   memory access between different execution stages, preventing race conditions. */
+	VkMemoryBarrier barrier = { .sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER };
+	VkPipelineStageFlags srcStage = 0;
+	VkPipelineStageFlags dstStage = 0;
+
+	switch (type) {
+	case SBGL_BARRIER_COMPUTE_TO_COMPUTE:
+		/* Synchronizes compute writes to be visible to subsequent compute reads and writes. */
+		barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+		barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+		srcStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+		dstStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+		break;
+	case SBGL_BARRIER_COMPUTE_TO_INDIRECT:
+		/* Synchronizes compute writes to SSBOs for use in indirect draw command buffers. */
+		barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+		barrier.dstAccessMask = VK_ACCESS_INDIRECT_COMMAND_READ_BIT;
+		srcStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+		dstStage = VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT;
+		break;
+	case SBGL_BARRIER_COMPUTE_TO_GRAPHICS:
+		/* Synchronizes compute writes to be visible to vertex input and shader stages. */
+		barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+		barrier.dstAccessMask = VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT | VK_ACCESS_SHADER_READ_BIT;
+		srcStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+		dstStage = VK_PIPELINE_STAGE_VERTEX_INPUT_BIT | VK_PIPELINE_STAGE_VERTEX_SHADER_BIT;
+		break;
+	case SBGL_BARRIER_GRAPHICS_TO_COMPUTE:
+		/* Synchronizes graphics writes to be visible to subsequent compute operations. */
+		barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+		barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+		srcStage = VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+		dstStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+		break;
+	}
+
+	ctx->vk.vkCmdPipelineBarrier(
+		ctx->commandBuffers[ctx->currentFrame],
+		srcStage,
+		dstStage,
+		0,
+		1,
+		&barrier,
+		0,
+		NULL,
+		0,
+		NULL
+	);
+}
+
 void sbgl_gfx_BindPipeline(sbgl_GfxContext* ctx, sbgl_Pipeline handle) {
 	if (handle == SBGL_INVALID_HANDLE)
 		return;
@@ -1422,17 +1640,31 @@ sbgl_gfx_AllocateTransient(sbgl_GfxContext* ctx, size_t size, uint32_t alignment
 }
 
 void sbgl_gfx_PushConstants(sbgl_GfxContext* ctx, size_t size, const void* data) {
-	if (ctx->boundPipeline == SBGL_INVALID_HANDLE)
-		return;
-	uint32_t index = (uint32_t)ctx->boundPipeline - 1;
-	ctx->vk.vkCmdPushConstants(
-		ctx->commandBuffers[ctx->currentFrame],
-		ctx->pipelines[index].layout,
-		VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-		0,
-		(uint32_t)size,
-		data
-	);
+	/* Push constants are submitted to both the currently bound graphics and compute
+	   pipelines to ensure that metadata is available across all execution stages. */
+	if (ctx->boundPipeline != SBGL_INVALID_HANDLE) {
+		uint32_t index = (uint32_t)ctx->boundPipeline - 1;
+		ctx->vk.vkCmdPushConstants(
+			ctx->commandBuffers[ctx->currentFrame],
+			ctx->pipelines[index].layout,
+			VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+			0,
+			(uint32_t)size,
+			data
+		);
+	}
+
+	if (ctx->boundComputePipeline != SBGL_INVALID_HANDLE) {
+		uint32_t index = (uint32_t)ctx->boundComputePipeline - 1;
+		ctx->vk.vkCmdPushConstants(
+			ctx->commandBuffers[ctx->currentFrame],
+			ctx->computePipelines[index].layout,
+			VK_SHADER_STAGE_COMPUTE_BIT,
+			0,
+			(uint32_t)size,
+			data
+		);
+	}
 }
 
 float sbgl_gfx_GetGpuTime(sbgl_GfxContext* ctx) {

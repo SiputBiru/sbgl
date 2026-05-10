@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-05-10
 
+### Added
+- **Compute API Support**: Implemented a general-purpose compute pipeline system in the Vulkan backend.
+    - Added `sbgl_CreateComputePipeline`, `sbgl_DispatchCompute`, and `sbgl_MemoryBarrier` to the public API.
+    - Support for `SBGL_SHADER_STAGE_COMPUTE` in the shader loading system.
+    - Memory barriers for synchronizing Compute-to-Graphics and Graphics-to-Compute transitions.
+- **Advanced 3D Voxel Engine**:
+    - High-performance voxel rendering using 3D chunked SSBOs.
+    - **GPU-Driven Frustum Culling**: Implemented via compute shaders to eliminate CPU-side visibility bottlenecks.
+    - **Multi-Draw Indirect (MDI)**: Utilizes GPU-populated indirect commands for single-call submission of millions of voxels.
+    - New example: `examples/voxels/voxel3D_main.c`.
+- **Compute Documentation**: Created `docs/COMPUTE.md` with technical deep-dives into GPU culling and pipeline synchronization.
+
 ### Changed
 - **Vulkan Meta-loader Integration**: Replaced manual Vulkan loading logic with `volk` (v1.4.350) using CMake `FetchContent`. This enables device-level function dispatching via `VolkDeviceTable`, reducing driver overhead for draw calls.
 - **Enhanced Test Validation**: Refactored the internal test suite (`math_test`, `arena_test`, `voxel_logic_test`, etc.) to replace passive variable usage with explicit runtime validation, ensuring robust testing and resolving compiler warnings in Debug builds.

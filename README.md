@@ -75,6 +75,7 @@ Comprehensive documentation organized by the development lifecycle is available 
 * Bare-metal C99 architecture.
 * Explicit Context-based API (no global state).
 * Vulkan 1.3 backend.
+* General-purpose Compute Shaders & GPU-Driven Culling.
 * Data-Oriented Design (DOD) for cache efficiency.
 * Arena-based memory management.
 * SIMD-ready math library.
@@ -84,7 +85,6 @@ Comprehensive documentation organized by the development lifecycle is available 
 
 As a "bare-metal" framework in active development, SBgl has several known technical constraints:
 
-* **2.5D Voxel Rendering**: The current procedural voxel system is optimized for heightmap-based generation (2.5D). True 3D voxel grids with complex overhangs and caves are not yet natively implemented in the primary examples.
 * **Single Command Stream**: While the API supports multiple contexts, command recording is currently serialized into a single primary command buffer per frame. Asynchronous, multi-threaded command recording is on the roadmap but not yet available.
 * **Linux-First Maturity**: Although Win32 is supported, the Linux (Wayland/X11) platform layers are the primary development targets and currently offer the highest stability and feature parity.
 * **Resource Limits**: Internal pools for buffers, shaders, and pipelines use fixed-capacity arrays (e.g., `SBGL_MAX_BUFFERS`) to ensure O(1) handle lookups and avoid heap fragmentation.
@@ -95,6 +95,7 @@ The system utilizes several rendering techniques to ensure execution efficiency 
 
 | Technique | Implementation Detail | Performance Benefit |
 | :--- | :--- | :--- |
+| **GPU-Driven Culling** | Visibility testing and indirect command generation performed via Compute Shaders. | Eliminates CPU-side culling bottlenecks and minimizes PCIe bandwidth by keeping draw data on the GPU. |
 | **Multi-Draw Indirect (MDI)** | Draw commands are baked into a GPU-visible buffer and submitted via `vkCmdDrawIndexedIndirect`. | Reduces CPU submission overhead and eliminates per-draw call driver validation. |
 | **Buffer Device Address (BDA)** | Uses `GL_EXT_buffer_reference` to access instance data via 64-bit pointers in push constants. | Eliminates descriptor set updates and provides direct memory access within shaders. |
 | **Data-Oriented Design (DOD)** | Contiguous memory layouts for render queues and instance data. | Maximizes L1/L2 cache utilization during packet submission and sorting phases. |
@@ -113,6 +114,8 @@ The system utilizes several rendering techniques to ensure execution efficiency 
 * Enforced 16-byte alignment in `SblArena` to support SIMD-optimized types in Release builds.
 * Standardized vertex position `w` component to `1.0` in examples to ensure correct perspective projection in shaders.
 * Increased default `transientArena` size to 16MB to support high-frequency batching of up to 100,000 instances.
+* Transitioned the voxel engine to a 3D chunked SSBO structure with GPU-driven frustum culling.
+* Implemented the General Purpose Compute API for pipeline dispatching and memory synchronization.
 
 ## License
 

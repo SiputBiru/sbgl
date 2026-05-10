@@ -146,6 +146,27 @@ void sbgl_BeginDrawing(sbgl_Context* ctx);
 void sbgl_EndDrawing(sbgl_Context* ctx);
 
 /**
+ * @brief Prepares the engine for compute operations before the main drawing pass.
+ *
+ * If a frame has not yet been started, this function initiates the frame lifecycle,
+ * acquiring a swapchain image and starting the command buffer. It must be called
+ * outside of a BeginDrawing/EndDrawing block.
+ *
+ * @param ctx The engine context.
+ */
+void sbgl_BeginCompute(sbgl_Context* ctx);
+
+/**
+ * @brief Finalizes the compute phase.
+ *
+ * This function is semantically symmetrical to sbgl_BeginCompute. It does not
+ * submit the frame; that is still handled by sbgl_EndDrawing.
+ *
+ * @param ctx The engine context.
+ */
+void sbgl_EndCompute(sbgl_Context* ctx);
+
+/**
  * @brief Synchronizes the CPU with the GPU, waiting for all commands to complete.
  *
  * This is called before destroying resources (Pipelines, Buffers, Shaders) 
@@ -250,13 +271,31 @@ sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* f
 void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader);
 
 /**
+ * @brief Maps a GPU buffer into the CPU's address space.
+ *
+ * This allows for direct reading from and writing to GPU memory.
+ * SBgl buffers are created as host-visible and coherent by default.
+ *
+ * @param ctx The engine context.
+ * @param buffer The buffer handle.
+ * @return A pointer to the mapped memory, or NULL on failure.
+ */
+void* sbgl_MapBuffer(sbgl_Context* ctx, sbgl_Buffer buffer);
+
+/**
+ * @brief Unmaps a previously mapped GPU buffer.
+ * @param ctx The engine context.
+ * @param buffer The buffer handle.
+ */
+void sbgl_UnmapBuffer(sbgl_Context* ctx, sbgl_Buffer buffer);
+
+/**
  * @brief Creates a graphics pipeline.
  * @param ctx The engine context.
  * @param config Configuration for the pipeline.
  * @return A handle to the created pipeline.
  */
 sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* config);
-
 /**
  * @brief Destroys a graphics pipeline.
  * 
@@ -267,6 +306,44 @@ sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* 
  * @param pipeline The pipeline handle.
  */
 void sbgl_DestroyPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline);
+
+/**
+ * @brief Creates a compute pipeline.
+ * @param ctx The engine context.
+ * @param shader The compute shader handle.
+ * @return A handle to the created compute pipeline.
+ */
+sbgl_ComputePipeline sbgl_CreateComputePipeline(sbgl_Context* ctx, sbgl_Shader shader);
+
+/**
+ * @brief Destroys a compute pipeline.
+ * @param ctx The engine context.
+ * @param pipeline The compute pipeline handle.
+ */
+void sbgl_DestroyComputePipeline(sbgl_Context* ctx, sbgl_ComputePipeline pipeline);
+
+/**
+ * @brief Binds a compute pipeline for subsequent dispatch calls.
+ * @param ctx The engine context.
+ * @param pipeline The compute pipeline handle.
+ */
+void sbgl_BindComputePipeline(sbgl_Context* ctx, sbgl_ComputePipeline pipeline);
+
+/**
+ * @brief Dispatches a compute workload.
+ * @param ctx The engine context.
+ * @param groupCountX Number of workgroups in X dimension.
+ * @param groupCountY Number of workgroups in Y dimension.
+ * @param groupCountZ Number of workgroups in Z dimension.
+ */
+void sbgl_DispatchCompute(sbgl_Context* ctx, uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
+
+/**
+ * @brief Injects a memory barrier to synchronize compute and graphics operations.
+ * @param ctx The engine context.
+ * @param type The type of barrier to inject.
+ */
+void sbgl_MemoryBarrier(sbgl_Context* ctx, sbgl_BarrierType type);
 
 /**
  * @brief Binds a graphics pipeline for subsequent draw calls.
@@ -310,10 +387,25 @@ void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex);
  * @param vertexOffset Value added to each index before indexing into vertex buffers.
  */
 void sbgl_DrawIndexed(
-	sbgl_Context* ctx,
-	uint32_t indexCount,
-	uint32_t firstIndex,
-	int32_t vertexOffset
+  sbgl_Context* ctx,
+  uint32_t indexCount,
+  uint32_t firstIndex,
+  int32_t vertexOffset
+);
+
+/**
+ * @brief Submits a batch of draw calls stored in a GPU buffer.
+ *
+ * @param ctx The engine context.
+ * @param buffer Handle to the buffer containing an array of sbgl_IndirectCommand.
+ * @param offset The byte offset into the buffer where the commands begin.
+ * @param drawCount The number of commands to execute from the buffer.
+ */
+void sbgl_DrawIndirect(
+  sbgl_Context* ctx,
+  sbgl_Buffer buffer,
+  size_t offset,
+  uint32_t drawCount
 );
 
 /**
@@ -356,14 +448,14 @@ sbgl_RenderQueue* sbgl_CreateRenderQueue(sbgl_Context* ctx, struct SblArena* are
  * @param data Pointer to the per-instance data (transform, color, etc).
  */
 void sbgl_SubmitDraw(
-	sbgl_RenderQueue* queue,
-	uint32_t mesh,
-	uint32_t material,
-	uint32_t blendMode,
-	uint32_t sidedness,
-	uint32_t tags,
-	sbgl_SortKey key,
-	const sbgl_InstanceData* data
+  sbgl_RenderQueue* queue,
+  uint32_t mesh,
+  uint32_t material,
+  uint32_t blendMode,
+  uint32_t sidedness,
+  uint32_t tags,
+  sbgl_SortKey key,
+  const sbgl_InstanceData* data
 );
 
 /**

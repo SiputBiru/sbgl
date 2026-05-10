@@ -488,11 +488,23 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 			&presentModeCount,
 			presentModes
 		);
+
+		/* The system prioritizes present modes that minimize latency and maximize throughput.
+		   IMMEDIATE is preferred for raw benchmarks, while MAILBOX provides high-performance 
+		   triple-buffering without tearing. */
+		bool mailboxSupported = false;
+		bool immediateSupported = false;
 		for (uint32_t i = 0; i < presentModeCount; i++) {
-			if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR) {
-				presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
-				break;
-			}
+			if (presentModes[i] == VK_PRESENT_MODE_IMMEDIATE_KHR)
+				immediateSupported = true;
+			if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR)
+				mailboxSupported = true;
+		}
+
+		if (immediateSupported) {
+			presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
+		} else if (mailboxSupported) {
+			presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
 		}
 	}
 

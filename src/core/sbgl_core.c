@@ -220,6 +220,12 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 		inner->clearColor[3]
 	);
 
+	if (inner->state.isDrawing) {
+		// GPU performance data for the previous frame in this slot is now guaranteed to be ready
+		// as BeginFrame just finished waiting for its fence.
+		inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
+	}
+
 	ctx->result = inner->state.isDrawing ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 }
 
@@ -238,9 +244,6 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 		inner->currentFrame.cpu_frame_time =
 			sbgl_internal_GetElapsedMs(inner->frameStartTime, frameEndTime);
 #endif
-
-		// GPU performance data is retrieved from the graphics backend
-		inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
 
 		// The completed telemetry data is archived for user retrieval
 		inner->lastFrame = inner->currentFrame;

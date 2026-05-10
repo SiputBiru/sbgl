@@ -8,9 +8,9 @@ var searchData=
   ['unreleased_202026_2005_2010_5',['[Unreleased] - 2026-05-10',['../md_CHANGELOG.html#autotoc_md18',1,'']]],
   ['up_6',['up',['../structsbgl__Camera.html#a713095c012ed1dc743efb392fbc33fa9',1,'sbgl_Camera']]],
   ['update_5fradius_7',['update_radius',['../voxel__main_8c.html#a1d5d5bdd012066eb5b58c1648b8ec147',1,'voxel_main.c']]],
-  ['updates_8',['Dynamic Vertex Updates',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md175',1,'']]],
-  ['usage_20example_9',['Usage Example',['../md_docs_2manual_2telemetry.html#autotoc_md185',1,'']]],
-  ['use_20case_10',['Vertex Layout Use Case',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md163',1,'']]],
-  ['use_20constructors_11',['Why use Constructors?',['../md_docs_2manual_2math__library.html#autotoc_md114',1,'']]],
-  ['user_20responsibility_12',['User Responsibility',['../md_docs_2manual_2platform__abstraction.html#autotoc_md148',1,'']]]
+  ['updates_8',['Dynamic Vertex Updates',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md177',1,'']]],
+  ['usage_20example_9',['Usage Example',['../md_docs_2manual_2telemetry.html#autotoc_md187',1,'']]],
+  ['use_20case_10',['Vertex Layout Use Case',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md165',1,'']]],
+  ['use_20constructors_11',['Why use Constructors?',['../md_docs_2manual_2math__library.html#autotoc_md116',1,'']]],
+  ['user_20responsibility_12',['User Responsibility',['../md_docs_2manual_2platform__abstraction.html#autotoc_md150',1,'']]]
 ];

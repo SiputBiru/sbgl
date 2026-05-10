@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"sbgl__backend__vulkan_8c.html#a67b9308239140fb5fae1b99cd9645517":[18,0,3,0,0,7],
 "sbgl__backend__vulkan_8c.html#a6c4f0a43b15c4319fed2ee297e7981e3":[18,0,3,0,0,5],
 "sbgl__backend__vulkan_8c.html#a7401c1de18fa36eee1f02160d18fd5aa":[18,0,3,0,0,8],
 "sbgl__backend__vulkan_8c.html#a74b408a114b2c5dc6c75280de76dac33":[18,0,3,0,0,41],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "structSBGL__VulkanBuffer.html#ad8cb1d843e59a2f051d3018dc6dd55cd":[17,0,27,0],
 "structSBGL__VulkanPipeline.html":[17,0,28],
 "structSBGL__VulkanPipeline.html#a55dc3b90a1c05973fbf90e9f6e04443a":[17,0,28,1],
-"structSBGL__VulkanPipeline.html#a5d73a7f029161d731b8de7b7b23d5579":[17,0,28,0],
-"structSBGL__VulkanPipeline.html#a88aef16094c981565d74cebd8f298844":[17,0,28,2]
+"structSBGL__VulkanPipeline.html#a5d73a7f029161d731b8de7b7b23d5579":[17,0,28,0]
 };

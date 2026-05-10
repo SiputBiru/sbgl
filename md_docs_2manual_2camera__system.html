@@ -107,30 +107,30 @@ $(function(){initNavTree('md_docs_2manual_2camera__system.html',''); initResizab
   <div class="headertitle"><div class="title">SBgl Camera &amp; Collision System</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md78"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md80"></a></p>
 <p>The camera system in SBgl provides a stateful interface for managing 3D and 2D projections. It is designed to work in conjunction with the math library to produce view and projection matrices suitable for Vulkan rendering.</p>
-<h1><a class="anchor" id="autotoc_md79"></a>
+<h1><a class="anchor" id="autotoc_md81"></a>
 Camera Architecture</h1>
 <p>The <code><a class="el" href="structsbgl__Camera.html" title="Stateful camera representation.">sbgl_Camera</a></code> structure encapsulates the necessary data to define a viewing frustum or an orthographic volume.</p>
-<h2><a class="anchor" id="autotoc_md80"></a>
+<h2><a class="anchor" id="autotoc_md82"></a>
 Perspective Projection</h2>
 <p>Perspective cameras simulate a physical lens, where objects further away appear smaller. This is defined by a vertical field of view (FOV), an aspect ratio, and near/far clipping planes.</p>
-<h2><a class="anchor" id="autotoc_md81"></a>
+<h2><a class="anchor" id="autotoc_md83"></a>
 Orthographic Projection</h2>
 <p>Orthographic cameras provide a parallel projection where parallel lines remain parallel and object size is independent of distance from the camera. This is typically used for 2D applications, user interfaces, or technical visualizations.</p>
-<h1><a class="anchor" id="autotoc_md82"></a>
+<h1><a class="anchor" id="autotoc_md84"></a>
 View Management</h1>
 <p>The system utilizes a look-at model for the view matrix. By defining a position, a target point, and an up vector, the system computes the transformation required to orient the world relative to the camera's local coordinate system.</p>
-<h1><a class="anchor" id="autotoc_md83"></a>
+<h1><a class="anchor" id="autotoc_md85"></a>
 Far Plane Management</h1>
 <p>Applications are responsible for managing the far clipping plane to ensure optimal depth buffer precision and visibility in varied environments. Architectural decoupling necessitates that the camera system remains agnostic to world size or chunked data structures.</p>
 <p>For large-scale environments, such as voxel-based worlds, a dynamic far plane is recommended. A common heuristic for calculating the far plane distance based on the render radius and chunk size is:</p>
 <p><code>(radius + 1) * chunk_size * 1.5</code></p>
 <p>When the far plane or other projection parameters are modified within the <code><a class="el" href="structsbgl__Camera.html" title="Stateful camera representation.">sbgl_Camera</a></code> structure, the projection matrix is updated during the subsequent call to <code>sbgl_CameraGetProjection</code>.</p>
-<h1><a class="anchor" id="autotoc_md84"></a>
+<h1><a class="anchor" id="autotoc_md86"></a>
 Batch Collision Math</h1>
 <p>To adhere to Data-Oriented Design principles, the collision system is designed to process multiple objects in a single call. This minimizes function call overhead and improves cache efficiency when testing a single ray against a collection of primitive shapes.</p>
-<h2><a class="anchor" id="autotoc_md85"></a>
+<h2><a class="anchor" id="autotoc_md87"></a>
 Intersection Testing</h2>
 <p>Supported primitives for batch testing include:</p>
 <ul>
@@ -138,10 +138,10 @@ Intersection Testing</h2>
 <li><b>AABBs:</b> Axis-Aligned Bounding Boxes defined by their minimum and maximum extents.</li>
 </ul>
 <p>The intersection functions return a hit result containing the intersection point, the distance from the ray origin, and the surface normal at the point of impact.</p>
-<h1><a class="anchor" id="autotoc_md86"></a>
+<h1><a class="anchor" id="autotoc_md88"></a>
 Examples</h1>
 <p>The implementation is accompanied by example applications that demonstrate the initialization and utilization of the camera and collision systems.</p>
-<h2><a class="anchor" id="autotoc_md87"></a>
+<h2><a class="anchor" id="autotoc_md89"></a>
 Camera Example</h2>
 <p>The <code><a class="el" href="camera__main_8c.html">camera_main.c</a></code> application illustrates the configuration of a 3D perspective camera. It demonstrates the configuration of camera parameters such as field of view and aspect ratio, and the retrieval of the resulting view and projection matrices. Additionally, a batch ray-casting test is performed against a collection of axis-aligned bounding boxes to verify 3D intersection logic and normal calculation. </p>
 </div></div><!-- contents -->

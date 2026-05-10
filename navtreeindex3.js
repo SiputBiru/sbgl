@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"structSBGL__VulkanPipeline.html#a88aef16094c981565d74cebd8f298844":[17,0,28,2],
 "structSBGL__VulkanShader.html":[17,0,29],
 "structSBGL__VulkanShader.html#a050ac6cb6f44a2f30678c5e89f234ed4":[17,0,29,1],
 "structSBGL__VulkanShader.html#a1e663394f9ee5b94e777cf4b04ffab47":[17,0,29,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "window__wayland_8c.html":[18,0,3,2,0,3],
 "window__wayland_8c.html#a15b4b02730cd7062dd187f1b9afc35e7":[18,0,3,2,0,3,20],
 "window__wayland_8c.html#a19b2c191eb7bfa61836076f4df2546b4":[18,0,3,2,0,3,15],
-"window__wayland_8c.html#a1de4f76bcc4ac63dbf78737f89c56d50":[18,0,3,2,0,3,25],
-"window__wayland_8c.html#a2f23a1eef29f02996976afeee957bc37":[18,0,3,2,0,3,1]
+"window__wayland_8c.html#a1de4f76bcc4ac63dbf78737f89c56d50":[18,0,3,2,0,3,25]
 };

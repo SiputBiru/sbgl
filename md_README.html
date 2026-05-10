@@ -144,9 +144,19 @@ Integrating SBgl</h2>
 Dependencies</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadLeft">Dependency   </th><th class="markdownTableHeadLeft">Version   </th><th class="markdownTableHeadLeft">Purpose    </th></tr>
+<th class="markdownTableHeadLeft">Dependency   </th><th class="markdownTableHeadLeft">Version   </th><th class="markdownTableHeadLeft">Purpose   </th><th class="markdownTableHeadLeft">Integration    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyLeft"><b>volk</b>   </td><td class="markdownTableBodyLeft">1.4.350   </td><td class="markdownTableBodyLeft">Vulkan Meta-loader for device-specific function dispatching.   </td></tr>
+<td class="markdownTableBodyLeft"><b><a href="https://github.com/zeux/volk">volk</a></b>   </td><td class="markdownTableBodyLeft">1.4.350   </td><td class="markdownTableBodyLeft">Vulkan Meta-loader for device-specific function dispatching.   </td><td class="markdownTableBodyLeft">CMake FetchContent (Automatic)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft"><b>Wayland</b>   </td><td class="markdownTableBodyLeft">Native   </td><td class="markdownTableBodyLeft">Primary windowing system for Linux development.   </td><td class="markdownTableBodyLeft">System Package (External)    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><b>X11</b>   </td><td class="markdownTableBodyLeft">Native   </td><td class="markdownTableBodyLeft">Legacy windowing support for Linux platforms.   </td><td class="markdownTableBodyLeft">System Package (External)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft"><b>stb_perlin</b>   </td><td class="markdownTableBodyLeft">0.5   </td><td class="markdownTableBodyLeft">Single-file noise generator for procedural voxel terrain.   </td><td class="markdownTableBodyLeft">Source-embedded (Internal)    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><b>glslc</b>   </td><td class="markdownTableBodyLeft">SDK   </td><td class="markdownTableBodyLeft">SPIR-V shader compiler (Khronos/Google).   </td><td class="markdownTableBodyLeft">Vulkan SDK (External)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft"><b>xxd</b>   </td><td class="markdownTableBodyLeft">OS   </td><td class="markdownTableBodyLeft">Utility for embedding binary assets into C source code.   </td><td class="markdownTableBodyLeft">System Package (External)   </td></tr>
 </table>
 <h1><a class="anchor" id="autotoc_md10"></a>
 Documentation</h1>

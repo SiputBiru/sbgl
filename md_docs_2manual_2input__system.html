@@ -107,10 +107,10 @@ $(function(){initNavTree('md_docs_2manual_2input__system.html',''); initResizabl
   <div class="headertitle"><div class="title">SBgl Input System Architecture</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md88"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md90"></a></p>
 <p>The input system provides access to physical device state through the engine context. It utilizes an internal "key map" pattern tied to the engine context.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md90"></a>
+<h1><a class="anchor" id="autotoc_md92"></a>
 Contextual Encapsulation</h1>
 <p>Unlike systems that use global state or OS-specific polling, SBgl stores all physical input state within the opaque <code><a class="el" href="structsbgl__InternalContext.html" title="Internal state for the engine context.">sbgl_InternalContext</a></code>.</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structsbgl__Context.html">sbgl_Context</a> {</div>
@@ -128,7 +128,7 @@ Contextual Encapsulation</h1>
 <li>Multiple windows can have independent input states.</li>
 <li>The public API remains strictly controlled.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md91"></a>
+<h1><a class="anchor" id="autotoc_md93"></a>
 The Key Map Pattern</h1>
 <p>Internally, the <code><a class="el" href="structsbgl__InputState.html" title="Represents the real-time state of physical inputs.">sbgl_InputState</a></code> structure contains fixed-size boolean arrays for every possible physical key and mouse button.</p>
 <ul>
@@ -137,22 +137,22 @@ The Key Map Pattern</h1>
 <li><b><code>mouseDown</code></b>: Current state of the mouse buttons.</li>
 </ul>
 <p>When the OS sends a message (e.g., <code>WM_KEYDOWN</code> on Windows or <code>wl_keyboard.key</code> on Wayland), the <b>Platform Layer</b> translates the native scancode into an SBgl scancode (defined in <code><a class="el" href="sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl).">sbgl.h</a></code>) and updates the corresponding index in these internal arrays.</p>
-<h1><a class="anchor" id="autotoc_md92"></a>
+<h1><a class="anchor" id="autotoc_md94"></a>
 Input HAL Implementation</h1>
 <p>The Platform Layer (Wayland, X11, Win32) is responsible for filling the key map during the <code>sbgl_os_PollEvents</code> phase.</p>
-<h2><a class="anchor" id="autotoc_md93"></a>
+<h2><a class="anchor" id="autotoc_md95"></a>
 Mouse Deltas</h2>
 <p>Mouse movement is tracked using absolute coordinates (<code>mouseX</code>, <code>mouseY</code>) and relative deltas. Deltas are calculated during the event poll by comparing the current position with the position from the previous frame stored in internal tracking variables within the <code><a class="el" href="structsbgl__InputState.html" title="Represents the real-time state of physical inputs.">sbgl_InputState</a></code> (<code>_internalMouseX</code>, <code>_internalMouseY</code>). This ensures deltas are calculated accurately even when frames are skipped or delayed.</p>
-<h2><a class="anchor" id="autotoc_md94"></a>
+<h2><a class="anchor" id="autotoc_md96"></a>
 Frame Lifecycle</h2>
 <p>Pressed states (<code>keysPressed</code>) are automatically reset at the end of every frame in <code>sbgl_EndDrawing</code>. This ensures that a "pressed" event is only visible to the application for exactly one frame.</p>
-<h1><a class="anchor" id="autotoc_md95"></a>
+<h1><a class="anchor" id="autotoc_md97"></a>
 Application Integration</h1>
 <p>The system provides a Data-Oriented API for batch processing.</p>
-<h2><a class="anchor" id="autotoc_md96"></a>
+<h2><a class="anchor" id="autotoc_md98"></a>
 Data-Oriented API (Batch Access)</h2>
 <p>The <code>sbgl_GetInputState</code> function provides a read-only pointer to the contiguous <code><a class="el" href="structsbgl__InputState.html" title="Represents the real-time state of physical inputs.">sbgl_InputState</a></code> structure. Fetching the pointer once per frame enables batch processing.</p>
-<h3><a class="anchor" id="autotoc_md97"></a>
+<h3><a class="anchor" id="autotoc_md99"></a>
 Keyboard Example</h3>
 <p>The <code>keysDown</code> (held) or <code>keysPressed</code> (one-shot) boolean arrays are queried directly. </p><div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_struct" href="structsbgl__InputState.html">sbgl_InputState</a>* input = <a class="code hl_function" href="sbgl_8h.html#a53079f10afee8a0e1ddb22f61179475b">sbgl_GetInputState</a>(ctx);</div>
 <div class="line"> </div>
@@ -167,7 +167,7 @@ Keyboard Example</h3>
 <div class="ttc" id="astructsbgl__InputState_html"><div class="ttname"><a href="structsbgl__InputState.html">sbgl_InputState</a></div><div class="ttdoc">Represents the real-time state of physical inputs.</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00107">sbgl_input.h:107</a></div></div>
 <div class="ttc" id="astructsbgl__InputState_html_a5c26df4da11d62e22ccbaab8246c10c1"><div class="ttname"><a href="structsbgl__InputState.html#a5c26df4da11d62e22ccbaab8246c10c1">sbgl_InputState::keysPressed</a></div><div class="ttdeci">bool keysPressed[SBGL_SCANCODE_MAX]</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00109">sbgl_input.h:109</a></div></div>
 <div class="ttc" id="astructsbgl__InputState_html_a81480662d5b7e2479222c903d053d744"><div class="ttname"><a href="structsbgl__InputState.html#a81480662d5b7e2479222c903d053d744">sbgl_InputState::keysDown</a></div><div class="ttdeci">bool keysDown[SBGL_SCANCODE_MAX]</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00108">sbgl_input.h:108</a></div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md98"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md100"></a>
 Mouse Example</h3>
 <p>Access real-time coordinates, deltas, and button states. </p><div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_struct" href="structsbgl__InputState.html">sbgl_InputState</a>* input = <a class="code hl_function" href="sbgl_8h.html#a53079f10afee8a0e1ddb22f61179475b">sbgl_GetInputState</a>(ctx);</div>
 <div class="line"> </div>
@@ -185,7 +185,7 @@ Mouse Example</h3>
 <div class="ttc" id="astructsbgl__InputState_html_a68a65c1459f0eb5a6e99a28b92f43a75"><div class="ttname"><a href="structsbgl__InputState.html#a68a65c1459f0eb5a6e99a28b92f43a75">sbgl_InputState::mouseY</a></div><div class="ttdeci">int mouseY</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00111">sbgl_input.h:111</a></div></div>
 <div class="ttc" id="astructsbgl__InputState_html_a810cc7686170efb8a7750741ebc9efac"><div class="ttname"><a href="structsbgl__InputState.html#a810cc7686170efb8a7750741ebc9efac">sbgl_InputState::mouseX</a></div><div class="ttdeci">int mouseX</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00111">sbgl_input.h:111</a></div></div>
 <div class="ttc" id="astructsbgl__InputState_html_ad5e807135feb918b9943f582c11af042"><div class="ttname"><a href="structsbgl__InputState.html#ad5e807135feb918b9943f582c11af042">sbgl_InputState::mouseDeltaX</a></div><div class="ttdeci">int mouseDeltaX</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00112">sbgl_input.h:112</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md99"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md101"></a>
 Mouse Modes</h2>
 <p>The engine supports three distinct modes for controlling the cursor's visibility and movement behavior.</p>
 <table class="markdownTable">
@@ -198,7 +198,7 @@ Mouse Modes</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft"><code>SBGL_MOUSE_MODE_CAPTURED</code>   </td><td class="markdownTableBodyLeft">Cursor is invisible and locked to the window center.   </td><td class="markdownTableBodyLeft">3D navigation, FPS cameras.   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md100"></a>
+<h3><a class="anchor" id="autotoc_md102"></a>
 Controlling the Mouse Mode</h3>
 <p>Use <code>sbgl_SetMouseMode</code> to switch between behaviors. The engine ensures that modes like <code>CAPTURED</code> are persistent; if the window loses and then regains focus, the engine automatically re-locks the cursor.</p>
 <div class="fragment"><div class="line"><span class="comment">// Toggle between standard and FPS-style camera</span></div>
@@ -216,7 +216,7 @@ Controlling the Mouse Mode</h3>
 <li><b>Ensuring Stability</b>: The API returns a pointer to a static, zero-initialized dummy state if the context is invalid, preventing null-pointer dereferences.</li>
 </ul>
 <p>By exposing the state as a contiguous block of data, the engine enables iteration and transformation of input data without the overhead of object-oriented getters.</p>
-<h2><a class="anchor" id="autotoc_md101"></a>
+<h2><a class="anchor" id="autotoc_md103"></a>
 Input-to-Transform Mapping</h2>
 <p>The Data-Oriented API facilitates direct mapping of scancodes to transformation data, enabling efficient camera or entity controls without branching logic.</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code hl_struct" href="structsbgl__InputState.html">sbgl_InputState</a>* input = <a class="code hl_function" href="sbgl_8h.html#a53079f10afee8a0e1ddb22f61179475b">sbgl_GetInputState</a>(ctx);</div>
@@ -245,7 +245,7 @@ Input-to-Transform Mapping</h2>
 <div class="ttc" id="aunionsbgl__Vec3_html_ad59d9f646c6df96d170d50952d5565c0"><div class="ttname"><a href="unionsbgl__Vec3.html#ad59d9f646c6df96d170d50952d5565c0">sbgl_Vec3::z</a></div><div class="ttdeci">float z</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00052">sbgl_math.h:52</a></div></div>
 <div class="ttc" id="aunionsbgl__Vec3_html_ae66f07fa8296dc38c18d0df318f9401b"><div class="ttname"><a href="unionsbgl__Vec3.html#ae66f07fa8296dc38c18d0df318f9401b">sbgl_Vec3::x</a></div><div class="ttdeci">float x</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00052">sbgl_math.h:52</a></div></div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md103"></a>
+<h1><a class="anchor" id="autotoc_md105"></a>
 Technical Summary</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">

@@ -20,9 +20,9 @@ int main(void) {
 		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/interactive.frag.spv");
 
 	sbgl_Vertex vertices[] = {
-		{ { 0, 16383, 0, 32767 }, 0xFF0000FF, 0 },
-		{ { 16383, -16383, 0, 32767 }, 0xFF00FF00, 0 },
-		{ { -16383, -16383, 0, 32767 }, 0xFFFF0000, 0 }
+		{ { 0, 16383, 0, 32767 }, 0xFF0000FF, 0 },      // 0: Top
+		{ { -16383, -16383, 0, 32767 }, 0xFFFF0000, 0 }, // 1: Bottom-Left
+		{ { 16383, -16383, 0, 32767 }, 0xFF00FF00, 0 }   // 2: Bottom-Right
 	};
 
 	sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertices), vertices);
@@ -37,7 +37,7 @@ int main(void) {
 								   .vertexLayout = { sizeof(sbgl_Vertex), 2, attributes } };
 
 	sbgl_Pipeline pipeline = sbgl_CreatePipeline(ctx, &config);
-    float start_time = (float)clock() / CLOCKS_PER_SEC;
+    double start_time = sbgl_GetTime();
 
 	printf("--- Triangle Controls ---\n");
 	printf("ESC: Exit\n");
@@ -55,7 +55,7 @@ int main(void) {
 
         PushData push = {
             .mousePos = { (float)input->mouseX / (float)width, (float)input->mouseY / (float)height },
-            .time = ((float)clock() / CLOCKS_PER_SEC) - start_time
+            .time = (float)(sbgl_GetTime() - start_time)
         };
 
         sbgl_BindPipeline(ctx, pipeline);

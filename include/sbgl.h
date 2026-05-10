@@ -110,6 +110,15 @@ void sbgl_Shutdown(sbgl_Context* ctx);
 bool sbgl_WindowShouldClose(sbgl_Context* ctx);
 
 /**
+ * @brief Retrieves the current monotonic system time in seconds.
+ * 
+ * This timer is high-resolution and suitable for frame-time calculation.
+ * 
+ * @return Monotonic time in seconds.
+ */
+double sbgl_GetTime(void);
+
+/**
  * @brief Retrieves the current window dimensions.
  * @param ctx The active engine context.
  * @param w Pointer to store the width.

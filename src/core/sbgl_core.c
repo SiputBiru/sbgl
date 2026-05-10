@@ -76,8 +76,8 @@ static struct timespec sbgl_internal_GetTime(void) {
  * @return The duration in milliseconds.
  */
 static float sbgl_internal_GetElapsedMs(struct timespec start, struct timespec end) {
-	return (float)((end.tv_sec - start.tv_sec) * 1000.0 +
-				   (end.tv_nsec - start.tv_nsec) / 1000000.0);
+	return (float)((double)(end.tv_sec - start.tv_sec) * 1000.0 +
+				   (double)(end.tv_nsec - start.tv_nsec) / 1000000.0);
 }
 #endif
 
@@ -169,6 +169,10 @@ bool sbgl_WindowShouldClose(sbgl_Context* ctx) {
 		return true;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	return sbgl_os_WindowShouldClose(inner->window);
+}
+
+double sbgl_GetTime(void) {
+	return (double)sbgl_os_GetPerfCount() / (double)sbgl_os_GetPerfFreq();
 }
 
 void sbgl_GetWindowSize(sbgl_Context* ctx, int* w, int* h) {

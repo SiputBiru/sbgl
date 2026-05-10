@@ -4,6 +4,7 @@
 #include "core/sbl_arena.h"
 #include <string.h>
 #include <time.h>
+#include <poll.h>
 
 
 // --- Window Manager Listeners ---
@@ -109,9 +110,20 @@ void sbgl_os_PollEvents(sbgl_Window* window) {
         window->input->mouseDeltaY = 0;
     }
 
-    while (wl_display_prepare_read(window->display) != 0) wl_display_dispatch_pending(window->display);
+    /* The system ensures that pending events are dispatched and new events are read 
+       from the display in a non-blocking manner to prevent main loop stalls. */
+    while (wl_display_prepare_read(window->display) != 0) {
+        wl_display_dispatch_pending(window->display);
+    }
     wl_display_flush(window->display);
-    wl_display_read_events(window->display);
+
+    struct pollfd pfd = { .fd = wl_display_get_fd(window->display), .events = POLLIN };
+    if (poll(&pfd, 1, 0) > 0) {
+        wl_display_read_events(window->display);
+    } else {
+        wl_display_cancel_read(window->display);
+    }
+
     wl_display_dispatch_pending(window->display);
     linux_internal_update_input_states(window);
 }

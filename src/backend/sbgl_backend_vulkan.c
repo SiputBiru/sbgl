@@ -206,8 +206,7 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.display = (struct wl_display*)sbgl_os_GetNativeDisplayHandle(window),
 		.surface = (struct wl_surface*)sbgl_os_GetNativeWindowHandle(window),
 	};
-	if (vkCreateWaylandSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) !=
-		VK_SUCCESS) {
+	if (vkCreateWaylandSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create Wayland surface\n");
 		return false;
 	}
@@ -217,8 +216,7 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.dpy = (Display*)sbgl_os_GetNativeDisplayHandle(window),
 		.window = (Window)(uintptr_t)sbgl_os_GetNativeWindowHandle(window),
 	};
-	if (vkCreateXlibSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) !=
-		VK_SUCCESS) {
+	if (vkCreateXlibSurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create Xlib surface\n");
 		return false;
 	}
@@ -228,8 +226,7 @@ static bool create_surface(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.hinstance = (HINSTANCE)sbgl_os_GetNativeInstanceHandle(window),
 		.hwnd = (HWND)sbgl_os_GetNativeWindowHandle(window),
 	};
-	if (vkCreateWin32SurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) !=
-		VK_SUCCESS) {
+	if (vkCreateWin32SurfaceKHR(ctx->instance, &createInfo, NULL, &ctx->surface) != VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create Win32 surface\n");
 		return false;
 	}
@@ -283,21 +280,12 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 		SBL_ARENA_PUSH_ARRAY(ctx->arena, VkQueueFamilyProperties, queueFamilyCount);
 	if (!queueFamilies)
 		return false;
-	vkGetPhysicalDeviceQueueFamilyProperties(
-		ctx->physicalDevice,
-		&queueFamilyCount,
-		queueFamilies
-	);
+	vkGetPhysicalDeviceQueueFamilyProperties(ctx->physicalDevice, &queueFamilyCount, queueFamilies);
 
 	int graphicsFamily = -1;
 	for (uint32_t i = 0; i < queueFamilyCount; i++) {
 		VkBool32 presentSupport = false;
-		vkGetPhysicalDeviceSurfaceSupportKHR(
-			ctx->physicalDevice,
-			i,
-			ctx->surface,
-			&presentSupport
-		);
+		vkGetPhysicalDeviceSurfaceSupportKHR(ctx->physicalDevice, i, ctx->surface, &presentSupport);
 		if ((queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) && presentSupport) {
 			graphicsFamily = i;
 			break;
@@ -355,8 +343,7 @@ static bool create_logical_device(sbgl_GfxContext* ctx) {
 		.ppEnabledExtensionNames = deviceExtensions,
 	};
 
-	if (vkCreateDevice(ctx->physicalDevice, &createInfo, NULL, &ctx->device) !=
-		VK_SUCCESS) {
+	if (vkCreateDevice(ctx->physicalDevice, &createInfo, NULL, &ctx->device) != VK_SUCCESS) {
 		fprintf(stderr, "[Vulkan] Failed to create logical device\n");
 		return false;
 	}
@@ -446,11 +433,7 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	sbgl_os_GetWindowSize(window, &w, &h);
 
 	VkSurfaceCapabilitiesKHR capabilities;
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(
-		ctx->physicalDevice,
-		ctx->surface,
-		&capabilities
-	);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(ctx->physicalDevice, ctx->surface, &capabilities);
 
 	VkExtent2D extent = { (uint32_t)w, (uint32_t)h };
 	if (capabilities.currentExtent.width != 0xFFFFFFFF) {
@@ -462,12 +445,7 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	}
 
 	uint32_t formatCount;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(
-		ctx->physicalDevice,
-		ctx->surface,
-		&formatCount,
-		NULL
-	);
+	vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, NULL);
 	if (formatCount == 0) {
 		fprintf(stderr, "[Vulkan] No supported surface formats found\n");
 		return false;
@@ -475,12 +453,7 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 	VkSurfaceFormatKHR formats[64];
 	if (formatCount > 64)
 		formatCount = 64;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(
-		ctx->physicalDevice,
-		ctx->surface,
-		&formatCount,
-		formats
-	);
+	vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, formats);
 
 	VkSurfaceFormatKHR selectedFormat = formats[0];
 	for (uint32_t i = 0; i < formatCount; i++) {
@@ -497,6 +470,32 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		imageCount = capabilities.maxImageCount;
 	}
 
+	VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
+	uint32_t presentModeCount;
+	vkGetPhysicalDeviceSurfacePresentModesKHR(
+		ctx->physicalDevice,
+		ctx->surface,
+		&presentModeCount,
+		NULL
+	);
+	if (presentModeCount > 0) {
+		VkPresentModeKHR presentModes[16];
+		if (presentModeCount > 16)
+			presentModeCount = 16;
+		vkGetPhysicalDeviceSurfacePresentModesKHR(
+			ctx->physicalDevice,
+			ctx->surface,
+			&presentModeCount,
+			presentModes
+		);
+		for (uint32_t i = 0; i < presentModeCount; i++) {
+			if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR) {
+				presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
+				break;
+			}
+		}
+	}
+
 	VkSwapchainCreateInfoKHR createInfo = {
 		.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
 		.surface = ctx->surface,
@@ -509,7 +508,7 @@ static bool create_swapchain(sbgl_GfxContext* ctx, sbgl_Window* window) {
 		.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE,
 		.preTransform = capabilities.currentTransform,
 		.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
-		.presentMode = VK_PRESENT_MODE_FIFO_KHR,
+		.presentMode = presentMode,
 		.clipped = VK_TRUE,
 	};
 
@@ -617,7 +616,8 @@ static bool create_telemetry_resources(sbgl_GfxContext* ctx) {
 		.queryCount = 2,
 	};
 
-	if (ctx->vk.vkCreateQueryPool(ctx->device, &queryPoolInfo, NULL, &ctx->queryPool) != VK_SUCCESS) {
+	if (ctx->vk.vkCreateQueryPool(ctx->device, &queryPoolInfo, NULL, &ctx->queryPool) !=
+		VK_SUCCESS) {
 		return false;
 	}
 
@@ -677,10 +677,10 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 	ctx->window = window;
 	ctx->arena = arena;
 
-	if (!create_instance(ctx) || !create_surface(ctx, window) ||
-		!select_physical_device(ctx) || !create_logical_device(ctx) ||
-		!create_swapchain(ctx, window) || !create_sync_and_command(ctx) ||
-		!create_telemetry_resources(ctx) || !create_transient_resources(ctx)) {
+	if (!create_instance(ctx) || !create_surface(ctx, window) || !select_physical_device(ctx) ||
+		!create_logical_device(ctx) || !create_swapchain(ctx, window) ||
+		!create_sync_and_command(ctx) || !create_telemetry_resources(ctx) ||
+		!create_transient_resources(ctx)) {
 		sbgl_gfx_Shutdown(ctx);
 		return NULL;
 	}
@@ -725,10 +725,8 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
 
 		for (uint32_t i = 0; i < SBGL_MAX_FRAMES_IN_FLIGHT; i++) {
 			ctx->vk.vkDestroySemaphore(ctx->device, ctx->imageAvailableSemaphores[i], NULL);
-			ctx->vk.vkDestroyFence(ctx->device, ctx->inFlightFences[i], NULL);
-		}
-		for (uint32_t i = 0; i < SBGL_MAX_SWAPCHAIN_IMAGES; i++) {
 			ctx->vk.vkDestroySemaphore(ctx->device, ctx->renderFinishedSemaphores[i], NULL);
+			ctx->vk.vkDestroyFence(ctx->device, ctx->inFlightFences[i], NULL);
 		}
 		ctx->vk.vkDestroyQueryPool(ctx->device, ctx->queryPool, NULL);
 		ctx->vk.vkDestroyCommandPool(ctx->device, ctx->commandPool, NULL);
@@ -757,8 +755,8 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 	}
 	ctx->deferredCount[ctx->currentFrame] = 0;
 
-	/* The transient allocation offset is reset for the current frame, effectively 
-	   recycling the GPU memory for new data while ensuring it does not overlap with 
+	/* The transient allocation offset is reset for the current frame, effectively
+	   recycling the GPU memory for new data while ensuring it does not overlap with
 	   memory currently in use by other frames in flight. */
 	ctx->transientOffsets[ctx->currentFrame] = 0;
 
@@ -787,13 +785,19 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 	VkCommandBufferBeginInfo beginInfo = { .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
 	ctx->vk.vkBeginCommandBuffer(ctx->commandBuffers[ctx->currentFrame], &beginInfo);
 
-	/* The system resets the query pool and records the starting timestamp at the beginning of the frame. */
-	ctx->vk.vkCmdResetQueryPool(ctx->commandBuffers[ctx->currentFrame], ctx->queryPool, 0, 2);
+	/* The system resets the query pool and records the starting timestamp at the beginning of the
+	 * frame. */
+	ctx->vk.vkCmdResetQueryPool(
+		ctx->commandBuffers[ctx->currentFrame],
+		ctx->queryPool,
+		ctx->currentFrame * 2,
+		2
+	);
 	ctx->vk.vkCmdWriteTimestamp(
 		ctx->commandBuffers[ctx->currentFrame],
 		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 		ctx->queryPool,
-		0
+		ctx->currentFrame * 2
 	);
 
 	VkImageMemoryBarrier barriers[2] = { 0 };
@@ -862,12 +866,13 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx, float r, float g, float b, float 
 }
 
 void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
-	/* The system records the ending timestamp at the conclusion of the frame's rendering commands. */
+	/* The system records the ending timestamp at the conclusion of the frame's rendering commands.
+	 */
 	ctx->vk.vkCmdWriteTimestamp(
 		ctx->commandBuffers[ctx->currentFrame],
 		VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
 		ctx->queryPool,
-		1
+		ctx->currentFrame * 2 + 1
 	);
 
 	ctx->vk.vkCmdEndRendering(ctx->commandBuffers[ctx->currentFrame]);
@@ -907,7 +912,7 @@ void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
 		.commandBufferCount = 1,
 		.pCommandBuffers = &ctx->commandBuffers[ctx->currentFrame],
 		.signalSemaphoreCount = 1,
-		.pSignalSemaphores = &ctx->renderFinishedSemaphores[ctx->currentImageIndex],
+		.pSignalSemaphores = &ctx->renderFinishedSemaphores[ctx->currentFrame],
 	};
 	ctx->vk
 		.vkQueueSubmit(ctx->graphicsQueue, 1, &submitInfo, ctx->inFlightFences[ctx->currentFrame]);
@@ -915,12 +920,13 @@ void sbgl_gfx_EndFrame(sbgl_GfxContext* ctx) {
 	VkPresentInfoKHR presentInfo = {
 		.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
 		.waitSemaphoreCount = 1,
-		.pWaitSemaphores = &ctx->renderFinishedSemaphores[ctx->currentImageIndex],
+		.pWaitSemaphores = &ctx->renderFinishedSemaphores[ctx->currentFrame],
 		.swapchainCount = 1,
 		.pSwapchains = &ctx->swapchain,
 		.pImageIndices = &ctx->currentImageIndex,
 	};
 	VkResult result = ctx->vk.vkQueuePresentKHR(ctx->graphicsQueue, &presentInfo);
+
 	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
 		recreate_swapchain(ctx);
 	}
@@ -1424,7 +1430,7 @@ float sbgl_gfx_GetGpuTime(sbgl_GfxContext* ctx) {
 	VkResult res = ctx->vk.vkGetQueryPoolResults(
 		ctx->device,
 		ctx->queryPool,
-		0,
+		ctx->currentFrame * 2,
 		2,
 		sizeof(results),
 		results,

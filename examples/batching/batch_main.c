@@ -139,8 +139,8 @@ int main(void) {
 	float move_speed = 100.0f;
 	float mouse_sensitivity = 0.005f;
 
-	float start_time = (float)clock() / CLOCKS_PER_SEC;
-	float last_time = start_time;
+	double start_time = sbgl_GetTime();
+	double last_time = start_time;
 	float fps_timer = 0.0f;
 	int frame_count = 0;
 
@@ -161,10 +161,10 @@ int main(void) {
 			break;
 		}
 
-		float current_time = (float)clock() / CLOCKS_PER_SEC;
-		float dt = current_time - last_time;
+		double current_time = sbgl_GetTime();
+		float dt = (float)(current_time - last_time);
 		last_time = current_time;
-		float time = current_time - start_time;
+		float time = (float)(current_time - start_time);
 
 		// Calculate and display FPS
 		frame_count++;

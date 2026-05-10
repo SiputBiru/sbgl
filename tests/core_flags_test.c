@@ -38,6 +38,14 @@ void sbgl_os_PollEvents(sbgl_Window* window) {
     (void)window;
 }
 
+uint64_t sbgl_os_GetPerfCount(void) {
+    return 0;
+}
+
+uint64_t sbgl_os_GetPerfFreq(void) {
+    return 1000000;
+}
+
 bool sbgl_os_IsWindowFocused(sbgl_Window* window) {
     (void)window;
     return true;

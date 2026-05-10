@@ -15,6 +15,14 @@ endmacro()
 
 macro(add_engine_test name src)
     if(SBGL_BUILD_STANDALONE)
+        # In CMake < 3.18, the GENERATED property is directory-scoped.
+        # must mark the Wayland protocol file as generated in this directory too.
+        if(SBGL_USE_WAYLAND AND NOT WIN32)
+            set_source_files_properties("${PROJECT_BINARY_DIR}/xdg-shell-protocol.c" PROPERTIES GENERATED TRUE)
+            set_source_files_properties("${PROJECT_BINARY_DIR}/pointer-constraints-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
+            set_source_files_properties("${PROJECT_BINARY_DIR}/relative-pointer-unstable-v1-protocol.c" PROPERTIES GENERATED TRUE)
+        endif()
+
         add_executable(${name} ${src} ${SBGL_SOURCES})
         
         # Ensure Wayland protocols are generated before compilation if needed
@@ -30,7 +38,7 @@ macro(add_engine_test name src)
             ${CMAKE_SOURCE_DIR}/src/core
             ${PROJECT_BINARY_DIR}
         )
-        target_link_libraries(${name} PRIVATE ${PLATFORM_LIBS} m)
+        target_link_libraries(${name} PRIVATE ${PLATFORM_LIBS} m volk)
     else()
         add_executable(${name} ${src})
         target_include_directories(${name} PRIVATE 

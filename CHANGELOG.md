@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-05-10
+
+### Changed
+- **Vulkan Meta-loader Integration**: Replaced manual Vulkan loading logic with `volk` (v1.4.350) using CMake `FetchContent`. This enables device-level function dispatching via `VolkDeviceTable`, reducing driver overhead for draw calls.
+- **Enhanced Test Validation**: Refactored the internal test suite (`math_test`, `arena_test`, `voxel_logic_test`, etc.) to replace passive variable usage with explicit runtime validation, ensuring robust testing and resolving compiler warnings in Debug builds.
+
+### Fixed
+- **Standalone Build Integrity**: Resolved linking issues in `SBGL_BUILD_STANDALONE` mode where `volk` and platform-specific definitions were not correctly propagated to examples and tests.
+- **Compiler Warning Cleanup**: Eliminated "unused variable" and "unused function" warnings across the project to maintain a clean `-Werror` build in both Debug and Release configurations.
+
 ## [Unreleased] - 2026-05-09
 
 ### Added

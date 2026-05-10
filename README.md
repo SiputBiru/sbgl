@@ -48,6 +48,12 @@ FetchContent_MakeAvailable(sbgl)
 target_link_libraries(your_application PRIVATE sbgl)
 ```
 
+## Dependencies
+
+| Dependency | Version | Purpose |
+| :--- | :--- | :--- |
+| **volk** | 1.4.350 | Vulkan Meta-loader for device-specific function dispatching. |
+
 ## Documentation
 
 Comprehensive documentation organized by the development lifecycle is available in the [Documentation Index](docs/INDEX.md) or [Documentation website](https://siputbiru.github.io/sbgl).

@@ -141,6 +141,30 @@ if(NOT SBGL_DOCS_ONLY)
         endif()
     endif()
 
+    # --- Volk Integration ---
+    # SBgl uses volk to manage Vulkan function pointers and handle multi-context
+    # dispatching without the overhead of static linking to the Vulkan loader.
+    include(FetchContent)
+    FetchContent_Declare(
+        volk
+        GIT_REPOSITORY https://github.com/zeux/volk.git
+        GIT_TAG vulkan-sdk-1.4.350
+    )
+    FetchContent_MakeAvailable(volk)
+
+    if(WIN32)
+        target_compile_definitions(volk INTERFACE VK_USE_PLATFORM_WIN32_KHR)
+        target_compile_definitions(volk PRIVATE VK_USE_PLATFORM_WIN32_KHR)
+    elseif(UNIX AND NOT APPLE)
+        if(SBGL_USE_WAYLAND)
+            target_compile_definitions(volk INTERFACE VK_USE_PLATFORM_WAYLAND_KHR)
+            target_compile_definitions(volk PRIVATE VK_USE_PLATFORM_WAYLAND_KHR)
+        else()
+            target_compile_definitions(volk INTERFACE VK_USE_PLATFORM_XLIB_KHR)
+            target_compile_definitions(volk PRIVATE VK_USE_PLATFORM_XLIB_KHR)
+        endif()
+    endif()
+
     # --- Library Target ---
     if(NOT SBGL_BUILD_STANDALONE)
         add_library(sbgl STATIC ${SBGL_SOURCES})
@@ -172,6 +196,7 @@ if(NOT SBGL_DOCS_ONLY)
         target_link_libraries(sbgl
             PRIVATE
                 ${PLATFORM_LIBS}
+                volk
         )
     endif()
 

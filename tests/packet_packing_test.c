@@ -19,14 +19,20 @@ int main(void) {
     
     // Verify structure size
     sbgl_DrawPacket packet;
-    assert(sizeof(packet) == 16);
+    if (sizeof(packet) != 16) {
+        printf("DrawPacket size mismatch: expected 16, got %zu\n", sizeof(packet));
+        assert(0);
+    }
     
     // Verify vertex size
     assert(sizeof(sbgl_Vertex) == 16);
 
     // Verify packing/unpacking via packet
     packet.header = header;
-    assert(SBGL_GET_MESH_ID(packet.header) == mesh);
+    if (SBGL_GET_MESH_ID(packet.header) != mesh) {
+        printf("Mesh ID mismatch in packet\n");
+        assert(0);
+    }
     assert(SBGL_GET_MAT_ID(packet.header) == mat);
     assert(SBGL_GET_BLEND_MODE(packet.header) == blend);
 

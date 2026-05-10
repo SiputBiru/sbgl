@@ -82,6 +82,7 @@ if(SBGL_BUILD_STANDALONE)
         
         target_link_libraries(${target_name} PRIVATE 
             ${PLATFORM_LIBS}
+            volk
         )
 
         # Ensure Wayland protocols are generated before compilation

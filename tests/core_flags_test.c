@@ -182,15 +182,22 @@ static void test_flags_refactor(void) {
     sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
     /* Testing initial state */
-    assert(inner->state.isIdle == 1);
-    assert(inner->state.isDrawing == 0);
+    if (inner->state.isIdle != 1 || inner->state.isDrawing != 0) {
+        printf("Initial state mismatch\n");
+        assert(0);
+    }
     
     sbgl_BeginDrawing(ctx);
-    assert(inner->state.isDrawing == 1);
+    if (inner->state.isDrawing != 1) {
+        printf("Drawing state mismatch after BeginDrawing\n");
+        assert(0);
+    }
     
     sbgl_EndDrawing(ctx);
-    assert(inner->state.isDrawing == 0);
-    assert(inner->state.isIdle == 0);
+    if (inner->state.isDrawing != 0 || inner->state.isIdle != 0) {
+        printf("State mismatch after EndDrawing\n");
+        assert(0);
+    }
     
     sbgl_DeviceWaitIdle(ctx);
     assert(inner->state.isIdle == 1);

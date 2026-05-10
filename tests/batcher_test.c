@@ -36,7 +36,10 @@ static void test_bake_commands(void) {
 	uint32_t count = sbgl_bake_commands(packets, 5, commands, 5);
 
 	// The system should identify 4 distinct command groups based on state changes.
-	assert(count == 4);
+	if (count != 4) {
+		printf("Bake commands failed: expected 4 groups, got %u\n", count);
+		assert(0);
+	}
 
 	// Group 1 verification (2 instances, mesh 1 -> 36 indices)
 	assert(commands[0].instanceCount == 2);

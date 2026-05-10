@@ -155,6 +155,13 @@ To maximize the "Where there is one, there are many" mandate, SBgl employs Indir
 - **GPU Execution:** The actual draw parameters (vertex count, instance count, first vertex, etc.) are read by the GPU from a buffer at execution time.
 - **Batch Processing:** This allows thousands of draw calls to be submitted with minimal CPU overhead, as the CPU only needs to update a single "draw command buffer" rather than recording individual commands for every object.
 
+## Function Loading (volk)
+
+The backend utilizes **volk** as its Vulkan meta-loader to eliminate static linking and provide device-level function dispatching.
+
+- **Boilerplate Reduction:** `volk` automates the retrieval of function pointers, replacing manual `vkGetInstanceProcAddr` and `vkGetDeviceProcAddr` calls.
+- **Context-Based Dispatching:** The system employs `VolkDeviceTable` to load device-specific function pointers. This enables multiple graphics contexts to operate with minimal overhead by avoiding the Vulkan loader's internal dispatching logic for high-frequency commands.
+
 ---
 
 ## Technical Summary
@@ -162,6 +169,7 @@ To maximize the "Where there is one, there are many" mandate, SBgl employs Indir
 | Feature | Implementation | Benefit |
 | :--- | :--- | :--- |
 | **Vulkan API** | 1.3 Core | Access to simplified pipelines. |
+| **Meta-loader** | volk (v1.4.350) | Device-level function dispatching via device tables. |
 | **Rendering** | Dynamic Rendering | No RenderPass/Framebuffer boilerplate. |
 | **Sync** | Fences & Semaphores | Synchronization and stable frame rates. |
 | **Memory** | Arena-backed | No runtime `malloc` during window/gfx init. |

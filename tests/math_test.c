@@ -35,7 +35,15 @@ static void test_vec3(void) {
 
 static void test_mat4(void) {
     sbgl_Mat4 identity = sbgl_Mat4Identity();
-    assert(identity.m[0][0] == 1.0f && identity.m[3][3] == 1.0f);
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            float expected = (i == j) ? 1.0f : 0.0f;
+            if (identity.m[i][j] != expected) {
+                printf("Mat4 Identity mismatch at [%d][%d]\n", i, j);
+                assert(0);
+            }
+        }
+    }
 
     sbgl_Vec3 trans_vec = {{ 10.0f, 20.0f, 30.0f, 0 }};
     sbgl_Mat4 translation = sbgl_Mat4Translate(trans_vec);

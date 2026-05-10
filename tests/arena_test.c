@@ -27,15 +27,18 @@ static void test_arena_growth(void) {
     sbl_arena_init(&arena, 128); // Small initial size
 
     void* p1 = sbl_arena_alloc(&arena, 100);
-    assert(p1 != NULL);
+    if (!p1) assert(0);
+    memset(p1, 0x1, 100);
 
     void* p2 = sbl_arena_alloc(&arena, 100); // Should trigger growth
-    assert(p2 != NULL);
+    if (!p2) assert(0);
+    memset(p2, 0x2, 100);
     assert(arena.head->next != NULL);
     assert(arena.current != arena.head);
 
     void* p3 = sbl_arena_alloc(&arena, 1024); // Large allocation
-    assert(p3 != NULL);
+    if (!p3) assert(0);
+    memset(p3, 0x3, 1024);
 
     sbl_arena_free(&arena);
 }
@@ -45,13 +48,19 @@ static void test_arena_reset(void) {
     sbl_arena_init(&arena, 1024);
 
     void* p1 = sbl_arena_alloc(&arena, 512);
+    if (!p1) assert(0);
+    memset(p1, 0xAA, 512);
 
     sbl_arena_reset(&arena);
     assert(arena.current == arena.head);
     assert(arena.head->offset == 0);
 
     void* p2 = sbl_arena_alloc(&arena, 512);
-    assert(p2 == p1); // Should reuse same memory
+    if (p2 != p1) {
+        printf("Arena reset failed to reuse memory: p1=%p, p2=%p\n", p1, p2);
+        assert(0);
+    }
+    memset(p2, 0xBB, 512);
 
     sbl_arena_free(&arena);
 }

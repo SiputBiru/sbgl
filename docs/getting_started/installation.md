@@ -6,7 +6,7 @@ This guide covers setting up the development environment and building SBgl for d
 
 * **Compiler**: GCC 9+, Clang 10+, or MSVC 2019+.
 * **Build System**: CMake 3.15+.
-* **Graphics**: Vulkan SDK 1.3+ (Include headers for compilation).
+* **Graphics**: Vulkan SDK (Headers and `glslc` compiler required). Static linking to `vulkan-1` or `libvulkan` is **not** required as SBgl uses the `volk` meta-loader.
 
 ---
 
@@ -23,14 +23,25 @@ SBgl provides several CMake options to customize the build:
 
 ---
 
+## Dependency Management
+
+SBgl utilizes a hybrid dependency model to minimize manual setup:
+
+* **Automatic (`FetchContent`)**: High-level dependencies like **volk** are automatically downloaded and configured during the CMake configuration phase.
+* **External (System)**: Platform-specific libraries (Wayland, X11) and the Vulkan SDK must be present on the host system.
+* **Internal (Embedded)**: Small, critical utilities (like `stb_perlin`) are embedded directly in the source tree.
+
+---
+
 ## Installing on Linux (Wayland or X11)
 
 ### System Dependencies
 
 Install the required development libraries for the preferred display protocol:
 
-* **Wayland**: `libwayland-dev`, `wayland-protocols`, `libvulkan-dev`.
-* **X11**: `libx11-dev`, `libvulkan-dev`.
+* **Wayland**: `libwayland-dev`, `wayland-protocols`.
+* **X11**: `libx11-dev`.
+* **Vulkan**: Vulkan SDK headers and `glslc`.
 
 ### Build Instructions
 

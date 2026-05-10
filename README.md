@@ -50,9 +50,14 @@ target_link_libraries(your_application PRIVATE sbgl)
 
 ## Dependencies
 
-| Dependency | Version | Purpose |
-| :--- | :--- | :--- |
-| **volk** | 1.4.350 | Vulkan Meta-loader for device-specific function dispatching. |
+| Dependency | Version | Purpose | Integration |
+| :--- | :--- | :--- | :--- |
+| **[volk](https://github.com/zeux/volk)** | 1.4.350 | Vulkan Meta-loader for device-specific function dispatching. | CMake FetchContent (Automatic) |
+| **Wayland** | Native | Primary windowing system for Linux development. | System Package (External) |
+| **X11** | Native | Legacy windowing support for Linux platforms. | System Package (External) |
+| **stb_perlin** | 0.5 | Single-file noise generator for procedural voxel terrain. | Source-embedded (Internal) |
+| **glslc** | SDK | SPIR-V shader compiler (Khronos/Google). | Vulkan SDK (External) |
+| **xxd** | OS | Utility for embedding binary assets into C source code. | System Package (External) |
 
 ## Documentation
 
@@ -104,11 +109,10 @@ The system utilizes several rendering techniques to ensure execution efficiency 
 * Enable missing engine tests (batcher, sort, heightmap, voxel_logic) in `tests/CMakeLists.txt` with a dedicated `add_engine_test` macro.
 * Update `Doxyfile` to include all manual/getting_started documentation and correctly map the image asset path.
 * Standardize on `PROJECT_BINARY_DIR` for generated assets to ensure compatibility when integrated as a subproject.
-*   Implemented a default Release build configuration. Use -DCMAKE_BUILD_TYPE=Debug to enable symbols and strict warnings for development.
-*   Enforced 16-byte alignment in `SblArena` to support SIMD-optimized types in Release builds.
-*   Standardized vertex position `w` component to `1.0` in examples to ensure correct perspective projection in shaders.
-*   Increased default `transientArena` size to 16MB to support high-frequency batching of up to 100,000 instances.
-
+* Implemented a default Release build configuration. Use -DCMAKE_BUILD_TYPE=Debug to enable symbols and strict warnings for development.
+* Enforced 16-byte alignment in `SblArena` to support SIMD-optimized types in Release builds.
+* Standardized vertex position `w` component to `1.0` in examples to ensure correct perspective projection in shaders.
+* Increased default `transientArena` size to 16MB to support high-frequency batching of up to 100,000 instances.
 
 ## License
 

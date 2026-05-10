@@ -141,9 +141,17 @@ Integrating SBgl</h2>
 <div class="line"># Link target against SBgl</div>
 <div class="line">target_link_libraries(your_application PRIVATE sbgl)</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
+Dependencies</h1>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">Dependency   </th><th class="markdownTableHeadLeft">Version   </th><th class="markdownTableHeadLeft">Purpose    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><b>volk</b>   </td><td class="markdownTableBodyLeft">1.4.350   </td><td class="markdownTableBodyLeft">Vulkan Meta-loader for device-specific function dispatching.   </td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md10"></a>
 Documentation</h1>
 <p>Comprehensive documentation organized by the development lifecycle is available in the <a class="el" href="index.html#md_docs_2INDEX">Documentation Index</a> or <a href="https://siputbiru.github.io/sbgl">Documentation website</a>.</p>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Chapters</h2>
 <ul>
 <li><b>Foundations</b>: Initialization, Windowing, and Input.</li>
@@ -151,7 +159,7 @@ Chapters</h2>
 <li><b>Data-Oriented Pipeline</b>: Render Queues, Sorting, and Batching.</li>
 <li><b>Advanced Techniques</b>: BDA, MDI, and Arena Management.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Features</h1>
 <ul>
 <li>Bare-metal C99 architecture.</li>
@@ -162,7 +170,7 @@ Features</h1>
 <li>SIMD-ready math library.</li>
 <li>Native Platform HAL (Wayland, X11, Win32).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Limitations</h1>
 <p>As a "bare-metal" framework in active development, SBgl has several known technical constraints:</p>
 <ul>
@@ -171,7 +179,7 @@ Limitations</h1>
 <li><b>Linux-First Maturity</b>: Although Win32 is supported, the Linux (Wayland/X11) platform layers are the primary development targets and currently offer the highest stability and feature parity.</li>
 <li><b>Resource Limits</b>: Internal pools for buffers, shaders, and pipelines use fixed-capacity arrays (e.g., <code>SBGL_MAX_BUFFERS</code>) to ensure O(1) handle lookups and avoid heap fragmentation.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 Performance &amp; Rendering Techniques</h1>
 <p>The system utilizes several rendering techniques to ensure execution efficiency and reduced CPU-GPU overhead.</p>
 <table class="markdownTable">
@@ -188,7 +196,7 @@ Performance &amp; Rendering Techniques</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft"><b>Memory Arenas</b>   </td><td class="markdownTableBodyLeft">Allocation of render-loop resources through <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code>.   </td><td class="markdownTableBodyLeft">Eliminates per-frame heap fragmentation and allocation latency in the hot path.   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 Internal Development Notes</h1>
 <ul>
 <li>Transition from global includes/definitions to target-scoped properties (<code>target_include_directories</code>, <code>target_compile_definitions</code>) for better encapsulation.</li>
@@ -202,7 +210,7 @@ Internal Development Notes</h1>
 <li>Standardized vertex position <code>w</code> component to <code>1.0</code> in examples to ensure correct perspective projection in shaders.</li>
 <li>Increased default <code>transientArena</code> size to 16MB to support high-frequency batching of up to 100,000 instances.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 License</h1>
 <p>SBgl is licensed under the <a href="https://github.com/SiputBiru/sbgl/blob/main/LICENSE">zlib License</a>. </p>
 </div></div><!-- contents -->

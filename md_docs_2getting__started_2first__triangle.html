@@ -107,9 +107,9 @@ $(function(){initNavTree('md_docs_2getting__started_2first__triangle.html',''); 
   <div class="headertitle"><div class="title">Triangle Rendering Guide</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md46"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md50"></a></p>
 <p>This modular guide details the rendering of a triangle.</p>
-<h1><a class="anchor" id="autotoc_md47"></a>
+<h1><a class="anchor" id="autotoc_md51"></a>
 Shader Loading</h1>
 <p>SBgl provides a helper to load shaders directly from SPIR-V files.</p>
 <div class="fragment"><div class="line"><a class="code hl_typedef" href="sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2">sbgl_Shader</a> v_shd = <a class="code hl_function" href="sbgl_8h.html#a3715fca8433d11f40ff15d3eb10673e5">sbgl_LoadShaderFromFile</a>(ctx, <a class="code hl_enumvalue" href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922">SBGL_SHADER_STAGE_VERTEX</a>, <span class="stringliteral">&quot;shader.vert.spv&quot;</span>);</div>
@@ -118,7 +118,7 @@ Shader Loading</h1>
 <div class="ttc" id="asbgl__types_8h_html_aa245fe291f7627774419f31b47fd5eb2"><div class="ttname"><a href="sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2">sbgl_Shader</a></div><div class="ttdeci">uint32_t sbgl_Shader</div><div class="ttdoc">Handle for a shader module.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00041">sbgl_types.h:41</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_aaf011aad1502a6809a44c9e8d22438f9a1dfbb217e637e27adca4a5b8914455b1"><div class="ttname"><a href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a1dfbb217e637e27adca4a5b8914455b1">SBGL_SHADER_STAGE_FRAGMENT</a></div><div class="ttdeci">@ SBGL_SHADER_STAGE_FRAGMENT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00105">sbgl_types.h:105</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922"><div class="ttname"><a href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922">SBGL_SHADER_STAGE_VERTEX</a></div><div class="ttdeci">@ SBGL_SHADER_STAGE_VERTEX</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00104">sbgl_types.h:104</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md48"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md52"></a>
 Vertex Layout</h1>
 <p>A vertex layout describes how the GPU should interpret raw vertex data. The system utilizes the <code><a class="el" href="structsbgl__Vertex.html" title="Standard vertex structure for basic geometry rendering. Optimized for cache density (16 bytes).">sbgl_Vertex</a></code> structure, which is optimized for cache density (16 bytes). It consists of a 4D position (3D + padding) using 16-bit signed normalized integers (SNORM) and a packed RGBA8 color.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__VertexAttribute.html">sbgl_VertexAttribute</a> attributes[] = {</div>
@@ -136,7 +136,7 @@ Vertex Layout</h1>
 <div class="ttc" id="astructsbgl__VertexAttribute_html"><div class="ttname"><a href="structsbgl__VertexAttribute.html">sbgl_VertexAttribute</a></div><div class="ttdoc">Vertex attribute definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00123">sbgl_types.h:123</a></div></div>
 <div class="ttc" id="astructsbgl__VertexLayout_html"><div class="ttname"><a href="structsbgl__VertexLayout.html">sbgl_VertexLayout</a></div><div class="ttdoc">Vertex input layout definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00143">sbgl_types.h:143</a></div></div>
 <div class="ttc" id="astructsbgl__Vertex_html"><div class="ttname"><a href="structsbgl__Vertex.html">sbgl_Vertex</a></div><div class="ttdoc">Standard vertex structure for basic geometry rendering. Optimized for cache density (16 bytes).</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00027">sbgl_types.h:27</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md49"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md53"></a>
 Pipeline Creation</h1>
 <p>The graphics pipeline encapsulates the shader stages and the vertex layout.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__PipelineConfig.html">sbgl_PipelineConfig</a> cfg = { </div>
@@ -148,7 +148,7 @@ Pipeline Creation</h1>
 <div class="ttc" id="asbgl_8h_html_a606160bcf76a3dc5f3bb8ac1e429decb"><div class="ttname"><a href="sbgl_8h.html#a606160bcf76a3dc5f3bb8ac1e429decb">sbgl_CreatePipeline</a></div><div class="ttdeci">sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context *ctx, const sbgl_PipelineConfig *config)</div><div class="ttdoc">Creates a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00412">sbgl_core.c:412</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_ab841901dacda3bea95726b880df3adb8"><div class="ttname"><a href="sbgl__types_8h.html#ab841901dacda3bea95726b880df3adb8">sbgl_Pipeline</a></div><div class="ttdeci">uint32_t sbgl_Pipeline</div><div class="ttdoc">Handle for a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00046">sbgl_types.h:46</a></div></div>
 <div class="ttc" id="astructsbgl__PipelineConfig_html"><div class="ttname"><a href="structsbgl__PipelineConfig.html">sbgl_PipelineConfig</a></div><div class="ttdoc">Configuration for creating a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00152">sbgl_types.h:152</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md50"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md54"></a>
 Vertex Buffer</h1>
 <p>Vertices are initialized using the <code><a class="el" href="structsbgl__Vertex.html" title="Standard vertex structure for basic geometry rendering. Optimized for cache density (16 bytes).">sbgl_Vertex</a></code> structure. Positions are quantized to the 16-bit range (<code>-32767</code> to <code>32767</code>), representing <code>-1.0</code> to <code>1.0</code>.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__Vertex.html">sbgl_Vertex</a> vertices[] = {</div>
@@ -161,7 +161,7 @@ Vertex Buffer</h1>
 <div class="ttc" id="asbgl_8h_html_af40bb1ff6d81816a137876aa33f977c6"><div class="ttname"><a href="sbgl_8h.html#af40bb1ff6d81816a137876aa33f977c6">sbgl_CreateBuffer</a></div><div class="ttdeci">sbgl_Buffer sbgl_CreateBuffer(sbgl_Context *ctx, sbgl_BufferUsage usage, size_t size, const void *data)</div><div class="ttdoc">Creates a GPU buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00304">sbgl_core.c:304</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f"><div class="ttname"><a href="sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f">SBGL_BUFFER_USAGE_VERTEX</a></div><div class="ttdeci">@ SBGL_BUFFER_USAGE_VERTEX</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00094">sbgl_types.h:94</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_aa16e95fe0eb5fd1f7c1068e20a29a888"><div class="ttname"><a href="sbgl__types_8h.html#aa16e95fe0eb5fd1f7c1068e20a29a888">sbgl_Buffer</a></div><div class="ttdeci">uint32_t sbgl_Buffer</div><div class="ttdoc">Handle for a GPU-side buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00036">sbgl_types.h:36</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md51"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md55"></a>
 Drawing</h1>
 <div class="fragment"><div class="line"><a class="code hl_function" href="sbgl_8h.html#ae766fcd081bc95541c9bc89dd1f95e52">sbgl_BeginDrawing</a>(ctx);</div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#a9d911564e7ec91e610a86589fa550eae">sbgl_BindPipeline</a>(ctx, pip);</div>
@@ -173,7 +173,7 @@ Drawing</h1>
 <div class="ttc" id="asbgl_8h_html_a9d911564e7ec91e610a86589fa550eae"><div class="ttname"><a href="sbgl_8h.html#a9d911564e7ec91e610a86589fa550eae">sbgl_BindPipeline</a></div><div class="ttdeci">void sbgl_BindPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Binds a graphics pipeline for subsequent draw calls.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00443">sbgl_core.c:443</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae766fcd081bc95541c9bc89dd1f95e52"><div class="ttname"><a href="sbgl_8h.html#ae766fcd081bc95541c9bc89dd1f95e52">sbgl_BeginDrawing</a></div><div class="ttdeci">void sbgl_BeginDrawing(sbgl_Context *ctx)</div><div class="ttdoc">Prepares the engine for a new frame of drawing.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00185">sbgl_core.c:185</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae8003c069bc114ce7dcec9f28ee16e7e"><div class="ttname"><a href="sbgl_8h.html#ae8003c069bc114ce7dcec9f28ee16e7e">sbgl_BindBuffer</a></div><div class="ttdeci">void sbgl_BindBuffer(sbgl_Context *ctx, sbgl_Buffer buffer, sbgl_BufferUsage usage)</div><div class="ttdoc">Binds a buffer to the pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00451">sbgl_core.c:451</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md52"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md56"></a>
 Resource Cleanup</h1>
 <p>Resources must be destroyed in the reverse order of their creation after the GPU has finished executing all commands.</p>
 <div class="fragment"><div class="line"><span class="comment">// Ensure the GPU is no longer using any resources</span></div>

@@ -22,7 +22,6 @@ var structsbgl__GfxContext =
     [ "imageViews", "structsbgl__GfxContext.html#aa524efd1127ed4faeafec38b90d436e0", null ],
     [ "inFlightFences", "structsbgl__GfxContext.html#ac3d0d9baeae77d582124d092feaa8d0b", null ],
     [ "instance", "structsbgl__GfxContext.html#a4e781955ced42596691806bbcbac4d94", null ],
-    [ "libHandle", "structsbgl__GfxContext.html#a082d99bd2f189b4288e9f6fa2aeec560", null ],
     [ "physicalDevice", "structsbgl__GfxContext.html#aff4d49561ac70647afa4ee041a6b91fd", null ],
     [ "pipelines", "structsbgl__GfxContext.html#a1849088c5e7f77a47ce409ed2488673f", null ],
     [ "queryPool", "structsbgl__GfxContext.html#ae6fc6aa2dc2786478cbb61ebac337a32", null ],
@@ -37,6 +36,6 @@ var structsbgl__GfxContext =
     [ "transientBuffers", "structsbgl__GfxContext.html#a379b5c65d9c5cdaf2b35d9f79c269b82", null ],
     [ "transientMapped", "structsbgl__GfxContext.html#a03d781e0a59691f219c37239f917a88d", null ],
     [ "transientOffsets", "structsbgl__GfxContext.html#a29fb3f5149347853aed25402c16a9bc7", null ],
-    [ "vk", "structsbgl__GfxContext.html#a82a650a20fcff1f8b369eb9d0adf037d", null ],
+    [ "vk", "structsbgl__GfxContext.html#a83985bc8f893f1aaa6b71b3767bedfdf", null ],
     [ "window", "structsbgl__GfxContext.html#aa2be56eb7cb8c33e024879e48171b57e", null ]
 ];

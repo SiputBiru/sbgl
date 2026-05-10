@@ -27,11 +27,10 @@ var searchData=
   ['sbgl_5fvertexattribute_24',['sbgl_VertexAttribute',['../structsbgl__VertexAttribute.html',1,'']]],
   ['sbgl_5fvertexlayout_25',['sbgl_VertexLayout',['../structsbgl__VertexLayout.html',1,'']]],
   ['sbgl_5fvulkanbuffer_26',['SBGL_VulkanBuffer',['../structSBGL__VulkanBuffer.html',1,'']]],
-  ['sbgl_5fvulkandispatch_27',['SBGL_VulkanDispatch',['../structSBGL__VulkanDispatch.html',1,'']]],
-  ['sbgl_5fvulkanpipeline_28',['SBGL_VulkanPipeline',['../structSBGL__VulkanPipeline.html',1,'']]],
-  ['sbgl_5fvulkanshader_29',['SBGL_VulkanShader',['../structSBGL__VulkanShader.html',1,'']]],
-  ['sbgl_5fwindow_30',['sbgl_Window',['../structsbgl__Window.html',1,'']]],
-  ['sblarena_31',['SblArena',['../structSblArena.html',1,'']]],
-  ['sblarenablock_32',['SblArenaBlock',['../structSblArenaBlock.html',1,'']]],
-  ['sblarenamark_33',['SblArenaMark',['../structSblArenaMark.html',1,'']]]
+  ['sbgl_5fvulkanpipeline_27',['SBGL_VulkanPipeline',['../structSBGL__VulkanPipeline.html',1,'']]],
+  ['sbgl_5fvulkanshader_28',['SBGL_VulkanShader',['../structSBGL__VulkanShader.html',1,'']]],
+  ['sbgl_5fwindow_29',['sbgl_Window',['../structsbgl__Window.html',1,'']]],
+  ['sblarena_30',['SblArena',['../structSblArena.html',1,'']]],
+  ['sblarenablock_31',['SblArenaBlock',['../structSblArenaBlock.html',1,'']]],
+  ['sblarenamark_32',['SblArenaMark',['../structSblArenaMark.html',1,'']]]
 ];

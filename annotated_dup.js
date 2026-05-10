@@ -28,7 +28,6 @@ var annotated_dup =
     [ "sbgl_VertexAttribute", "structsbgl__VertexAttribute.html", "structsbgl__VertexAttribute" ],
     [ "sbgl_VertexLayout", "structsbgl__VertexLayout.html", "structsbgl__VertexLayout" ],
     [ "SBGL_VulkanBuffer", "structSBGL__VulkanBuffer.html", "structSBGL__VulkanBuffer" ],
-    [ "SBGL_VulkanDispatch", "structSBGL__VulkanDispatch.html", "structSBGL__VulkanDispatch" ],
     [ "SBGL_VulkanPipeline", "structSBGL__VulkanPipeline.html", "structSBGL__VulkanPipeline" ],
     [ "SBGL_VulkanShader", "structSBGL__VulkanShader.html", "structSBGL__VulkanShader" ],
     [ "sbgl_Window", "structsbgl__Window.html", "structsbgl__Window" ],

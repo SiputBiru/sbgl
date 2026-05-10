@@ -1,12 +1,9 @@
 var sbgl__backend__vulkan_8c =
 [
-    [ "SBGL_VulkanDispatch", "structSBGL__VulkanDispatch.html", "structSBGL__VulkanDispatch" ],
     [ "SBGL_VulkanBuffer", "structSBGL__VulkanBuffer.html", "structSBGL__VulkanBuffer" ],
     [ "SBGL_VulkanShader", "structSBGL__VulkanShader.html", "structSBGL__VulkanShader" ],
     [ "SBGL_VulkanPipeline", "structSBGL__VulkanPipeline.html", "structSBGL__VulkanPipeline" ],
     [ "sbgl_GfxContext", "structsbgl__GfxContext.html", "structsbgl__GfxContext" ],
-    [ "LOAD_DEV", "sbgl__backend__vulkan_8c.html#a701cfcb19959484c0215663a3fefdada", null ],
-    [ "LOAD_INST", "sbgl__backend__vulkan_8c.html#a7680df7ebf7fb58ef1d93f267e6be99f", null ],
     [ "SBGL_MAX_BUFFERS", "sbgl__backend__vulkan_8c.html#a89ce2bb9a31c2d716da0c2372e9dd4fc", null ],
     [ "SBGL_MAX_FRAMES_IN_FLIGHT", "sbgl__backend__vulkan_8c.html#a6c4f0a43b15c4319fed2ee297e7981e3", null ],
     [ "SBGL_MAX_PIPELINES", "sbgl__backend__vulkan_8c.html#a56be95bd82f19f4aeca42caabe65acf8", null ],
@@ -26,9 +23,6 @@ var sbgl__backend__vulkan_8c =
     [ "create_transient_resources", "sbgl__backend__vulkan_8c.html#af0f092da20ee52e954e23f09ce1323df", null ],
     [ "find_depth_format", "sbgl__backend__vulkan_8c.html#a3494ca892e7fe418a25c121c275278ba", null ],
     [ "find_memory_type", "sbgl__backend__vulkan_8c.html#a53983d753c232af02a907fdb6f8bc148", null ],
-    [ "load_device_functions", "sbgl__backend__vulkan_8c.html#afd179a4c5fb49dcd53046f21056fc371", null ],
-    [ "load_instance_functions", "sbgl__backend__vulkan_8c.html#aca7e1b502076173a3cfdaeb9ad9e8fba", null ],
-    [ "load_vulkan_library", "sbgl__backend__vulkan_8c.html#a416af01d8e04e78acc2437b3dac8b9e0", null ],
     [ "recreate_swapchain", "sbgl__backend__vulkan_8c.html#a51a35fd284d60e3d4c453766ebdd640a", null ],
     [ "sbgl_gfx_AllocateTransient", "sbgl__backend__vulkan_8c.html#aa45aff1bf8922d822d70af3a4fbc5f37", null ],
     [ "sbgl_gfx_BeginFrame", "sbgl__backend__vulkan_8c.html#a37479182779c7115e97489a6c70869ac", null ],

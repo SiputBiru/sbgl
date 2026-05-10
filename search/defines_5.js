@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vk_5fno_5fprototypes_0',['VK_NO_PROTOTYPES',['../sbgl__backend__vulkan_8c.html#a2b337b495b8538a07f4009281b9799f7',1,'sbgl_backend_vulkan.c']]]
+  ['win32_5flean_5fand_5fmean_0',['WIN32_LEAN_AND_MEAN',['../win32__internal_8h.html#ac7bef5d85e3dcd73eef56ad39ffc84a9',1,'win32_internal.h']]]
 ];

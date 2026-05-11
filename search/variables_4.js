@@ -11,5 +11,6 @@ var searchData=
   ['direction_8',['direction',['../structsbgl__Ray.html#a508a4be4e5473ff2522b1070deaebfec',1,'sbgl_Ray']]],
   ['display_9',['display',['../structsbgl__Window.html#aaf770def8cd665bec769d46d869e7e57',1,'sbgl_Window']]],
   ['distance_10',['distance',['../structsbgl__HitResult.html#aaa2c40cf0a08a2c35baa27638f2af3e9',1,'sbgl_HitResult']]],
-  ['draw_5fcalls_11',['draw_calls',['../structsbgl__Telemetry.html#a5ae42b7ae0508f4a3ff8576518e82947',1,'sbgl_Telemetry']]]
+  ['draw_5fcalls_11',['draw_calls',['../structsbgl__Telemetry.html#a5ae42b7ae0508f4a3ff8576518e82947',1,'sbgl_Telemetry']]],
+  ['dynamicheap_12',['dynamicHeap',['../structsbgl__GfxContext.html#a170079f75fc3e346959d41bbfeb5f2bb',1,'sbgl_GfxContext']]]
 ];

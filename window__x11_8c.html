@@ -208,12 +208,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a3ec5ae966e395754fb623c5a109ea83a" id="r_a3ec5ae966e395754fb623c5a109ea83a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ec5ae966e395754fb623c5a109ea83a">sbgl_os_PollEvents</a> (<a class="el" href="structsbgl__Window.html">sbgl_Window</a> *window)</td></tr>
 <tr class="memdesc:a3ec5ae966e395754fb623c5a109ea83a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatches OS events (messages/protocol requests).  <br /></td></tr>
 <tr class="separator:a3ec5ae966e395754fb623c5a109ea83a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8be966b938fb650fe218e7626e10a9fa" id="r_a8be966b938fb650fe218e7626e10a9fa"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8be966b938fb650fe218e7626e10a9fa">sbgl_os_GetPerfCount</a> (void)</td></tr>
-<tr class="memdesc:a8be966b938fb650fe218e7626e10a9fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the high-resolution performance counter.  <br /></td></tr>
-<tr class="separator:a8be966b938fb650fe218e7626e10a9fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2f817645c383afd2ef9f2014d856019" id="r_ab2f817645c383afd2ef9f2014d856019"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2f817645c383afd2ef9f2014d856019">sbgl_os_GetPerfFreq</a> (void)</td></tr>
-<tr class="memdesc:ab2f817645c383afd2ef9f2014d856019"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the performance counter frequency.  <br /></td></tr>
-<tr class="separator:ab2f817645c383afd2ef9f2014d856019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24c890daed1fb53c811b8f27fb78b3c3" id="r_a24c890daed1fb53c811b8f27fb78b3c3"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24c890daed1fb53c811b8f27fb78b3c3">sbgl_os_GetPerfCount</a> (<a class="el" href="structsbgl__Window.html">sbgl_Window</a> *window)</td></tr>
+<tr class="memdesc:a24c890daed1fb53c811b8f27fb78b3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the high-resolution performance counter.  <br /></td></tr>
+<tr class="separator:a24c890daed1fb53c811b8f27fb78b3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a595fe71a95ebd87d10a8422ae8637689" id="r_a595fe71a95ebd87d10a8422ae8637689"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a595fe71a95ebd87d10a8422ae8637689">sbgl_os_GetPerfFreq</a> (<a class="el" href="structsbgl__Window.html">sbgl_Window</a> *window)</td></tr>
+<tr class="memdesc:a595fe71a95ebd87d10a8422ae8637689"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the performance counter frequency.  <br /></td></tr>
+<tr class="separator:a595fe71a95ebd87d10a8422ae8637689"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60836aa52f476fb119210bfa945ffb98" id="r_a60836aa52f476fb119210bfa945ffb98"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60836aa52f476fb119210bfa945ffb98">sbgl_os_GetNativeWindowHandle</a> (<a class="el" href="structsbgl__Window.html">sbgl_Window</a> *window)</td></tr>
 <tr class="memdesc:a60836aa52f476fb119210bfa945ffb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the raw window handle for Vulkan surface creation.  <br /></td></tr>
 <tr class="separator:a60836aa52f476fb119210bfa945ffb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -379,10 +379,10 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Display* or wl_display*. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00155">155</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>                                                          {</div>
-<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aaf770def8cd665bec769d46d869e7e57">display</a> : NULL;</div>
-<div class="line"><span class="lineno">  157</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00157">157</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  157</span>                                                          {</div>
+<div class="line"><span class="lineno">  158</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aaf770def8cd665bec769d46d869e7e57">display</a> : NULL;</div>
+<div class="line"><span class="lineno">  159</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -410,11 +410,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>HINSTANCE on Windows, NULL otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00150">150</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  150</span>                                                           {</div>
-<div class="line"><span class="lineno">  151</span>    (void)window;</div>
-<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><span class="lineno">  153</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00152">152</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  152</span>                                                           {</div>
+<div class="line"><span class="lineno">  153</span>    (void)window;</div>
+<div class="line"><span class="lineno">  154</span>    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><span class="lineno">  155</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -442,15 +442,15 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Native handle (e.g., HWND or wl_surface*). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00146">146</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  146</span>                                                         {</div>
-<div class="line"><span class="lineno">  147</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)(uintptr_t)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a3debe2557e56aa1e6c4789590153535e">window</a> : NULL;</div>
-<div class="line"><span class="lineno">  148</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00148">148</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  148</span>                                                         {</div>
+<div class="line"><span class="lineno">  149</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)(uintptr_t)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a3debe2557e56aa1e6c4789590153535e">window</a> : NULL;</div>
+<div class="line"><span class="lineno">  150</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a8be966b938fb650fe218e7626e10a9fa" name="a8be966b938fb650fe218e7626e10a9fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8be966b938fb650fe218e7626e10a9fa">&#9670;&#160;</a></span>sbgl_os_GetPerfCount()</h2>
+<a id="a24c890daed1fb53c811b8f27fb78b3c3" name="a24c890daed1fb53c811b8f27fb78b3c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24c890daed1fb53c811b8f27fb78b3c3">&#9670;&#160;</a></span>sbgl_os_GetPerfCount()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -458,26 +458,33 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">uint64_t sbgl_os_GetPerfCount </td>
           <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structsbgl__Window.html">sbgl_Window</a> *</td>          <td class="paramname"><span class="paramname"><em>window</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Gets the high-resolution performance counter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">window</td><td>The window handle. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>Absolute ticks. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00136">136</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  136</span>                                    {</div>
-<div class="line"><span class="lineno">  137</span>    <span class="keyword">struct </span>timespec ts;</div>
-<div class="line"><span class="lineno">  138</span>    clock_gettime(CLOCK_MONOTONIC, &amp;ts);</div>
-<div class="line"><span class="lineno">  139</span>    <span class="keywordflow">return</span> (uint64_t)ts.tv_sec * 1000000000ULL + (uint64_t)ts.tv_nsec;</div>
-<div class="line"><span class="lineno">  140</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  136</span>                                                   {</div>
+<div class="line"><span class="lineno">  137</span>    (void)window;</div>
+<div class="line"><span class="lineno">  138</span>    <span class="keyword">struct </span>timespec ts;</div>
+<div class="line"><span class="lineno">  139</span>    clock_gettime(CLOCK_MONOTONIC, &amp;ts);</div>
+<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">return</span> (uint64_t)ts.tv_sec * 1000000000ULL + (uint64_t)ts.tv_nsec;</div>
+<div class="line"><span class="lineno">  141</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="ab2f817645c383afd2ef9f2014d856019" name="ab2f817645c383afd2ef9f2014d856019"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2f817645c383afd2ef9f2014d856019">&#9670;&#160;</a></span>sbgl_os_GetPerfFreq()</h2>
+<a id="a595fe71a95ebd87d10a8422ae8637689" name="a595fe71a95ebd87d10a8422ae8637689"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a595fe71a95ebd87d10a8422ae8637689">&#9670;&#160;</a></span>sbgl_os_GetPerfFreq()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -485,19 +492,26 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">uint64_t sbgl_os_GetPerfFreq </td>
           <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structsbgl__Window.html">sbgl_Window</a> *</td>          <td class="paramname"><span class="paramname"><em>window</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Gets the performance counter frequency. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">window</td><td>The window handle. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>Ticks per second. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00142">142</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  142</span>                                   {</div>
-<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">return</span> 1000000000ULL;</div>
-<div class="line"><span class="lineno">  144</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00143">143</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  143</span>                                                  {</div>
+<div class="line"><span class="lineno">  144</span>    (void)window;</div>
+<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">return</span> 1000000000ULL;</div>
+<div class="line"><span class="lineno">  146</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

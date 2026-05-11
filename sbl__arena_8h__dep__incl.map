@@ -1,17 +1,23 @@
 <map id="src/core/sbl_arena.h" name="src/core/sbl_arena.h">
-<area shape="rect" id="Node000001" title="Arena allocator implementation." alt="" coords="571,5,709,31"/>
+<area shape="rect" id="Node000001" title="Arena allocator implementation." alt="" coords="656,5,794,31"/>
 <area shape="rect" id="Node000002" href="$batch__main_8c.html" title=" " alt="" coords="5,79,171,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="556,31,384,52,183,82,172,84,171,78,182,76,383,47,555,26"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="641,29,432,50,183,82,171,84,171,78,182,76,432,44,640,24"/>
 <area shape="rect" id="Node000003" href="$voxel__main_8c.html" title=" " alt="" coords="195,79,346,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="568,37,359,82,348,84,346,79,358,76,567,32"/>
-<area shape="rect" id="Node000004" href="$sbgl__backend__vulkan_8c.html" title=" " alt="" coords="370,79,547,120"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="599,40,505,81,503,76,597,35"/>
-<area shape="rect" id="Node000005" href="$sbgl__core_8c.html" title=" " alt="" coords="571,86,709,112"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="643,47,643,86,637,86,637,47"/>
-<area shape="rect" id="Node000006" href="$window__wayland_8c.html" title=" " alt="" coords="733,79,867,120"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="679,36,761,76,759,81,677,41"/>
-<area shape="rect" id="Node000007" href="$window__x11_8c.html" title=" " alt="" coords="890,79,1011,120"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="705,33,879,76,891,79,890,85,878,82,704,38"/>
-<area shape="rect" id="Node000008" href="$window_8c.html" title=" " alt="" coords="1034,79,1163,120"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="725,28,865,48,1023,76,1035,79,1034,84,1022,82,864,54,724,33"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="641,35,359,82,347,84,346,79,358,76,640,29"/>
+<area shape="rect" id="Node000004" href="$voxel__pool_8h.html" title=" " alt="" coords="371,79,522,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="669,38,517,81,515,76,667,33"/>
+<area shape="rect" id="Node000007" href="$sbgl__backend__vulkan_8c.html" title=" " alt="" coords="546,79,723,120"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="702,43,659,81,655,77,698,39"/>
+<area shape="rect" id="Node000008" href="$sbgl__core_8c.html" title=" " alt="" coords="747,86,885,112"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="752,39,804,84,800,88,749,43"/>
+<area shape="rect" id="Node000009" href="$window__wayland_8c.html" title=" " alt="" coords="909,79,1043,120"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="779,34,914,76,913,81,778,39"/>
+<area shape="rect" id="Node000010" href="$window__x11_8c.html" title=" " alt="" coords="1066,79,1187,120"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="811,30,927,51,1055,76,1066,79,1065,84,1054,82,926,56,810,36"/>
+<area shape="rect" id="Node000011" href="$window_8c.html" title=" " alt="" coords="1210,79,1339,120"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="810,24,990,44,1199,76,1211,79,1210,84,1198,82,989,50,810,30"/>
+<area shape="rect" id="Node000005" href="$voxel3D__main_8c.html" title="Zero&#45;Sync Infinite Voxel Engine Flagship Example." alt="" coords="271,168,438,208"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="417,132,377,169,374,165,413,128"/>
+<area shape="rect" id="Node000006" href="$voxel__pool_8c.html" title=" " alt="" coords="463,168,614,208"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="480,128,520,165,516,169,477,132"/>
 </map>

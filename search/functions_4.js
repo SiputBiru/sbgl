@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['linux_5finit_5finput_0',['linux_init_input',['../input__wayland_8c.html#a0f6808b3c007cfc43c1b51986ffe5669',1,'input_wayland.c']]],
-  ['linux_5finternal_5fupdate_5finput_5fstates_1',['linux_internal_update_input_states',['../input__wayland_8c.html#a660e60393b3bf4072079c546358a4a51',1,'linux_internal_update_input_states(sbgl_Window *window):&#160;input_wayland.c'],['../input__x11_8c.html#a660e60393b3bf4072079c546358a4a51',1,'linux_internal_update_input_states(sbgl_Window *window):&#160;input_x11.c'],['../linux__internal_8h.html#a8e1ceefbda05b93ec48b0bd39c4f3fa5',1,'linux_internal_update_input_states(struct sbgl_Window *window):&#160;input_wayland.c']]],
-  ['locked_5fpointer_5flocked_2',['locked_pointer_locked',['../window__wayland_8c.html#a2f23a1eef29f02996976afeee957bc37',1,'window_wayland.c']]],
-  ['locked_5fpointer_5funlocked_3',['locked_pointer_unlocked',['../window__wayland_8c.html#af89e1267636b90ad90229614b35cf970',1,'window_wayland.c']]]
+  ['keyboard_5fenter_0',['keyboard_enter',['../input__wayland_8c.html#afcbb6b94a06e7fb96977f62961edd824',1,'input_wayland.c']]],
+  ['keyboard_5fkey_1',['keyboard_key',['../input__wayland_8c.html#ab0b533021f8364012a4aeb3814fa9431',1,'input_wayland.c']]],
+  ['keyboard_5fkeymap_2',['keyboard_keymap',['../input__wayland_8c.html#a5252c57a3ebc6ea81a8514dcb28ed002',1,'input_wayland.c']]],
+  ['keyboard_5fleave_3',['keyboard_leave',['../input__wayland_8c.html#a21df54a61fea16e18cf3b7ce5e62f3ef',1,'input_wayland.c']]],
+  ['keyboard_5fmodifiers_4',['keyboard_modifiers',['../input__wayland_8c.html#ac317f182f9806f19fd87cf1fe93014d4',1,'input_wayland.c']]],
+  ['keyboard_5frepeat_5finfo_5',['keyboard_repeat_info',['../input__wayland_8c.html#a01cc1d9fe76f767e67d365c9d7c95531',1,'input_wayland.c']]]
 ];

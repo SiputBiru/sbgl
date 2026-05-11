@@ -110,10 +110,10 @@ $(function(){initNavTree('structsbgl__IndirectCommand.html',''); initResizable(t
 </div><!--header-->
 <div class="contents">
 
-<p>Data layout for a GPU-side indirect draw command.  
+<p>Standard Vulkan Indirect Draw command layout.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -129,10 +129,9 @@ Data Fields</h2></td></tr>
 <tr class="separator:a66fcd75b1cb0a13684ea12d9b0de4432"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Data layout for a GPU-side indirect draw command. </p>
-<p>This structure matches the layout expected by vkCmdDrawIndexedIndirect, allowing the GPU to read draw parameters directly from a buffer. </p>
+<div class="textblock"><p>Standard Vulkan Indirect Draw command layout. </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__graphics__hal_8h_source.html#l00050">50</a> of file <a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00099">99</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="ab943e063bf46837001269cba9ae2732c" name="ab943e063bf46837001269cba9ae2732c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab943e063bf46837001269cba9ae2732c">&#9670;&#160;</a></span>firstIndex</h2>
@@ -145,9 +144,9 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Byte offset of the first index in the index buffer. </p>
+<p>Offset into the index buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__graphics__hal_8h_source.html#l00053">53</a> of file <a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00102">102</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
@@ -162,9 +161,9 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>ID of the first instance to draw. </p>
+<p>ID of the first instance. </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__graphics__hal_8h_source.html#l00055">55</a> of file <a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00104">104</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
@@ -179,9 +178,9 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Number of indices to draw. </p>
+<p>Number of vertices (or indices) to draw. </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__graphics__hal_8h_source.html#l00051">51</a> of file <a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00100">100</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
@@ -198,7 +197,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Number of instances to draw. </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__graphics__hal_8h_source.html#l00052">52</a> of file <a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00101">101</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
@@ -213,14 +212,14 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Value added to each index before addressing the vertex buffer. </p>
+<p>Value added to vertex indices. </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__graphics__hal_8h_source.html#l00054">54</a> of file <a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00103">103</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>src/backend/<a class="el" href="sbgl__graphics__hal_8h_source.html">sbgl_graphics_hal.h</a></li>
+<li>include/<a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,15 +1,17 @@
 <map id="src/platform/linux/window_wayland.c" name="src/platform/linux/window_wayland.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="613,5,746,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="661,5,794,46"/>
 <area shape="rect" id="Node000002" href="$linux__internal_8h.html" title=" " alt="" coords="240,94,346,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="613,43,362,94,361,89,612,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="661,42,361,96,360,91,660,36"/>
 <area shape="rect" id="Node000011" href="$sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="370,94,509,120"/>
-<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="620,49,492,91,490,86,619,44"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="661,48,499,92,498,87,659,43"/>
 <area shape="rect" id="Node000012" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="621,94,738,120"/>
-<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="682,46,682,78,677,78,677,46"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="718,48,697,82,692,79,713,45"/>
 <area shape="rect" id="Node000014" title=" " alt="" coords="788,168,851,193"/>
-<area shape="poly" id="edge26_Node000001_Node000014" title=" " alt="" coords="703,44,752,92,803,154,799,157,748,96,699,48"/>
+<area shape="poly" id="edge26_Node000001_Node000014" title=" " alt="" coords="741,45,806,153,802,155,737,48"/>
 <area shape="rect" id="Node000015" title=" " alt="" coords="813,94,869,120"/>
-<area shape="poly" id="edge27_Node000001_Node000015" title=" " alt="" coords="721,44,803,84,801,89,718,49"/>
+<area shape="poly" id="edge27_Node000001_Node000015" title=" " alt="" coords="757,44,813,83,810,87,754,49"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="892,94,944,120"/>
+<area shape="poly" id="edge28_Node000001_Node000016" title=" " alt="" coords="776,44,879,87,877,91,774,49"/>
 <area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="377,168,470,193"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,118,389,158,387,162,314,123"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="141,330,215,356"/>

@@ -1,17 +1,19 @@
 var searchData=
 [
   ['m_0',['m',['../structsbgl__Mat4.html#a1433bd237b3f75adc2a17d60de61895f',1,'sbgl_Mat4']]],
-  ['mapped_1',['mapped',['../structsbgl__GfxTransientAllocation.html#a8fe7bfc565a36b8def9eea35c53bb61e',1,'sbgl_GfxTransientAllocation']]],
-  ['max_2',['max',['../structsbgl__AABB.html#a2ee020da77de566ad375c9e3906ec853',1,'sbgl_AABB']]],
-  ['memory_3',['memory',['../structSBGL__VulkanBuffer.html#ad3fefe023adc61ed445023c1043e7ab3',1,'SBGL_VulkanBuffer']]],
-  ['min_4',['min',['../structsbgl__AABB.html#a36e285035807ba43b500086b0255ced2',1,'sbgl_AABB']]],
-  ['module_5',['module',['../structSBGL__VulkanShader.html#a050ac6cb6f44a2f30678c5e89f234ed4',1,'SBGL_VulkanShader']]],
-  ['mousedeltax_6',['mouseDeltaX',['../structsbgl__InputState.html#ad5e807135feb918b9943f582c11af042',1,'sbgl_InputState']]],
-  ['mousedeltay_7',['mouseDeltaY',['../structsbgl__InputState.html#a98860917b3bcc6d3fa292980c14525bd',1,'sbgl_InputState']]],
-  ['mousedown_8',['mouseDown',['../structsbgl__InputState.html#a481e6d6dafe8b5c8cc285c25fd2cec24',1,'sbgl_InputState']]],
-  ['mouselocked_9',['mouseLocked',['../structsbgl__InternalContext.html#a6c66031facef8c00b6ecb7766d3148e3',1,'sbgl_InternalContext']]],
-  ['mousemode_10',['mouseMode',['../structsbgl__InternalContext.html#add7dfdd323efab5e0ce3704a51fbbb9d',1,'sbgl_InternalContext']]],
-  ['mousepos_11',['mousePos',['../structPushData.html#a999ee17309dcea20627011174980f7a4',1,'PushData']]],
-  ['mousex_12',['mouseX',['../structsbgl__InputState.html#a810cc7686170efb8a7750741ebc9efac',1,'sbgl_InputState']]],
-  ['mousey_13',['mouseY',['../structsbgl__InputState.html#a68a65c1459f0eb5a6e99a28b92f43a75',1,'sbgl_InputState']]]
+  ['managedheap_1',['managedHeap',['../structsbgl__GfxContext.html#a9482d61ada70e4782b189407944cf254',1,'sbgl_GfxContext']]],
+  ['mapped_2',['mapped',['../structSBGL__VulkanBuffer.html#ab7d6cfa5570eb715b35b3dce4aacef37',1,'SBGL_VulkanBuffer::mapped'],['../structsbgl__GfxStaticHeap.html#a02c7988cbefd22030c684fb04f0f615d',1,'sbgl_GfxStaticHeap::mapped'],['../structsbgl__GfxDynamicHeap.html#a98241828aca5bb09fdcbf8d804550c56',1,'sbgl_GfxDynamicHeap::mapped'],['../structsbgl__GfxManagedHeap.html#a4588c3b5e2f1742c1bef4f616075afdd',1,'sbgl_GfxManagedHeap::mapped'],['../structsbgl__GfxTransientAllocation.html#a8fe7bfc565a36b8def9eea35c53bb61e',1,'sbgl_GfxTransientAllocation::mapped']]],
+  ['maskaddress_3',['maskAddress',['../structGenPushConstants.html#ad7c71356fb7b798607a2d2a74287e8be',1,'GenPushConstants::maskAddress'],['../structShellPushConstants.html#a2b28956718ede30e3f884c07298a73ea',1,'ShellPushConstants::maskAddress']]],
+  ['max_4',['max',['../structsbgl__AABB.html#a2ee020da77de566ad375c9e3906ec853',1,'sbgl_AABB::max'],['../structAABB.html#a141e494668b2eefdf5f57c1654726d1c',1,'AABB::max']]],
+  ['memory_5',['memory',['../structsbgl__GfxStaticHeap.html#aa501ef1fc32c69dd4eb9bc7644f99aa7',1,'sbgl_GfxStaticHeap::memory'],['../structsbgl__GfxDynamicHeap.html#a512a6563c407667f0e9f2d9f1a77b403',1,'sbgl_GfxDynamicHeap::memory'],['../structsbgl__GfxManagedHeap.html#ab75c69d0e5b08389a45d86a509ff4b76',1,'sbgl_GfxManagedHeap::memory']]],
+  ['min_6',['min',['../structsbgl__AABB.html#a36e285035807ba43b500086b0255ced2',1,'sbgl_AABB::min'],['../structAABB.html#a0a1b3eb0ebb73bcee0530932166f91cf',1,'AABB::min']]],
+  ['module_7',['module',['../structSBGL__VulkanShader.html#a050ac6cb6f44a2f30678c5e89f234ed4',1,'SBGL_VulkanShader']]],
+  ['mousedeltax_8',['mouseDeltaX',['../structsbgl__InputState.html#ad5e807135feb918b9943f582c11af042',1,'sbgl_InputState']]],
+  ['mousedeltay_9',['mouseDeltaY',['../structsbgl__InputState.html#a98860917b3bcc6d3fa292980c14525bd',1,'sbgl_InputState']]],
+  ['mousedown_10',['mouseDown',['../structsbgl__InputState.html#a481e6d6dafe8b5c8cc285c25fd2cec24',1,'sbgl_InputState']]],
+  ['mouselocked_11',['mouseLocked',['../structsbgl__InternalContext.html#a6c66031facef8c00b6ecb7766d3148e3',1,'sbgl_InternalContext']]],
+  ['mousemode_12',['mouseMode',['../structsbgl__InternalContext.html#add7dfdd323efab5e0ce3704a51fbbb9d',1,'sbgl_InternalContext']]],
+  ['mousepos_13',['mousePos',['../structPushData.html#a999ee17309dcea20627011174980f7a4',1,'PushData']]],
+  ['mousex_14',['mouseX',['../structsbgl__InputState.html#a810cc7686170efb8a7750741ebc9efac',1,'sbgl_InputState']]],
+  ['mousey_15',['mouseY',['../structsbgl__InputState.html#a68a65c1459f0eb5a6e99a28b92f43a75',1,'sbgl_InputState']]]
 ];

@@ -114,33 +114,19 @@ $(function(){initNavTree('structSBGL__VulkanBuffer.html',''); initResizable(true
 Data Fields</h2></td></tr>
 <tr class="memitem:abe08a66bb8ccadf4323aed7f36862335" id="r_abe08a66bb8ccadf4323aed7f36862335"><td class="memItemLeft" align="right" valign="top">VkBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe08a66bb8ccadf4323aed7f36862335">handle</a></td></tr>
 <tr class="separator:abe08a66bb8ccadf4323aed7f36862335"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3fefe023adc61ed445023c1043e7ab3" id="r_ad3fefe023adc61ed445023c1043e7ab3"><td class="memItemLeft" align="right" valign="top">VkDeviceMemory&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3fefe023adc61ed445023c1043e7ab3">memory</a></td></tr>
-<tr class="separator:ad3fefe023adc61ed445023c1043e7ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab44442a3123de2dc019a1846a2b2068c" id="r_ab44442a3123de2dc019a1846a2b2068c"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab44442a3123de2dc019a1846a2b2068c">offset</a></td></tr>
+<tr class="separator:ab44442a3123de2dc019a1846a2b2068c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8784b1d7b47ac1c7e1d26b18d963a546" id="r_a8784b1d7b47ac1c7e1d26b18d963a546"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8784b1d7b47ac1c7e1d26b18d963a546">size</a></td></tr>
 <tr class="separator:a8784b1d7b47ac1c7e1d26b18d963a546"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8cb1d843e59a2f051d3018dc6dd55cd" id="r_ad8cb1d843e59a2f051d3018dc6dd55cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8cb1d843e59a2f051d3018dc6dd55cd">active</a></td></tr>
-<tr class="separator:ad8cb1d843e59a2f051d3018dc6dd55cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7d6cfa5570eb715b35b3dce4aacef37" id="r_ab7d6cfa5570eb715b35b3dce4aacef37"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7d6cfa5570eb715b35b3dce4aacef37">mapped</a></td></tr>
+<tr class="separator:ab7d6cfa5570eb715b35b3dce4aacef37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf0fc0bc33bfb0b08c4e1e574282b901" id="r_acf0fc0bc33bfb0b08c4e1e574282b901"><td class="memItemLeft" align="right" valign="top"><a class="el" href="sbgl__backend__vulkan_8c.html#a665f6328526161833c6550d44deef823">SBGL_HeapType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf0fc0bc33bfb0b08c4e1e574282b901">heapType</a></td></tr>
+<tr class="separator:acf0fc0bc33bfb0b08c4e1e574282b901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00024">24</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00033">33</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="ad8cb1d843e59a2f051d3018dc6dd55cd" name="ad8cb1d843e59a2f051d3018dc6dd55cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8cb1d843e59a2f051d3018dc6dd55cd">&#9670;&#160;</a></span>active</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool SBGL_VulkanBuffer::active</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00028">28</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
-
-</div>
-</div>
 <a id="abe08a66bb8ccadf4323aed7f36862335" name="abe08a66bb8ccadf4323aed7f36862335"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe08a66bb8ccadf4323aed7f36862335">&#9670;&#160;</a></span>handle</h2>
 
@@ -153,23 +139,55 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00025">25</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00034">34</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
 
 </div>
 </div>
-<a id="ad3fefe023adc61ed445023c1043e7ab3" name="ad3fefe023adc61ed445023c1043e7ab3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3fefe023adc61ed445023c1043e7ab3">&#9670;&#160;</a></span>memory</h2>
+<a id="acf0fc0bc33bfb0b08c4e1e574282b901" name="acf0fc0bc33bfb0b08c4e1e574282b901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf0fc0bc33bfb0b08c4e1e574282b901">&#9670;&#160;</a></span>heapType</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">VkDeviceMemory SBGL_VulkanBuffer::memory</td>
+          <td class="memname"><a class="el" href="sbgl__backend__vulkan_8c.html#a665f6328526161833c6550d44deef823">SBGL_HeapType</a> SBGL_VulkanBuffer::heapType</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00026">26</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00038">38</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+
+</div>
+</div>
+<a id="ab7d6cfa5570eb715b35b3dce4aacef37" name="ab7d6cfa5570eb715b35b3dce4aacef37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7d6cfa5570eb715b35b3dce4aacef37">&#9670;&#160;</a></span>mapped</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* SBGL_VulkanBuffer::mapped</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00037">37</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+
+</div>
+</div>
+<a id="ab44442a3123de2dc019a1846a2b2068c" name="ab44442a3123de2dc019a1846a2b2068c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab44442a3123de2dc019a1846a2b2068c">&#9670;&#160;</a></span>offset</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t SBGL_VulkanBuffer::offset</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00035">35</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
 
 </div>
 </div>
@@ -185,7 +203,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00027">27</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00036">36</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
 
 </div>
 </div>

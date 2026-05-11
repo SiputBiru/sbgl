@@ -3,6 +3,7 @@ var sbgl__types_8h =
     [ "sbgl_InstanceData", "structsbgl__InstanceData.html", "structsbgl__InstanceData" ],
     [ "sbgl_Vertex", "structsbgl__Vertex.html", "structsbgl__Vertex" ],
     [ "sbgl_DrawPacket", "structsbgl__DrawPacket.html", "structsbgl__DrawPacket" ],
+    [ "sbgl_IndirectCommand", "structsbgl__IndirectCommand.html", "structsbgl__IndirectCommand" ],
     [ "sbgl_VertexAttribute", "structsbgl__VertexAttribute.html", "structsbgl__VertexAttribute" ],
     [ "sbgl_Telemetry", "structsbgl__Telemetry.html", "structsbgl__Telemetry" ],
     [ "sbgl_VertexLayout", "structsbgl__VertexLayout.html", "structsbgl__VertexLayout" ],
@@ -13,6 +14,7 @@ var sbgl__types_8h =
     [ "SBGL_GET_MAT_ID", "sbgl__types_8h.html#a61d73f4748b9d2f1578ec599ee1912e2", null ],
     [ "SBGL_GET_MESH_ID", "sbgl__types_8h.html#a1728dcbc5c7dc0444394a92e3110d5f7", null ],
     [ "SBGL_INVALID_HANDLE", "sbgl__types_8h.html#ae276a772aef1b1c1cde24a07b67b9b09", null ],
+    [ "SBGL_INVALID_OFFSET", "sbgl__types_8h.html#a2740180d83fd5774a91cb0954197e458", null ],
     [ "SBGL_PACK_HEADER", "sbgl__types_8h.html#ace2724fddb622a385379c65e44fc6347", null ],
     [ "SBGL_PACKET_BLEND_MASK", "sbgl__types_8h.html#a793af711066958d43cf83d4321193c6d", null ],
     [ "SBGL_PACKET_BLEND_SHIFT", "sbgl__types_8h.html#a4b7a99a9bb1d65fb46079e22eb7b9afc", null ],
@@ -24,12 +26,19 @@ var sbgl__types_8h =
     [ "SBGL_PACKET_TAGS_MASK", "sbgl__types_8h.html#a550d34dc30d4bed43bc48888cfcadaaf", null ],
     [ "SBGL_PACKET_TAGS_SHIFT", "sbgl__types_8h.html#ae0617bb46a5610444ee2a6c6aa0f7011", null ],
     [ "sbgl_Buffer", "sbgl__types_8h.html#aa16e95fe0eb5fd1f7c1068e20a29a888", null ],
+    [ "sbgl_ComputePipeline", "sbgl__types_8h.html#ab83ea41c465a50abe783a389103cfcc7", null ],
     [ "sbgl_Context", "sbgl__types_8h.html#a49cd3e8c4b22a9ea03c7654de70fa0cf", null ],
     [ "sbgl_Pipeline", "sbgl__types_8h.html#ab841901dacda3bea95726b880df3adb8", null ],
     [ "sbgl_RenderQueue", "sbgl__types_8h.html#a30a0f4dacc82b73e5f9693dfe716f95a", null ],
     [ "sbgl_Shader", "sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2", null ],
     [ "sbgl_SortKey", "sbgl__types_8h.html#aa5d9ed8533a67d7fa150b910bf0371ff", null ],
     [ "sbgl_Window", "sbgl__types_8h.html#a9853c3b5cba95627bce0f4a938910e01", null ],
+    [ "sbgl_BarrierType", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62", [
+      [ "SBGL_BARRIER_COMPUTE_TO_COMPUTE", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a308b9ca8e2f14897079c293d4b8873df", null ],
+      [ "SBGL_BARRIER_COMPUTE_TO_INDIRECT", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a0fe8cf5d4028645ebae26c198353acb3", null ],
+      [ "SBGL_BARRIER_COMPUTE_TO_GRAPHICS", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62ab0cfbd63228f2890db7d67937a556310", null ],
+      [ "SBGL_BARRIER_GRAPHICS_TO_COMPUTE", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a1923509c941faf8bfcbe2fa355b1b4d2", null ]
+    ] ],
     [ "sbgl_BufferUsage", "sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cdd", [
       [ "SBGL_BUFFER_USAGE_VERTEX", "sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f", null ],
       [ "SBGL_BUFFER_USAGE_INDEX", "sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cdda039e169090d8278b9871acab6c8650df", null ],
@@ -54,6 +63,7 @@ var sbgl__types_8h =
     ] ],
     [ "sbgl_ShaderStage", "sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9", [
       [ "SBGL_SHADER_STAGE_VERTEX", "sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922", null ],
-      [ "SBGL_SHADER_STAGE_FRAGMENT", "sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a1dfbb217e637e27adca4a5b8914455b1", null ]
+      [ "SBGL_SHADER_STAGE_FRAGMENT", "sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a1dfbb217e637e27adca4a5b8914455b1", null ],
+      [ "SBGL_SHADER_STAGE_COMPUTE", "sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a037c8c7b1e5df380cb6dd50215c25994", null ]
     ] ]
 ];

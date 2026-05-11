@@ -1,12 +1,6 @@
 var searchData=
 [
-  ['pointer_5faxis_0',['pointer_axis',['../input__wayland_8c.html#acf5025fbde2741f282b60b92e960608d',1,'input_wayland.c']]],
-  ['pointer_5faxis_5fdiscrete_1',['pointer_axis_discrete',['../input__wayland_8c.html#ace22e73e61c69aba9bab6a11926cf7d5',1,'input_wayland.c']]],
-  ['pointer_5faxis_5fsource_2',['pointer_axis_source',['../input__wayland_8c.html#aa5e2b98cbd97fc19fe3383de4082a251',1,'input_wayland.c']]],
-  ['pointer_5faxis_5fstop_3',['pointer_axis_stop',['../input__wayland_8c.html#a70d7f3efaabd6b7fe5c6b3d161ffc686',1,'input_wayland.c']]],
-  ['pointer_5fbutton_4',['pointer_button',['../input__wayland_8c.html#a17080fbef77ae0ac7534629492be9dd5',1,'input_wayland.c']]],
-  ['pointer_5fenter_5',['pointer_enter',['../input__wayland_8c.html#a969957d52c7c816ca3f54216d1c3bcb6',1,'input_wayland.c']]],
-  ['pointer_5fframe_6',['pointer_frame',['../input__wayland_8c.html#abb82bd45d86e2fa85f9327839d299710',1,'input_wayland.c']]],
-  ['pointer_5fleave_7',['pointer_leave',['../input__wayland_8c.html#a8509a1df50ad0c21ce5b64265cf549f8',1,'input_wayland.c']]],
-  ['pointer_5fmotion_8',['pointer_motion',['../input__wayland_8c.html#a16a9583ff82ffc72f53159be3556dc64',1,'input_wayland.c']]]
+  ['main_0',['main',['../batch__main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;batch_main.c'],['../camera__main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;camera_main.c'],['../input__keyboard_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;input_keyboard.c'],['../input__mouse_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;input_mouse.c'],['../mouse__mode_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;mouse_mode.c'],['../triangle__main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;triangle_main.c'],['../voxel3D__main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;voxel3D_main.c'],['../voxel__main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;voxel_main.c'],['../hello__window_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;hello_window.c']]],
+  ['managed_5fheap_5falloc_1',['managed_heap_alloc',['../sbgl__backend__vulkan_8c.html#ad80ce760def206a61edfa425aac81021',1,'sbgl_backend_vulkan.c']]],
+  ['managed_5fheap_5ffree_2',['managed_heap_free',['../sbgl__backend__vulkan_8c.html#a4da8484cd8f6ec124da7e459e79d761a',1,'sbgl_backend_vulkan.c']]]
 ];

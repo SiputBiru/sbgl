@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x11_5finternal_5fprocess_5fevent_0',['x11_internal_process_event',['../input__x11_8c.html#a256c7f00505eacc5c061c0a593b15b80',1,'x11_internal_process_event(XEvent *event, sbgl_Window *window):&#160;input_x11.c'],['../linux__internal_8h.html#a10eb17ba58e3ee97cb0440ca0d04799f',1,'x11_internal_process_event(XEvent *event, struct sbgl_Window *window):&#160;input_x11.c'],['../window__x11_8c.html#a256c7f00505eacc5c061c0a593b15b80',1,'x11_internal_process_event(XEvent *event, sbgl_Window *window):&#160;input_x11.c']]],
-  ['x11_5fkeysym_5fto_5fscancode_1',['x11_keysym_to_scancode',['../input__x11_8c.html#af4d9ff501fc1977a431d2d098b74b625',1,'input_x11.c']]],
-  ['xdg_5fsurface_5fhandle_5fconfigure_2',['xdg_surface_handle_configure',['../window__wayland_8c.html#a15b4b02730cd7062dd187f1b9afc35e7',1,'window_wayland.c']]]
+  ['voxelpool_5facquireslot_0',['VoxelPool_AcquireSlot',['../voxel__pool_8c.html#ac5657eae0a2bea38cc1da92d2ba9ed15',1,'VoxelPool_AcquireSlot(VoxelPool *pool, sbgl_ivec3 pos, bool *is_new):&#160;voxel_pool.c'],['../voxel__pool_8h.html#ac5657eae0a2bea38cc1da92d2ba9ed15',1,'VoxelPool_AcquireSlot(VoxelPool *pool, sbgl_ivec3 pos, bool *is_new):&#160;voxel_pool.c']]],
+  ['voxelpool_5finit_1',['VoxelPool_Init',['../voxel__pool_8c.html#a48601617d78943b1c729645d42ec2493',1,'VoxelPool_Init(SblArena *arena, uint32_t capacity):&#160;voxel_pool.c'],['../voxel__pool_8h.html#a48601617d78943b1c729645d42ec2493',1,'VoxelPool_Init(SblArena *arena, uint32_t capacity):&#160;voxel_pool.c']]],
+  ['voxelpool_5fupdateframe_2',['VoxelPool_UpdateFrame',['../voxel__pool_8c.html#a31c2a586af25c1e02a71dacc536d9dca',1,'VoxelPool_UpdateFrame(VoxelPool *pool, uint64_t frame):&#160;voxel_pool.c'],['../voxel__pool_8h.html#a31c2a586af25c1e02a71dacc536d9dca',1,'VoxelPool_UpdateFrame(VoxelPool *pool, uint64_t frame):&#160;voxel_pool.c']]]
 ];

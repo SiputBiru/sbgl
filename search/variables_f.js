@@ -6,5 +6,6 @@ var searchData=
   ['pipelines_3',['pipelines',['../structsbgl__GfxContext.html#a1849088c5e7f77a47ce409ed2488673f',1,'sbgl_GfxContext']]],
   ['point_4',['point',['../structsbgl__HitResult.html#a41d58b4d4059b4e288cff9443060b664',1,'sbgl_HitResult']]],
   ['pointer_5flistener_5',['pointer_listener',['../input__wayland_8c.html#a95f773b8c486e0bd6d3f330ede160ca3',1,'input_wayland.c']]],
-  ['position_6',['position',['../structsbgl__Camera.html#aa90cace2accfcb092d7fe0f55505c46f',1,'sbgl_Camera::position'],['../structsbgl__Vertex.html#ad236642de7f850ef5439cf5af7e00462',1,'sbgl_Vertex::position']]]
+  ['position_6',['position',['../structsbgl__Camera.html#aa90cace2accfcb092d7fe0f55505c46f',1,'sbgl_Camera::position'],['../structsbgl__Vertex.html#ad236642de7f850ef5439cf5af7e00462',1,'sbgl_Vertex::position']]],
+  ['positions_7',['positions',['../structVoxelPool.html#a4131ef9845a8696b3c3fca2ce537cd88',1,'VoxelPool']]]
 ];

@@ -1,0 +1,5 @@
+<map id="VoxelPool" name="VoxelPool">
+<area shape="rect" id="Node000001" title="VoxelPool manages a fixed number of slots for voxel chunks. It uses a flat array layout to maintain c..." alt="" coords="7,94,87,120"/>
+<area shape="rect" id="Node000002" href="$structsbgl__ivec3.html" title="3D integer vector for chunk coordinates." alt="" coords="5,5,89,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="50,47,50,94,44,94,44,47"/>
+</map>

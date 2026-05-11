@@ -76,28 +76,33 @@ While the primary arena manages the context lifecycle, SBgl utilizes a **Transie
 |   |-- Temporary Transformation Workspace
 ```
 
-## Transient GPU Buffers
+## Hybrid GPU Memory Management
 
-For high-frequency GPU data that changes every frame (such as instance transforms and indirect draw commands), SBgl avoids standard buffer creation and destruction. Instead, it utilizes a **GPU Transient Buffer** system.
+To eliminate the overhead of individual `vkCreateBuffer` calls and minimize GPU memory fragmentation, SBgl utilizes a Hybrid GPU Memory Manager. This system pre-allocates large physical device memory blocks and sub-allocates them into logical segments using specialized strategies.
 
-### Ring-Buffer Sub-allocation
+### The Three GPU Heaps
 
-The Vulkan backend pre-allocates a large, persistently mapped buffer (default 16MB) for each frame in flight.
+The manager partitions memory into three distinct heaps, each tailored to specific data lifecycles and access patterns:
 
-* **Allocation**: The `sbgl_gfx_AllocateTransient` function sub-allocates from the current frame's buffer using a linear offset.
-* **Reset**: At the start of each frame, the offset for that frame's buffer is reset to zero.
-* **Safety**: Because each frame in flight has its own dedicated buffer, the CPU can write new data for the next frame while the GPU is still reading data for the previous frame.
+* **Static Heap (Linear)**: Reserved for resources that live for the duration of the context (e.g., textures, permanent vertex buffers). It utilizes a linear allocation strategy with zero overhead.
+* **Dynamic Heap (Ring-Buffer)**: Designed for high-frequency, frame-local data such as instance transforms and camera matrices. It operates as a ring buffer, resetting offsets at the start of each frame to ensure zero-latency scratch memory.
+* **Managed Heap (Block-Based)**: Handles resources with intermediate lifecycles that may be created or destroyed during execution (e.g., chunked voxel data). It employs a block-based sub-allocation strategy with range tracking.
 
-### CPU-GPU Interaction (ASCII)
+### Data-Oriented Design (DOD) Benefits
 
-```text
-[ Frame 0 Buffer ] <--- GPU Reading (Render Loop)
-[ Frame 1 Buffer ] <--- CPU Writing (Submission Loop)
-      ^
-      |-- Offset 0: Instances [ Chunk A ]
-      |-- Offset N: Indirect Commands [ Draw 1 ]
-      |-- Offset M: Instances [ Chunk B ]
-```
+The hybrid approach aligns strictly with DOD principles:
+
+* **Sub-allocation Efficiency**: By sub-allocating from a single large buffer, multiple logical resources share the same physical memory, improving cache locality during GPU command execution.
+* **Cache-Efficient SoA Metadata**: Allocation metadata is stored in a Struct of Arrays (SoA) format within the memory manager, allowing for rapid batch lookups and updates without cache misses.
+* **Reduced API Overhead**: Pre-allocating memory blocks eliminates the need for expensive Vulkan driver calls during the rendering hot path, moving the complexity to a deterministic CPU-side tracker.
+
+### Allocation Strategies
+
+Each heap employs a strategy optimized for its specific workload:
+
+* **Linear Strategy**: A simple increment-only pointer for the Static Heap.
+* **Ring Strategy**: Sequential allocation with wrap-around logic for the Dynamic Heap, ensuring data is valid for all frames in flight.
+* **Block Strategy**: Divides the Managed Heap into uniform blocks, using an internal array-based tracker to manage availability and fragmentation.
 
 ### Ownership Transfer
 
@@ -118,6 +123,7 @@ While arenas are typically linear, SBgl implements a **Mark and Rewind** pattern
 | Feature | Implementation | Benefit |
 | :--- | :--- | :--- |
 | **Primary Allocator** | Linear Arena (`SblArena`) | Zero fragmentation, O(1) allocation. |
+| **GPU Memory** | Hybrid Manager | Sub-allocation from pre-allocated heaps (Static/Dynamic/Managed). |
 | **Safety Pattern** | Mark/Rewind | Constant memory footprint for dynamic arrays. |
 | **Initialization** | Push-Struct-Zero | Deterministic starting state without `memset`. |
 | **Cleanup** | Unified Arena Free | Single-call total resource reclamation. |

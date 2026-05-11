@@ -67,7 +67,7 @@ static void test_compute_vector_add(void) {
   };
 
   /* The system records and submits the compute workload within a standard frame lifecycle. */
-  sbgl_BeginDrawing(ctx);
+  sbgl_BeginCompute(ctx);
   
   sbgl_BindComputePipeline(ctx, pipeline);
   sbgl_PushConstants(ctx, sizeof(push), &push);
@@ -78,6 +78,10 @@ static void test_compute_vector_add(void) {
   /* A memory barrier ensures that compute writes are visible to the host before readback. */
   sbgl_MemoryBarrier(ctx, SBGL_BARRIER_COMPUTE_TO_COMPUTE);
   
+  sbgl_EndCompute(ctx);
+
+  /* Satisfy the swapchain image layout requirements by starting and ending a dummy drawing phase. */
+  sbgl_BeginDrawing(ctx);
   sbgl_EndDrawing(ctx);
 
   /* The system synchronizes with the GPU to ensure all commands have finished. */

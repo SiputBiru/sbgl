@@ -77,11 +77,21 @@ To prevent flickering, drawing is never done directly to the screen. A **Swapcha
 
 ## Memory Management & Lifecycle
 
-SBgl strictly avoids standard `malloc`/`free` calls during its runtime to ensure deterministic performance and prevent memory fragmentation.
+SBgl strictly avoids standard `malloc`/`free` calls and individual `vkCreateBuffer` operations during its runtime to ensure deterministic performance and prevent memory fragmentation.
 
-### Arena-Backed Allocations
+### Hybrid GPU Memory Manager
 
-The engine context provides an `SblArena` to the graphics layer during initialization. All fixed-lifetime arrays (like physical device lists or queue family properties) are pushed onto this arena.
+The backend implements a Hybrid GPU Memory Manager that handles all buffer allocations through sub-allocation from pre-allocated physical memory pools.
+
+* **Sub-allocation via `sbgl_gfx_CreateBuffer`**: Instead of calling `vkCreateBuffer` for every request, `sbgl_gfx_CreateBuffer` identifies the target heap (Static, Dynamic, or Managed) and returns a sub-allocated range (offset and size) within a master buffer.
+* **Reduced Driver Pressure**: By managing memory internally, the system reduces the number of memory-map operations and descriptor updates required per frame.
+
+### Managed Heap Range Tracking
+
+For resources with non-linear lifecycles, the Managed Heap utilizes an internal array-based tracker to maintain visibility of active and free ranges.
+
+* **Metadata Storage**: Range metadata is stored in a flat array, allowing the memory manager to perform rapid searches for free space without pointer indirection.
+* **Fragmentation Control**: The manager prioritizes contiguous blocks and can merge adjacent free ranges, ensuring high density for intermediate-lifetime data like voxel chunks.
 
 ### Dynamic Swapchain Recreation (Mark/Rewind)
 
@@ -172,7 +182,7 @@ The backend utilizes **volk** as its Vulkan meta-loader to eliminate static link
 | **Meta-loader** | volk (v1.4.350) | Device-level function dispatching via device tables. |
 | **Rendering** | Dynamic Rendering | No RenderPass/Framebuffer boilerplate. |
 | **Sync** | Fences & Semaphores | Synchronization and stable frame rates. |
-| **Memory** | Arena-backed | No runtime `malloc` during window/gfx init. |
+| **GPU Memory** | Hybrid Sub-allocation | Reduced API overhead and fragmentation via heap partitioning. |
 | **Arch** | Context-Based | No global singletons; supports multi-window. |
 
 ---

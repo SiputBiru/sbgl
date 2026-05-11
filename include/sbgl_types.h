@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 #define SBGL_INVALID_HANDLE 0
+#define SBGL_INVALID_OFFSET ((uint32_t)-1)
 
 #include "sbgl_math.h"
 

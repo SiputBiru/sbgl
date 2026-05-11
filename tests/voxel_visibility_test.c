@@ -13,7 +13,6 @@ typedef struct {
     sbgl_Mat4 viewProj;
     uint64_t aabbAddress;
     uint64_t commandAddress;
-    uint64_t counterAddress;
     uint64_t countsAddress;
 } CullPushConstants;
 
@@ -63,9 +62,7 @@ static void test_voxel_visibility(void) {
   /* Indirect command buffer. */
   sbgl_Buffer commandBuffer = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE | SBGL_BUFFER_USAGE_INDIRECT, slotCount * sizeof(sbgl_IndirectCommand), NULL);
   
-  /* Counter buffer. */
-  uint32_t zero = 0;
-  sbgl_Buffer counterBuffer = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, sizeof(uint32_t), &zero);
+  /* Counter buffer is no longer needed for this shader version. */
 
   /* Camera setup. */
   sbgl_Camera cam = sbgl_CameraPerspective(45.0f * (SBGL_PI / 180.0f), 1.0f, 0.1f, 1000.0f);
@@ -73,7 +70,6 @@ static void test_voxel_visibility(void) {
   CullPushConstants push = {
     .aabbAddress = sbgl_GetBufferDeviceAddress(ctx, aabbBuffer),
     .commandAddress = sbgl_GetBufferDeviceAddress(ctx, commandBuffer),
-    .counterAddress = sbgl_GetBufferDeviceAddress(ctx, counterBuffer),
     .countsAddress = sbgl_GetBufferDeviceAddress(ctx, countsBuffer)
   };
 
@@ -89,15 +85,11 @@ static void test_voxel_visibility(void) {
   sbgl_PushConstants(ctx, sizeof(push), &push);
   sbgl_DispatchCompute(ctx, slotCount / 64, 1, 1);
   sbgl_EndCompute(ctx);
+  
+  /* We start and end drawing just to satisfy the presentation engine's image layout requirements. */
+  sbgl_BeginDrawing(ctx);
   sbgl_EndDrawing(ctx);
   sbgl_DeviceWaitIdle(ctx);
-
-  uint32_t* countPtr = (uint32_t*)sbgl_MapBuffer(ctx, counterBuffer);
-  uint32_t visibleCount = *countPtr;
-  sbgl_UnmapBuffer(ctx, counterBuffer);
-
-  printf("Visible slots: %u\n", visibleCount);
-  assert(visibleCount == 1);
 
   sbgl_IndirectCommand* commands = (sbgl_IndirectCommand*)sbgl_MapBuffer(ctx, commandBuffer);
   printf("Command 0 instance count: %u\n", commands[0].instanceCount);
@@ -111,25 +103,20 @@ static void test_voxel_visibility(void) {
   
   push.viewProj = sbgl_Mat4Mul(sbgl_CameraGetProjection(&cam), sbgl_CameraGetView(&cam));
 
-  /* Reset counter. */
-  uint32_t* resetCounter = (uint32_t*)sbgl_MapBuffer(ctx, counterBuffer);
-  *resetCounter = 0;
-  sbgl_UnmapBuffer(ctx, counterBuffer);
-
   sbgl_BeginCompute(ctx);
   sbgl_BindComputePipeline(ctx, cullPipeline);
   sbgl_PushConstants(ctx, sizeof(push), &push);
   sbgl_DispatchCompute(ctx, slotCount / 64, 1, 1);
   sbgl_EndCompute(ctx);
+  
+  sbgl_BeginDrawing(ctx);
   sbgl_EndDrawing(ctx);
   sbgl_DeviceWaitIdle(ctx);
 
-  countPtr = (uint32_t*)sbgl_MapBuffer(ctx, counterBuffer);
-  visibleCount = *countPtr;
-  sbgl_UnmapBuffer(ctx, counterBuffer);
-
-  printf("Visible slots: %u\n", visibleCount);
-  assert(visibleCount == 0);
+  commands = (sbgl_IndirectCommand*)sbgl_MapBuffer(ctx, commandBuffer);
+  printf("Command 0 instance count: %u\n", commands[0].instanceCount);
+  assert(commands[0].instanceCount == 0);
+  sbgl_UnmapBuffer(ctx, commandBuffer);
 
   printf("Voxel visibility verification successful.\n");
 
@@ -137,7 +124,6 @@ static void test_voxel_visibility(void) {
   sbgl_DestroyBuffer(ctx, aabbBuffer);
   sbgl_DestroyBuffer(ctx, countsBuffer);
   sbgl_DestroyBuffer(ctx, commandBuffer);
-  sbgl_DestroyBuffer(ctx, counterBuffer);
   sbgl_DestroyComputePipeline(ctx, cullPipeline);
   sbgl_DestroyShader(ctx, cullShader);
   

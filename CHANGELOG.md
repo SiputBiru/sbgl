@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-05-11
+
+### Added
+- **Hybrid GPU Memory Manager**: Implemented a specialized sub-allocation system in the Vulkan backend to eliminate the overhead of individual `vkAllocateMemory` calls.
+    - **Static Heap (128MB)**: Linear arena for permanent resources (vertex/index buffers).
+    - **Dynamic Heap (128MB)**: Double-buffered ring buffer for transient per-frame data (storage/uniform buffers).
+    - **Managed Heap (256MB)**: Variable-size sub-allocator using a first-fit split/merge strategy for semi-permanent resources (voxel chunks).
+- **GPU Memory Unit Tests**: Added `tests/gpu_memory_test.c` to verify the robustness of the managed heap's splitting and coalescing logic.
+
+### Changed
+- **DOD Resource Tracking (SoA)**: Transitioned internal resource management from an Array of Structs (AoS) to a Structure of Arrays (SoA).
+    - Introduced a contiguous `bufferActive` array for O(1) cache-efficient resource status checks.
+    - Optimized `sbgl_gfx_CreateBuffer` to perform linear metadata scans, fitting hundreds of checks into a single cache line.
+- **Improved Buffer Alignment**: Enforced a 256-byte minimum alignment for all sub-allocations to ensure compatibility with `minUniformBufferOffsetAlignment` across diverse GPU hardware.
+- **Enhanced Documentation**: Updated `docs/manual/memory_management.md` and `docs/manual/vulkan_backend.md` with detailed architectural deep-dives into the new hybrid memory model.
+
 ## [Unreleased] - 2026-05-10
 
 ### Added

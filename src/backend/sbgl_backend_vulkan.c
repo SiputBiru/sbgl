@@ -1444,8 +1444,10 @@ void sbgl_gfx_DestroyComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline 
 void sbgl_gfx_BindComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline handle) {
 	/* The currently active command buffer is updated to utilize the specified compute
 	   pipeline for all subsequent dispatch operations. */
-	if (handle == SBGL_INVALID_HANDLE)
+	if (handle == SBGL_INVALID_HANDLE) {
+		ctx->boundComputePipeline = SBGL_INVALID_HANDLE;
 		return;
+	}
 	uint32_t index = (uint32_t)handle - 1;
 	if (index >= SBGL_MAX_PIPELINES || !ctx->computePipelines[index].active)
 		return;

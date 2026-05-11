@@ -36,13 +36,14 @@ VoxelPool* VoxelPool_Init(SblArena* arena, uint32_t capacity);
 /**
  * @brief Acquires a slot for a given chunk position.
  * Returns the slot index (0 to capacity-1).
- * If the position is already in a slot, returns that index and updates LRU.
- * If not, recycles the least recently used slot.
+ * If the position is already in a slot, returns that index and sets is_new to false.
+ * If not, recycles the least recently used slot and sets is_new to true.
  * @param pool Pointer to the VoxelPool.
  * @param pos The world coordinates of the chunk.
+ * @param is_new Output pointer to indicate if the slot was newly assigned/recycled.
  * @return Index of the acquired slot.
  */
-int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos);
+int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos, bool* is_new);
 
 /**
  * @brief Advances the pool's internal frame counter for LRU tracking.

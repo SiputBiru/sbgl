@@ -46,8 +46,6 @@ typedef struct {
   uint64_t voxelDataAddress;
 } RenderPushConstants;
 
-typedef struct { uint32_t indexCount; uint32_t instanceCount; uint32_t firstIndex; int32_t vertexOffset; uint32_t firstInstance; } IndirectCommand;
-
 int main(void) {
   sbgl_InitResult res = sbgl_Init(1280, 720, "SBgl Zero-Sync Infinite Voxels");
   if (res.error != SBGL_SUCCESS) return 1;
@@ -96,7 +94,7 @@ int main(void) {
   sbgl_Buffer instBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, MAX_SLOTS * 65536 * sizeof(uint32_t), NULL);
   sbgl_Buffer shellCountsBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, MAX_SLOTS * sizeof(uint32_t), NULL);
   sbgl_Buffer aabbBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, MAX_SLOTS * sizeof(AABB), NULL);
-  sbgl_Buffer indirectCmdBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE | SBGL_BUFFER_USAGE_INDIRECT, MAX_SLOTS * sizeof(IndirectCommand), NULL);
+  sbgl_Buffer indirectCmdBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE | SBGL_BUFFER_USAGE_INDIRECT, MAX_SLOTS * sizeof(sbgl_IndirectCommand), NULL);
 
   // Initial zeroing of control buffers
   {
@@ -104,8 +102,8 @@ int main(void) {
     memset(cPtr, 0, MAX_SLOTS * sizeof(uint32_t));
     sbgl_UnmapBuffer(ctx, shellCountsBuf);
 
-    IndirectCommand* iPtr = (IndirectCommand*)sbgl_MapBuffer(ctx, indirectCmdBuf);
-    memset(iPtr, 0, MAX_SLOTS * sizeof(IndirectCommand));
+    sbgl_IndirectCommand* iPtr = (sbgl_IndirectCommand*)sbgl_MapBuffer(ctx, indirectCmdBuf);
+    memset(iPtr, 0, MAX_SLOTS * sizeof(sbgl_IndirectCommand));
     sbgl_UnmapBuffer(ctx, indirectCmdBuf);
   }
 
@@ -186,39 +184,44 @@ int main(void) {
     int camCY = (int)floorf(camera.position.y / VOXEL_CHUNK_SIZE);
     int camCZ = (int)floorf(camera.position.z / VOXEL_CHUNK_SIZE);
 
+    // Fetch device addresses once per frame to avoid redundant HAL calls.
+    uint64_t maskBaseAddr = sbgl_GetBufferDeviceAddress(ctx, maskBuf);
+    uint64_t instBaseAddr = sbgl_GetBufferDeviceAddress(ctx, instBuf);
+    uint64_t shellCountsBaseAddr = sbgl_GetBufferDeviceAddress(ctx, shellCountsBuf);
+    uint64_t aabbBaseAddr = sbgl_GetBufferDeviceAddress(ctx, aabbBuf);
+    uint64_t indirectCmdBaseAddr = sbgl_GetBufferDeviceAddress(ctx, indirectCmdBuf);
+
+    // Map buffers once outside the chunk loop for maximum performance.
     uint32_t* mPtr = (uint32_t*)sbgl_MapBuffer(ctx, maskBuf);
     uint32_t* cPtr = (uint32_t*)sbgl_MapBuffer(ctx, shellCountsBuf);
     AABB* aabbPtr = (AABB*)sbgl_MapBuffer(ctx, aabbBuf);
-    IndirectCommand* cmdPtr = (IndirectCommand*)sbgl_MapBuffer(ctx, indirectCmdBuf);
+    sbgl_IndirectCommand* cmdPtr = (sbgl_IndirectCommand*)sbgl_MapBuffer(ctx, indirectCmdBuf);
 
     visibleCount = 0;
     for (uint32_t i = 0; i < MAX_SLOTS; i++) {
+      // The instance count represents the visible chunks from the completion of the PREVIOUS frame.
       if (cmdPtr[i].instanceCount > 0) visibleCount++;
     }
 
-    // Scan radius around camera
+    // Scan radius around camera to find and update active voxel chunks.
     for (int dz = -CHUNK_RADIUS; dz <= CHUNK_RADIUS; dz++) {
       for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; dx++) {
         for (int dy = -1; dy <= 1; dy++) {
           sbgl_ivec3 pos = { camCX + dx, camCY + dy, camCZ + dz };
-          int32_t slot = -1;
-          for (uint32_t i = 0; i < pool->capacity; i++) {
-            if (pool->active[i] && pool->positions[i].x == pos.x && pool->positions[i].y == pos.y && pool->positions[i].z == pos.z) {
-              slot = i;
-              pool->last_used_frames[i] = pool->current_frame;
-              break;
-            }
-          }
           
-          if (slot == -1) {
-            slot = VoxelPool_AcquireSlot(pool, pos);
-            uint64_t maskAddr = sbgl_GetBufferDeviceAddress(ctx, maskBuf) + (slot * 65536);
-            uint64_t instAddr = sbgl_GetBufferDeviceAddress(ctx, instBuf) + (slot * 65536 * 4);
-            uint64_t countAddr = sbgl_GetBufferDeviceAddress(ctx, shellCountsBuf) + (slot * 4);
+          bool is_new = false;
+          int32_t slot = VoxelPool_AcquireSlot(pool, pos, &is_new);
+          
+          if (is_new) {
+            /* If the slot is new or recycled, the system performs a localized reset of its GPU data 
+               and dispatches compute kernels for generation and shell extraction. */
+            uint64_t maskAddr = maskBaseAddr + (slot * 65536);
+            uint64_t instAddr = instBaseAddr + (slot * 65536 * 4);
+            uint64_t countAddr = shellCountsBaseAddr + (slot * 4);
             
             memset(mPtr + (slot * 16384), 0, 65536);
             cPtr[slot] = 0;
-            memset(&cmdPtr[slot], 0, sizeof(IndirectCommand));
+            memset(&cmdPtr[slot], 0, sizeof(sbgl_IndirectCommand));
 
             sbgl_BindComputePipeline(ctx, genPipe);
             GenPushConstants gpc = {
@@ -254,9 +257,9 @@ int main(void) {
     sbgl_BindComputePipeline(ctx, cullPipe);
     CullPushConstants cpc = {
       .viewProj = viewProj,
-      .aabbAddress = sbgl_GetBufferDeviceAddress(ctx, aabbBuf),
-      .commandAddress = sbgl_GetBufferDeviceAddress(ctx, indirectCmdBuf),
-      .countsAddress = sbgl_GetBufferDeviceAddress(ctx, shellCountsBuf)
+      .aabbAddress = aabbBaseAddr,
+      .commandAddress = indirectCmdBaseAddr,
+      .countsAddress = shellCountsBaseAddr
     };
     sbgl_PushConstants(ctx, sizeof(cpc), &cpc);
     sbgl_DispatchCompute(ctx, 8, 1, 1); 
@@ -271,8 +274,8 @@ int main(void) {
     sbgl_BindPipeline(ctx, renderPipe);
     RenderPushConstants rpc = {
       .viewProj = viewProj,
-      .aabbAddress = sbgl_GetBufferDeviceAddress(ctx, aabbBuf),
-      .voxelDataAddress = sbgl_GetBufferDeviceAddress(ctx, instBuf)
+      .aabbAddress = aabbBaseAddr,
+      .voxelDataAddress = instBaseAddr
     };
     sbgl_PushConstants(ctx, sizeof(rpc), &rpc);
     sbgl_BindBuffer(ctx, iBuf, SBGL_BUFFER_USAGE_INDEX);

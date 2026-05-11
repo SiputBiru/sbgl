@@ -48,6 +48,43 @@ FetchContent_MakeAvailable(sbgl)
 target_link_libraries(your_application PRIVATE sbgl)
 ```
 
+### Basic use case Pattern
+
+```c
+#include "sbgl.h"
+#include <stdio.h>
+
+int main() {
+    // Initialize the engine and create a window
+    sbgl_InitResult res = sbgl_Init(800, 600, "SBgl Example");
+    if (res.error != SBGL_SUCCESS) {
+        fprintf(stderr, "Failed to initialize SBgl\n");
+        return 1;
+    }
+    
+    sbgl_Context* ctx = res.ctx;
+
+    // Main Execution Loop
+    while (!sbgl_WindowShouldClose(ctx)) {
+        // Prepare for drawing
+        sbgl_BeginDrawing(ctx);
+        
+        // Clear screen with a color (RGBA)
+        sbgl_Clear(ctx, 0.1f, 0.1f, 0.1f, 1.0f);
+
+        // --- Custom Drawing Logic Goes Here ---
+
+        // Present to screen
+        sbgl_EndDrawing(ctx);
+    }
+
+    // Graceful Shutdown
+    sbgl_DeviceWaitIdle(ctx);
+    sbgl_Shutdown(ctx);
+    return 0;
+}
+```
+
 ## Dependencies
 
 | Dependency | Version | Purpose | Integration |

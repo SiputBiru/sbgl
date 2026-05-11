@@ -48,6 +48,7 @@ int main() {
     sbgl_Context* ctx = sbgl_Init(...).ctx;
 
     while (!sbgl_WindowShouldClose(ctx)) {
+        double frame_start = sbgl_GetTime(ctx);
         sbgl_BeginDrawing(ctx);
         
         // ... rendering logic ...

@@ -149,15 +149,31 @@ void* sbl_arena_alloc(SblArena* arena, uint64_t size) {
 	uint64_t aligned_offset = aligned_ptr - ((uintptr_t)b + sizeof(SblArenaBlock));
 
 	if (aligned_offset + size > b->size) {
-		uint64_t next_size = b->size * 2;
-		if (size > next_size)
-			next_size = size * 2;
-		SblArenaBlock* next = sbl_arena__block_create(next_size);
-		if (!next) return NULL;
-		b->next = next;
-		arena->current = next;
-		b = next;
-		aligned_ptr = sbl_arena__align_forward((uintptr_t)b + sizeof(SblArenaBlock), align);
+		if (b->next && b->next->size >= size) {
+			// Reuse existing next block
+			b = b->next;
+			arena->current = b;
+			aligned_ptr = sbl_arena__align_forward((uintptr_t)b + sizeof(SblArenaBlock), align);
+		} else {
+			// Create new block, replacing any existing chain to prevent leaks
+			if (b->next) {
+				SblArenaBlock* next_to_free = b->next;
+				while (next_to_free) {
+					SblArenaBlock* n = next_to_free->next;
+					free(next_to_free);
+					next_to_free = n;
+				}
+			}
+			uint64_t next_size = b->size * 2;
+			if (size > next_size)
+				next_size = size * 2;
+			SblArenaBlock* next = sbl_arena__block_create(next_size);
+			if (!next) return NULL;
+			b->next = next;
+			arena->current = next;
+			b = next;
+			aligned_ptr = sbl_arena__align_forward((uintptr_t)b + sizeof(SblArenaBlock), align);
+		}
 	}
 
 	void* ptr = (void*)aligned_ptr;

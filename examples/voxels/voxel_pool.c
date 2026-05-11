@@ -22,7 +22,7 @@ VoxelPool* VoxelPool_Init(SblArena* arena, uint32_t capacity) {
   return pool;
 }
 
-int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos) {
+int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos, bool* is_new) {
   int32_t lru_index = 0;
   uint64_t min_frame = UINT64_MAX;
 
@@ -34,6 +34,7 @@ int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos) {
           pool->positions[i].z == pos.z) {
         // Found an existing slot, update its frame for LRU.
         pool->last_used_frames[i] = pool->current_frame;
+        if (is_new) *is_new = false;
         return (int32_t)i;
       }
     } else {
@@ -41,6 +42,7 @@ int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos) {
       pool->active[i] = 1;
       pool->positions[i] = pos;
       pool->last_used_frames[i] = pool->current_frame;
+      if (is_new) *is_new = true;
       return (int32_t)i;
     }
 
@@ -54,6 +56,7 @@ int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos) {
   // No existing or inactive slots available; recycle the least recently used one.
   pool->positions[lru_index] = pos;
   pool->last_used_frames[lru_index] = pool->current_frame;
+  if (is_new) *is_new = true;
   return lru_index;
 }
 

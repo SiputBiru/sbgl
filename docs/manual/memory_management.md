@@ -42,7 +42,8 @@ The core of the memory system is the linear arena allocator defined in `sbl_aren
 * **Complexity**: O(1) for both allocation and deallocation. The allocator satisfies requests by simply **incrementing an internal offset pointer**. This design eliminates the need to traverse free-lists or communicate with the OS kernel during the performance-critical render loop, ensuring zero-latency memory access.
 * **Alignment**: The allocator enforces a default **16-byte alignment** for all allocations. This is a critical requirement for SIMD-optimized data types (like `sbgl_Mat4` and `sbgl_InstanceData`) which trigger hardware exceptions if accessed on unaligned boundaries.
 * **Safety**: Individual elements are never freed; instead, the entire arena is released at once, preventing dangling pointers and leaks.
-* **Zero-Initialization**: The `SBL_ARENA_PUSH_STRUCT_ZERO` macro ensures that all allocated state starts in a known, valid zero-state.
+* **Block Reuse**: The `sbl_arena_reset` function allows for zero-allocation recycling of existing memory blocks. If the arena grew to multiple blocks during a heavy workload, subsequent frames will **reuse the existing chain** rather than allocating new heap memory, maintaining a stable memory watermark.
+* **Leak Prevention**: The allocator strictly manages the block chain. If a request exceeds the capacity of an existing block in the chain, the system automatically releases the outdated segments of the chain before allocating a larger replacement, ensuring zero memory leakage during growth-reset cycles.
 
 ### Block Header Architecture
 

@@ -1171,9 +1171,13 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 	VkPipelineShaderStageCreateInfo shaderStages[2] = { 0 };
 
 	// Vertex Shader
+	if (config->vertexShader == SBGL_INVALID_HANDLE || config->vertexShader > SBGL_MAX_SHADERS) {
+		fprintf(stderr, "[Vulkan] Invalid vertex shader handle\n");
+		return SBGL_INVALID_HANDLE;
+	}
 	uint32_t vsIndex = config->vertexShader - 1;
-	if (ctx->shaders[vsIndex].stage != SBGL_SHADER_STAGE_VERTEX) {
-		fprintf(stderr, "[Vulkan] Invalid vertex shader stage\n");
+	if (!ctx->shaders[vsIndex].active || ctx->shaders[vsIndex].stage != SBGL_SHADER_STAGE_VERTEX) {
+		fprintf(stderr, "[Vulkan] Invalid vertex shader stage or inactive shader\n");
 		return SBGL_INVALID_HANDLE;
 	}
 	shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -1182,9 +1186,13 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
 	shaderStages[0].pName = "main";
 
 	// Fragment Shader
+	if (config->fragmentShader == SBGL_INVALID_HANDLE || config->fragmentShader > SBGL_MAX_SHADERS) {
+		fprintf(stderr, "[Vulkan] Invalid fragment shader handle\n");
+		return SBGL_INVALID_HANDLE;
+	}
 	uint32_t fsIndex = config->fragmentShader - 1;
-	if (ctx->shaders[fsIndex].stage != SBGL_SHADER_STAGE_FRAGMENT) {
-		fprintf(stderr, "[Vulkan] Invalid fragment shader stage\n");
+	if (!ctx->shaders[fsIndex].active || ctx->shaders[fsIndex].stage != SBGL_SHADER_STAGE_FRAGMENT) {
+		fprintf(stderr, "[Vulkan] Invalid fragment shader stage or inactive shader\n");
 		return SBGL_INVALID_HANDLE;
 	}
 	shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -1369,9 +1377,13 @@ sbgl_ComputePipeline sbgl_gfx_CreateComputePipeline(sbgl_GfxContext* ctx, sbgl_S
 	if (index == SBGL_MAX_PIPELINES)
 		return SBGL_INVALID_HANDLE;
 
+	if (handle == SBGL_INVALID_HANDLE || handle > SBGL_MAX_SHADERS) {
+		fprintf(stderr, "[Vulkan] Invalid compute shader handle\n");
+		return SBGL_INVALID_HANDLE;
+	}
 	uint32_t shaderIndex = handle - 1;
-	if (ctx->shaders[shaderIndex].stage != SBGL_SHADER_STAGE_COMPUTE) {
-		fprintf(stderr, "[Vulkan] Invalid compute shader stage\n");
+	if (!ctx->shaders[shaderIndex].active || ctx->shaders[shaderIndex].stage != SBGL_SHADER_STAGE_COMPUTE) {
+		fprintf(stderr, "[Vulkan] Invalid compute shader stage or inactive shader\n");
 		return SBGL_INVALID_HANDLE;
 	}
 

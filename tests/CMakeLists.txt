@@ -58,6 +58,7 @@ add_internal_test(arena_test arena_test.c)
 add_internal_test(core_flags_test core_flags_test.c)
 add_internal_test(checkerboard_logic_test checkerboard_logic_test.c)
 add_internal_test(voxel_bitmask_test voxel_bitmask_test.c)
+add_internal_test(input_test input_test.c)
 
 if(SBGL_BUILD_STANDALONE)
     add_executable(voxel_pool_test voxel_pool_test.c ../examples/voxels/voxel_pool.c ${SBGL_SOURCES})

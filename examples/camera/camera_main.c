@@ -63,7 +63,7 @@ int main(void) {
 	camera.target = sbgl_Vec3Set(0.0f, 0.0f, 0.0f);
 	camera.up = sbgl_Vec3Set(0.0f, -1.0f, 0.0f);
 
-	double start_time = sbgl_GetTime();
+	double start_time = sbgl_GetTime(ctx);
 
 	printf("--- Camera Controls ---\n");
 	printf("ESC: Exit\n");
@@ -85,7 +85,7 @@ int main(void) {
 		sbgl_Clear(ctx, 0.0f, 0.0f, 0.0f, 0.0f);
 		sbgl_BeginDrawing(ctx);
 
-		double time = sbgl_GetTime() - start_time;
+		double time = sbgl_GetTime(ctx) - start_time;
 		sbgl_Mat4 model = sbgl_Mat4Rotate((float)time * 10.5f, sbgl_Vec3Set(0.0f, 1.0f, 0.0f));
 
 		// Perform ray-casting test from the camera position forward

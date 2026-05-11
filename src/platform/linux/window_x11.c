@@ -133,13 +133,15 @@ void sbgl_os_PollEvents(sbgl_Window* window) {
 }
 
 
-uint64_t sbgl_os_GetPerfCount(void) {
+uint64_t sbgl_os_GetPerfCount(sbgl_Window* window) {
+    (void)window;
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
     return (uint64_t)ts.tv_sec * 1000000000ULL + (uint64_t)ts.tv_nsec;
 }
 
-uint64_t sbgl_os_GetPerfFreq(void) {
+uint64_t sbgl_os_GetPerfFreq(sbgl_Window* window) {
+    (void)window;
     return 1000000000ULL;
 }
 

@@ -180,8 +180,8 @@ void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked) {
     }
 }
 
-uint64_t sbgl_os_GetPerfCount(void) { struct timespec ts; clock_gettime(CLOCK_MONOTONIC, &ts); return (uint64_t)ts.tv_sec * 1000000000ULL + ts.tv_nsec; }
-uint64_t sbgl_os_GetPerfFreq(void) { return 1000000000ULL; }
+uint64_t sbgl_os_GetPerfCount(sbgl_Window* window) { (void)window; struct timespec ts; clock_gettime(CLOCK_MONOTONIC, &ts); return (uint64_t)ts.tv_sec * 1000000000ULL + ts.tv_nsec; }
+uint64_t sbgl_os_GetPerfFreq(sbgl_Window* window) { (void)window; return 1000000000ULL; }
 void* sbgl_os_GetNativeWindowHandle(sbgl_Window* window) { return (void*)window->surface; }
 void* sbgl_os_GetNativeDisplayHandle(sbgl_Window* window) { return (void*)window->display; }
 void sbgl_os_DestroyWindow(sbgl_Window* window) { 

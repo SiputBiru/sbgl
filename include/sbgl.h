@@ -114,9 +114,10 @@ bool sbgl_WindowShouldClose(sbgl_Context* ctx);
  * 
  * This timer is high-resolution and suitable for frame-time calculation.
  * 
+ * @param ctx The active engine context.
  * @return Monotonic time in seconds.
  */
-double sbgl_GetTime(void);
+double sbgl_GetTime(sbgl_Context* ctx);
 
 /**
  * @brief Retrieves the current window dimensions.

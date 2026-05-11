@@ -121,7 +121,7 @@ int main(void) {
   float moveSpeed = 400.0f, sensitivity = 0.005f;
 
   uint64_t frameCounter = 0;
-  double lastTime = sbgl_GetTime();
+  double lastTime = sbgl_GetTime(ctx);
   float telemetryTimer = 0.0f;
   int fpsFrames = 0;
   uint32_t visibleCount = 0;
@@ -134,7 +134,7 @@ int main(void) {
   printf("----------------------\n");
 
   while (!sbgl_WindowShouldClose(ctx)) {
-    double currentTime = sbgl_GetTime();
+    double currentTime = sbgl_GetTime(ctx);
     float dt = (float)(currentTime - lastTime);
     lastTime = currentTime;
 

@@ -99,15 +99,17 @@ void sbgl_os_PollEvents(sbgl_Window* window);
 
 /**
  * @brief Gets the high-resolution performance counter.
+ * @param window The window handle.
  * @return Absolute ticks.
  */
-uint64_t sbgl_os_GetPerfCount(void);
+uint64_t sbgl_os_GetPerfCount(sbgl_Window* window);
 
 /**
  * @brief Gets the performance counter frequency.
+ * @param window The window handle.
  * @return Ticks per second.
  */
-uint64_t sbgl_os_GetPerfFreq(void);
+uint64_t sbgl_os_GetPerfFreq(sbgl_Window* window);
 
 /**
  * @brief Retrieves the raw window handle for Vulkan surface creation.

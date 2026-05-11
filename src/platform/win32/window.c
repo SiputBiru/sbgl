@@ -184,13 +184,15 @@ void sbgl_os_PollEvents(sbgl_Window* window) {
     }
 }
 
-uint64_t sbgl_os_GetPerfCount(void) {
+uint64_t sbgl_os_GetPerfCount(sbgl_Window* window) {
+    (void)window;
     LARGE_INTEGER count;
     QueryPerformanceCounter(&count);
     return (uint64_t)count.QuadPart;
 }
 
-uint64_t sbgl_os_GetPerfFreq(void) {
+uint64_t sbgl_os_GetPerfFreq(sbgl_Window* window) {
+    (void)window;
     LARGE_INTEGER freq;
     QueryPerformanceFrequency(&freq);
     return (uint64_t)freq.QuadPart;

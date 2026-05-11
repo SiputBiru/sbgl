@@ -54,34 +54,9 @@ typedef struct {
 	sbgl_Telemetry lastFrame;
 	sbgl_Telemetry currentFrame;
 	uint64_t frameCount;
-#ifdef linux
-	struct timespec frameStartTime;
-	struct timespec sortStartTime;
-#endif
+	uint64_t frameStartTicks;
+	uint64_t sortStartTicks;
 } sbgl_InternalContext;
-
-#ifdef linux
-/**
- * @brief Retrieves the current monotonic system time with nanosecond precision.
- * @return The absolute system time in a timespec structure.
- */
-static struct timespec sbgl_internal_GetTime(void) {
-	struct timespec ts;
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	return ts;
-}
-
-/**
- * @brief Calculates the elapsed time in milliseconds between two time points.
- * @param start The beginning of the measured interval.
- * @param end The end of the measured interval.
- * @return The duration in milliseconds.
- */
-static float sbgl_internal_GetElapsedMs(struct timespec start, struct timespec end) {
-	return (float)((double)(end.tv_sec - start.tv_sec) * 1000.0 +
-				   (double)(end.tv_nsec - start.tv_nsec) / 1000000.0);
-}
-#endif
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
@@ -167,8 +142,11 @@ bool sbgl_WindowShouldClose(sbgl_Context* ctx) {
 	return sbgl_os_WindowShouldClose(inner->window);
 }
 
-double sbgl_GetTime(void) {
-	return (double)sbgl_os_GetPerfCount() / (double)sbgl_os_GetPerfFreq();
+double sbgl_GetTime(sbgl_Context* ctx) {
+	if (!ctx || !ctx->inner)
+		return 0.0;
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	return (double)sbgl_os_GetPerfCount(inner->window) / (double)sbgl_os_GetPerfFreq(inner->window);
 }
 
 void sbgl_GetWindowSize(sbgl_Context* ctx, int* w, int* h) {
@@ -201,9 +179,7 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 		}
 		inner->state.wasFocused = currentlyFocused;
 
-#ifdef linux
-		inner->frameStartTime = sbgl_internal_GetTime();
-#endif
+		inner->frameStartTicks = sbgl_os_GetPerfCount(inner->window);
 
 		// Performance counters are reset at the start of every frame
 		inner->currentFrame.draw_calls = 0;
@@ -252,11 +228,9 @@ void sbgl_EndDrawing(sbgl_Context* ctx) {
 		inner->state.isIdle = 0;
 		inner->frameCount++;
 
-#ifdef linux
-		struct timespec frameEndTime = sbgl_internal_GetTime();
+		uint64_t frameEndTicks = sbgl_os_GetPerfCount(inner->window);
 		inner->currentFrame.cpu_frame_time =
-			sbgl_internal_GetElapsedMs(inner->frameStartTime, frameEndTime);
-#endif
+			(float)((double)(frameEndTicks - inner->frameStartTicks) * 1000.0 / (double)sbgl_os_GetPerfFreq(inner->window));
 
 		// The completed telemetry data is archived for user retrieval
 		inner->lastFrame = inner->currentFrame;
@@ -289,9 +263,7 @@ void sbgl_BeginCompute(sbgl_Context* ctx) {
 		}
 		inner->state.wasFocused = currentlyFocused;
 
-#ifdef linux
-		inner->frameStartTime = sbgl_internal_GetTime();
-#endif
+		inner->frameStartTicks = sbgl_os_GetPerfCount(inner->window);
 
 		inner->currentFrame.draw_calls = 0;
 		inner->currentFrame.instance_count = 0;
@@ -758,9 +730,7 @@ void sbgl_RenderQueuesEx(
 	// The transient arena is reset for this frame's batching work
 	sbl_arena_reset(&inner->transientArena);
 
-#ifdef linux
-	inner->sortStartTime = sbgl_internal_GetTime();
-#endif
+	inner->sortStartTicks = sbgl_os_GetPerfCount(inner->window);
 
 	// Temporary host memory is allocated for merging and sorting from the transient arena
 	sbgl_DrawPacket* mergedPackets =
@@ -827,11 +797,9 @@ void sbgl_RenderQueuesEx(
 
 	uint32_t commandCount = sbgl_bake_commands(sortedPackets, totalPackets, commands, totalPackets);
 
-#ifdef linux
-	struct timespec sortEndTime = sbgl_internal_GetTime();
+	uint64_t sortEndTicks = sbgl_os_GetPerfCount(inner->window);
 	inner->currentFrame.cpu_sort_time +=
-		sbgl_internal_GetElapsedMs(inner->sortStartTime, sortEndTime);
-#endif
+		(float)((double)(sortEndTicks - inner->sortStartTicks) * 1000.0 / (double)sbgl_os_GetPerfFreq(inner->window));
 
 	inner->currentFrame.draw_calls += commandCount;
 	inner->currentFrame.instance_count += totalPackets;

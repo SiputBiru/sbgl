@@ -139,7 +139,7 @@ int main(void) {
 	float move_speed = 100.0f;
 	float mouse_sensitivity = 0.005f;
 
-	double start_time = sbgl_GetTime();
+	double start_time = sbgl_GetTime(ctx);
 	double last_time = start_time;
 	float fps_timer = 0.0f;
 	int frame_count = 0;
@@ -161,7 +161,7 @@ int main(void) {
 			break;
 		}
 
-		double current_time = sbgl_GetTime();
+		double current_time = sbgl_GetTime(ctx);
 		float dt = (float)(current_time - last_time);
 		last_time = current_time;
 		float time = (float)(current_time - start_time);

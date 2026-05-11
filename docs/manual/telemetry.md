@@ -13,7 +13,9 @@ The telemetry system independently measures three primary components of the fram
 3.  **CPU Sorting/Baking Overhead**: Measures the specific duration spent in the Data-Oriented sorting and indirect command generation phase.
 
 ### Timing Precision
-- **Linux**: Utilizes `clock_gettime` with `CLOCK_MONOTONIC`.
+- **Internal**: Utilizes high-resolution performance counters via the **Platform HAL** (`sbgl_os_GetPerfCount`).
+- **Linux**: Utilizes `clock_gettime` with `CLOCK_MONOTONIC` via the HAL.
+- **Windows**: Utilizes `QueryPerformanceCounter` via the HAL.
 - **GPU**: Precision is determined by the hardware's `timestampPeriod` (nanoseconds per tick).
 
 ---

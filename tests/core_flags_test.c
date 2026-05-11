@@ -38,11 +38,13 @@ void sbgl_os_PollEvents(sbgl_Window* window) {
     (void)window;
 }
 
-uint64_t sbgl_os_GetPerfCount(void) {
+uint64_t sbgl_os_GetPerfCount(sbgl_Window* window) {
+    (void)window;
     return 0;
 }
 
-uint64_t sbgl_os_GetPerfFreq(void) {
+uint64_t sbgl_os_GetPerfFreq(sbgl_Window* window) {
+    (void)window;
     return 1000000;
 }
 
@@ -100,13 +102,21 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* gfx) {
     (void)gfx;
 }
 
-bool sbgl_gfx_BeginFrame(sbgl_GfxContext* gfx, float r, float g, float b, float a) {
-    (void)gfx; (void)r; (void)g; (void)b; (void)a;
+bool sbgl_gfx_BeginFrame(sbgl_GfxContext* gfx) {
+    (void)gfx;
     return true;
 }
 
 void sbgl_gfx_EndFrame(sbgl_GfxContext* gfx) {
     (void)gfx;
+}
+
+void sbgl_gfx_BeginRenderPass(sbgl_GfxContext* ctx, float r, float g, float b, float a) {
+    (void)ctx; (void)r; (void)g; (void)b; (void)a;
+}
+
+void sbgl_gfx_EndRenderPass(sbgl_GfxContext* ctx) {
+    (void)ctx;
 }
 
 void sbgl_gfx_DeviceWaitIdle(sbgl_GfxContext* gfx) {

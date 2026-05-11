@@ -59,13 +59,20 @@ add_internal_test(core_flags_test core_flags_test.c)
 add_internal_test(checkerboard_logic_test checkerboard_logic_test.c)
 add_internal_test(voxel_bitmask_test voxel_bitmask_test.c)
 
-add_executable(voxel_pool_test voxel_pool_test.c ../examples/voxels/voxel_pool.c)
-target_link_libraries(voxel_pool_test PRIVATE m)
+if(SBGL_BUILD_STANDALONE)
+    add_executable(voxel_pool_test voxel_pool_test.c ../examples/voxels/voxel_pool.c ${SBGL_SOURCES})
+    target_link_libraries(voxel_pool_test PRIVATE ${PLATFORM_LIBS} m volk)
+    target_compile_definitions(voxel_pool_test PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
+else()
+    add_executable(voxel_pool_test voxel_pool_test.c ../examples/voxels/voxel_pool.c)
+    target_link_libraries(voxel_pool_test PRIVATE sbgl m)
+endif()
 target_include_directories(voxel_pool_test PRIVATE 
     ${CMAKE_SOURCE_DIR}/include 
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/core
     ${CMAKE_SOURCE_DIR}/examples
+    ${PROJECT_BINARY_DIR}
 )
 
 # Engine tests (require core modules)

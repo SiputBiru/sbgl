@@ -37,7 +37,7 @@ int main(void) {
 								   .vertexLayout = { sizeof(sbgl_Vertex), 2, attributes } };
 
 	sbgl_Pipeline pipeline = sbgl_CreatePipeline(ctx, &config);
-    double start_time = sbgl_GetTime();
+    double start_time = sbgl_GetTime(ctx);
 
 	printf("--- Triangle Controls ---\n");
 	printf("ESC: Exit\n");
@@ -55,7 +55,7 @@ int main(void) {
 
         PushData push = {
             .mousePos = { (float)input->mouseX / (float)width, (float)input->mouseY / (float)height },
-            .time = (float)(sbgl_GetTime() - start_time)
+            .time = (float)(sbgl_GetTime(ctx) - start_time)
         };
 
         sbgl_BindPipeline(ctx, pipeline);

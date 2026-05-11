@@ -15,7 +15,7 @@ typedef enum {
 /**
  * @brief Internal logging level.
  *
- * By using strings instead of formatter (printf), we keep the core logic extreamly lean.
+ * By using strings instead of formatter (printf), we keep the core logic extremely lean.
  */
 void sbgl_internal_log(sbgl_LogLevel level, const char* message);
 

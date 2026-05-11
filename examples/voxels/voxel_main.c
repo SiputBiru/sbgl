@@ -159,7 +159,7 @@ int main(void) {
 	float pitch = -0.4f, yaw = -SBGL_PI / 2.0f;
 	bool mouse_locked = false;
 	float move_speed = 100.0f, mouse_sensitivity = 0.005f;
-	double start_time = sbgl_GetTime(), last_time = start_time;
+	double start_time = sbgl_GetTime(ctx), last_time = start_time;
 	float fps_timer = 0.0f;
 	int frame_count = 0;
 
@@ -179,7 +179,7 @@ int main(void) {
 		if (input->keysDown[SBGL_KEY_ESCAPE])
 			break;
 
-		double current_time = sbgl_GetTime();
+		double current_time = sbgl_GetTime(ctx);
 		float dt = (float)(current_time - last_time);
 		last_time = current_time;
 

@@ -14,6 +14,10 @@ typedef struct {
     uint64_t aabbAddress;
     uint64_t commandAddress;
     uint64_t countsAddress;
+    float _pad0[2];
+    sbgl_Vec4 cameraPos;
+    float maxDistance;
+    float _pad1;
 } CullPushConstants;
 
 /**
@@ -70,7 +74,8 @@ static void test_voxel_visibility(void) {
   CullPushConstants push = {
     .aabbAddress = sbgl_GetBufferDeviceAddress(ctx, aabbBuffer),
     .commandAddress = sbgl_GetBufferDeviceAddress(ctx, commandBuffer),
-    .countsAddress = sbgl_GetBufferDeviceAddress(ctx, countsBuffer)
+    .countsAddress = sbgl_GetBufferDeviceAddress(ctx, countsBuffer),
+    .maxDistance = 10000.0f
   };
 
   // --- Test Case 1: Looking at the chunk ---
@@ -79,6 +84,7 @@ static void test_voxel_visibility(void) {
   cam.target = sbgl_Vec3Set(15, 15, 15); // Look towards the chunk
   
   push.viewProj = sbgl_Mat4Mul(sbgl_CameraGetProjection(&cam), sbgl_CameraGetView(&cam));
+  push.cameraPos = sbgl_Vec4Set(cam.position.x, cam.position.y, cam.position.z, 1.0f);
 
   sbgl_BeginCompute(ctx);
   sbgl_BindComputePipeline(ctx, cullPipeline);
@@ -102,6 +108,7 @@ static void test_voxel_visibility(void) {
   cam.target = sbgl_Vec3Set(-15, -15, -15); // Look away
   
   push.viewProj = sbgl_Mat4Mul(sbgl_CameraGetProjection(&cam), sbgl_CameraGetView(&cam));
+  push.cameraPos = sbgl_Vec4Set(cam.position.x, cam.position.y, cam.position.z, 1.0f);
 
   sbgl_BeginCompute(ctx);
   sbgl_BindComputePipeline(ctx, cullPipeline);

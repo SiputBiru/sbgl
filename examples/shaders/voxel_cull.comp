@@ -12,7 +12,7 @@ struct AABB { vec4 min; vec4 max; };
 struct IndirectCommand { uint indexCount; uint instanceCount; uint firstIndex; int vertexOffset; uint firstInstance; };
 
 layout(buffer_reference, std430) readonly buffer SlotAABBs { AABB aabbs[]; };
-layout(buffer_reference, std430) writeonly buffer IndirectCommands { IndirectCommand commands[]; };
+layout(buffer_reference, std430) coherent buffer IndirectCommands { IndirectCommand commands[]; };
 layout(buffer_reference, std430) readonly buffer ShellCounts { uint counts[]; };
 
 layout(push_constant) uniform PushConstants {
@@ -20,6 +20,9 @@ layout(push_constant) uniform PushConstants {
   uint64_t aabbAddress;
   uint64_t commandAddress;
   uint64_t countsAddress; // Buffer with per-slot shell counts
+  float _pad0[2];
+  vec4 cameraPos;
+  float maxDistance;
 } pc;
 
 // Performs a sphere-plane intersection test to determine if an AABB is within the frustum.
@@ -28,10 +31,16 @@ bool is_visible(AABB aabb, vec4 planes[6]) {
   vec3 center = (aabb.min.xyz + aabb.max.xyz) * 0.5;
   float radius = length(aabb.max.xyz - aabb.min.xyz) * 0.5;
 
+  // Frustum culling
   for (int i = 0; i < 6; i++) {
     float dist = dot(planes[i].xyz, center) + planes[i].w;
     if (dist < -radius) return false;
   }
+  
+  // Distance culling
+  float distToCam = length(center - pc.cameraPos.xyz);
+  if (distToCam > pc.maxDistance + radius) return false;
+
   return true;
 }
 

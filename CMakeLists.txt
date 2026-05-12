@@ -49,6 +49,8 @@ if(NOT SBGL_DOCS_ONLY)
         ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_log.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_sort.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/core/sbgl_batcher.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/voxel/sbgl_voxel.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/voxel/sbgl_pool.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/sbgl_backend_vulkan.c
     )
 

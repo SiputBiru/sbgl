@@ -1,4 +1,4 @@
-#include "voxel_pool.h"
+#include "sbgl_pool.h"
 #include <string.h>
 
 /**

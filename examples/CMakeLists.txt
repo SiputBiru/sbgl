@@ -10,7 +10,6 @@ set(VOXEL_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel.vert")
 set(VOXEL_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel.frag")
 set(VOXEL3D_VERT "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel3D.vert")
 set(VOXEL3D_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel3D.frag")
-set(VOXEL3D_CULL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel3D_cull.comp")
 set(VOXEL_CULL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_cull.comp")
 set(VOXEL_GEN "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_gen.comp")
 set(VOXEL_SHELL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_shell.comp")
@@ -27,7 +26,6 @@ set(VOXEL_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel.vert.spv")
 set(VOXEL_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel.frag.spv")
 set(VOXEL3D_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D.vert.spv")
 set(VOXEL3D_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D.frag.spv")
-set(VOXEL3D_CULL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D_cull.comp.spv")
 set(VOXEL_CULL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_cull.comp.spv")
 set(VOXEL_GEN_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_gen.comp.spv")
 set(VOXEL_SHELL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_shell.comp.spv")
@@ -51,7 +49,6 @@ sbgl_compile_shader_to_spv(${VOXEL_VERT} ${VOXEL_VERT_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_FRAG} ${VOXEL_FRAG_SPV})
 sbgl_compile_shader_to_spv(${VOXEL3D_VERT} ${VOXEL3D_VERT_SPV})
 sbgl_compile_shader_to_spv(${VOXEL3D_FRAG} ${VOXEL3D_FRAG_SPV})
-sbgl_compile_shader_to_spv(${VOXEL3D_CULL} ${VOXEL3D_CULL_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_CULL} ${VOXEL_CULL_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_GEN} ${VOXEL_GEN_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_SHELL} ${VOXEL_SHELL_SPV})
@@ -66,7 +63,7 @@ add_custom_target(example_shaders DEPENDS
     ${PYR_VERT_SPV} ${PYR_FRAG_SPV}
     ${BATCH_VERT_SPV} ${BATCH_FRAG_SPV}
     ${VOXEL_VERT_SPV} ${VOXEL_FRAG_SPV}
-    ${VOXEL3D_VERT_SPV} ${VOXEL3D_FRAG_SPV} ${VOXEL3D_CULL_SPV} ${VOXEL_CULL_SPV}
+    ${VOXEL3D_VERT_SPV} ${VOXEL3D_FRAG_SPV} ${VOXEL_CULL_SPV}
     ${VOXEL_GEN_SPV} ${VOXEL_SHELL_SPV}
     ${COMPUTE_TEST_SPV}
     ${TRI_VERT_H} ${TRI_FRAG_H}
@@ -116,8 +113,8 @@ if(SBGL_BUILD_STANDALONE)
         endif()
     endforeach()
 
-    # Voxel3D_main needs voxel_pool.c
-    add_executable(voxel3D_main voxels/voxel3D_main.c voxels/voxel_pool.c ${SBGL_SOURCES})
+    # Voxel3D_main
+    add_executable(voxel3D_main voxels/voxel3D_main.c ${SBGL_SOURCES})
     add_dependencies(voxel3D_main example_shaders)
     if(SBGL_USE_WAYLAND AND NOT WIN32)
         add_dependencies(voxel3D_main wayland_protocols)

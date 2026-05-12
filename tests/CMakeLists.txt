@@ -10,6 +10,7 @@ macro(add_internal_test name src)
         ${CMAKE_SOURCE_DIR}/include 
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/core
+        ${CMAKE_SOURCE_DIR}/src/voxel
     )
 endmacro()
 
@@ -38,6 +39,7 @@ macro(add_engine_test name src)
             ${CMAKE_SOURCE_DIR}/include 
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/core
+            ${CMAKE_SOURCE_DIR}/src/voxel
             ${PROJECT_BINARY_DIR}
         )
         target_link_libraries(${name} PRIVATE ${PLATFORM_LIBS} m volk)
@@ -48,6 +50,7 @@ macro(add_engine_test name src)
             ${CMAKE_SOURCE_DIR}/include 
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/core
+            ${CMAKE_SOURCE_DIR}/src/voxel
         )
         target_link_libraries(${name} PRIVATE sbgl m)
     endif()
@@ -62,17 +65,18 @@ add_internal_test(input_test input_test.c)
 add_internal_test(gpu_memory_test gpu_memory_test.c)
 
 if(SBGL_BUILD_STANDALONE)
-    add_executable(voxel_pool_test voxel_pool_test.c ../examples/voxels/voxel_pool.c ${SBGL_SOURCES})
+    add_executable(voxel_pool_test voxel_pool_test.c ${SBGL_SOURCES})
     target_link_libraries(voxel_pool_test PRIVATE ${PLATFORM_LIBS} m volk)
     target_compile_definitions(voxel_pool_test PRIVATE ${SBGL_PLATFORM_DEFINITIONS})
 else()
-    add_executable(voxel_pool_test voxel_pool_test.c ../examples/voxels/voxel_pool.c)
+    add_executable(voxel_pool_test voxel_pool_test.c)
     target_link_libraries(voxel_pool_test PRIVATE sbgl m)
 endif()
 target_include_directories(voxel_pool_test PRIVATE 
     ${CMAKE_SOURCE_DIR}/include 
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/core
+    ${CMAKE_SOURCE_DIR}/src/voxel
     ${CMAKE_SOURCE_DIR}/examples
     ${PROJECT_BINARY_DIR}
 )

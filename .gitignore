@@ -11,6 +11,7 @@ third_party/
 *.so
 *.exe
 *.spv
+.references/
 
 # --- CMake ---
 CMakeCache.txt

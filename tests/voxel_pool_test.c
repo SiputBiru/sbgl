@@ -1,4 +1,4 @@
-#include "voxels/voxel_pool.h"
+#include "sbgl_pool.h"
 #include "core/sbl_arena.h"
 #include <assert.h>
 #include <stdio.h>

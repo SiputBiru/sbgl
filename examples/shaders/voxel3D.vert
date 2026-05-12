@@ -3,14 +3,9 @@
 #extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
 #extension GL_ARB_shader_draw_parameters : require
 
-layout(location = 0) out vec3 outColor;
-layout(location = 1) out vec3 outNormal;
-
-float hash(vec3 p) {
-  p = fract(p * 0.3183099 + 0.1);
-  p *= 17.0;
-  return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
-}
+layout(location = 0) out vec3 outNormal;
+layout(location = 1) flat out uint outVoxelID;
+layout(location = 2) flat out vec3 outChunkOrigin;
 
 struct AABB { vec4 min; vec4 max; };
 layout(buffer_reference, std430) readonly buffer ChunkAABBs { AABB aabbs[]; };
@@ -50,26 +45,20 @@ void main() {
     VoxelData instanceBuffer = VoxelData(pc.voxelDataAddress);
     uint voxelID = instanceBuffer.voxels[chunkID * 65536 + slotInstanceIdx];
 
+    ChunkAABBs aabbBuffer = ChunkAABBs(pc.aabbAddress);
+    vec3 chunkOrigin = aabbBuffer.aabbs[chunkID].min.xyz;
+    
     // Decode voxelID to 3D grid coordinates
     int x = int(voxelID & 63u);
     int y = int((voxelID >> 6u) & 63u);
     int z = int(voxelID >> 12u);
 
-    // Procedural color based on height within the chunk to look like terrain.
-    // Higher voxels are greener (grass), lower are browner (dirt/rock).
-    float h = float(y) / 63.0;
-    vec3 color = mix(vec3(0.4, 0.3, 0.2), vec3(0.3, 0.6, 0.2), h);
-    
-    // Add a bit of variation based on local XZ to reduce tiling look.
-    color += (hash(vec3(x, 0, z)) - 0.5) * 0.1;
-
-    ChunkAABBs aabbBuffer = ChunkAABBs(pc.aabbAddress);
-    vec3 chunkOrigin = aabbBuffer.aabbs[chunkID].min.xyz;
+    // Pass data to fragment shader
+    outVoxelID = voxelID;
+    outChunkOrigin = chunkOrigin;
+    outNormal = CUBE_NORMALS[faceId];
     
     // SCALE: 4x4x4 per voxel for visibility.
     vec3 worldPos = chunkOrigin + (vec3(x, y, z) + CUBE_VERTS[CUBE_INDICES[vertId]]) * 4.0;
-
-    outColor = color;
-    outNormal = CUBE_NORMALS[faceId];
     gl_Position = pc.viewProj * vec4(worldPos, 1.0);
 }

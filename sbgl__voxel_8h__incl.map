@@ -1,0 +1,25 @@
+<map id="include/sbgl_voxel.h" name="include/sbgl_voxel.h">
+<area shape="rect" id="Node000001" title="Public API for the SBgl voxel rendering system." alt="" coords="164,5,302,31"/>
+<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="205,79,261,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,31,236,63,230,63,230,31"/>
+<area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="186,153,280,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="236,105,236,137,230,137,230,105"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="67,300,140,326"/>
+<area shape="poly" id="edge9_Node000002_Node000004" title=" " alt="" coords="206,103,160,118,106,143,53,179,31,202,13,227,9,246,19,263,37,278,59,291,56,295,34,282,14,266,4,247,8,225,27,198,50,175,103,138,158,113,204,98"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="284,300,347,326"/>
+<area shape="poly" id="edge11_Node000002_Node000005" title=" " alt="" coords="250,103,273,124,294,151,309,185,317,221,320,285,315,285,311,222,304,187,289,154,269,128,247,107"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="403,153,471,178"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="262,100,389,145,388,150,260,105"/>
+<area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="22,226,113,252"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="221,107,94,218,91,214,218,103"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="223,181,178,228,125,290,121,286,174,225,219,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="250,177,272,198,293,225,306,255,314,284,308,286,301,257,288,228,268,202,246,181"/>
+<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="187,226,279,252"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="236,179,236,211,230,211,230,179"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="212,255,140,294,138,290,210,250"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="249,251,292,288,288,292,245,255"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="200,300,260,326"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="235,252,234,285,229,284,230,252"/>
+<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="76,251,93,285,88,287,71,253"/>
+<area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="110,250,270,296,268,301,109,255"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="src/voxel/sbgl_pool.h" name="src/voxel/sbgl_pool.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="89,5,232,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__pool_8c.html" title=" " alt="" coords="5,79,148,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,43,92,81,89,77,133,39"/>
+<area shape="rect" id="Node000003" href="$sbgl__voxel_8c.html" title="Internal implementation of the voxel rendering system." alt="" coords="172,79,320,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,39,233,77,230,81,185,43"/>
+</map>

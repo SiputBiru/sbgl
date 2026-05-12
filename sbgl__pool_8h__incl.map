@@ -1,0 +1,21 @@
+<map id="src/voxel/sbgl_pool.h" name="src/voxel/sbgl_pool.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="98,5,240,31"/>
+<area shape="rect" id="Node000002" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="82,79,173,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,33,144,67,140,64,160,30"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="90,153,163,178"/>
+<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="133,34,99,52,84,65,73,80,69,96,74,112,85,127,98,141,95,144,80,130,69,114,64,96,68,78,80,61,96,48,130,29"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="186,153,250,178"/>
+<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="175,30,212,137,207,139,170,32"/>
+<area shape="rect" id="Node000006" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="248,79,364,105"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="193,29,270,69,268,74,191,34"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,153,66,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="114,107,64,145,61,141,110,103"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="130,105,129,137,124,137,125,105"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="145,103,193,141,190,145,141,107"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="277,108,172,149,170,144,275,103"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="293,107,246,145,243,141,290,103"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="362,153,429,178"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="323,103,370,141,367,145,320,107"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="274,153,338,178"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="309,105,309,137,304,137,304,105"/>
+</map>

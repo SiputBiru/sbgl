@@ -1,0 +1,7 @@
+<map id="include/sbgl_voxel.h" name="include/sbgl_voxel.h">
+<area shape="rect" id="Node000001" title="Public API for the SBgl voxel rendering system." alt="" coords="111,5,248,31"/>
+<area shape="rect" id="Node000002" href="$voxel3D__main_8c.html" title="Zero&#45;Sync Infinite Voxel Engine Flagship Example (Refactored)." alt="" coords="5,79,173,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,43,113,81,110,77,153,39"/>
+<area shape="rect" id="Node000003" href="$sbgl__voxel_8c.html" title="Internal implementation of the voxel rendering system." alt="" coords="196,86,344,112"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,39,258,84,255,88,203,43"/>
+</map>

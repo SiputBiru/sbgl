@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['gfx_0',['gfx',['../structsbgl__InternalContext.html#a6672667fd0a3298adae0dc205b4a6f4d',1,'sbgl_InternalContext']]],
-  ['gpu_5frender_5ftime_1',['gpu_render_time',['../structsbgl__Telemetry.html#a073e367be8e10fbf0a7ca149ca2ad800',1,'sbgl_Telemetry']]],
-  ['graphicsqueue_2',['graphicsQueue',['../structsbgl__GfxContext.html#a3ae4f568ab9a7217abfef1ac68c94cda',1,'sbgl_GfxContext']]],
-  ['graphicsqueuefamily_3',['graphicsQueueFamily',['../structsbgl__GfxContext.html#a823c2cd350a0615f01b5a9da45012388',1,'sbgl_GfxContext']]]
+  ['genpipe_0',['genPipe',['../structsbgl__VoxelSystem.html#a912750ea0eef95b8d227358f506f3b05',1,'sbgl_VoxelSystem']]],
+  ['gfx_1',['gfx',['../structsbgl__InternalContext.html#a6672667fd0a3298adae0dc205b4a6f4d',1,'sbgl_InternalContext']]],
+  ['gpu_5frender_5ftime_2',['gpu_render_time',['../structsbgl__Telemetry.html#a073e367be8e10fbf0a7ca149ca2ad800',1,'sbgl_Telemetry']]],
+  ['graphicsqueue_3',['graphicsQueue',['../structsbgl__GfxContext.html#a3ae4f568ab9a7217abfef1ac68c94cda',1,'sbgl_GfxContext']]],
+  ['graphicsqueuefamily_4',['graphicsQueueFamily',['../structsbgl__GfxContext.html#a823c2cd350a0615f01b5a9da45012388',1,'sbgl_GfxContext']]]
 ];

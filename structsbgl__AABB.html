@@ -110,7 +110,7 @@ $(function(){initNavTree('structsbgl__AABB.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p>Axis-Aligned Bounding Box (<a class="el" href="structAABB.html">AABB</a>).  
+<p>Axis-Aligned Bounding Box (AABB).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="sbgl__camera_8h_source.html">sbgl_camera.h</a>&gt;</code></p>
@@ -119,9 +119,11 @@ Collaboration diagram for sbgl_AABB:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsbgl__AABB__coll__graph.png" border="0" usemap="#asbgl__AABB_coll__map" alt="Collaboration graph"/></div>
 <map name="asbgl__AABB_coll__map" id="asbgl__AABB_coll__map">
-<area shape="rect" title="Axis&#45;Aligned Bounding Box (AABB)." alt="" coords="5,109,94,135"/>
-<area shape="rect" href="unionsbgl__Vec3.html" title="3D Vector, 16&#45;byte aligned and padded for SIMD safety." alt="" coords="8,5,91,31"/>
-<area shape="poly" title=" " alt="" coords="52,47,52,109,47,109,47,47"/>
+<area shape="rect" title="Axis&#45;Aligned Bounding Box (AABB)." alt="" coords="56,109,144,135"/>
+<area shape="rect" href="unionsbgl__Vec3.html" title="3D Vector, 16&#45;byte aligned and padded for SIMD safety." alt="" coords="5,5,88,31"/>
+<area shape="poly" title=" " alt="" coords="62,43,96,107,91,110,57,46"/>
+<area shape="rect" href="unionsbgl__Vec4.html" title="4D Vector, 16&#45;byte aligned." alt="" coords="112,5,194,31"/>
+<area shape="poly" title=" " alt="" coords="142,46,109,110,104,107,137,43"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -131,14 +133,19 @@ Data Fields</h2></td></tr>
 <tr class="separator:a36e285035807ba43b500086b0255ced2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ee020da77de566ad375c9e3906ec853" id="r_a2ee020da77de566ad375c9e3906ec853"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unionsbgl__Vec3.html">sbgl_Vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ee020da77de566ad375c9e3906ec853">max</a></td></tr>
 <tr class="separator:a2ee020da77de566ad375c9e3906ec853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb91388847e63b04c2defe6e2b3f3189" id="r_afb91388847e63b04c2defe6e2b3f3189"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unionsbgl__Vec4.html">sbgl_Vec4</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb91388847e63b04c2defe6e2b3f3189">min</a></td></tr>
+<tr class="separator:afb91388847e63b04c2defe6e2b3f3189"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a927e298bc2f05bb4ecc60cf0c5c47e72" id="r_a927e298bc2f05bb4ecc60cf0c5c47e72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unionsbgl__Vec4.html">sbgl_Vec4</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a927e298bc2f05bb4ecc60cf0c5c47e72">max</a></td></tr>
+<tr class="separator:a927e298bc2f05bb4ecc60cf0c5c47e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Axis-Aligned Bounding Box (<a class="el" href="structAABB.html">AABB</a>). </p>
+<div class="textblock"><p>Axis-Aligned Bounding Box (AABB). </p>
+<p>Axis-Aligned Bounding Box for frustum culling. </p>
 
 <p class="definition">Definition at line <a class="el" href="sbgl__camera_8h_source.html#l00056">56</a> of file <a class="el" href="sbgl__camera_8h_source.html">sbgl_camera.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a2ee020da77de566ad375c9e3906ec853" name="a2ee020da77de566ad375c9e3906ec853"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ee020da77de566ad375c9e3906ec853">&#9670;&#160;</a></span>max</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ee020da77de566ad375c9e3906ec853">&#9670;&#160;</a></span>max <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,8 +160,24 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
+<a id="a927e298bc2f05bb4ecc60cf0c5c47e72" name="a927e298bc2f05bb4ecc60cf0c5c47e72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a927e298bc2f05bb4ecc60cf0c5c47e72">&#9670;&#160;</a></span>max <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="unionsbgl__Vec4.html">sbgl_Vec4</a> sbgl_AABB::max</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__voxel_8c_source.html#l00019">19</a> of file <a class="el" href="sbgl__voxel_8c_source.html">sbgl_voxel.c</a>.</p>
+
+</div>
+</div>
 <a id="a36e285035807ba43b500086b0255ced2" name="a36e285035807ba43b500086b0255ced2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36e285035807ba43b500086b0255ced2">&#9670;&#160;</a></span>min</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a36e285035807ba43b500086b0255ced2">&#9670;&#160;</a></span>min <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -169,8 +192,25 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a id="afb91388847e63b04c2defe6e2b3f3189" name="afb91388847e63b04c2defe6e2b3f3189"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb91388847e63b04c2defe6e2b3f3189">&#9670;&#160;</a></span>min <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="unionsbgl__Vec4.html">sbgl_Vec4</a> sbgl_AABB::min</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__voxel_8c_source.html#l00018">18</a> of file <a class="el" href="sbgl__voxel_8c_source.html">sbgl_voxel.c</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li>include/<a class="el" href="sbgl__camera_8h_source.html">sbgl_camera.h</a></li>
+<li>src/voxel/<a class="el" href="sbgl__voxel_8c_source.html">sbgl_voxel.c</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

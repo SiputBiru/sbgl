@@ -107,37 +107,37 @@ $(function(){initNavTree('md_docs_2manual_2rendering__pipeline.html',''); initRe
   <div class="headertitle"><div class="title">SBgl Rendering Pipeline</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md171"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md174"></a></p>
 <p>The SBgl Rendering Pipeline is built on Vulkan 1.3's Dynamic Rendering, eliminating the need for complex RenderPass and Framebuffer boilerplate. It follows Data-Oriented Design (DOD) principles by using lightweight integer handles for resource management.</p>
-<h1><a class="anchor" id="autotoc_md172"></a>
+<h1><a class="anchor" id="autotoc_md175"></a>
 Key Concepts</h1>
-<h2><a class="anchor" id="autotoc_md173"></a>
+<h2><a class="anchor" id="autotoc_md176"></a>
 Handle-Based Resource Management</h2>
 <p>Resources like Buffers, Shaders, and Pipelines are referenced via <code>sbgl_Buffer</code>, <code>sbgl_Shader</code>, and <code>sbgl_Pipeline</code> handles (32-bit unsigned integers). Internally, these handles map to contiguous arrays in the Vulkan backend, ensuring cache-efficient access.</p>
-<h2><a class="anchor" id="autotoc_md174"></a>
+<h2><a class="anchor" id="autotoc_md177"></a>
 Explicit Pipeline State Objects (PSO)</h2>
 <p>SBgl requires explicit creation of graphics pipelines. A pipeline encapsulates the vertex/fragment shaders and the vertex input layout. This design ensures predictable performance by moving pipeline compilation to initialization time.</p>
-<h2><a class="anchor" id="autotoc_md175"></a>
+<h2><a class="anchor" id="autotoc_md178"></a>
 Vertex Input Layout</h2>
 <p>The <code><a class="el" href="structsbgl__VertexLayout.html" title="Vertex input layout definition.">sbgl_VertexLayout</a></code> structure defines how vertex data in a buffer is mapped to shader input locations.</p>
 <ul>
 <li><b>Stride:</b> Total size in bytes of a single vertex.</li>
 <li><b>Attributes:</b> Array of <code><a class="el" href="structsbgl__VertexAttribute.html" title="Vertex attribute definition.">sbgl_VertexAttribute</a></code> defining the location and offset of each component.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md176"></a>
+<h1><a class="anchor" id="autotoc_md179"></a>
 Shader Loading Strategies</h1>
 <p>SBgl supports two primary ways to load SPIR-V shaders: dynamic file loading and hardcoded byte arrays.</p>
-<h2><a class="anchor" id="autotoc_md177"></a>
+<h2><a class="anchor" id="autotoc_md180"></a>
 Dynamic File Loading</h2>
 <p>Ideal for development and modding, allowing shaders to be recompiled without rebuilding the application.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">size_t</span> size;</div>
 <div class="line">uint32_t* bytecode = read_spirv_file(<span class="stringliteral">&quot;examples/shaders/example_shader.vert.spv&quot;</span>, &amp;size);</div>
 <div class="line"><a class="code hl_typedef" href="sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2">sbgl_Shader</a> shader = <a class="code hl_function" href="sbgl_8h.html#a6d127cd2c2aa2f93aff1a9c5693b6c2a">sbgl_LoadShader</a>(ctx, <a class="code hl_enumvalue" href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922">SBGL_SHADER_STAGE_VERTEX</a>, bytecode, size);</div>
 <div class="line"><span class="comment">// ... handle cleanup of bytecode if necessary ...</span></div>
-<div class="ttc" id="asbgl_8h_html_a6d127cd2c2aa2f93aff1a9c5693b6c2a"><div class="ttname"><a href="sbgl_8h.html#a6d127cd2c2aa2f93aff1a9c5693b6c2a">sbgl_LoadShader</a></div><div class="ttdeci">sbgl_Shader sbgl_LoadShader(sbgl_Context *ctx, sbgl_ShaderStage stage, const uint32_t *bytecode, size_t size)</div><div class="ttdoc">Loads a shader from SPIR-V bytecode.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00405">sbgl_core.c:405</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a6d127cd2c2aa2f93aff1a9c5693b6c2a"><div class="ttname"><a href="sbgl_8h.html#a6d127cd2c2aa2f93aff1a9c5693b6c2a">sbgl_LoadShader</a></div><div class="ttdeci">sbgl_Shader sbgl_LoadShader(sbgl_Context *ctx, sbgl_ShaderStage stage, const uint32_t *bytecode, size_t size)</div><div class="ttdoc">Loads a shader from SPIR-V bytecode.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00422">sbgl_core.c:422</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_aa245fe291f7627774419f31b47fd5eb2"><div class="ttname"><a href="sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2">sbgl_Shader</a></div><div class="ttdeci">uint32_t sbgl_Shader</div><div class="ttdoc">Handle for a shader module.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00042">sbgl_types.h:42</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922"><div class="ttname"><a href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922">SBGL_SHADER_STAGE_VERTEX</a></div><div class="ttdeci">@ SBGL_SHADER_STAGE_VERTEX</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00121">sbgl_types.h:121</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md178"></a>
+<div class="ttc" id="asbgl__types_8h_html_aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922"><div class="ttname"><a href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922">SBGL_SHADER_STAGE_VERTEX</a></div><div class="ttdeci">@ SBGL_SHADER_STAGE_VERTEX</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00134">sbgl_types.h:134</a></div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md181"></a>
 Hardcoded (Static) Loading</h2>
 <p>Recommended for production releases to ensure the application is self-contained and prevents tampering with core assets.</p>
 <p>The <code>xxd</code> tool facilitates converting a compiled <code>.spv</code> file into a C header: <code>xxd -i examples/shaders/example_shader.vert.spv &gt; example_shader_vert.h</code></p>
@@ -146,7 +146,7 @@ Hardcoded (Static) Loading</h2>
 <div class="line"><a class="code hl_typedef" href="sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2">sbgl_Shader</a> shader = <a class="code hl_function" href="sbgl_8h.html#a6d127cd2c2aa2f93aff1a9c5693b6c2a">sbgl_LoadShader</a>(ctx, <a class="code hl_enumvalue" href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922">SBGL_SHADER_STAGE_VERTEX</a>, </div>
 <div class="line">                                     (uint32_t*)example_shader_vert_spv, </div>
 <div class="line">                                     example_shader_vert_spv_len);</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md179"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md182"></a>
 Vertex Layout Use Case</h1>
 <p>Defining a standard vertex with Position and Color attributes using the library-provided <code><a class="el" href="structsbgl__Vertex.html" title="Standard vertex structure for basic geometry rendering. Optimized for cache density (16 bytes).">sbgl_Vertex</a></code> structure:</p>
 <div class="fragment"><div class="line"><span class="comment">// sbgl_Vertex is defined as:</span></div>
@@ -165,11 +165,11 @@ Vertex Layout Use Case</h1>
 <div class="line">    .attributeCount = 2,</div>
 <div class="line">    .attributes = attributes</div>
 <div class="line">};</div>
-<div class="ttc" id="asbgl__types_8h_html_a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850"><div class="ttname"><a href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850">SBGL_FORMAT_R32G32B32_SFLOAT</a></div><div class="ttdeci">@ SBGL_FORMAT_R32G32B32_SFLOAT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00142">sbgl_types.h:142</a></div></div>
-<div class="ttc" id="astructsbgl__VertexAttribute_html"><div class="ttname"><a href="structsbgl__VertexAttribute.html">sbgl_VertexAttribute</a></div><div class="ttdoc">Vertex attribute definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00151">sbgl_types.h:151</a></div></div>
-<div class="ttc" id="astructsbgl__VertexLayout_html"><div class="ttname"><a href="structsbgl__VertexLayout.html">sbgl_VertexLayout</a></div><div class="ttdoc">Vertex input layout definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00171">sbgl_types.h:171</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850"><div class="ttname"><a href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850">SBGL_FORMAT_R32G32B32_SFLOAT</a></div><div class="ttdeci">@ SBGL_FORMAT_R32G32B32_SFLOAT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00157">sbgl_types.h:157</a></div></div>
+<div class="ttc" id="astructsbgl__VertexAttribute_html"><div class="ttname"><a href="structsbgl__VertexAttribute.html">sbgl_VertexAttribute</a></div><div class="ttdoc">Vertex attribute definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00166">sbgl_types.h:166</a></div></div>
+<div class="ttc" id="astructsbgl__VertexLayout_html"><div class="ttname"><a href="structsbgl__VertexLayout.html">sbgl_VertexLayout</a></div><div class="ttdoc">Vertex input layout definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00186">sbgl_types.h:186</a></div></div>
 <div class="ttc" id="astructsbgl__Vertex_html"><div class="ttname"><a href="structsbgl__Vertex.html">sbgl_Vertex</a></div><div class="ttdoc">Standard vertex structure for basic geometry rendering. Optimized for cache density (16 bytes).</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00028">sbgl_types.h:28</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md180"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md183"></a>
 Complete Drawing Example</h1>
 <div class="fragment"><div class="line"><a class="code hl_function" href="sbgl_8h.html#ae766fcd081bc95541c9bc89dd1f95e52">sbgl_BeginDrawing</a>(ctx);</div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#a8d2a0bd75ac2a707b3144931066faf93">sbgl_Clear</a>(ctx, 0.0f, 0.0f, 0.0f, 1.0f);</div>
@@ -189,18 +189,18 @@ Complete Drawing Example</h1>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9">sbgl_DeviceWaitIdle</a>(ctx);</div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#aef6447577a5cbb924b01f2733c455ac6">sbgl_DestroyPipeline</a>(ctx, example_pipeline);</div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#aa5669638ad915ea5af77fed3838556d9">sbgl_DestroyBuffer</a>(ctx, example_vbo);</div>
-<div class="ttc" id="asbgl_8h_html_a7c7bb4f66431af6e446f641d058fb4d1"><div class="ttname"><a href="sbgl_8h.html#a7c7bb4f66431af6e446f641d058fb4d1">sbgl_PushConstants</a></div><div class="ttdeci">void sbgl_PushConstants(sbgl_Context *ctx, size_t size, const void *data)</div><div class="ttdoc">Updates push constants for the currently bound pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00621">sbgl_core.c:621</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a7c7bb4f66431af6e446f641d058fb4d1"><div class="ttname"><a href="sbgl_8h.html#a7c7bb4f66431af6e446f641d058fb4d1">sbgl_PushConstants</a></div><div class="ttdeci">void sbgl_PushConstants(sbgl_Context *ctx, size_t size, const void *data)</div><div class="ttdoc">Updates push constants for the currently bound pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00638">sbgl_core.c:638</a></div></div>
 <div class="ttc" id="asbgl_8h_html_a7ed3273fa5fa3d7b9f48fcff63652049"><div class="ttname"><a href="sbgl_8h.html#a7ed3273fa5fa3d7b9f48fcff63652049">sbgl_EndDrawing</a></div><div class="ttdeci">void sbgl_EndDrawing(sbgl_Context *ctx)</div><div class="ttdoc">Finalizes the current frame and presents it to the screen.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00215">sbgl_core.c:215</a></div></div>
-<div class="ttc" id="asbgl_8h_html_a83aeb2765320602096f4992d387fbf10"><div class="ttname"><a href="sbgl_8h.html#a83aeb2765320602096f4992d387fbf10">sbgl_Draw</a></div><div class="ttdeci">void sbgl_Draw(sbgl_Context *ctx, uint32_t vertexCount, uint32_t firstVertex)</div><div class="ttdoc">Submits a non-indexed draw command.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00587">sbgl_core.c:587</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a83aeb2765320602096f4992d387fbf10"><div class="ttname"><a href="sbgl_8h.html#a83aeb2765320602096f4992d387fbf10">sbgl_Draw</a></div><div class="ttdeci">void sbgl_Draw(sbgl_Context *ctx, uint32_t vertexCount, uint32_t firstVertex)</div><div class="ttdoc">Submits a non-indexed draw command.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00604">sbgl_core.c:604</a></div></div>
 <div class="ttc" id="asbgl_8h_html_a8d2a0bd75ac2a707b3144931066faf93"><div class="ttname"><a href="sbgl_8h.html#a8d2a0bd75ac2a707b3144931066faf93">sbgl_Clear</a></div><div class="ttdeci">void sbgl_Clear(sbgl_Context *ctx, float r, float g, float b, float a)</div><div class="ttdoc">Sets the clear color for the next frame.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00301">sbgl_core.c:301</a></div></div>
-<div class="ttc" id="asbgl_8h_html_a9d911564e7ec91e610a86589fa550eae"><div class="ttname"><a href="sbgl_8h.html#a9d911564e7ec91e610a86589fa550eae">sbgl_BindPipeline</a></div><div class="ttdeci">void sbgl_BindPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Binds a graphics pipeline for subsequent draw calls.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00562">sbgl_core.c:562</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a9d911564e7ec91e610a86589fa550eae"><div class="ttname"><a href="sbgl_8h.html#a9d911564e7ec91e610a86589fa550eae">sbgl_BindPipeline</a></div><div class="ttdeci">void sbgl_BindPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Binds a graphics pipeline for subsequent draw calls.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00579">sbgl_core.c:579</a></div></div>
 <div class="ttc" id="asbgl_8h_html_aa5669638ad915ea5af77fed3838556d9"><div class="ttname"><a href="sbgl_8h.html#aa5669638ad915ea5af77fed3838556d9">sbgl_DestroyBuffer</a></div><div class="ttdeci">void sbgl_DestroyBuffer(sbgl_Context *ctx, sbgl_Buffer buffer)</div><div class="ttdoc">Destroys a GPU buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00357">sbgl_core.c:357</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ad31330828b674339c58edc4d5536fbf9"><div class="ttname"><a href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9">sbgl_DeviceWaitIdle</a></div><div class="ttdeci">void sbgl_DeviceWaitIdle(sbgl_Context *ctx)</div><div class="ttdoc">Synchronizes the CPU with the GPU, waiting for all commands to complete.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00291">sbgl_core.c:291</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae766fcd081bc95541c9bc89dd1f95e52"><div class="ttname"><a href="sbgl_8h.html#ae766fcd081bc95541c9bc89dd1f95e52">sbgl_BeginDrawing</a></div><div class="ttdeci">void sbgl_BeginDrawing(sbgl_Context *ctx)</div><div class="ttdoc">Prepares the engine for a new frame of drawing.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00162">sbgl_core.c:162</a></div></div>
-<div class="ttc" id="asbgl_8h_html_ae8003c069bc114ce7dcec9f28ee16e7e"><div class="ttname"><a href="sbgl_8h.html#ae8003c069bc114ce7dcec9f28ee16e7e">sbgl_BindBuffer</a></div><div class="ttdeci">void sbgl_BindBuffer(sbgl_Context *ctx, sbgl_Buffer buffer, sbgl_BufferUsage usage)</div><div class="ttdoc">Binds a buffer to the pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00570">sbgl_core.c:570</a></div></div>
-<div class="ttc" id="asbgl_8h_html_aef6447577a5cbb924b01f2733c455ac6"><div class="ttname"><a href="sbgl_8h.html#aef6447577a5cbb924b01f2733c455ac6">sbgl_DestroyPipeline</a></div><div class="ttdeci">void sbgl_DestroyPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Destroys a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00488">sbgl_core.c:488</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f"><div class="ttname"><a href="sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f">SBGL_BUFFER_USAGE_VERTEX</a></div><div class="ttdeci">@ SBGL_BUFFER_USAGE_VERTEX</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00111">sbgl_types.h:111</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md181"></a>
+<div class="ttc" id="asbgl_8h_html_ae8003c069bc114ce7dcec9f28ee16e7e"><div class="ttname"><a href="sbgl_8h.html#ae8003c069bc114ce7dcec9f28ee16e7e">sbgl_BindBuffer</a></div><div class="ttdeci">void sbgl_BindBuffer(sbgl_Context *ctx, sbgl_Buffer buffer, sbgl_BufferUsage usage)</div><div class="ttdoc">Binds a buffer to the pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00587">sbgl_core.c:587</a></div></div>
+<div class="ttc" id="asbgl_8h_html_aef6447577a5cbb924b01f2733c455ac6"><div class="ttname"><a href="sbgl_8h.html#aef6447577a5cbb924b01f2733c455ac6">sbgl_DestroyPipeline</a></div><div class="ttdeci">void sbgl_DestroyPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Destroys a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00505">sbgl_core.c:505</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f"><div class="ttname"><a href="sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f">SBGL_BUFFER_USAGE_VERTEX</a></div><div class="ttdeci">@ SBGL_BUFFER_USAGE_VERTEX</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00123">sbgl_types.h:123</a></div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md184"></a>
 Depth Buffering &amp; 3D Sorting</h1>
 <p>SBgl utilizes a dedicated depth attachment to ensure correct geometry sorting in 3D space.</p>
 <ul>
@@ -208,7 +208,7 @@ Depth Buffering &amp; 3D Sorting</h1>
 <li><b>Pipeline Integration:</b> All pipelines created via <code>sbgl_CreatePipeline</code> have depth testing and depth writing enabled by default.</li>
 <li><b>Clearing:</b> Every frame, the depth buffer is automatically cleared to <code>1.0</code> during the <code>sbgl_BeginDrawing</code> (or <code>sbgl_Clear</code>) phase.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md182"></a>
+<h1><a class="anchor" id="autotoc_md185"></a>
 Synchronization &amp; Frames in Flight</h1>
 <p>To maximize efficiency and prevent CPU/GPU bottlenecks, SBgl implements a <b>Frames in Flight</b> model.</p>
 <ul>
@@ -216,20 +216,20 @@ Synchronization &amp; Frames in Flight</h1>
 <li><b>Overlapping Execution:</b> This allows the CPU to begin recording the <em>next</em> frame while the GPU is still processing the <em>previous</em> one.</li>
 <li><b>Safe Teardown:</b> Before destroying resources (e.g., exiting an application), <code>sbgl_DeviceWaitIdle(ctx)</code> MUST be called to ensure all in-flight GPU work is complete.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md183"></a>
+<h1><a class="anchor" id="autotoc_md186"></a>
 Automated Batching</h1>
 <p>SBgl provides an automated batching system to minimize CPU-to-GPU communication overhead. This system collects multiple draw requests into a single submission, leveraging GPU-side features like Indirect Drawing.</p>
-<h2><a class="anchor" id="autotoc_md184"></a>
+<h2><a class="anchor" id="autotoc_md187"></a>
 Render Queues</h2>
 <p>A <code><a class="el" href="structsbgl__RenderQueue.html" title="Internal storage for draw packets awaiting submission.">sbgl_RenderQueue</a></code> acts as a collector for draw commands. It is initialized using an <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code> to ensure efficient, contiguous memory allocation for the queued data.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="structSblArena.html">SblArena</a> arena;</div>
 <div class="line"><a class="code hl_function" href="sbl__arena_8h.html#ab383b69583604f0193130f0403a448e1">sbl_arena_init</a>(&amp;arena, 16 * 1024 * 1024); <span class="comment">// 16MB for high-frequency batching</span></div>
 <div class="line"><a class="code hl_struct" href="structsbgl__RenderQueue.html">sbgl_RenderQueue</a>* queue = <a class="code hl_function" href="sbgl_8h.html#ab64905fb7ecdb7ecbc111cbed9e4bd7c">sbgl_CreateRenderQueue</a>(ctx, &amp;arena);</div>
-<div class="ttc" id="asbgl_8h_html_ab64905fb7ecdb7ecbc111cbed9e4bd7c"><div class="ttname"><a href="sbgl_8h.html#ab64905fb7ecdb7ecbc111cbed9e4bd7c">sbgl_CreateRenderQueue</a></div><div class="ttdeci">sbgl_RenderQueue * sbgl_CreateRenderQueue(sbgl_Context *ctx, struct SblArena *arena)</div><div class="ttdoc">Creates a thread-local render queue for collecting draw commands.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00631">sbgl_core.c:631</a></div></div>
+<div class="ttc" id="asbgl_8h_html_ab64905fb7ecdb7ecbc111cbed9e4bd7c"><div class="ttname"><a href="sbgl_8h.html#ab64905fb7ecdb7ecbc111cbed9e4bd7c">sbgl_CreateRenderQueue</a></div><div class="ttdeci">sbgl_RenderQueue * sbgl_CreateRenderQueue(sbgl_Context *ctx, struct SblArena *arena)</div><div class="ttdoc">Creates a thread-local render queue for collecting draw commands.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00648">sbgl_core.c:648</a></div></div>
 <div class="ttc" id="asbl__arena_8h_html_ab383b69583604f0193130f0403a448e1"><div class="ttname"><a href="sbl__arena_8h.html#ab383b69583604f0193130f0403a448e1">sbl_arena_init</a></div><div class="ttdeci">SBL_ARENA_DEF bool sbl_arena_init(SblArena *arena, uint64_t initial_size)</div></div>
 <div class="ttc" id="astructSblArena_html"><div class="ttname"><a href="structSblArena.html">SblArena</a></div><div class="ttdoc">Arena allocator.</div><div class="ttdef"><b>Definition</b> <a href="sbl__arena_8h_source.html#l00047">sbl_arena.h:47</a></div></div>
 <div class="ttc" id="astructsbgl__RenderQueue_html"><div class="ttname"><a href="structsbgl__RenderQueue.html">sbgl_RenderQueue</a></div><div class="ttdoc">Internal storage for draw packets awaiting submission.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00024">sbgl_core.c:24</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md185"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md188"></a>
 Submitting Draws</h2>
 <p>Instead of immediate execution, draw calls are submitted to a queue. The system stores the vertex count, first vertex, and instance count for each draw.</p>
 <div class="fragment"><div class="line"><span class="comment">// Queue up 10,000 instances of a single triangle</span></div>
@@ -241,14 +241,14 @@ Submitting Draws</h2>
 <div class="line">    <span class="comment">// meshId=0, materialId=0, blend=0, sided=0, tags=0, sortKey=0</span></div>
 <div class="line">    <a class="code hl_function" href="sbgl_8h.html#a37373f9c82b7e7f9e260d73f590f0af0">sbgl_SubmitDraw</a>(queue, 0, 0, 0, 0, 0, 0, &amp;data);</div>
 <div class="line">}</div>
-<div class="ttc" id="asbgl_8h_html_a37373f9c82b7e7f9e260d73f590f0af0"><div class="ttname"><a href="sbgl_8h.html#a37373f9c82b7e7f9e260d73f590f0af0">sbgl_SubmitDraw</a></div><div class="ttdeci">void sbgl_SubmitDraw(sbgl_RenderQueue *queue, uint32_t mesh, uint32_t material, uint32_t blendMode, uint32_t sidedness, uint32_t tags, sbgl_SortKey key, const sbgl_InstanceData *data)</div><div class="ttdoc">Appends a draw command to the render queue.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00660">sbgl_core.c:660</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a37373f9c82b7e7f9e260d73f590f0af0"><div class="ttname"><a href="sbgl_8h.html#a37373f9c82b7e7f9e260d73f590f0af0">sbgl_SubmitDraw</a></div><div class="ttdeci">void sbgl_SubmitDraw(sbgl_RenderQueue *queue, uint32_t mesh, uint32_t material, uint32_t blendMode, uint32_t sidedness, uint32_t tags, sbgl_SortKey key, const sbgl_InstanceData *data)</div><div class="ttdoc">Appends a draw command to the render queue.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00677">sbgl_core.c:677</a></div></div>
 <div class="ttc" id="asbgl__math_8h_html_a707f3aaa05327c1cea871a6c1367ce18"><div class="ttname"><a href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18">sbgl_Vec3Set</a></div><div class="ttdeci">static sbgl_Vec3 sbgl_Vec3Set(float x, float y, float z)</div><div class="ttdoc">Creates a Vec3, correctly padded.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00093">sbgl_math.h:93</a></div></div>
 <div class="ttc" id="asbgl__math_8h_html_a8ee0e1a1784d410dbe20db7dcc4f9d5e"><div class="ttname"><a href="sbgl__math_8h.html#a8ee0e1a1784d410dbe20db7dcc4f9d5e">sbgl_Mat4Translate</a></div><div class="ttdeci">static sbgl_Mat4 sbgl_Mat4Translate(sbgl_Vec3 v)</div><div class="ttdoc">Creates a translation matrix.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00260">sbgl_math.h:260</a></div></div>
 <div class="ttc" id="asbgl__math_8h_html_ae09feb1c55bf39c6d53581b311e7c8b8"><div class="ttname"><a href="sbgl__math_8h.html#ae09feb1c55bf39c6d53581b311e7c8b8">sbgl_Vec4Set</a></div><div class="ttdeci">static sbgl_Vec4 sbgl_Vec4Set(float x, float y, float z, float w)</div><div class="ttdoc">Creates a Vec4.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00098">sbgl_math.h:98</a></div></div>
 <div class="ttc" id="astructsbgl__InstanceData_html"><div class="ttname"><a href="structsbgl__InstanceData.html">sbgl_InstanceData</a></div><div class="ttdoc">Per-instance data for automated batching.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00019">sbgl_types.h:19</a></div></div>
 <div class="ttc" id="astructsbgl__InstanceData_html_a2a21f45b280fcaa94d9f0531d1794095"><div class="ttname"><a href="structsbgl__InstanceData.html#a2a21f45b280fcaa94d9f0531d1794095">sbgl_InstanceData::transform</a></div><div class="ttdeci">sbgl_Mat4 transform</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00020">sbgl_types.h:20</a></div></div>
 <div class="ttc" id="astructsbgl__InstanceData_html_a64ec81593927fce00eb83fc9ab566434"><div class="ttname"><a href="structsbgl__InstanceData.html#a64ec81593927fce00eb83fc9ab566434">sbgl_InstanceData::color</a></div><div class="ttdeci">sbgl_Vec4 color</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00021">sbgl_types.h:21</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md186"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md189"></a>
 Executing the Queue</h2>
 <p>The <code>sbgl_RenderQueues</code> function processes one or more queues. It performs internal sorting (e.g., via Radix Sort in the backend) and "bakes" the draws into a single Vulkan Indirect Draw command.</p>
 <div class="fragment"><div class="line"><a class="code hl_function" href="sbgl_8h.html#ae766fcd081bc95541c9bc89dd1f95e52">sbgl_BeginDrawing</a>(ctx);</div>
@@ -260,25 +260,25 @@ Executing the Queue</h2>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#af50d2496f5d5a1cb363bd36878384f40">sbgl_RenderQueues</a>(ctx, &amp;queue, 1, &amp;vp);</div>
 <div class="line"> </div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#a7ed3273fa5fa3d7b9f48fcff63652049">sbgl_EndDrawing</a>(ctx);</div>
-<div class="ttc" id="asbgl_8h_html_af50d2496f5d5a1cb363bd36878384f40"><div class="ttname"><a href="sbgl_8h.html#af50d2496f5d5a1cb363bd36878384f40">sbgl_RenderQueues</a></div><div class="ttdeci">void sbgl_RenderQueues(sbgl_Context *ctx, sbgl_RenderQueue **queues, uint32_t queueCount, const sbgl_Mat4 *viewProj)</div><div class="ttdoc">Merges, sorts, and submits pending draw commands to the GPU.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00696">sbgl_core.c:696</a></div></div>
+<div class="ttc" id="asbgl_8h_html_af50d2496f5d5a1cb363bd36878384f40"><div class="ttname"><a href="sbgl_8h.html#af50d2496f5d5a1cb363bd36878384f40">sbgl_RenderQueues</a></div><div class="ttdeci">void sbgl_RenderQueues(sbgl_Context *ctx, sbgl_RenderQueue **queues, uint32_t queueCount, const sbgl_Mat4 *viewProj)</div><div class="ttdoc">Merges, sorts, and submits pending draw commands to the GPU.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00713">sbgl_core.c:713</a></div></div>
 <div class="ttc" id="asbgl__math_8h_html_a58e46e771fb4f61c4c932886fc527edd"><div class="ttname"><a href="sbgl__math_8h.html#a58e46e771fb4f61c4c932886fc527edd">sbgl_Mat4Identity</a></div><div class="ttdeci">static sbgl_Mat4 sbgl_Mat4Identity(void)</div><div class="ttdoc">Returns an identity matrix.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00200">sbgl_math.h:200</a></div></div>
 <div class="ttc" id="astructsbgl__Mat4_html"><div class="ttname"><a href="structsbgl__Mat4.html">sbgl_Mat4</a></div><div class="ttdoc">4x4 Matrix, 16-byte aligned, column-major.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00083">sbgl_math.h:83</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md187"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md190"></a>
 Optimized Batch Submission</h1>
 <p>To resolve CPU bottlenecks during high-frequency geometry submission (e.g., voxels, particle systems), SBgl utilizes an internal <b>Transient Allocation</b> system.</p>
-<h2><a class="anchor" id="autotoc_md188"></a>
+<h2><a class="anchor" id="autotoc_md191"></a>
 Persistent Mapping</h2>
 <p>Dynamic data required for each frame—such as per-instance transformation matrices and indirect draw commands—is written directly into a set of persistently mapped GPU buffers.</p><ul>
 <li><b>Zero Allocation Overhead:</b> Unlike standard buffer creation, transient allocation simply increments a pointer in a pre-allocated pool.</li>
 <li><b>Cache Efficiency:</b> Data is written sequentially by the CPU and read sequentially by the GPU, maximizing throughput.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md189"></a>
+<h2><a class="anchor" id="autotoc_md192"></a>
 Multi-Draw Indirect (MDI)</h2>
 <p>The system "bakes" sorted draw packets into <code><a class="el" href="structsbgl__IndirectCommand.html" title="Standard Vulkan Indirect Draw command layout.">sbgl_IndirectCommand</a></code> structures. These are submitted using <code>vkCmdDrawIndexedIndirect</code>, allowing the GPU to process massive numbers of draw calls with a single command dispatch from the CPU.</p>
-<h1><a class="anchor" id="autotoc_md190"></a>
+<h1><a class="anchor" id="autotoc_md193"></a>
 Batch Rendering &amp; DOD Alignment</h1>
 <p>The handle system is designed for batching. By iterating through arrays of transformation data (SoA) and binding buffers once, geometry submission is achieved. The automated batcher utilizes Multi-Draw Indirect (MDI) to reduce CPU overhead by submitting geometry with a single Vulkan command.</p>
-<h2><a class="anchor" id="autotoc_md191"></a>
+<h2><a class="anchor" id="autotoc_md194"></a>
 Dynamic Vertex Updates</h2>
 <p>For CPU-driven effects (e.g., particle systems), vertex buffers can be recreated or updated every frame. The system handles the underlying synchronization to ensure the GPU has finished using the old buffer before it is destroyed.</p>
 <div class="fragment"><div class="line"><span class="comment">// Updating a vertex array every frame</span></div>
@@ -296,7 +296,7 @@ Dynamic Vertex Updates</h2>
 <div class="line">sbgl_DestroyBufferDeferred(ctx, vbo);</div>
 <div class="ttc" id="asbgl_8h_html_af40bb1ff6d81816a137876aa33f977c6"><div class="ttname"><a href="sbgl_8h.html#af40bb1ff6d81816a137876aa33f977c6">sbgl_CreateBuffer</a></div><div class="ttdeci">sbgl_Buffer sbgl_CreateBuffer(sbgl_Context *ctx, sbgl_BufferUsage usage, size_t size, const void *data)</div><div class="ttdoc">Creates a GPU buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00345">sbgl_core.c:345</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_aa16e95fe0eb5fd1f7c1068e20a29a888"><div class="ttname"><a href="sbgl__types_8h.html#aa16e95fe0eb5fd1f7c1068e20a29a888">sbgl_Buffer</a></div><div class="ttdeci">uint32_t sbgl_Buffer</div><div class="ttdoc">Handle for a GPU-side buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00037">sbgl_types.h:37</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md192"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md195"></a>
 Multi-Queue Submission</h2>
 <p>Managing separate render queues allows for logical separation of draw calls (e.g., Opaque, Transparent, UI). These queues can be merged and processed in a single backend call to optimize pipeline state changes.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__RenderQueue.html">sbgl_RenderQueue</a>* opaque_queue;</div>
@@ -309,7 +309,7 @@ Multi-Queue Submission</h2>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Process all queues, performing cross-queue sorting for state optimization</span></div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#af50d2496f5d5a1cb363bd36878384f40">sbgl_RenderQueues</a>(ctx, queues, 2, &amp;vp);</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md193"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md196"></a>
 Multithreading Considerations</h1>
 <p>The current implementation records commands into a single primary command buffer per context. To support multithreading:</p>
 <ul>

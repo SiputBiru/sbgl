@@ -1,0 +1,7 @@
+<map id="sbgl_CullPushConstants" name="sbgl_CullPushConstants">
+<area shape="rect" id="Node000001" title="Push constants for the frustum culling and indirect draw compute shader." alt="" coords="16,94,180,120"/>
+<area shape="rect" id="Node000002" href="$structsbgl__Mat4.html" title="4x4 Matrix, 16&#45;byte aligned, column&#45;major." alt="" coords="5,5,87,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,44,71,69,89,92,85,95,67,71,54,47"/>
+<area shape="rect" id="Node000003" href="$unionsbgl__Vec4.html" title="4D Vector, 16&#45;byte aligned." alt="" coords="110,5,192,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="140,45,124,71,108,95,104,92,120,69,135,43"/>
+</map>

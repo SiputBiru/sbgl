@@ -1,47 +1,34 @@
 <map id="examples/voxels/voxel3D_main.c" name="examples/voxels/voxel3D_main.c">
-<area shape="rect" id="Node000001" title="Zero&#45;Sync Infinite Voxel Engine Flagship Example." alt="" coords="438,5,605,46"/>
-<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="154,94,209,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="438,49,225,98,224,93,437,44"/>
-<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="295,241,386,267"/>
-<area shape="poly" id="edge17_Node000001_Node000006" title=" " alt="" coords="514,48,474,115,446,156,414,195,371,234,368,230,410,192,442,153,469,112,509,45"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="453,315,513,341"/>
-<area shape="poly" id="edge21_Node000001_Node000007" title=" " alt="" coords="607,40,650,59,670,74,685,93,689,106,686,120,678,200,668,234,642,269,623,282,595,295,529,317,528,312,593,290,621,277,639,265,663,231,673,199,680,119,683,106,681,95,666,78,648,64,605,44"/>
-<area shape="rect" id="Node000010" href="$sbgl__camera_8h.html" title="Camera system and batch collision math for SBgl." alt="" coords="294,168,400,193"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="488,49,454,70,421,96,391,126,367,157,362,153,387,123,417,92,451,66,485,44"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="525,94,585,120"/>
-<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="532,45,547,78,542,81,528,47"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="609,94,672,120"/>
-<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="553,44,611,83,608,87,550,49"/>
-<area shape="rect" id="Node000013" title=" " alt="" coords="707,315,771,341"/>
-<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="607,36,660,57,684,72,705,92,721,117,733,144,746,201,749,256,746,300,740,300,743,256,741,202,728,146,717,119,701,96,681,76,657,61,605,41"/>
-<area shape="rect" id="Node000014" href="$voxel__pool_8h.html" title=" " alt="" coords="476,168,568,193"/>
-<area shape="poly" id="edge22_Node000001_Node000014" title=" " alt="" coords="521,47,517,81,516,120,520,152,515,153,511,120,512,80,516,46"/>
-<area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="176,168,270,193"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="191,119,211,153,206,156,186,121"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="293,315,366,341"/>
-<area shape="poly" id="edge9_Node000002_Node000004" title=" " alt="" coords="177,121,164,155,163,174,167,192,191,229,223,261,258,286,291,305,288,310,255,290,220,265,187,233,162,194,157,174,159,154,172,119"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="186,315,249,341"/>
-<area shape="poly" id="edge11_Node000002_Node000005" title=" " alt="" coords="155,121,102,146,47,180,26,200,12,221,9,243,19,266,33,281,50,294,90,312,132,321,171,325,170,330,131,326,88,317,47,298,29,285,14,268,4,244,7,220,22,197,44,176,100,141,153,116"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="563,315,630,341"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="210,107,401,124,507,141,550,152,582,165,605,180,621,196,633,215,643,241,645,258,641,276,622,305,617,303,636,274,640,258,638,242,628,217,617,199,602,184,579,170,549,157,506,147,401,130,209,112"/>
-<area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="29,241,119,267"/>
-<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="169,122,146,143,123,169,103,199,88,229,83,226,98,197,118,166,142,140,165,118"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="233,192,285,265,313,301,308,304,281,269,229,195"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="225,194,221,300,216,299,220,194"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="244,192,309,231,306,235,242,196"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="341,268,336,300,331,299,336,267"/>
-<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="321,270,253,309,250,305,318,265"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="366,265,446,305,444,310,363,270"/>
-<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="118,265,279,310,278,315,116,270"/>
-<area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="99,265,181,305,179,310,97,270"/>
-<area shape="poly" id="edge16_Node000010_Node000006" title=" " alt="" coords="349,194,346,226,340,226,343,193"/>
-<area shape="poly" id="edge30_Node000014_Node000004" title=" " alt="" coords="515,195,485,230,443,269,408,292,373,310,371,306,406,287,440,265,481,227,511,192"/>
-<area shape="poly" id="edge29_Node000014_Node000005" title=" " alt="" coords="507,196,451,236,399,269,330,298,265,318,264,312,328,293,397,265,448,232,504,192"/>
-<area shape="poly" id="edge23_Node000014_Node000006" title=" " alt="" coords="492,196,387,238,385,233,490,191"/>
-<area shape="rect" id="Node000015" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="512,241,628,267"/>
-<area shape="poly" id="edge24_Node000014_Node000015" title=" " alt="" coords="532,192,555,227,551,230,527,195"/>
-<area shape="poly" id="edge27_Node000015_Node000004" title=" " alt="" coords="530,270,382,314,380,309,528,265"/>
-<area shape="poly" id="edge26_Node000015_Node000005" title=" " alt="" coords="512,270,265,320,264,314,511,265"/>
-<area shape="poly" id="edge25_Node000015_Node000008" title=" " alt="" coords="577,266,589,299,584,301,572,268"/>
-<area shape="poly" id="edge28_Node000015_Node000013" title=" " alt="" coords="600,265,697,306,695,311,597,270"/>
+<area shape="rect" id="Node000001" title="Zero&#45;Sync Infinite Voxel Engine Flagship Example (Refactored)." alt="" coords="319,5,487,46"/>
+<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="241,168,296,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="390,48,329,121,294,158,290,155,325,118,386,45"/>
+<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="413,315,505,341"/>
+<area shape="poly" id="edge17_Node000001_Node000006" title=" " alt="" coords="414,46,436,99,455,167,463,238,463,299,458,299,457,239,450,168,431,101,409,48"/>
+<area shape="rect" id="Node000010" href="$sbgl__camera_8h.html" title="Camera system and batch collision math for SBgl." alt="" coords="334,168,440,193"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="404,47,393,152,387,152,398,46"/>
+<area shape="rect" id="Node000011" href="$sbgl__voxel_8h.html" title="Public API for the SBgl voxel rendering system." alt="" coords="222,94,314,120"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="371,49,304,88,301,83,368,44"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="515,94,574,120"/>
+<area shape="poly" id="edge20_Node000001_Node000012" title=" " alt="" coords="440,44,511,84,508,88,437,49"/>
+<area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="242,241,335,267"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="274,193,283,226,278,227,269,194"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="201,389,274,414"/>
+<area shape="poly" id="edge9_Node000002_Node000004" title=" " alt="" coords="250,196,223,216,191,243,160,277,138,316,136,336,146,353,165,368,188,380,185,385,162,372,142,356,131,337,132,314,156,274,187,239,219,212,247,192"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="318,389,381,414"/>
+<area shape="poly" id="edge11_Node000002_Node000005" title=" " alt="" coords="296,192,325,211,339,224,349,240,361,274,365,311,359,374,353,373,359,311,356,276,345,243,335,228,322,215,293,196"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="5,241,73,267"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="241,193,88,240,86,235,239,188"/>
+<area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="147,315,238,341"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="262,195,232,243,205,302,200,300,227,240,257,192"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="287,268,249,375,244,373,282,266"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="296,266,341,373,336,375,291,268"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="318,265,417,306,415,311,316,270"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="422,344,290,386,288,381,421,339"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="442,343,382,382,379,378,439,339"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="429,389,489,414"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="462,341,462,373,456,373,456,341"/>
+<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="202,339,224,374,220,377,198,342"/>
+<area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="220,339,310,379,308,384,218,344"/>
+<area shape="poly" id="edge16_Node000010_Node000006" title=" " alt="" coords="395,192,449,300,444,302,391,195"/>
+<area shape="poly" id="edge19_Node000011_Node000002" title=" " alt="" coords="271,120,271,152,266,152,266,120"/>
 </map>

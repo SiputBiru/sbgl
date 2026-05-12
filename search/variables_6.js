@@ -7,7 +7,9 @@ var searchData=
   ['focused_4',['focused',['../structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce',1,'sbgl_Window']]],
   ['format_5',['format',['../structsbgl__VertexAttribute.html#af2d0e3ba6bf69549e85c434808af94aa',1,'sbgl_VertexAttribute']]],
   ['fov_5fy_6',['fov_y',['../structsbgl__Camera.html#a47e664d2dfa8c64c83478b14ae986450',1,'sbgl_Camera']]],
-  ['fragmentshader_7',['fragmentShader',['../structsbgl__PipelineConfig.html#a0003f91c82de21fcdcbe642bf150ea43',1,'sbgl_PipelineConfig']]],
-  ['framecount_8',['frameCount',['../structsbgl__InternalContext.html#aeb86033659b6bd19f962a9d8cd1375db',1,'sbgl_InternalContext']]],
-  ['framestartticks_9',['frameStartTicks',['../structsbgl__InternalContext.html#a1f9462d4951ac82410e6d45b2d54e905',1,'sbgl_InternalContext']]]
+  ['fps_5fframes_7',['fps_frames',['../structsbgl__VoxelSystem.html#afee969cbd83048d6b6b4e87ec36638c0',1,'sbgl_VoxelSystem']]],
+  ['fragmentshader_8',['fragmentShader',['../structsbgl__PipelineConfig.html#a0003f91c82de21fcdcbe642bf150ea43',1,'sbgl_PipelineConfig']]],
+  ['frame_5fidx_9',['frame_idx',['../structsbgl__VoxelSystem.html#a442558bb4b3778b1cef0b08036c228d1',1,'sbgl_VoxelSystem']]],
+  ['framecount_10',['frameCount',['../structsbgl__InternalContext.html#aeb86033659b6bd19f962a9d8cd1375db',1,'sbgl_InternalContext']]],
+  ['framestartticks_11',['frameStartTicks',['../structsbgl__InternalContext.html#a1f9462d4951ac82410e6d45b2d54e905',1,'sbgl_InternalContext']]]
 ];

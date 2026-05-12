@@ -107,24 +107,24 @@ $(function(){initNavTree('md_docs_2examples_2index.html',''); initResizable(true
   <div class="headertitle"><div class="title">SBgl Examples</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md50"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md53"></a></p>
 <p>The <code>examples/</code> directory contains several applications demonstrating various features of the library.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md52"></a>
+<h1><a class="anchor" id="autotoc_md55"></a>
 Getting Started</h1>
-<h2><a class="anchor" id="autotoc_md53"></a>
+<h2><a class="anchor" id="autotoc_md56"></a>
 Building the Examples</h2>
 <p>Examples are integrated into the main CMake build system. From the project root:</p>
 <div class="fragment"><div class="line">mkdir build</div>
 <div class="line">cd build</div>
 <div class="line">cmake ..</div>
 <div class="line">make</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md54"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md57"></a>
 Running an Example</h2>
 <p>After building, binaries are located in the <code>build/examples/</code> directory. For example:</p>
 <div class="fragment"><div class="line">./build/examples/hello_window</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md56"></a>
+<h1><a class="anchor" id="autotoc_md59"></a>
 Core Examples</h1>
 <ul>
 <li><b><code><a class="el" href="hello__window_8c.html">window/hello_window.c</a></code></b>: Demonstrates the basic initialization of the SBgl context, window creation, and the main event loop.</li>
@@ -134,14 +134,14 @@ Core Examples</h1>
 <li><b><code><a class="el" href="input__mouse_8c.html">input/input_mouse.c</a></code></b>: Demonstrates mouse coordinate tracking and color mapping.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md58"></a>
+<h1><a class="anchor" id="autotoc_md61"></a>
 Batching &amp; GPU Optimization</h1>
 <ul>
 <li><b><code><a class="el" href="batch__main_8c.html">batching/batch_main.c</a></code></b>: Demonstrates high-performance batching by rendering 10,000 instances using Multi-Draw Indirect (MDI) and Buffer Device Address (BDA).</li>
 <li><b><code><a class="el" href="voxel__main_8c.html">voxels/voxel_main.c</a></code></b>: Showcases "Pure Procedural" rendering. Generates an infinite 2.5D voxel world entirely on the GPU using <code>gl_VertexIndex</code>, achieving zero-bandwidth geometry submission.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md60"></a>
+<h1><a class="anchor" id="autotoc_md63"></a>
 Basic Example Pattern</h1>
 <p>Most SBgl applications follow this standard initialization and main loop pattern:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="sbgl_8h.html">sbgl.h</a>&quot;</span></div>
@@ -185,19 +185,19 @@ Basic Example Pattern</h1>
 <div class="ttc" id="asbgl_8h_html_ad31330828b674339c58edc4d5536fbf9"><div class="ttname"><a href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9">sbgl_DeviceWaitIdle</a></div><div class="ttdeci">void sbgl_DeviceWaitIdle(sbgl_Context *ctx)</div><div class="ttdoc">Synchronizes the CPU with the GPU, waiting for all commands to complete.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00291">sbgl_core.c:291</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae3d01d694e042f4e7c15e70a9fd285c5"><div class="ttname"><a href="sbgl_8h.html#ae3d01d694e042f4e7c15e70a9fd285c5">sbgl_Shutdown</a></div><div class="ttdeci">void sbgl_Shutdown(sbgl_Context *ctx)</div><div class="ttdoc">Gracefully shuts down the engine and releases all resources.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00116">sbgl_core.c:116</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae766fcd081bc95541c9bc89dd1f95e52"><div class="ttname"><a href="sbgl_8h.html#ae766fcd081bc95541c9bc89dd1f95e52">sbgl_BeginDrawing</a></div><div class="ttdeci">void sbgl_BeginDrawing(sbgl_Context *ctx)</div><div class="ttdoc">Prepares the engine for a new frame of drawing.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00162">sbgl_core.c:162</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3"><div class="ttname"><a href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3">SBGL_SUCCESS</a></div><div class="ttdeci">@ SBGL_SUCCESS</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00190">sbgl_types.h:190</a></div></div>
-<div class="ttc" id="astructsbgl__Context_html"><div class="ttname"><a href="structsbgl__Context.html">sbgl_Context</a></div><div class="ttdoc">Engine context.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00206">sbgl_types.h:206</a></div></div>
-<div class="ttc" id="astructsbgl__InitResult_html"><div class="ttname"><a href="structsbgl__InitResult.html">sbgl_InitResult</a></div><div class="ttdoc">Result structure for initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00230">sbgl_types.h:230</a></div></div>
-<div class="ttc" id="astructsbgl__InitResult_html_a556749636ed3061f7bffa5f034cae94e"><div class="ttname"><a href="structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e">sbgl_InitResult::ctx</a></div><div class="ttdeci">sbgl_Context * ctx</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00231">sbgl_types.h:231</a></div></div>
-<div class="ttc" id="astructsbgl__InitResult_html_adb741edec752f941f5a96b470a3522f3"><div class="ttname"><a href="structsbgl__InitResult.html#adb741edec752f941f5a96b470a3522f3">sbgl_InitResult::error</a></div><div class="ttdeci">sbgl_Result error</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00232">sbgl_types.h:232</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3"><div class="ttname"><a href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3">SBGL_SUCCESS</a></div><div class="ttdeci">@ SBGL_SUCCESS</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00205">sbgl_types.h:205</a></div></div>
+<div class="ttc" id="astructsbgl__Context_html"><div class="ttname"><a href="structsbgl__Context.html">sbgl_Context</a></div><div class="ttdoc">Engine context.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00221">sbgl_types.h:221</a></div></div>
+<div class="ttc" id="astructsbgl__InitResult_html"><div class="ttname"><a href="structsbgl__InitResult.html">sbgl_InitResult</a></div><div class="ttdoc">Result structure for initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00245">sbgl_types.h:245</a></div></div>
+<div class="ttc" id="astructsbgl__InitResult_html_a556749636ed3061f7bffa5f034cae94e"><div class="ttname"><a href="structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e">sbgl_InitResult::ctx</a></div><div class="ttdeci">sbgl_Context * ctx</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00246">sbgl_types.h:246</a></div></div>
+<div class="ttc" id="astructsbgl__InitResult_html_adb741edec752f941f5a96b470a3522f3"><div class="ttname"><a href="structsbgl__InitResult.html#adb741edec752f941f5a96b470a3522f3">sbgl_InitResult::error</a></div><div class="ttdeci">sbgl_Result error</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00247">sbgl_types.h:247</a></div></div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md62"></a>
+<h1><a class="anchor" id="autotoc_md65"></a>
 Advanced: Interactive Shaders</h1>
 <p>To pass dynamic data to shaders without the overhead of uniform buffers, SBgl utilizes <b>Push Constants</b>.</p>
 <p><b>C Code:</b></p>
 <div class="fragment"><div class="line"><span class="keywordtype">float</span> time = get_current_time();</div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#a7c7bb4f66431af6e446f641d058fb4d1">sbgl_PushConstants</a>(ctx, <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>), &amp;time);</div>
-<div class="ttc" id="asbgl_8h_html_a7c7bb4f66431af6e446f641d058fb4d1"><div class="ttname"><a href="sbgl_8h.html#a7c7bb4f66431af6e446f641d058fb4d1">sbgl_PushConstants</a></div><div class="ttdeci">void sbgl_PushConstants(sbgl_Context *ctx, size_t size, const void *data)</div><div class="ttdoc">Updates push constants for the currently bound pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00621">sbgl_core.c:621</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a7c7bb4f66431af6e446f641d058fb4d1"><div class="ttname"><a href="sbgl_8h.html#a7c7bb4f66431af6e446f641d058fb4d1">sbgl_PushConstants</a></div><div class="ttdeci">void sbgl_PushConstants(sbgl_Context *ctx, size_t size, const void *data)</div><div class="ttdoc">Updates push constants for the currently bound pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00638">sbgl_core.c:638</a></div></div>
 </div><!-- fragment --><p><b>GLSL Vertex Shader:</b></p>
 <div class="fragment"><div class="line">layout(push_constant) uniform Constants {</div>
 <div class="line">    float time;</div>

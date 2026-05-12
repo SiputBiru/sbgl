@@ -1,0 +1,5 @@
+<map id="sbgl_GenPushConstants" name="sbgl_GenPushConstants">
+<area shape="rect" id="Node000001" title="Push constants for the voxel generation compute shader." alt="" coords="5,94,171,120"/>
+<area shape="rect" id="Node000002" href="$unionsbgl__Vec4.html" title="4D Vector, 16&#45;byte aligned." alt="" coords="47,5,129,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,47,91,94,85,94,85,47"/>
+</map>

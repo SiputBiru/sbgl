@@ -107,10 +107,10 @@ $(function(){initNavTree('md_docs_2manual_2telemetry.html',''); initResizable(tr
   <div class="headertitle"><div class="title">Performance Telemetry System</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md194"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md197"></a></p>
 <p>SBgl provides a high-precision telemetry system designed to identify CPU and GPU bottlenecks in real-time. By utilizing hardware-native timing mechanisms, the system delivers ground-truth performance data with minimal execution overhead.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md196"></a>
+<h1><a class="anchor" id="autotoc_md199"></a>
 Architecture</h1>
 <p>The telemetry system independently measures three primary components of the frame lifecycle:</p>
 <ol type="1">
@@ -118,7 +118,7 @@ Architecture</h1>
 <li><b>CPU Frame Duration</b>: Measures the total time between <code>sbgl_BeginDrawing</code> and <code>sbgl_EndDrawing</code>.</li>
 <li><b>CPU Sorting/Baking Overhead</b>: Measures the specific duration spent in the Data-Oriented sorting and indirect command generation phase.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md197"></a>
+<h2><a class="anchor" id="autotoc_md200"></a>
 Timing Precision</h2>
 <ul>
 <li><b>Internal</b>: Utilizes high-resolution performance counters via the <b>Platform HAL</b> (<code>sbgl_os_GetPerfCount</code>).</li>
@@ -127,7 +127,7 @@ Timing Precision</h2>
 <li><b>GPU</b>: Precision is determined by the hardware's <code>timestampPeriod</code> (nanoseconds per tick).</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md199"></a>
+<h1><a class="anchor" id="autotoc_md202"></a>
 The Telemetry Structure</h1>
 <p>Performance metrics are encapsulated in the <code><a class="el" href="structsbgl__Telemetry.html" title="Performance telemetry data for a single frame.">sbgl_Telemetry</a></code> structure:</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -137,9 +137,9 @@ The Telemetry Structure</h1>
 <div class="line">    uint32_t draw_calls;     </div>
 <div class="line">    uint32_t instance_count; </div>
 <div class="line">} <a class="code hl_struct" href="structsbgl__Telemetry.html">sbgl_Telemetry</a>;</div>
-<div class="ttc" id="astructsbgl__Telemetry_html"><div class="ttname"><a href="structsbgl__Telemetry.html">sbgl_Telemetry</a></div><div class="ttdoc">Performance telemetry data for a single frame.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00160">sbgl_types.h:160</a></div></div>
+<div class="ttc" id="astructsbgl__Telemetry_html"><div class="ttname"><a href="structsbgl__Telemetry.html">sbgl_Telemetry</a></div><div class="ttdoc">Performance telemetry data for a single frame.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00175">sbgl_types.h:175</a></div></div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md201"></a>
+<h1><a class="anchor" id="autotoc_md204"></a>
 Usage Example</h1>
 <p>Telemetry data for the <em>previous</em> frame is retrieved via the engine context. This asynchronous pattern ensures that the CPU never waits for the GPU to finish its work before starting the next frame's logic.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="sbgl_8h.html">sbgl.h</a>&quot;</span></div>
@@ -176,13 +176,13 @@ Usage Example</h1>
 <div class="ttc" id="asbgl_8h_html_ae1ada367da10d748bc7f04dd9449e860"><div class="ttname"><a href="sbgl_8h.html#ae1ada367da10d748bc7f04dd9449e860">sbgl_GetTime</a></div><div class="ttdeci">double sbgl_GetTime(sbgl_Context *ctx)</div><div class="ttdoc">Retrieves the current monotonic system time in seconds.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00145">sbgl_core.c:145</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae3d01d694e042f4e7c15e70a9fd285c5"><div class="ttname"><a href="sbgl_8h.html#ae3d01d694e042f4e7c15e70a9fd285c5">sbgl_Shutdown</a></div><div class="ttdeci">void sbgl_Shutdown(sbgl_Context *ctx)</div><div class="ttdoc">Gracefully shuts down the engine and releases all resources.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00116">sbgl_core.c:116</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae766fcd081bc95541c9bc89dd1f95e52"><div class="ttname"><a href="sbgl_8h.html#ae766fcd081bc95541c9bc89dd1f95e52">sbgl_BeginDrawing</a></div><div class="ttdeci">void sbgl_BeginDrawing(sbgl_Context *ctx)</div><div class="ttdoc">Prepares the engine for a new frame of drawing.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00162">sbgl_core.c:162</a></div></div>
-<div class="ttc" id="astructsbgl__Context_html"><div class="ttname"><a href="structsbgl__Context.html">sbgl_Context</a></div><div class="ttdoc">Engine context.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00206">sbgl_types.h:206</a></div></div>
-<div class="ttc" id="astructsbgl__InitResult_html_a556749636ed3061f7bffa5f034cae94e"><div class="ttname"><a href="structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e">sbgl_InitResult::ctx</a></div><div class="ttdeci">sbgl_Context * ctx</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00231">sbgl_types.h:231</a></div></div>
-<div class="ttc" id="astructsbgl__Telemetry_html_a073e367be8e10fbf0a7ca149ca2ad800"><div class="ttname"><a href="structsbgl__Telemetry.html#a073e367be8e10fbf0a7ca149ca2ad800">sbgl_Telemetry::gpu_render_time</a></div><div class="ttdeci">float gpu_render_time</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00163">sbgl_types.h:163</a></div></div>
-<div class="ttc" id="astructsbgl__Telemetry_html_a5ae42b7ae0508f4a3ff8576518e82947"><div class="ttname"><a href="structsbgl__Telemetry.html#a5ae42b7ae0508f4a3ff8576518e82947">sbgl_Telemetry::draw_calls</a></div><div class="ttdeci">uint32_t draw_calls</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00164">sbgl_types.h:164</a></div></div>
-<div class="ttc" id="astructsbgl__Telemetry_html_adde7a1791a9165995855818e8c04dd72"><div class="ttname"><a href="structsbgl__Telemetry.html#adde7a1791a9165995855818e8c04dd72">sbgl_Telemetry::cpu_frame_time</a></div><div class="ttdeci">float cpu_frame_time</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00161">sbgl_types.h:161</a></div></div>
+<div class="ttc" id="astructsbgl__Context_html"><div class="ttname"><a href="structsbgl__Context.html">sbgl_Context</a></div><div class="ttdoc">Engine context.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00221">sbgl_types.h:221</a></div></div>
+<div class="ttc" id="astructsbgl__InitResult_html_a556749636ed3061f7bffa5f034cae94e"><div class="ttname"><a href="structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e">sbgl_InitResult::ctx</a></div><div class="ttdeci">sbgl_Context * ctx</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00246">sbgl_types.h:246</a></div></div>
+<div class="ttc" id="astructsbgl__Telemetry_html_a073e367be8e10fbf0a7ca149ca2ad800"><div class="ttname"><a href="structsbgl__Telemetry.html#a073e367be8e10fbf0a7ca149ca2ad800">sbgl_Telemetry::gpu_render_time</a></div><div class="ttdeci">float gpu_render_time</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00178">sbgl_types.h:178</a></div></div>
+<div class="ttc" id="astructsbgl__Telemetry_html_a5ae42b7ae0508f4a3ff8576518e82947"><div class="ttname"><a href="structsbgl__Telemetry.html#a5ae42b7ae0508f4a3ff8576518e82947">sbgl_Telemetry::draw_calls</a></div><div class="ttdeci">uint32_t draw_calls</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00179">sbgl_types.h:179</a></div></div>
+<div class="ttc" id="astructsbgl__Telemetry_html_adde7a1791a9165995855818e8c04dd72"><div class="ttname"><a href="structsbgl__Telemetry.html#adde7a1791a9165995855818e8c04dd72">sbgl_Telemetry::cpu_frame_time</a></div><div class="ttdeci">float cpu_frame_time</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00176">sbgl_types.h:176</a></div></div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md203"></a>
+<h1><a class="anchor" id="autotoc_md206"></a>
 Bottleneck Identification</h1>
 <p>The telemetry data allows for clear identification of the limiting factor:</p>
 <table class="markdownTable">
@@ -196,7 +196,7 @@ Bottleneck Identification</h1>
 <td class="markdownTableBodyLeft">Large <code>cpu_frame_time</code> difference   </td><td class="markdownTableBodyLeft">Driver / CPU Logic   </td><td class="markdownTableBodyLeft">Profile application-level update logic or driver submission.   </td></tr>
 </table>
 <hr  />
-<h1><a class="anchor" id="autotoc_md205"></a>
+<h1><a class="anchor" id="autotoc_md208"></a>
 Future Considerations</h1>
 <p>Planned extensions include <b>Granular Profiling</b>, which will enable timestamp markers for individual render queues and compute passes, allowing for deep-dive analysis of complex frame structures. </p>
 </div></div><!-- contents -->

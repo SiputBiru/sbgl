@@ -1,0 +1,24 @@
+var structsbgl__VoxelSystem =
+[
+    [ "aabbBuf", "structsbgl__VoxelSystem.html#a7aac72da414377288c88873ee2b7c293", null ],
+    [ "camera_pos", "structsbgl__VoxelSystem.html#a38cfd51adf751b70792b34d97a9a0bc0", null ],
+    [ "chunk_radius", "structsbgl__VoxelSystem.html#a4364da8771594660d4c14094e402c32c", null ],
+    [ "ctx", "structsbgl__VoxelSystem.html#a6557905d35e29f16d614a797c8bcdc40", null ],
+    [ "cullPipe", "structsbgl__VoxelSystem.html#ab6b3ab4ff9413fac0e8d2c76ef9c4e1a", null ],
+    [ "enable_telemetry", "structsbgl__VoxelSystem.html#af58e63dbe521629a3115328aaa1d3d31", null ],
+    [ "fps_frames", "structsbgl__VoxelSystem.html#afee969cbd83048d6b6b4e87ec36638c0", null ],
+    [ "frame_idx", "structsbgl__VoxelSystem.html#a442558bb4b3778b1cef0b08036c228d1", null ],
+    [ "genPipe", "structsbgl__VoxelSystem.html#a912750ea0eef95b8d227358f506f3b05", null ],
+    [ "indirectCmdBuf", "structsbgl__VoxelSystem.html#a6e003597196148980535941fadfb5bae", null ],
+    [ "instBuf", "structsbgl__VoxelSystem.html#a8129c4129c13f1e419abe54790e8fbc3", null ],
+    [ "last_cam_chunk", "structsbgl__VoxelSystem.html#a58a63454f5278b13223cff86d577d311", null ],
+    [ "last_update_time", "structsbgl__VoxelSystem.html#a6b622c31483a7d7092f40147e1fce930", null ],
+    [ "maskBuf", "structsbgl__VoxelSystem.html#a3aadfd954da1d20f6b7606b3e8322c44", null ],
+    [ "materialPaletteBuf", "structsbgl__VoxelSystem.html#a24d7d92e1f80e3bcdfd8eec884dfc77a", null ],
+    [ "pool", "structsbgl__VoxelSystem.html#ae712564db0049fa72effe2057ee64481", null ],
+    [ "poolArena", "structsbgl__VoxelSystem.html#a583bc90259ab6516e19fe85241b5ce3b", null ],
+    [ "shellCountsBuf", "structsbgl__VoxelSystem.html#a38d4664bf6dba320cdf60a3fb0a54214", null ],
+    [ "shellPipe", "structsbgl__VoxelSystem.html#a355c30c62669d9b481a9b85c457a5887", null ],
+    [ "telemetry_timer", "structsbgl__VoxelSystem.html#ab81325e49c33a9465ff20145a6f5cc90", null ],
+    [ "total_frames", "structsbgl__VoxelSystem.html#af52cb7db096c8e756544261c614f68a6", null ]
+];

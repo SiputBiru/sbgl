@@ -110,8 +110,28 @@ $(function(){initNavTree('md_CHANGELOG.html',''); initResizable(true); });
 <div class="textblock"><p><a class="anchor" id="autotoc_md18"></a></p>
 <p>All notable changes to this project will be documented in this file.</p>
 <h1><a class="anchor" id="autotoc_md19"></a>
-[Unreleased] - 2026-05-11</h1>
+[Unreleased] - 2026-05-12</h1>
 <h2><a class="anchor" id="autotoc_md20"></a>
+Changed</h2>
+<ul>
+<li><b>Memory Expansion</b>: Increased <code>SBGL_MANAGED_HEAP_SIZE</code> from 256MB to <b>512MB</b> to support high-density 3D voxel environments without buffer overflow.</li>
+<li><b>Enhanced Synchronization</b>: Introduced <code>SBGL_BARRIER_HOST_TO_GRAPHICS</code> to the public API and Vulkan backend to ensure host-mapped metadata (like chunk AABBs) is visible to the graphics pipeline.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md21"></a>
+Fixed</h2>
+<ul>
+<li><b>Voxel Terrain Randomization</b>: Resolved a critical bug in <code>voxel3D_main</code> where terrain would appear to regenerate or warp during movement.<ul>
+<li>Fixed world-space coordinate scaling in <code>voxel_gen.comp</code> to ensure noise sampling is consistent across chunk boundaries.</li>
+<li>Corrected the <code>shellPipe</code> compute dispatch dimensions in <code><a class="el" href="sbgl__voxel_8c.html" title="Internal implementation of the voxel rendering system.">sbgl_voxel.c</a></code> to properly iterate over the entire 64x64 voxel column grid.</li>
+<li>Fixed heuristic material selection in <code>voxel_mesh.comp</code> by utilizing correctly scaled global heights.</li>
+</ul>
+</li>
+<li><b>Voxel Race Conditions</b>: Implemented missing memory barriers in <code>sbgl_Voxel_Update</code> to synchronize GPU-side chunk deactivation with the subsequent culling and rendering passes.</li>
+<li><b>Voxel3D Example Optimization</b>: Reduced default <code>max_slots</code> to 256 to improve performance and stability during rapid camera movement.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md22"></a>
+[Unreleased] - 2026-05-11</h1>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Added</h2>
 <ul>
 <li><b>Hybrid GPU Memory Manager</b>: Implemented a specialized sub-allocation system in the Vulkan backend to eliminate the overhead of individual <code>vkAllocateMemory</code> calls.<ul>
@@ -122,7 +142,7 @@ Added</h2>
 </li>
 <li><b>GPU Memory Unit Tests</b>: Added <code>tests/gpu_memory_test.c</code> to verify the robustness of the managed heap's splitting and coalescing logic.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Changed</h2>
 <ul>
 <li><b>DOD Resource Tracking (SoA)</b>: Transitioned internal resource management from an Array of Structs (AoS) to a Structure of Arrays (SoA).<ul>
@@ -133,9 +153,9 @@ Changed</h2>
 <li><b>Improved Buffer Alignment</b>: Enforced a 256-byte minimum alignment for all sub-allocations to ensure compatibility with <code>minUniformBufferOffsetAlignment</code> across diverse GPU hardware.</li>
 <li><b>Enhanced Documentation</b>: Updated <code><a class="el" href="memory__management_8md.html">docs/manual/memory_management.md</a></code> and <code><a class="el" href="vulkan__backend_8md.html">docs/manual/vulkan_backend.md</a></code> with detailed architectural deep-dives into the new hybrid memory model.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 [Unreleased] - 2026-05-10</h1>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Added</h2>
 <ul>
 <li><b>Compute API Support</b>: Implemented a general-purpose compute pipeline system in the Vulkan backend.<ul>
@@ -148,32 +168,32 @@ Added</h2>
 <li>High-performance voxel rendering using 3D chunked SSBOs.</li>
 <li><b>GPU-Driven Frustum Culling</b>: Implemented via compute shaders to eliminate CPU-side visibility bottlenecks.</li>
 <li><b>Multi-Draw Indirect (MDI)</b>: Utilizes GPU-populated indirect commands for single-call submission of millions of voxels.</li>
-<li>New example: <code><a class="el" href="voxel3D__main_8c.html" title="Zero-Sync Infinite Voxel Engine Flagship Example.">examples/voxels/voxel3D_main.c</a></code>.</li>
+<li>New example: <code><a class="el" href="voxel3D__main_8c.html" title="Zero-Sync Infinite Voxel Engine Flagship Example (Refactored).">examples/voxels/voxel3D_main.c</a></code>.</li>
 </ul>
 </li>
 <li><b>Compute Documentation</b>: Created <code><a class="el" href="COMPUTE_8md.html">docs/COMPUTE.md</a></code> with technical deep-dives into GPU culling and pipeline synchronization.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 Changed</h2>
 <ul>
 <li><b>Vulkan Meta-loader Integration</b>: Replaced manual Vulkan loading logic with <code>volk</code> (v1.4.350) using CMake <code>FetchContent</code>. This enables device-level function dispatching via <code>VolkDeviceTable</code>, reducing driver overhead for draw calls.</li>
 <li><b>Enhanced Test Validation</b>: Refactored the internal test suite (<code>math_test</code>, <code>arena_test</code>, <code>voxel_logic_test</code>, etc.) to replace passive variable usage with explicit runtime validation, ensuring robust testing and resolving compiler warnings in Debug builds.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Fixed</h2>
 <ul>
 <li><b>Standalone Build Integrity</b>: Resolved linking issues in <code>SBGL_BUILD_STANDALONE</code> mode where <code>volk</code> and platform-specific definitions were not correctly propagated to examples and tests.</li>
 <li><b>Compiler Warning Cleanup</b>: Eliminated "unused variable" and "unused function" warnings across the project to maintain a clean <code>-Werror</code> build in both Debug and Release configurations.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md29"></a>
 [Unreleased] - 2026-05-09</h1>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 Added</h2>
 <ul>
 <li><b>Transient GPU Buffer System</b>: Implemented a persistent, per-frame transient buffer pool in the Vulkan backend (16MB per frame in flight). This eliminates per-frame Vulkan buffer allocations, memory mappings, and deallocations for dynamic data like instances and indirect commands.</li>
 <li><b>GPU Transient Allocator</b>: Added <code>sbgl_gfx_AllocateTransient</code> to the internal HAL to enable low-overhead, linear sub-allocation from the persistent transient buffers.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Changed</h2>
 <ul>
 <li><b>Default Build Type</b>: Changed the default CMake build configuration from <code>Debug</code> to <code>Release</code> to prioritize performance.</li>
@@ -182,7 +202,7 @@ Changed</h2>
 <li><b>Render Queue Refactor</b>: Updated <code>sbgl_RenderQueuesEx</code> to use the transient GPU allocator and optimized sorter, resolving the CPU bottleneck in the voxel example.</li>
 <li><b>Updated HAL Signatures</b>: Modified <code>sbgl_gfx_DrawIndirect</code> to accept a byte offset, supporting multi-draw indirect commands within shared transient buffers.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Fixed</h2>
 <ul>
 <li><b>Release Mode Segfault</b>: Resolved a critical segmentation fault occurring in Release builds by increasing the default <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code> alignment to 16 bytes. This ensures compatibility with SIMD-optimized instructions generated by the compiler for aligned data types like <code><a class="el" href="structsbgl__Mat4.html" title="4x4 Matrix, 16-byte aligned, column-major.">sbgl_Mat4</a></code>.</li>
@@ -190,9 +210,9 @@ Fixed</h2>
 <li><b>Batching Garbage Rendering</b>: Resolved visual artifacts ("exploding" triangles) in the batching and triangle examples by correctly setting the vertex position <code>w</code> component to <code>1.0</code>.</li>
 <li><b>Voxel Example Performance</b>: Resolved the primary CPU bottleneck in <code>voxel_main</code>, reducing CPU frame time from ~11ms to &lt;2ms for standard render distances.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md30"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 [Unreleased] - 2026-05-08</h1>
-<h2><a class="anchor" id="autotoc_md31"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 Added</h2>
 <ul>
 <li><b>Bit-Field Optimization</b>: Reduced <code><a class="el" href="structsbgl__DrawPacket.html" title="Encapsulates all data required to submit a single draw call. Optimized for cache density (16 bytes).">sbgl_DrawPacket</a></code> from 24 bytes to 16 bytes by packing MeshID, MaterialID, and rendering flags into a 32-bit header. This increases CPU cache density by 50% during sorting and batching.</li>
@@ -202,16 +222,16 @@ Added</h2>
 <li><b>Real-time Telemetry</b>: Implemented a high-precision profiling system using Vulkan Timestamp Queries and platform timers to measure independent CPU and GPU execution times.</li>
 <li><b>New Verification Test</b>: Added <code>packet_packing_test.c</code> to ensure structural alignment and bit-packing logic integrity.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md35"></a>
 Fixed</h2>
 <ul>
 <li><b>Submission API Mismatches</b>: Corrected all demonstration examples and documentation to align with the updated <code>sbgl_SubmitDraw</code> signature.</li>
 <li><b>Standalone Build Integrity</b>: Fixed <code>tests/CMakeLists.txt</code> to correctly handle engine test compilation when <code>SBGL_BUILD_STANDALONE</code> is enabled.</li>
 <li><b>Internal State Verification</b>: Refactored <code>core_flags_test.c</code> to comply with strict compiler warnings and verified internal state machine transitions.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md33"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 [Unreleased] - 2026-05-04</h1>
-<h2><a class="anchor" id="autotoc_md34"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 Added</h2>
 <ul>
 <li><b>Vulkan Backend</b>:<ul>
@@ -238,7 +258,7 @@ Added</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Fixed</h2>
 <ul>
 <li><b>Vulkan Backend</b>:<ul>
@@ -283,7 +303,7 @@ Fixed</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md39"></a>
 Changed</h2>
 <ul>
 <li><b>Data-Oriented Input API</b>:<ul>
@@ -294,9 +314,9 @@ Changed</h2>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="autotoc_md40"></a>
 [Unreleased] - 2026-05-02</h1>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<h2><a class="anchor" id="autotoc_md41"></a>
 Added</h2>
 <ul>
 <li><b>Window Resizing</b>:<ul>
@@ -317,7 +337,7 @@ Added</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md39"></a>
+<h2><a class="anchor" id="autotoc_md42"></a>
 Changed</h2>
 <ul>
 <li><b>Core Architecture</b>:<ul>
@@ -330,7 +350,7 @@ Changed</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md40"></a>
+<h2><a class="anchor" id="autotoc_md43"></a>
 Added</h2>
 <ul>
 <li><b>Core Architecture</b>: Implemented a modular HAL (Hardware Abstraction Layer) separating Core, Platform, and Graphics Backend.</li>
@@ -379,7 +399,7 @@ Added</h2>
 </li>
 <li><b>Examples</b>: Added <code><a class="el" href="hello__window_8c.html">hello_window.c</a></code> and <code>input_test.c</code> (interactive color switching) to verify the entire stack.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md44"></a>
 Fixed</h2>
 <ul>
 <li><b>Compiler Warnings</b>:<ul>

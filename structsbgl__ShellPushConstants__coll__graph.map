@@ -1,0 +1,5 @@
+<map id="sbgl_ShellPushConstants" name="sbgl_ShellPushConstants">
+<area shape="rect" id="Node000001" title="Push constants for the shell extraction compute shader." alt="" coords="5,94,176,120"/>
+<area shape="rect" id="Node000002" href="$unionsbgl__Vec4.html" title="4D Vector, 16&#45;byte aligned." alt="" coords="49,5,132,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,47,93,94,88,94,88,47"/>
+</map>

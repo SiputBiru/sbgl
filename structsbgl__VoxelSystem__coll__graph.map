@@ -1,0 +1,17 @@
+<map id="sbgl_VoxelSystem" name="sbgl_VoxelSystem">
+<area shape="rect" id="Node000001" title="Internal state for the voxel system. This structure adheres to Data&#45;Oriented Design principles by mai..." alt="" coords="184,198,312,223"/>
+<area shape="rect" id="Node000002" href="$structsbgl__Context.html" title="Engine context." alt="" coords="5,109,102,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,141,137,171,202,195,201,200,135,176,82,146"/>
+<area shape="rect" id="Node000003" href="$structSblArena.html" title="Arena allocator." alt="" coords="126,109,200,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,149,171,172,184,185,201,195,199,199,181,190,166,175,158,151"/>
+<area shape="rect" id="Node000004" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="109,5,216,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="166,47,166,109,160,109,160,47"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="233,9,243,18,235,27,217,30,216,25,233,22,238,18,230,13"/>
+<area shape="rect" id="Node000005" href="$structVoxelPool.html" title="VoxelPool manages a fixed number of slots for voxel chunks. It uses a flat array layout to maintain c..." alt="" coords="370,109,449,135"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="375,145,272,199,270,195,372,140"/>
+<area shape="rect" id="Node000006" href="$structsbgl__ivec3.html" title="3D integer vector for chunk coordinates." alt="" coords="329,5,412,31"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="335,41,295,71,277,89,262,110,253,133,249,157,249,197,244,197,244,156,248,131,257,108,272,86,291,66,332,37"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="383,44,407,108,402,109,378,46"/>
+<area shape="rect" id="Node000007" href="$unionsbgl__Vec3.html" title="3D Vector, 16&#45;byte aligned and padded for SIMD safety." alt="" coords="474,109,556,135"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="468,143,372,176,293,200,291,195,370,171,467,138"/>
+</map>

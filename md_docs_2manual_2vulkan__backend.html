@@ -107,10 +107,10 @@ $(function(){initNavTree('md_docs_2manual_2vulkan__backend.html',''); initResiza
   <div class="headertitle"><div class="title">SBgl Vulkan Backend Architecture</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md216"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md223"></a></p>
 <p>This document explains the Vulkan 1.3 implementation used in SBgl. The goal is to use the API directly with separation between the OS and the GPU.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md218"></a>
+<h1><a class="anchor" id="autotoc_md225"></a>
 Instance Initialization</h1>
 <p>Everything starts with the <code>VkInstance</code>. This is the application's connection to the Vulkan runtime.</p>
 <ul>
@@ -122,7 +122,7 @@ Instance Initialization</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md219"></a>
+<h1><a class="anchor" id="autotoc_md226"></a>
 Surface Integration</h1>
 <p>Vulkan is platform-agnostic; it does not know what a "window" is. The <code>VkSurfaceKHR</code> acts as the bridge.</p>
 <ul>
@@ -130,7 +130,7 @@ Surface Integration</h1>
 <li>On Wayland, the <code>wl_display</code> and <code>wl_surface</code> are passed.</li>
 <li>This tells the GPU driver which window should receive the rendered pixels.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md220"></a>
+<h1><a class="anchor" id="autotoc_md227"></a>
 Physical Device Selection</h1>
 <p>The <code><a class="el" href="sbgl__backend__vulkan_8c.html#a4248a130792631b938856c786dd62eec">select_physical_device()</a></code> function identifies the most suitable hardware:</p>
 <ul>
@@ -138,14 +138,14 @@ Physical Device Selection</h1>
 <li><b>Preference:</b> A <code>VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU</code> is searched for first.</li>
 <li><b>Queue Support:</b> The chosen GPU must have a "Queue Family" that supports <b>both</b> Graphics commands and Surface Presentation.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md221"></a>
+<h1><a class="anchor" id="autotoc_md228"></a>
 Logical Device and Queue Management</h1>
 <p>Once a GPU is chosen, a <code>VkDevice</code> is created.</p>
 <ul>
 <li><b>Dynamic Rendering:</b> The <code>dynamicRendering</code> feature is enabled. This allows drawing directly to an image without the overhead of pre-defined RenderPass objects.</li>
 <li><b>Queues:</b> A single Graphics Queue is requested. This is the "lane" where drawing instructions are sent to the hardware.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md222"></a>
+<h1><a class="anchor" id="autotoc_md229"></a>
 Debugging &amp; Validation</h1>
 <p>To ensure API correctness, SBgl automatically enables Vulkan Validation Layers in non-release builds:</p>
 <ul>
@@ -153,16 +153,16 @@ Debugging &amp; Validation</h1>
 <li><b>Reporting:</b> Validation errors and warnings are printed directly to <code>stdout</code>/<code>stderr</code> by the Vulkan runtime.</li>
 <li><b>Performance:</b> Validation is disabled in Release builds to eliminate the CPU overhead associated with real-time API checking.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md223"></a>
+<h1><a class="anchor" id="autotoc_md230"></a>
 Swapchain Infrastructure</h1>
 <p>To prevent flickering, drawing is never done directly to the screen. A <b>Swapchain</b> is used—a queue of images (usually 3 or 4).</p>
 <ul>
 <li><b>Acquisition:</b> The Swapchain is asked for an available image index.</li>
 <li><b>Synchronization:</b> <code>VkSemaphore</code> (GPU-to-GPU sync) and <code>VkFence</code> (CPU-to-GPU sync) are used to ensure the CPU does not start drawing before the GPU is finished with the previous frame.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md224"></a>
+<h1><a class="anchor" id="autotoc_md231"></a>
 Frame Execution Pipeline</h1>
-<h2><a class="anchor" id="autotoc_md225"></a>
+<h2><a class="anchor" id="autotoc_md232"></a>
 Frame Initiation</h2>
 <ul>
 <li><b>CPU Wait:</b> The <code>inFlightFence</code> is waited upon to ensure the previous frame is fully processed by the GPU.</li>
@@ -170,14 +170,14 @@ Frame Initiation</h2>
 <li><b>Command Recording:</b> The <code>VkCommandBuffer</code> is reset and a new list of operations is started.</li>
 <li><b>Layout Transition:</b> A <code>VkImageMemoryBarrier</code> is used to signal that the image is no longer for the OS and pixels will now be written to it.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md226"></a>
+<h2><a class="anchor" id="autotoc_md233"></a>
 Dynamic Clearing</h2>
 <ul>
 <li><code>vkCmdBeginRendering</code> is used.</li>
 <li>A <code>clearValue</code> (RGBA) is provided.</li>
 <li>The GPU hardware clears the memory area of that specific swapchain image to the requested color.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md227"></a>
+<h2><a class="anchor" id="autotoc_md234"></a>
 Frame Presentation</h2>
 <ul>
 <li><b>Layout Transition:</b> The image is transitioned back to <code>VK_IMAGE_LAYOUT_PRESENT_SRC_KHR</code>. This signals that drawing is finished and the image can be returned to the OS.</li>
@@ -185,24 +185,24 @@ Frame Presentation</h2>
 <li><b>Presentation:</b> <code>vkQueuePresentKHR</code> is called. This is the final step where the pixels are sent to the compositor to be displayed.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md229"></a>
+<h1><a class="anchor" id="autotoc_md236"></a>
 Memory Management &amp; Lifecycle</h1>
 <p>SBgl strictly avoids standard <code>malloc</code>/<code>free</code> calls and individual <code>vkCreateBuffer</code> operations during its runtime to ensure deterministic performance and prevent memory fragmentation.</p>
-<h2><a class="anchor" id="autotoc_md230"></a>
+<h2><a class="anchor" id="autotoc_md237"></a>
 Hybrid GPU Memory Manager</h2>
 <p>The backend implements a Hybrid GPU Memory Manager that handles all buffer allocations through sub-allocation from pre-allocated physical memory pools.</p>
 <ul>
 <li><b>Sub-allocation via <code>sbgl_gfx_CreateBuffer</code></b>: Instead of calling <code>vkCreateBuffer</code> for every request, <code>sbgl_gfx_CreateBuffer</code> identifies the target heap (Static, Dynamic, or Managed) and returns a sub-allocated range (offset and size) within a master buffer.</li>
 <li><b>Reduced Driver Pressure</b>: By managing memory internally, the system reduces the number of memory-map operations and descriptor updates required per frame.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md231"></a>
+<h2><a class="anchor" id="autotoc_md238"></a>
 Managed Heap Range Tracking</h2>
 <p>For resources with non-linear lifecycles, the Managed Heap utilizes an internal array-based tracker to maintain visibility of active and free ranges.</p>
 <ul>
 <li><b>Metadata Storage</b>: Range metadata is stored in a flat array, allowing the memory manager to perform rapid searches for free space without pointer indirection.</li>
 <li><b>Fragmentation Control</b>: The manager prioritizes contiguous blocks and can merge adjacent free ranges, ensuring high density for intermediate-lifetime data like voxel chunks.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md232"></a>
+<h2><a class="anchor" id="autotoc_md239"></a>
 Dynamic Swapchain Recreation (Mark/Rewind)</h2>
 <p>When a window is resized, the Vulkan swapchain and its associated image views must be destroyed and recreated. To manage this without <code>free()</code>:</p>
 <ul>
@@ -212,7 +212,7 @@ Dynamic Swapchain Recreation (Mark/Rewind)</h2>
 </ul>
 <p>This pattern allows the engine to handle resize events without increasing the memory footprint or leaking memory.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md234"></a>
+<h1><a class="anchor" id="autotoc_md241"></a>
 Context-Based Backend (Multi-Context Support)</h1>
 <p>The graphics backend is fully decoupled from global state. All Vulkan function pointers and device state are stored within an opaque <code><a class="el" href="structsbgl__GfxContext.html">sbgl_GfxContext</a></code> structure.</p>
 <ul>
@@ -220,10 +220,10 @@ Context-Based Backend (Multi-Context Support)</h1>
 <li><b>Reentrancy:</b> Multiple SBgl contexts can exist simultaneously, each with its own independent Vulkan logical device and swapchain.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md236"></a>
+<h1><a class="anchor" id="autotoc_md243"></a>
 GPU Synchronization &amp; Teardown</h1>
 <dl class="section warning"><dt>Warning</dt><dd><b>GPU Synchronization is Mandatory:</b> In Vulkan, the CPU and GPU operate asynchronously. It is illegal to destroy a resource (Pipeline, Buffer, Shader) that is currently being used by the GPU or is referenced by a command buffer that has been submitted but not yet finished execution.</dd></dl>
-<h2><a class="anchor" id="autotoc_md237"></a>
+<h2><a class="anchor" id="autotoc_md244"></a>
 Safe Teardown Pattern</h2>
 <p>Before destroying resources during application shutdown or major state transitions, the CPU MUST wait for the GPU to become idle.</p>
 <div class="fragment"><div class="line"><span class="comment">// Correct shutdown sequence</span></div>
@@ -244,8 +244,8 @@ Safe Teardown Pattern</h2>
 <div class="ttc" id="asbgl_8h_html_aa5669638ad915ea5af77fed3838556d9"><div class="ttname"><a href="sbgl_8h.html#aa5669638ad915ea5af77fed3838556d9">sbgl_DestroyBuffer</a></div><div class="ttdeci">void sbgl_DestroyBuffer(sbgl_Context *ctx, sbgl_Buffer buffer)</div><div class="ttdoc">Destroys a GPU buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00357">sbgl_core.c:357</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ad31330828b674339c58edc4d5536fbf9"><div class="ttname"><a href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9">sbgl_DeviceWaitIdle</a></div><div class="ttdeci">void sbgl_DeviceWaitIdle(sbgl_Context *ctx)</div><div class="ttdoc">Synchronizes the CPU with the GPU, waiting for all commands to complete.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00291">sbgl_core.c:291</a></div></div>
 <div class="ttc" id="asbgl_8h_html_ae3d01d694e042f4e7c15e70a9fd285c5"><div class="ttname"><a href="sbgl_8h.html#ae3d01d694e042f4e7c15e70a9fd285c5">sbgl_Shutdown</a></div><div class="ttdeci">void sbgl_Shutdown(sbgl_Context *ctx)</div><div class="ttdoc">Gracefully shuts down the engine and releases all resources.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00116">sbgl_core.c:116</a></div></div>
-<div class="ttc" id="asbgl_8h_html_aef6447577a5cbb924b01f2733c455ac6"><div class="ttname"><a href="sbgl_8h.html#aef6447577a5cbb924b01f2733c455ac6">sbgl_DestroyPipeline</a></div><div class="ttdeci">void sbgl_DestroyPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Destroys a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00488">sbgl_core.c:488</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md238"></a>
+<div class="ttc" id="asbgl_8h_html_aef6447577a5cbb924b01f2733c455ac6"><div class="ttname"><a href="sbgl_8h.html#aef6447577a5cbb924b01f2733c455ac6">sbgl_DestroyPipeline</a></div><div class="ttdeci">void sbgl_DestroyPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Destroys a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00505">sbgl_core.c:505</a></div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md245"></a>
 Validation Errors</h2>
 <p>Failure to call <code><a class="el" href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9" title="Synchronizes the CPU with the GPU, waiting for all commands to complete.">sbgl_DeviceWaitIdle()</a></code> before destruction will trigger Vulkan Validation Errors such as:</p>
 <ul>
@@ -253,7 +253,7 @@ Validation Errors</h2>
 <li><code>VUID-vkDestroyBuffer-buffer-00922</code>: Buffer currently in use.</li>
 </ul>
 <p>SBgl maintains this synchronization as explicit. This prevents unnecessary stalls during execution while ensuring full API correctness during cleanup.</p>
-<h1><a class="anchor" id="autotoc_md239"></a>
+<h1><a class="anchor" id="autotoc_md246"></a>
 Buffer Device Address (BDA)</h1>
 <p>SBgl utilizes the <code>VK_KHR_buffer_device_address</code> extension (core in Vulkan 1.3) to achieve efficient memory access.</p>
 <ul>
@@ -261,7 +261,7 @@ Buffer Device Address (BDA)</h1>
 <li><b>Reduced Binding Overhead:</b> By passing these addresses directly (e.g., via Push Constants), the engine eliminates the need to frequently update and rebind descriptor sets for every draw call.</li>
 <li><b>DOD Alignment:</b> This enables more efficient data-oriented structures on the GPU, such as linked lists or trees stored in a single large buffer and traversed using raw addresses.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md240"></a>
+<h1><a class="anchor" id="autotoc_md247"></a>
 Indirect Drawing</h1>
 <p>To maximize the "Where there is one, there are many" mandate, SBgl employs Indirect Drawing for its automated batching system.</p>
 <ul>
@@ -269,7 +269,7 @@ Indirect Drawing</h1>
 <li><b>GPU Execution:</b> The actual draw parameters (vertex count, instance count, first vertex, etc.) are read by the GPU from a buffer at execution time.</li>
 <li><b>Batch Processing:</b> This allows thousands of draw calls to be submitted with minimal CPU overhead, as the CPU only needs to update a single "draw command buffer" rather than recording individual commands for every object.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md241"></a>
+<h1><a class="anchor" id="autotoc_md248"></a>
 Function Loading (volk)</h1>
 <p>The backend utilizes <b>volk</b> as its Vulkan meta-loader to eliminate static linking and provide device-level function dispatching.</p>
 <ul>
@@ -277,7 +277,7 @@ Function Loading (volk)</h1>
 <li><b>Context-Based Dispatching:</b> The system employs <code>VolkDeviceTable</code> to load device-specific function pointers. This enables multiple graphics contexts to operate with minimal overhead by avoiding the Vulkan loader's internal dispatching logic for high-frequency commands.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md243"></a>
+<h1><a class="anchor" id="autotoc_md250"></a>
 Technical Summary</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -296,7 +296,7 @@ Technical Summary</h1>
 <td class="markdownTableBodyLeft"><b>Arch</b>   </td><td class="markdownTableBodyLeft">Context-Based   </td><td class="markdownTableBodyLeft">No global singletons; supports multi-window.   </td></tr>
 </table>
 <hr  />
-<h1><a class="anchor" id="autotoc_md245"></a>
+<h1><a class="anchor" id="autotoc_md252"></a>
 References &amp; Further Reading</h1>
 <p>For detailed technical specifications of the Vulkan API and its implementations, refer to the following official documentation:</p>
 <ul>

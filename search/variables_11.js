@@ -8,5 +8,6 @@ var searchData=
   ['renderfinishedsemaphores_5',['renderFinishedSemaphores',['../structsbgl__GfxContext.html#a5a7a020732a50cd3d2c63db2acd32919',1,'sbgl_GfxContext']]],
   ['resized_6',['resized',['../structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6',1,'sbgl_Window']]],
   ['result_7',['result',['../structsbgl__Context.html#abe268ff7fded4efc67005acc9b7f42f0',1,'sbgl_Context::result'],['../structsbgl__GfxContext.html#a400dbabc71ebc443318cce30708168fb',1,'sbgl_GfxContext::result']]],
-  ['right_8',['right',['../structsbgl__OrthoParams.html#a5c71980612815f42aecfb675f0a8558e',1,'sbgl_OrthoParams']]]
+  ['right_8',['right',['../structsbgl__OrthoParams.html#a5c71980612815f42aecfb675f0a8558e',1,'sbgl_OrthoParams']]],
+  ['roughness_9',['roughness',['../structsbgl__Material.html#a49e269806413183b65928db9a5cd46ab',1,'sbgl_Material']]]
 ];

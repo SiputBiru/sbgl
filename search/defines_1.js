@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['chunk_5fradius_0',['CHUNK_RADIUS',['../voxel3D__main_8c.html#ae166eeea5b5a2964db00555ea53fdd27',1,'voxel3D_main.c']]],
-  ['chunk_5fsize_1',['CHUNK_SIZE',['../voxel3D__main_8c.html#aea3cfda4f3a9f978ec759f206cf186fe',1,'voxel3D_main.c']]]
+  ['pack_5fcol_0',['PACK_COL',['../batch__main_8c.html#ade058754e65f500ac8f81af10afbe3c8',1,'PACK_COL:&#160;batch_main.c'],['../camera__main_8c.html#ade058754e65f500ac8f81af10afbe3c8',1,'PACK_COL:&#160;camera_main.c']]],
+  ['pack_5fpos_1',['PACK_POS',['../batch__main_8c.html#ac18dbf738c082045e0abd4631815a605',1,'PACK_POS:&#160;batch_main.c'],['../camera__main_8c.html#ac18dbf738c082045e0abd4631815a605',1,'PACK_POS:&#160;camera_main.c']]]
 ];

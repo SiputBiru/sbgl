@@ -107,9 +107,9 @@ $(function(){initNavTree('md_docs_2manual_2math__library.html',''); initResizabl
   <div class="headertitle"><div class="title">Math Library Architecture</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md119"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md122"></a></p>
 <p>The math library provides Data-Oriented Design (DOD) workflows. The library is contained within a single header file (<code><a class="el" href="sbgl__math_8h.html" title="Single-header math library for SBgl.">sbgl_math.h</a></code>) and utilizes <code>static inline</code> functions for compiler inlining.</p>
-<h1><a class="anchor" id="autotoc_md120"></a>
+<h1><a class="anchor" id="autotoc_md123"></a>
 Architecture and Design</h1>
 <ul>
 <li><b>SIMD-Ready Layouts</b>: Primary types (<code><a class="el" href="unionsbgl__Vec3.html" title="3D Vector, 16-byte aligned and padded for SIMD safety.">sbgl_Vec3</a></code>, <code><a class="el" href="unionsbgl__Vec4.html" title="4D Vector, 16-byte aligned.">sbgl_Vec4</a></code>, <code><a class="el" href="structsbgl__Mat4.html" title="4x4 Matrix, 16-byte aligned, column-major.">sbgl_Mat4</a></code>, <code><a class="el" href="unionsbgl__Quat.html" title="Quaternion, 16-byte aligned.">sbgl_Quat</a></code>) are 16-byte aligned. This allows the compiler to utilize SSE/AVX instructions when processing arrays of math types.</li>
@@ -117,7 +117,7 @@ Architecture and Design</h1>
 <li><b>Data Access</b>: Types are implemented as <code>unions</code>, providing access to individual components (<code>x, y, z, w</code>) or raw arrays (<code>v[4]</code>).</li>
 <li><b>Inverse Square Root</b>: The library includes an implementation of the Approximate Inverse Square Root algorithm.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md121"></a>
+<h1><a class="anchor" id="autotoc_md124"></a>
 Primary Data Types</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -133,41 +133,41 @@ Primary Data Types</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft"><a class="el" href="structsbgl__Mat4.html" title="4x4 Matrix, 16-byte aligned, column-major.">sbgl_Mat4</a>   </td><td class="markdownTableBodyLeft">16-byte   </td><td class="markdownTableBodyLeft">4x4 matrix, column-major.   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md122"></a>
+<h1><a class="anchor" id="autotoc_md125"></a>
 Library Capabilities</h1>
-<h2><a class="anchor" id="autotoc_md123"></a>
+<h2><a class="anchor" id="autotoc_md126"></a>
 Inverse Square Root</h2>
 <ul>
 <li><code><a class="el" href="sbgl__math_8h.html#a92bdafc277b14137356695f2c70a2ca7" title="Approximate Inverse Square Root algorithm.">sbgl_InvSqrt()</a></code>: Computes <code>1.0f / sqrtf(x)</code> using bit-level manipulation and two Newton-Raphson iterations. This implementation is inspired by the <a href="https://en.wikipedia.org/wiki/Fast_inverse_square_root">Approximate Inverse Square Root</a> algorithm historically used in Quake III Arena.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md124"></a>
+<h2><a class="anchor" id="autotoc_md127"></a>
 Constructors</h2>
 <p>The library provides <code>static inline</code> constructor functions to initialize types and ensure correct padding.</p><ul>
 <li><code><a class="el" href="sbgl__math_8h.html#ab5eb6a33e9497f29f41584f3b9c04642" title="Creates a Vec2.">sbgl_Vec2Set()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18" title="Creates a Vec3, correctly padded.">sbgl_Vec3Set()</a></code>, <code><a class="el" href="sbgl__math_8h.html#ae09feb1c55bf39c6d53581b311e7c8b8" title="Creates a Vec4.">sbgl_Vec4Set()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a3e258b505c06ff53cab2e7b0b96f135f" title="Creates a Quat.">sbgl_QuatSet()</a></code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md125"></a>
+<h2><a class="anchor" id="autotoc_md128"></a>
 Vector Operations</h2>
 <ul>
 <li><b>Arithmetic</b>: <code><a class="el" href="sbgl__math_8h.html#a7fa6977d9fc396a8ab1c1d3ba42f14e7" title="Adds two Vec3 vectors.">sbgl_Vec3Add()</a></code>, <code><a class="el" href="sbgl__math_8h.html#aec17a99f47705e39a8d0d6faf51c37f9" title="Subtracts b from a.">sbgl_Vec3Sub()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a8afcb5ff271fe7465a7d58316b1d6f6f" title="Multiplies a Vec3 by a scalar.">sbgl_Vec3Mul()</a></code>.</li>
 <li><b>Geometry</b>: <code><a class="el" href="sbgl__math_8h.html#a224ecced985e299dc7ea1f2692df0715" title="Computes the dot product of two Vec3 vectors.">sbgl_Vec3Dot()</a></code>, <code><a class="el" href="sbgl__math_8h.html#ace1a02d8e414224ea0a3fef30bd9171a" title="Computes the cross product of two Vec3 vectors.">sbgl_Vec3Cross()</a></code>, <code><a class="el" href="sbgl__math_8h.html#aa4d03a62b74e7fb4005a619ef0eae98b" title="Returns the length of a Vec3.">sbgl_Vec3Length()</a></code>, <code><a class="el" href="sbgl__math_8h.html#ad811682cbfe8ff6347ae83f37fc819d1" title="Normalizes a Vec3.">sbgl_Vec3Normalize()</a></code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md126"></a>
+<h2><a class="anchor" id="autotoc_md129"></a>
 Matrix Transformations</h2>
 <ul>
 <li><b>Generators</b>: <code><a class="el" href="sbgl__math_8h.html#a58e46e771fb4f61c4c932886fc527edd" title="Returns an identity matrix.">sbgl_Mat4Identity()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a89d014d8306cb5f98d4e98caf2383bb3" title="Creates a perspective projection matrix.">sbgl_Mat4Perspective()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a12de9786d2305cca521c8d7205b142f3" title="Creates an orthographic projection matrix.">sbgl_Mat4Orthographic()</a></code>, <code><a class="el" href="sbgl__math_8h.html#acdb4a231308a38064779fe0b86c0f1df" title="Creates a look-at view matrix.">sbgl_Mat4LookAt()</a></code>.</li>
 <li><b>Affine Transformations</b>: <code><a class="el" href="sbgl__math_8h.html#a8ee0e1a1784d410dbe20db7dcc4f9d5e" title="Creates a translation matrix.">sbgl_Mat4Translate()</a></code>, <code><a class="el" href="sbgl__math_8h.html#aa027e38e0df1195a957b8a46f933ed23" title="Creates a rotation matrix from axis and angle.">sbgl_Mat4Rotate()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a3308ef32b3c4e1e21ce84b327251c7e1" title="Creates a scaling matrix.">sbgl_Mat4Scale()</a></code>.</li>
 <li><b>Multiplication</b>: <code><a class="el" href="sbgl__math_8h.html#aa8fd266b341fc545316231a7671de695" title="Multiplies two matrices.">sbgl_Mat4Mul()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a3c5f7285051102fbd626f23514ba6dc6" title="Multiplies a matrix by a Vec4.">sbgl_Mat4MulVec4()</a></code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md127"></a>
+<h2><a class="anchor" id="autotoc_md130"></a>
 Quaternion Operations</h2>
 <ul>
 <li><b>Operations</b>: <code><a class="el" href="sbgl__math_8h.html#a79b409eb91a8c29bcf6ac4090bacd9a7" title="Returns an identity quaternion.">sbgl_QuatIdentity()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a60ecff5b6558460c273b69134f5cd229" title="Multiplies two quaternions.">sbgl_QuatMul()</a></code>, <code><a class="el" href="sbgl__math_8h.html#a6f5a1d38a150adbeb8d965500ed51074" title="Creates a quaternion from an axis and an angle (in radians).">sbgl_QuatFromAxisAngle()</a></code>.</li>
 <li><b>Conversion</b>: <code><a class="el" href="sbgl__math_8h.html#a2db16d4e6902829f0f4acc19481ee0af" title="Converts a quaternion to a rotation matrix.">sbgl_QuatToMat4()</a></code>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md128"></a>
+<h1><a class="anchor" id="autotoc_md131"></a>
 Data Initialization</h1>
 <p>While the library technically supports brace-enclosed initialization, <b>it is strongly recommended to use the provided constructor functions</b> (e.g., <code><a class="el" href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18" title="Creates a Vec3, correctly padded.">sbgl_Vec3Set()</a></code>) for all data initialization.</p>
-<h2><a class="anchor" id="autotoc_md129"></a>
+<h2><a class="anchor" id="autotoc_md132"></a>
 Why use Constructors?</h2>
 <p>Types like <code><a class="el" href="unionsbgl__Vec3.html" title="3D Vector, 16-byte aligned and padded for SIMD safety.">sbgl_Vec3</a></code> are defined as a <code>union</code> with an internal anonymous <code>struct</code> that includes a <code>_pad</code> field for SIMD alignment.</p>
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">union </span>{</div>
@@ -176,16 +176,16 @@ Why use Constructors?</h2>
 <div class="line">} <a class="code hl_union" href="unionsbgl__Vec3.html">sbgl_Vec3</a>;</div>
 <div class="ttc" id="aunionsbgl__Vec3_html"><div class="ttname"><a href="unionsbgl__Vec3.html">sbgl_Vec3</a></div><div class="ttdoc">3D Vector, 16-byte aligned and padded for SIMD safety.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00049">sbgl_math.h:49</a></div></div>
 </div><!-- fragment --><p>Using raw brace initialization (e.g., <code>{ 1.0f, 2.0f, 3.0f }</code>) often skips the <code>_pad</code> field, triggering compiler warnings or errors when <code>-Wmissing-field-initializers</code> is enabled. Explicitly using <code>sbgl_Vec3Set(1.0f, 2.0f, 3.0f)</code> ensures every field—including padding—is correctly initialized and satisfies strict compilation requirements.</p>
-<h2><a class="anchor" id="autotoc_md130"></a>
+<h2><a class="anchor" id="autotoc_md133"></a>
 Technical Detail (Brace Initialization)</h2>
 <p>If brace initialization must be used (e.g., for static global data), a double-brace syntax <code>{{ ... }}</code> is required due to the nested nature of the <code>union</code>.</p><ul>
 <li>The <b>outer braces</b> <code>{}</code> initialize the <code>union</code>.</li>
 <li>The <b>inner braces</b> <code>{}</code> initialize the anonymous <code>struct</code>.</li>
 <li><b>Note</b>: All fields, including <code>_pad</code>, should be specified to avoid warnings.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md131"></a>
+<h1><a class="anchor" id="autotoc_md134"></a>
 Implementation Examples</h1>
-<h2><a class="anchor" id="autotoc_md132"></a>
+<h2><a class="anchor" id="autotoc_md135"></a>
 Vector Operations</h2>
 <div class="fragment"><div class="line"><a class="code hl_union" href="unionsbgl__Vec3.html">sbgl_Vec3</a> position = <a class="code hl_function" href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18">sbgl_Vec3Set</a>(1.0f, 2.0f, 3.0f);</div>
 <div class="line"><a class="code hl_union" href="unionsbgl__Vec3.html">sbgl_Vec3</a> velocity = <a class="code hl_function" href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18">sbgl_Vec3Set</a>(0.0f, 1.0f, 0.0f);</div>
@@ -194,7 +194,7 @@ Vector Operations</h2>
 <div class="line"><a class="code hl_union" href="unionsbgl__Vec3.html">sbgl_Vec3</a> next_pos = <a class="code hl_function" href="sbgl__math_8h.html#a7fa6977d9fc396a8ab1c1d3ba42f14e7">sbgl_Vec3Add</a>(position, velocity);</div>
 <div class="ttc" id="asbgl__math_8h_html_a707f3aaa05327c1cea871a6c1367ce18"><div class="ttname"><a href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18">sbgl_Vec3Set</a></div><div class="ttdeci">static sbgl_Vec3 sbgl_Vec3Set(float x, float y, float z)</div><div class="ttdoc">Creates a Vec3, correctly padded.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00093">sbgl_math.h:93</a></div></div>
 <div class="ttc" id="asbgl__math_8h_html_a7fa6977d9fc396a8ab1c1d3ba42f14e7"><div class="ttname"><a href="sbgl__math_8h.html#a7fa6977d9fc396a8ab1c1d3ba42f14e7">sbgl_Vec3Add</a></div><div class="ttdeci">static sbgl_Vec3 sbgl_Vec3Add(sbgl_Vec3 a, sbgl_Vec3 b)</div><div class="ttdoc">Adds two Vec3 vectors.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00132">sbgl_math.h:132</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md133"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md136"></a>
 Transformation Matrices</h2>
 <div class="fragment"><div class="line"><span class="comment">// Create a translation matrix</span></div>
 <div class="line"><a class="code hl_struct" href="structsbgl__Mat4.html">sbgl_Mat4</a> model = <a class="code hl_function" href="sbgl__math_8h.html#a8ee0e1a1784d410dbe20db7dcc4f9d5e">sbgl_Mat4Translate</a>(<a class="code hl_function" href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18">sbgl_Vec3Set</a>(10.0f, 0.0f, 0.0f));</div>
@@ -213,7 +213,7 @@ Transformation Matrices</h2>
 <div class="ttc" id="asbgl__math_8h_html_a9f70d5e1826da0c3907992d19459f0a4"><div class="ttname"><a href="sbgl__math_8h.html#a9f70d5e1826da0c3907992d19459f0a4">SBGL_PI</a></div><div class="ttdeci">#define SBGL_PI</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00022">sbgl_math.h:22</a></div></div>
 <div class="ttc" id="asbgl__math_8h_html_aa8fd266b341fc545316231a7671de695"><div class="ttname"><a href="sbgl__math_8h.html#aa8fd266b341fc545316231a7671de695">sbgl_Mat4Mul</a></div><div class="ttdeci">static sbgl_Mat4 sbgl_Mat4Mul(sbgl_Mat4 a, sbgl_Mat4 b)</div><div class="ttdoc">Multiplies two matrices.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00240">sbgl_math.h:240</a></div></div>
 <div class="ttc" id="astructsbgl__Mat4_html"><div class="ttname"><a href="structsbgl__Mat4.html">sbgl_Mat4</a></div><div class="ttdoc">4x4 Matrix, 16-byte aligned, column-major.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00083">sbgl_math.h:83</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md134"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md137"></a>
 Rotation with Quaternions</h2>
 <div class="fragment"><div class="line"><span class="comment">// Define 90-degree rotation around the Y axis</span></div>
 <div class="line"><a class="code hl_union" href="unionsbgl__Quat.html">sbgl_Quat</a> rotation = <a class="code hl_function" href="sbgl__math_8h.html#a6f5a1d38a150adbeb8d965500ed51074">sbgl_QuatFromAxisAngle</a>(<a class="code hl_function" href="sbgl__math_8h.html#a707f3aaa05327c1cea871a6c1367ce18">sbgl_Vec3Set</a>(0.0f, 1.0f, 0.0f), <a class="code hl_define" href="sbgl__math_8h.html#a9f70d5e1826da0c3907992d19459f0a4">SBGL_PI</a> / 2.0f);</div>
@@ -223,7 +223,7 @@ Rotation with Quaternions</h2>
 <div class="ttc" id="asbgl__math_8h_html_a2db16d4e6902829f0f4acc19481ee0af"><div class="ttname"><a href="sbgl__math_8h.html#a2db16d4e6902829f0f4acc19481ee0af">sbgl_QuatToMat4</a></div><div class="ttdeci">static sbgl_Mat4 sbgl_QuatToMat4(sbgl_Quat q)</div><div class="ttdoc">Converts a quaternion to a rotation matrix.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00210">sbgl_math.h:210</a></div></div>
 <div class="ttc" id="asbgl__math_8h_html_a6f5a1d38a150adbeb8d965500ed51074"><div class="ttname"><a href="sbgl__math_8h.html#a6f5a1d38a150adbeb8d965500ed51074">sbgl_QuatFromAxisAngle</a></div><div class="ttdeci">static sbgl_Quat sbgl_QuatFromAxisAngle(sbgl_Vec3 axis, float angle_rad)</div><div class="ttdoc">Creates a quaternion from an axis and an angle (in radians).</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00193">sbgl_math.h:193</a></div></div>
 <div class="ttc" id="aunionsbgl__Quat_html"><div class="ttname"><a href="unionsbgl__Quat.html">sbgl_Quat</a></div><div class="ttdoc">Quaternion, 16-byte aligned.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__math_8h_source.html#l00072">sbgl_math.h:72</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md135"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md138"></a>
 Internal Implementation</h1>
 <p>The library provides <code>static inline</code> definitions, allowing the compiler to optimize math operations directly into the calling code. The aligned memory layout is intended to facilitate data streaming into SIMD registers during batch processing. </p>
 </div></div><!-- contents -->

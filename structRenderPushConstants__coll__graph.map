@@ -1,5 +1,5 @@
 <map id="RenderPushConstants" name="RenderPushConstants">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,94,157,120"/>
+<area shape="rect" id="Node000001" title="Push constants for the graphics pipeline." alt="" coords="5,94,157,120"/>
 <area shape="rect" id="Node000002" href="$structsbgl__Mat4.html" title="4x4 Matrix, 16&#45;byte aligned, column&#45;major." alt="" coords="40,5,122,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,47,84,94,78,94,78,47"/>
 </map>

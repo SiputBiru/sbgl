@@ -24,8 +24,10 @@ typedef struct {
  */
 typedef struct {
   uint64_t maskAddress;
+  uint64_t _pad;
   sbgl_Vec4 offset;
   float seed;
+  uint32_t _pad2[3];
 } sbgl_GenPushConstants;
 
 /**
@@ -35,6 +37,8 @@ typedef struct {
   uint64_t maskAddress;
   uint64_t instanceAddress;
   uint64_t counterAddress;
+  uint64_t _pad;
+  sbgl_Vec4 offset;
 } sbgl_ShellPushConstants;
 
 /**
@@ -45,9 +49,10 @@ typedef struct {
   uint64_t aabbAddress;
   uint64_t commandAddress;
   uint64_t countsAddress;
-  sbgl_Vec3 cameraPos;
+  float _pad[2];
+  sbgl_Vec4 cameraPos;
   float maxDistance;
-  uint32_t _padding[3];
+  uint32_t _pad2[3];
 } sbgl_CullPushConstants;
 
 /**
@@ -86,8 +91,11 @@ struct sbgl_VoxelSystem {
   /** @brief GPU buffer containing per-instance data for visible chunks. */
   sbgl_Buffer instBuf;
 
-  /** @brief GPU buffer storing Axis-Aligned Bounding Boxes for culling. */
-  sbgl_Buffer aabbBuf;
+  /** @brief GPU buffer storing the material palette attributes. */
+  sbgl_Buffer materialPaletteBuf;
+
+  /** @brief GPU buffer storing Axis-Aligned Bounding Boxes for culling. Double-buffered. */
+  sbgl_Buffer aabbBuf[2];
 
   /** 
    * @brief Double-buffered GPU storage for indirect draw commands. 
@@ -117,6 +125,9 @@ struct sbgl_VoxelSystem {
 
   /** @brief Frame counter for FPS calculation. */
   uint32_t fps_frames;
+
+  /** @brief Time of the previous update for delta calculation. */
+  double last_update_time;
 };
 
 sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* config) {
@@ -134,6 +145,7 @@ sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* c
   sys->ctx = ctx;
   sys->chunk_radius = config->chunk_radius;
   sys->enable_telemetry = config->enable_telemetry;
+  sys->last_update_time = sbgl_GetTime(ctx);
   
   /* 
    * Initialize the voxel pool with the requested capacity.
@@ -158,7 +170,7 @@ sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* c
    * These shaders handle generation, shell extraction, and frustum culling.
    */
   sbgl_Shader genShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_gen.comp.spv");
-  sbgl_Shader shellShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_shell.comp.spv");
+  sbgl_Shader shellShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_mesh.comp.spv");
   sbgl_Shader cullShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_cull.comp.spv");
 
   if (genShader == SBGL_INVALID_HANDLE || shellShader == SBGL_INVALID_HANDLE || cullShader == SBGL_INVALID_HANDLE) {
@@ -185,14 +197,53 @@ sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* c
    * Allocate the GPU-side buffers. The mask and instance buffers store the voxel
    * data, while the AABB buffer is used for GPU-driven culling.
    */
-  sys->maskBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, config->max_slots * 65536, NULL);
-  sys->instBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, config->max_slots * 65536 * sizeof(uint32_t), NULL);
-  sys->aabbBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, config->max_slots * sizeof(sbgl_AABB), NULL);
+  sys->maskBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE | SBGL_BUFFER_USAGE_TRANSFER_DST, config->max_slots * 65536, NULL);
+  sys->instBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, config->max_slots * 65536 * sizeof(uint32_t) * 2, NULL);
+  for (int i = 0; i < 2; ++i) {
+    sys->aabbBuf[i] = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, config->max_slots * sizeof(sbgl_AABB), NULL);
+    void* mappedAABB = sbgl_MapBuffer(ctx, sys->aabbBuf[i]);
+    if (mappedAABB) {
+      memset(mappedAABB, 0, config->max_slots * sizeof(sbgl_AABB));
+      sbgl_UnmapBuffer(ctx, sys->aabbBuf[i]);
+    }
+  }
+
+  /*
+   * Initialize the material palette with default terrain attributes.
+   * This provides a consistent base for procedural generation and shading.
+   */
+  sys->materialPaletteBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, 64 * sizeof(sbgl_Material), NULL);
+  sbgl_Material* palette = (sbgl_Material*)sbgl_MapBuffer(ctx, sys->materialPaletteBuf);
+  if (palette) {
+    memset(palette, 0, 64 * sizeof(sbgl_Material));
+    
+    /* Index 0: Grass (Greenish) */
+    palette[0].color = sbgl_Vec4Set(0.3f, 0.6f, 0.2f, 1.0f);
+    palette[0].roughness = 0.8f;
+    palette[0].metalness = 0.0f;
+
+    /* Index 1: Dirt (Brownish) */
+    palette[1].color = sbgl_Vec4Set(0.4f, 0.3f, 0.2f, 1.0f);
+    palette[1].roughness = 0.9f;
+    palette[1].metalness = 0.0f;
+
+    /* Index 2: Stone (Grey) */
+    palette[2].color = sbgl_Vec4Set(0.5f, 0.5f, 0.5f, 1.0f);
+    palette[2].roughness = 0.6f;
+    palette[2].metalness = 0.0f;
+
+    /* Index 3: Sand (Yellowish) */
+    palette[3].color = sbgl_Vec4Set(0.8f, 0.7f, 0.4f, 1.0f);
+    palette[3].roughness = 0.7f;
+    palette[3].metalness = 0.0f;
+
+    sbgl_UnmapBuffer(ctx, sys->materialPaletteBuf);
+  }
 
   /*
    * Initialize control buffers.
    */
-  sys->shellCountsBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE, config->max_slots * sizeof(uint32_t), NULL);
+  sys->shellCountsBuf = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_STORAGE | SBGL_BUFFER_USAGE_TRANSFER_DST, config->max_slots * sizeof(uint32_t), NULL);
   void* mappedShell = sbgl_MapBuffer(ctx, sys->shellCountsBuf);
   if (mappedShell) {
     memset(mappedShell, 0, config->max_slots * sizeof(uint32_t));
@@ -217,15 +268,14 @@ void sbgl_Voxel_Update(sbgl_VoxelSystem* sys, sbgl_Vec3 camera_pos) {
    * The update phase performs camera-relative chunk management.
    * It identifies chunks that have entered the visibility radius and 
    * schedules them for generation in the compute pipelines.
-   * 
-   * Update logic is triggered only when the camera crosses a chunk boundary
-   * to minimize unnecessary CPU/GPU overhead.
+   * The frame index is synchronized with the engine backend to ensure
+   * correct double-buffering.
    */
-  static double lastTime = 0;
+  sys->frame_idx = sbgl_GetFrameIndex(sys->ctx);
+
   double currentTime = sbgl_GetTime(sys->ctx);
-  if (lastTime == 0) lastTime = currentTime;
-  float dt = (float)(currentTime - lastTime);
-  lastTime = currentTime;
+  float dt = (float)(currentTime - sys->last_update_time);
+  sys->last_update_time = currentTime;
 
   sys->telemetry_timer += dt;
   sys->fps_frames++;
@@ -236,98 +286,136 @@ void sbgl_Voxel_Update(sbgl_VoxelSystem* sys, sbgl_Vec3 camera_pos) {
   int camCY = (int)floorf(camera_pos.y / CHUNK_SIZE_F);
   int camCZ = (int)floorf(camera_pos.z / CHUNK_SIZE_F);
 
+  int radius = (int)sys->chunk_radius;
+
+  /* Always refresh timestamps for all slots that are within the visibility radius.
+     This prevents the LRU pool from prematurely recycling chunks while the camera 
+     is moving within a single chunk or stationary. */
+  for (uint32_t i = 0; i < sys->pool->capacity; i++) {
+    if (sys->pool->active[i]) {
+      sbgl_ivec3 p = sys->pool->positions[i];
+      if (abs(p.x - camCX) <= radius && abs(p.z - camCZ) <= radius && p.y >= (camCY - 1) && p.y <= (camCY + 2)) {
+        sys->pool->last_used_frames[i] = sys->pool->current_frame;
+      }
+    }
+  }
+
+  /* Update logic is triggered only when the camera crosses a chunk boundary
+     to minimize unnecessary CPU/GPU overhead. */
   if (camCX != sys->last_cam_chunk.x || camCY != sys->last_cam_chunk.y || camCZ != sys->last_cam_chunk.z) {
-    /*
-     * When a boundary is crossed, the system dispatches compute shaders to 
-     * generate and process chunks within the specified radius.
-     */
     sbgl_BeginCompute(sys->ctx);
 
-    /*
-     * Fetch base device addresses once to avoid redundant HAL calls during the 
-     * chunk scanning loop.
-     */
     uint64_t maskBaseAddr = sbgl_GetBufferDeviceAddress(sys->ctx, sys->maskBuf);
     uint64_t instBaseAddr = sbgl_GetBufferDeviceAddress(sys->ctx, sys->instBuf);
     uint64_t shellCountsBaseAddr = sbgl_GetBufferDeviceAddress(sys->ctx, sys->shellCountsBuf);
 
-    /*
-     * Map buffers to allow for localized CPU-side clearing and AABB updates.
-     */
-    uint32_t* mPtr = (uint32_t*)sbgl_MapBuffer(sys->ctx, sys->maskBuf);
-    uint32_t* cPtr = (uint32_t*)sbgl_MapBuffer(sys->ctx, sys->shellCountsBuf);
-    sbgl_AABB* aabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf);
+    sbgl_AABB* aabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[sys->frame_idx]);
+    sbgl_AABB* prevAabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
+    
+    /* Copy current persistent state to the new frame's AABB buffer. */
+    if (aabbPtr && prevAabbPtr) {
+      memcpy(aabbPtr, prevAabbPtr, sys->pool->capacity * sizeof(sbgl_AABB));
+      sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
+    }
 
-    int radius = (int)sys->chunk_radius;
+    /* First pass: Acquire and generate new chunks in the radius. */
     for (int dz = -radius; dz <= radius; dz++) {
       for (int dx = -radius; dx <= radius; dx++) {
-        for (int dy = -1; dy <= 1; dy++) {
+        for (int dy = -1; dy <= 2; dy++) {
           sbgl_ivec3 pos = { camCX + dx, camCY + dy, camCZ + dz };
 
           bool is_new = false;
           int32_t slot = VoxelPool_AcquireSlot(sys->pool, pos, &is_new);
 
           if (is_new) {
-            /*
-             * For new or recycled slots, clear existing GPU state and dispatch 
-             * generation and shell extraction pipelines.
-             */
             uint64_t maskAddr = maskBaseAddr + (slot * 65536);
-            uint64_t instAddr = instBaseAddr + (slot * 65536 * 4);
+            uint64_t instAddr = instBaseAddr + (slot * 65536 * 8);
             uint64_t countAddr = shellCountsBaseAddr + (slot * 4);
 
-            memset(mPtr + (slot * 16384), 0, 65536);
-            cPtr[slot] = 0;
+            /* Clear the presence mask and instance counts using GPU-side commands
+               to avoid expensive host-to-device synchronization. */
+            sbgl_FillBuffer(sys->ctx, sys->maskBuf, slot * 65536, 65536, 0);
+            sbgl_FillBuffer(sys->ctx, sys->shellCountsBuf, slot * 4, 4, 0);
+
+            /* Ensure the GPU-side clears are visible before the compute shaders start.
+               SBGL_BARRIER_COMPUTE_TO_COMPUTE now includes TRANSFER synchronization. */
+            sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_COMPUTE_TO_COMPUTE);
 
             sbgl_BindComputePipeline(sys->ctx, sys->genPipe);
             sbgl_GenPushConstants gpc = {
               .maskAddress = maskAddr,
-              .offset = sbgl_Vec4Set((float)pos.x * 64.0f, (float)pos.y * 64.0f, (float)pos.z * 64.0f, 0.0f),
+              .offset = sbgl_Vec4Set((float)pos.x * 256.0f, (float)pos.y * 256.0f, (float)pos.z * 256.0f, 0.0f),
               .seed = 42.0f
             };
             sbgl_PushConstants(sys->ctx, sizeof(gpc), &gpc);
             sbgl_DispatchCompute(sys->ctx, 4096, 1, 1);
             
-            /*
-             * Barrier ensures that generation is complete before shell extraction begins.
-             */
             sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_COMPUTE_TO_COMPUTE);
 
             sbgl_BindComputePipeline(sys->ctx, sys->shellPipe);
             sbgl_ShellPushConstants spc = {
               .maskAddress = maskAddr,
               .instanceAddress = instAddr,
-              .counterAddress = countAddr
+              .counterAddress = countAddr,
+              .offset = gpc.offset
             };
             sbgl_PushConstants(sys->ctx, sizeof(spc), &spc);
-            sbgl_DispatchCompute(sys->ctx, 4096, 1, 1);
+            sbgl_DispatchCompute(sys->ctx, 1, 64, 1);
 
-            /*
-             * Update the AABB on the CPU for efficient frustum culling in the render phase.
-             */
             sbgl_AABB aabb;
             aabb.min = sbgl_Vec4Set((float)pos.x * CHUNK_SIZE_F, (float)pos.y * CHUNK_SIZE_F, (float)pos.z * CHUNK_SIZE_F, 1.0f);
             aabb.max = sbgl_Vec4Set(aabb.min.x + CHUNK_SIZE_F, aabb.min.y + CHUNK_SIZE_F, aabb.min.z + CHUNK_SIZE_F, 1.0f);
-            memcpy(aabbPtr + slot, &aabb, sizeof(sbgl_AABB));
+            if (aabbPtr) memcpy(aabbPtr + slot, &aabb, sizeof(sbgl_AABB));
           }
         }
       }
     }
 
-    sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf);
-    sbgl_UnmapBuffer(sys->ctx, sys->shellCountsBuf);
-    sbgl_UnmapBuffer(sys->ctx, sys->maskBuf);
+    /* Second pass: Deactivate slots that have left the visibility radius. 
+       This prevents orphaned chunks from flickering or appearing in the wrong location. */
+    for (uint32_t i = 0; i < sys->pool->capacity; i++) {
+        if (sys->pool->active[i]) {
+            sbgl_ivec3 p = sys->pool->positions[i];
+            if (abs(p.x - camCX) > radius || abs(p.z - camCZ) > radius || p.y < (camCY - 1) || p.y > (camCY + 2)) {
+                sys->pool->active[i] = 0;
+                /* Reset the instance count on the GPU to immediately silence the chunk. */
+                sbgl_FillBuffer(sys->ctx, sys->shellCountsBuf, i * 4, 4, 0);
+            }
+        }
+    }
+
+    if (aabbPtr) sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf[sys->frame_idx]);
+
+    /* Ensure that the host-side updates to the AABB buffer are visible to the GPU
+       before the culling and graphics phases begin. */
+    sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_HOST_TO_COMPUTE);
+    sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_HOST_TO_GRAPHICS);
+
+    /* Ensure that the GPU-side clears from the deactivation pass are visible 
+       before the culling phase starts. */
+    sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_COMPUTE_TO_COMPUTE);
 
     sbgl_EndCompute(sys->ctx);
 
     sys->last_cam_chunk = (sbgl_ivec3){ camCX, camCY, camCZ };
+  } else {
+    /* Even if the camera hasn't crossed a chunk boundary, we must still update the 
+       AABB buffer for the current frame by copying the previous one. 
+       This ensures that the culling shader always has a valid set of AABBs. */
+    sbgl_AABB* aabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[sys->frame_idx]);
+    sbgl_AABB* prevAabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
+    if (aabbPtr && prevAabbPtr) {
+      memcpy(aabbPtr, prevAabbPtr, sys->pool->capacity * sizeof(sbgl_AABB));
+      sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf[sys->frame_idx]);
+      sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
+    }
+    sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_HOST_TO_COMPUTE);
+    sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_HOST_TO_GRAPHICS);
   }
 
-  /*
-   * Advance the pool tracking for LRU management.
-   */
   VoxelPool_UpdateFrame(sys->pool, sys->total_frames++);
 }
+
 
 void sbgl_Voxel_Cull(sbgl_VoxelSystem* sys, sbgl_Mat4 view_proj) {
   /*
@@ -337,6 +425,9 @@ void sbgl_Voxel_Cull(sbgl_VoxelSystem* sys, sbgl_Mat4 view_proj) {
    * This is done outside the main render pass to avoid validation errors.
    */
   sbgl_BeginCompute(sys->ctx);
+
+  /* Ensure any prior host writes to mapped buffers are visible. */
+  sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_HOST_TO_COMPUTE);
 
   /*
    * Retrieve the double-buffered GPU handles for the current frame.
@@ -352,11 +443,11 @@ void sbgl_Voxel_Cull(sbgl_VoxelSystem* sys, sbgl_Mat4 view_proj) {
 
   sbgl_CullPushConstants cpc;
   cpc.viewProj = view_proj;
-  cpc.aabbAddress = sbgl_GetBufferDeviceAddress(sys->ctx, sys->aabbBuf);
+  cpc.aabbAddress = sbgl_GetBufferDeviceAddress(sys->ctx, sys->aabbBuf[sys->frame_idx]);
   cpc.commandAddress = sbgl_GetBufferDeviceAddress(sys->ctx, currCmds);
   cpc.countsAddress = sbgl_GetBufferDeviceAddress(sys->ctx, currCounts);
-  cpc.cameraPos = sys->camera_pos;
-  cpc.maxDistance = (float)(sys->chunk_radius + 1) * 256.0f;
+  cpc.cameraPos = sbgl_Vec4Set(sys->camera_pos.x, sys->camera_pos.y, sys->camera_pos.z, 1.0f);
+  cpc.maxDistance = (float)(sys->chunk_radius + 1) * 256.0f * 1.5f;
 
   sbgl_PushConstants(sys->ctx, sizeof(cpc), &cpc);
 
@@ -391,28 +482,28 @@ void sbgl_Voxel_Render(sbgl_VoxelSystem* sys) {
    */
   if (sys->enable_telemetry && sys->telemetry_timer >= 1.0f) {
     uint32_t visibleCount = 0;
+    uint32_t totalInstances = 0;
     sbgl_IndirectCommand* cmds = (sbgl_IndirectCommand*)sbgl_MapBuffer(sys->ctx, currCmds);
     if (cmds) {
       for (uint32_t i = 0; i < sys->pool->capacity; i++) {
-        if (cmds[i].instanceCount > 0) visibleCount++;
+        if (cmds[i].instanceCount > 0) {
+          visibleCount++;
+          totalInstances += cmds[i].instanceCount;
+        }
       }
       sbgl_UnmapBuffer(sys->ctx, currCmds);
     }
 
-    printf("FPS: %u | GPU: %.2fms | Visible: %u/%u\n", 
+    printf("FPS: %u | GPU: %.2fms | Visible: %u/%u | Instances: %u\n", 
            sys->fps_frames, 
            sbgl_GetTelemetry(sys->ctx).gpu_render_time, 
            visibleCount, 
-           sys->pool->capacity);
+           sys->pool->capacity,
+           totalInstances);
     
     sys->telemetry_timer = 0.0f;
     sys->fps_frames = 0;
   }
-
-  /*
-   * Rotate the frame index for the next update/render cycle.
-   */
-  sys->frame_idx = (sys->frame_idx + 1) % 2;
 }
 
 void sbgl_Voxel_Destroy(sbgl_VoxelSystem* sys) {
@@ -433,7 +524,10 @@ void sbgl_Voxel_Destroy(sbgl_VoxelSystem* sys) {
 
   if (sys->maskBuf) sbgl_DestroyBuffer(sys->ctx, sys->maskBuf);
   if (sys->instBuf) sbgl_DestroyBuffer(sys->ctx, sys->instBuf);
-  if (sys->aabbBuf) sbgl_DestroyBuffer(sys->ctx, sys->aabbBuf);
+  if (sys->materialPaletteBuf) sbgl_DestroyBuffer(sys->ctx, sys->materialPaletteBuf);
+  for (int i = 0; i < 2; ++i) {
+    if (sys->aabbBuf[i]) sbgl_DestroyBuffer(sys->ctx, sys->aabbBuf[i]);
+  }
 
   if (sys->shellCountsBuf) sbgl_DestroyBuffer(sys->ctx, sys->shellCountsBuf);
   for (int i = 0; i < 2; ++i) {
@@ -446,10 +540,16 @@ void sbgl_Voxel_Destroy(sbgl_VoxelSystem* sys) {
 
 uint64_t sbgl_Voxel_GetAABBAddress(sbgl_VoxelSystem* sys) {
   if (!sys) return 0;
-  return sbgl_GetBufferDeviceAddress(sys->ctx, sys->aabbBuf);
+  return sbgl_GetBufferDeviceAddress(sys->ctx, sys->aabbBuf[sys->frame_idx]);
 }
 
 uint64_t sbgl_Voxel_GetInstanceAddress(sbgl_VoxelSystem* sys) {
   if (!sys) return 0;
   return sbgl_GetBufferDeviceAddress(sys->ctx, sys->instBuf);
 }
+
+uint64_t sbgl_Voxel_GetPaletteAddress(sbgl_VoxelSystem* sys) {
+  if (!sys) return 0;
+  return sbgl_GetBufferDeviceAddress(sys->ctx, sys->materialPaletteBuf);
+}
+

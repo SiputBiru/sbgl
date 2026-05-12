@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-05-12
+
+### Changed
+- **Memory Expansion**: Increased `SBGL_MANAGED_HEAP_SIZE` from 256MB to **512MB** to support high-density 3D voxel environments without buffer overflow.
+- **Enhanced Synchronization**: Introduced `SBGL_BARRIER_HOST_TO_GRAPHICS` to the public API and Vulkan backend to ensure host-mapped metadata (like chunk AABBs) is visible to the graphics pipeline.
+
+### Fixed
+- **Voxel Terrain Randomization**: Resolved a critical bug in `voxel3D_main` where terrain would appear to regenerate or warp during movement.
+    - Fixed world-space coordinate scaling in `voxel_gen.comp` to ensure noise sampling is consistent across chunk boundaries.
+    - Corrected the `shellPipe` compute dispatch dimensions in `sbgl_voxel.c` to properly iterate over the entire 64x64 voxel column grid.
+    - Fixed heuristic material selection in `voxel_mesh.comp` by utilizing correctly scaled global heights.
+- **Voxel Race Conditions**: Implemented missing memory barriers in `sbgl_Voxel_Update` to synchronize GPU-side chunk deactivation with the subsequent culling and rendering passes.
+- **Voxel3D Example Optimization**: Reduced default `max_slots` to 256 to improve performance and stability during rapid camera movement.
+
 ## [Unreleased] - 2026-05-11
 
 ### Added

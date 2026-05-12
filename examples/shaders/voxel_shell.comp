@@ -14,16 +14,18 @@
 layout(local_size_x = 64) in;
 
 layout(buffer_reference, std430) readonly buffer VoxelMask { uint words[]; };
-layout(buffer_reference, std430) buffer InstanceBuffer { uint data[]; };
+layout(buffer_reference, std430) buffer InstanceBuffer { uvec2 voxels[]; };
 layout(buffer_reference, std430) buffer Counter { uint count; };
 
 /**
  * @brief GPU addresses for the source bitmask and destination buffers.
  */
 layout(push_constant) uniform PushConstants {
-  uint64_t maskAddress;     /**< Address of the 32x32x32 bitmask. */
+  uint64_t maskAddress;     /**< Address of the 64x64x64 bitmask. */
   uint64_t instanceAddress; /**< Address of the output instance buffer. */
   uint64_t counterAddress;  /**< Address of the atomic instance counter. */
+  uint64_t _pad;
+  vec4 offset;
 } pc;
 
 /**
@@ -63,7 +65,10 @@ void main() {
     uint idx = atomicAdd(counter.count, 1);
     if (idx < 65536) {
       InstanceBuffer inst = InstanceBuffer(pc.instanceAddress);
-      inst.data[idx] = gID;
+      /* The instance data is packed with a default Y-scale of 1 for non-meshed voxels. */
+      uint yScale = 1u;
+      uint materialID = 0u; // Default to material 0 (Grass)
+      inst.voxels[idx] = uvec2(gID | (yScale << 18u) | (materialID << 26u), 0u);
     }
   }
 }

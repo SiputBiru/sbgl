@@ -8,6 +8,7 @@ layout(buffer_reference, std430) buffer VoxelMask { uint words[]; };
 
 layout(push_constant) uniform PushConstants {
   uint64_t maskAddress;
+  uint64_t _pad;
   vec4 offset;
   float seed;
 } pc;
@@ -44,20 +45,17 @@ void main() {
   if (gID >= 262144) return;
 
   uvec3 p = uvec3(gID & 63u, (gID >> 6u) & 63u, gID >> 12u);
-  vec3 worldP = vec3(p) + pc.offset.xyz;
+  vec3 worldP = vec3(p) * 4.0 + pc.offset.xyz;
   
-  /* The system samples a fractal noise function to determine the density at this coordinate. 
-     A lower frequency (0.01) is used to create larger, smoother island masses. */
-  vec3 noiseP = worldP * 0.01;
-  float d = fbm(noiseP + pc.seed);
+  /* Restore fractal noise generator. */
+  vec3 noiseP = (worldP + vec3(12345.0, 6789.0, 54321.0) + pc.seed) * 0.005;
+  float d = fbm(noiseP);
   
   /* Height tapering is applied to restrict islands to a specific vertical band.
-     Islands are most dense between Y=64 and Y=192. */
+     Islands are most dense between Y=32 and Y=224. */
   float height = worldP.y;
-  float taper = smoothstep(0.0, 64.0, height) * (1.0 - smoothstep(192.0, 256.0, height));
+  float taper = smoothstep(-64.0, 64.0, height) * (1.0 - smoothstep(192.0, 320.0, height));
   
-  /* If the tapered density exceeds the threshold, the voxel is marked as solid. 
-     The threshold is tuned to ensure plenty of 'sky' space between islands. */
   if (d * taper > 0.45) {
     VoxelMask mask = VoxelMask(pc.maskAddress);
     atomicOr(mask.words[gID >> 5u], (1u << (gID & 31u)));

@@ -53,7 +53,41 @@ static void test_voxel_pool_basic(void) {
   printf("test_voxel_pool_basic passed!\n");
 }
 
+static void test_voxel_pool_two_pass(void) {
+  printf("Running test_voxel_pool_two_pass...\n");
+
+  SblArena arena;
+  sbl_arena_init(&arena, 1024 * 1024);
+
+  VoxelPool* pool = VoxelPool_Init(&arena, 4);
+
+  sbgl_ivec3 p1 = {0, 0, 0};
+  sbgl_ivec3 p2 = {1, 0, 0};
+
+  bool is_new;
+  // Fill slot 0 with p1
+  VoxelPool_AcquireSlot(pool, p1, &is_new);
+  // Fill slot 1 with p2
+  VoxelPool_AcquireSlot(pool, p2, &is_new);
+
+  // Deactivate slot 0 manually to simulate an empty slot
+  pool->active[0] = 0;
+
+  // Now, try to acquire p2. 
+  // A single-pass implementation that prioritizes empty slots might return index 0 as "new".
+  // A two-pass implementation should find p2 at index 1 and return it as NOT new.
+  int32_t index = VoxelPool_AcquireSlot(pool, p2, &is_new);
+  assert(index == 1);
+  assert(!is_new);
+
+  printf("Match after empty successful.\n");
+
+  sbl_arena_free(&arena);
+  printf("test_voxel_pool_two_pass passed!\n");
+}
+
 int main(void) {
   test_voxel_pool_basic();
+  test_voxel_pool_two_pass();
   return 0;
 }

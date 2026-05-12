@@ -376,6 +376,23 @@ void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
 	ctx->result = SBGL_SUCCESS;
 }
 
+void sbgl_FillBuffer(sbgl_Context* ctx, sbgl_Buffer buffer, size_t offset, size_t size, uint32_t value) {
+	if (!ctx || !ctx->inner)
+		return;
+
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	sbgl_gfx_FillBuffer(inner->gfx, buffer, offset, size, value);
+	ctx->result = SBGL_SUCCESS;
+}
+
+uint32_t sbgl_GetFrameIndex(sbgl_Context* ctx) {
+	if (!ctx || !ctx->inner)
+		return 0;
+
+	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+	return sbgl_gfx_GetFrameIndex(inner->gfx);
+}
+
 void* sbgl_MapBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
 	/* The system maps the specified GPU buffer into the CPU's address space,
 	   allowing for direct memory access. This is essential for reading back

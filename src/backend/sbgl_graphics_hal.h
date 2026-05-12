@@ -54,6 +54,16 @@ sbgl_Buffer
 sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size, const void* data);
 void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer);
 
+/**
+ * @brief Performs a hardware-accelerated buffer fill.
+ */
+void sbgl_gfx_FillBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer, size_t offset, size_t size, uint32_t value);
+
+/**
+ * @brief Retrieves the current backend frame index.
+ */
+uint32_t sbgl_gfx_GetFrameIndex(sbgl_GfxContext* ctx);
+
 void* sbgl_gfx_MapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer);
 void sbgl_gfx_UnmapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer);
 

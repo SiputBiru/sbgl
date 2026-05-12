@@ -16,6 +16,7 @@ typedef struct {
 	sbgl_Mat4 viewProj;
 	uint64_t aabbAddress;
 	uint64_t voxelDataAddress;
+	uint64_t paletteAddress;
 } RenderPushConstants;
 
 int main(void) {
@@ -32,7 +33,7 @@ int main(void) {
 	 * Create the voxel system. This encapsulates all GPU resource management,
 	 * compute pipelines, and chunk management logic.
 	 */
-	sbgl_VoxelConfig vConfig = { .max_slots = 512, .chunk_radius = 3, .enable_telemetry = true };
+	sbgl_VoxelConfig vConfig = { .max_slots = 256, .chunk_radius = 3, .enable_telemetry = true };
 	sbgl_VoxelSystem* voxelSys = sbgl_Voxel_Create(ctx, &vConfig);
 
 	if (!voxelSys) {
@@ -182,7 +183,8 @@ int main(void) {
 		/* Setup graphics push constants using addresses retrieved from the voxel system */
 		RenderPushConstants rpc = { .viewProj = viewProj,
 									.aabbAddress = sbgl_Voxel_GetAABBAddress(voxelSys),
-									.voxelDataAddress = sbgl_Voxel_GetInstanceAddress(voxelSys) };
+									.voxelDataAddress = sbgl_Voxel_GetInstanceAddress(voxelSys),
+									.paletteAddress = sbgl_Voxel_GetPaletteAddress(voxelSys) };
 		sbgl_PushConstants(ctx, sizeof(rpc), &rpc);
 
 		/* Dispatch the voxel rendering commands (Graphics pass only) */

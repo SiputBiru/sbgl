@@ -236,7 +236,29 @@ sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const 
  * @param ctx The engine context.
  * @param buffer The buffer handle.
  */
-void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer);
+void
+sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer);
+
+/**
+ * @brief Fills a region of a GPU buffer with a fixed 32-bit value.
+ *
+ * This operation is performed on the GPU and is highly efficient for clearing
+ * counters or initializing large memory regions.
+ *
+ * @param ctx The engine context.
+ * @param buffer The buffer handle.
+ * @param offset Byte offset into the buffer.
+ * @param size Number of bytes to fill. Must be a multiple of 4.
+ * @param value The 32-bit value to fill with.
+ */
+void sbgl_FillBuffer(sbgl_Context* ctx, sbgl_Buffer buffer, size_t offset, size_t size, uint32_t value);
+
+/**
+ * @brief Retrieves the current frame index for double/triple buffering.
+ * @param ctx The engine context.
+ * @return The current frame index (typically 0 or 1).
+ */
+uint32_t sbgl_GetFrameIndex(sbgl_Context* ctx);
 
 /**
  * @brief Loads a shader from SPIR-V bytecode.

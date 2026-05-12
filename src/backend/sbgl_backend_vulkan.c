@@ -22,7 +22,7 @@
 #define SBGL_TRANSIENT_BUFFER_SIZE (16 * 1024 * 1024)
 #define SBGL_STATIC_HEAP_SIZE (128 * 1024 * 1024)
 #define SBGL_DYNAMIC_HEAP_SIZE (128 * 1024 * 1024)
-#define SBGL_MANAGED_HEAP_SIZE (256 * 1024 * 1024)
+#define SBGL_MANAGED_HEAP_SIZE (512 * 1024 * 1024)
 
 typedef enum {
   SBGL_HEAP_TYPE_STATIC,
@@ -1259,6 +1259,7 @@ sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size,
          (usage & SBGL_BUFFER_USAGE_INDEX ? VK_BUFFER_USAGE_INDEX_BUFFER_BIT : 0) |
          (usage & SBGL_BUFFER_USAGE_STORAGE ? VK_BUFFER_USAGE_STORAGE_BUFFER_BIT : 0) |
          (usage & SBGL_BUFFER_USAGE_INDIRECT ? VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT : 0) |
+         (usage & SBGL_BUFFER_USAGE_TRANSFER_DST ? VK_BUFFER_USAGE_TRANSFER_DST_BIT : 0) |
          VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT,
     .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
   };
@@ -1336,6 +1337,36 @@ void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
   }
 
   ctx->bufferActive[index] = false;
+}
+
+void sbgl_gfx_FillBuffer(
+  sbgl_GfxContext* ctx,
+  sbgl_Buffer handle,
+  size_t offset,
+  size_t size,
+  uint32_t value
+) {
+  /* A hardware-accelerated fill operation is recorded into the current frame's
+     command buffer, utilizing the GPU's DMA engine for maximum performance. */
+  if (handle == SBGL_INVALID_HANDLE)
+    return;
+  uint32_t index = (uint32_t)handle - 1;
+  if (index >= SBGL_MAX_BUFFERS || !ctx->bufferActive[index])
+    return;
+
+  ctx->vk.vkCmdFillBuffer(
+    ctx->commandBuffers[ctx->currentFrame],
+    ctx->buffers[index].handle,
+    (VkDeviceSize)offset,
+    (VkDeviceSize)size,
+    value
+  );
+}
+
+uint32_t sbgl_gfx_GetFrameIndex(sbgl_GfxContext* ctx) {
+  /* Returns the current frame index, which is used by the core engine to
+     manage multi-buffered resources. */
+  return ctx->currentFrame;
 }
 
 void* sbgl_gfx_MapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
@@ -1756,10 +1787,11 @@ void sbgl_gfx_MemoryBarrier(sbgl_GfxContext* ctx, sbgl_BarrierType type) {
 
   switch (type) {
   case SBGL_BARRIER_COMPUTE_TO_COMPUTE:
-    /* Synchronizes compute writes to be visible to subsequent compute reads and writes. */
-    barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+    /* Synchronizes compute and transfer (fill) writes to be visible to 
+       subsequent compute operations. */
+    barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
     barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
-    srcStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+    srcStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT | VK_PIPELINE_STAGE_TRANSFER_BIT;
     dstStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
     break;
   case SBGL_BARRIER_COMPUTE_TO_INDIRECT:
@@ -1782,6 +1814,20 @@ void sbgl_gfx_MemoryBarrier(sbgl_GfxContext* ctx, sbgl_BarrierType type) {
     barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
     srcStage = VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
     dstStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+    break;
+  case SBGL_BARRIER_HOST_TO_COMPUTE:
+    /* Synchronizes host writes to be visible to subsequent compute operations. */
+    barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+    srcStage = VK_PIPELINE_STAGE_HOST_BIT;
+    dstStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+    break;
+  case SBGL_BARRIER_HOST_TO_GRAPHICS:
+    /* Synchronizes host writes to be visible to subsequent graphics (vertex) operations. */
+    barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+    srcStage = VK_PIPELINE_STAGE_HOST_BIT;
+    dstStage = VK_PIPELINE_STAGE_VERTEX_SHADER_BIT;
     break;
   }
 

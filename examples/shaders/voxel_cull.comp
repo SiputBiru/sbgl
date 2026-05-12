@@ -75,7 +75,7 @@ void main() {
   // Use sphere-based frustum culling for high-performance early rejection.
   if (is_visible(aabb, planes) && shellCount > 0) {
     outBuffer.commands[gID].indexCount = 36; // Cube indices
-    outBuffer.commands[gID].instanceCount = shellCount;
+    outBuffer.commands[gID].instanceCount = min(shellCount, MAX_SHELLS_PER_SLOT);
     outBuffer.commands[gID].firstIndex = 0;
     outBuffer.commands[gID].vertexOffset = 0;
     outBuffer.commands[gID].firstInstance = gID * MAX_SHELLS_PER_SLOT;

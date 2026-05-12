@@ -67,6 +67,18 @@ typedef uint64_t sbgl_SortKey;
 #define SBGL_PACKET_SIDED_SHIFT 24
 #define SBGL_PACKET_TAGS_SHIFT 25
 
+/* Voxel instance layout: 
+   Word 0: 18 bits VoxelID, 8 bits Y-Scale, 6 bits MaterialID
+   Word 1: 16 bits AO (8 corners * 2 bits), 16 bits Reserved */
+#define SBGL_VOXEL_ID_MASK 0x3FFFF
+#define SBGL_VOXEL_SCALE_MASK 0xFF
+#define SBGL_VOXEL_SCALE_SHIFT 18
+#define SBGL_VOXEL_MAT_MASK 0x3F
+#define SBGL_VOXEL_MAT_SHIFT 26
+
+#define SBGL_PACK_VOXEL_INSTANCE(id, scale, mat) \
+  (((id) & SBGL_VOXEL_ID_MASK) | (((scale) & SBGL_VOXEL_SCALE_MASK) << SBGL_VOXEL_SCALE_SHIFT) | (((mat) & SBGL_VOXEL_MAT_MASK) << SBGL_VOXEL_MAT_SHIFT))
+
 #define SBGL_PACK_HEADER(mesh, mat, blend, sided, tags)                                            \
   (((mesh) & SBGL_PACKET_MESH_MASK) |                                                            \
    (((mat) & SBGL_PACKET_MAT_MASK) << SBGL_PACKET_MAT_SHIFT) |                                   \
@@ -112,6 +124,7 @@ typedef enum {
   SBGL_BUFFER_USAGE_INDEX = 0x02,
   SBGL_BUFFER_USAGE_STORAGE = 0x04,
   SBGL_BUFFER_USAGE_INDIRECT = 0x08,
+  SBGL_BUFFER_USAGE_TRANSFER_DST = 0x10,
 } sbgl_BufferUsage;
 
 /**
@@ -131,6 +144,8 @@ typedef enum {
   SBGL_BARRIER_COMPUTE_TO_INDIRECT = 1,
   SBGL_BARRIER_COMPUTE_TO_GRAPHICS = 2,
   SBGL_BARRIER_GRAPHICS_TO_COMPUTE = 3,
+  SBGL_BARRIER_HOST_TO_COMPUTE = 4,
+  SBGL_BARRIER_HOST_TO_GRAPHICS = 5,
 } sbgl_BarrierType;
 
 /**

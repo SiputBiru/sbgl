@@ -37,6 +37,14 @@ typedef struct {
   bool enable_telemetry;
 } sbgl_VoxelConfig;
 
+typedef struct {
+  sbgl_Vec4 color;
+  float roughness;
+  float metalness;
+  uint32_t textureID;
+  uint32_t _pad;
+} sbgl_Material;
+
 /**
  * @brief Creates and initializes a new voxel system.
  * This operation allocates GPU resources and internal tracking structures.
@@ -85,5 +93,8 @@ uint64_t sbgl_Voxel_GetAABBAddress(sbgl_VoxelSystem* sys);
 
 /** @brief Returns the device address of the instance buffer. */
 uint64_t sbgl_Voxel_GetInstanceAddress(sbgl_VoxelSystem* sys);
+
+/** @brief Returns the device address of the material palette buffer. */
+uint64_t sbgl_Voxel_GetPaletteAddress(sbgl_VoxelSystem* sys);
 
 #endif // SBGL_VOXEL_H

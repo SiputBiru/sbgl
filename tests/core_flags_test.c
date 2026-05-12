@@ -137,6 +137,15 @@ void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer) {
     (void)ctx; (void)buffer;
 }
 
+void sbgl_gfx_FillBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer, size_t offset, size_t size, uint32_t value) {
+    (void)ctx; (void)buffer; (void)offset; (void)size; (void)value;
+}
+
+uint32_t sbgl_gfx_GetFrameIndex(sbgl_GfxContext* ctx) {
+    (void)ctx;
+    return 0;
+}
+
 sbgl_Shader sbgl_gfx_LoadShader(sbgl_GfxContext* ctx, sbgl_ShaderStage stage, const uint32_t* bytecode, size_t size) {
     (void)ctx; (void)stage; (void)bytecode; (void)size;
     return (sbgl_Shader)1;

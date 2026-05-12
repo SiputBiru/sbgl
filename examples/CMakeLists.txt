@@ -13,6 +13,7 @@ set(VOXEL3D_FRAG "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel3D.frag")
 set(VOXEL_CULL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_cull.comp")
 set(VOXEL_GEN "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_gen.comp")
 set(VOXEL_SHELL "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_shell.comp")
+set(VOXEL_MESH "${CMAKE_CURRENT_SOURCE_DIR}/shaders/voxel_mesh.comp")
 set(COMPUTE_TEST "${CMAKE_CURRENT_SOURCE_DIR}/shaders/compute_test.comp")
 
 set(TRI_VERT_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle.vert.spv")
@@ -29,6 +30,7 @@ set(VOXEL3D_FRAG_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D.frag.spv")
 set(VOXEL_CULL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_cull.comp.spv")
 set(VOXEL_GEN_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_gen.comp.spv")
 set(VOXEL_SHELL_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_shell.comp.spv")
+set(VOXEL_MESH_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_mesh.comp.spv")
 set(COMPUTE_TEST_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/compute_test.comp.spv")
 
 set(TRI_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_vert.h")
@@ -52,6 +54,7 @@ sbgl_compile_shader_to_spv(${VOXEL3D_FRAG} ${VOXEL3D_FRAG_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_CULL} ${VOXEL_CULL_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_GEN} ${VOXEL_GEN_SPV})
 sbgl_compile_shader_to_spv(${VOXEL_SHELL} ${VOXEL_SHELL_SPV})
+sbgl_compile_shader_to_spv(${VOXEL_MESH} ${VOXEL_MESH_SPV})
 sbgl_compile_shader_to_spv(${COMPUTE_TEST} ${COMPUTE_TEST_SPV})
 
 sbgl_convert_spv_to_header(${TRI_VERT_SPV} ${TRI_VERT_H})
@@ -64,7 +67,7 @@ add_custom_target(example_shaders DEPENDS
     ${BATCH_VERT_SPV} ${BATCH_FRAG_SPV}
     ${VOXEL_VERT_SPV} ${VOXEL_FRAG_SPV}
     ${VOXEL3D_VERT_SPV} ${VOXEL3D_FRAG_SPV} ${VOXEL_CULL_SPV}
-    ${VOXEL_GEN_SPV} ${VOXEL_SHELL_SPV}
+    ${VOXEL_GEN_SPV} ${VOXEL_SHELL_SPV} ${VOXEL_MESH_SPV}
     ${COMPUTE_TEST_SPV}
     ${TRI_VERT_H} ${TRI_FRAG_H}
 )
@@ -153,5 +156,5 @@ else()
     add_example(triangle_main triangle/triangle_main.c)
     add_example(batch_main batching/batch_main.c)
     add_example(voxel_main voxels/voxel_main.c)
-    add_example(voxel3D_main "voxels/voxel3D_main.c;voxels/voxel_pool.c")
+    add_example(voxel3D_main voxels/voxel3D_main.c)
 endif()

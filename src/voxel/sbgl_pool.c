@@ -23,41 +23,56 @@ VoxelPool* VoxelPool_Init(SblArena* arena, uint32_t capacity) {
 }
 
 int32_t VoxelPool_AcquireSlot(VoxelPool* pool, sbgl_ivec3 pos, bool* is_new) {
-  int32_t lru_index = 0;
-  uint64_t min_frame = UINT64_MAX;
-
-  // Search for an existing slot with matching coordinates or find an empty slot.
+  // Search for an existing slot with matching coordinates to avoid duplicates.
+  // This first pass ensures that active chunks are not accidentally overwritten.
   for (uint32_t i = 0; i < pool->capacity; ++i) {
     if (pool->active[i]) {
       if (pool->positions[i].x == pos.x && 
           pool->positions[i].y == pos.y && 
           pool->positions[i].z == pos.z) {
-        // Found an existing slot, update its frame for LRU.
+        // The slot is already in the pool; update its timestamp and return.
         pool->last_used_frames[i] = pool->current_frame;
         if (is_new) *is_new = false;
         return (int32_t)i;
       }
-    } else {
-      // Found an inactive slot, assign it immediately.
-      pool->active[i] = 1;
-      pool->positions[i] = pos;
-      pool->last_used_frames[i] = pool->current_frame;
-      if (is_new) *is_new = true;
-      return (int32_t)i;
-    }
-
-    // Keep track of the oldest used slot in case we need to recycle.
-    if (pool->last_used_frames[i] < min_frame) {
-      min_frame = pool->last_used_frames[i];
-      lru_index = (int32_t)i;
     }
   }
 
-  // No existing or inactive slots available; recycle the least recently used one.
-  pool->positions[lru_index] = pos;
-  pool->last_used_frames[lru_index] = pool->current_frame;
+  // If no matching slot was found, search for an available or least recently used slot.
+  int32_t lru_index = -1;
+  int32_t empty_index = -1;
+  uint64_t min_frame = UINT64_MAX;
+
+  for (uint32_t i = 0; i < pool->capacity; ++i) {
+    if (!pool->active[i]) {
+      // Locate the first available empty slot for immediate assignment.
+      if (empty_index == -1) {
+        empty_index = (int32_t)i;
+      }
+    } else {
+      // Track the oldest active slot to serve as a candidate for eviction.
+      if (pool->last_used_frames[i] < min_frame) {
+        min_frame = pool->last_used_frames[i];
+        lru_index = (int32_t)i;
+      }
+    }
+  }
+
+  // Select the empty slot if one exists; otherwise, recycle the LRU candidate.
+  int32_t target_index = (empty_index != -1) ? empty_index : lru_index;
+
+  // In the event that no slot can be identified, return an invalid index.
+  if (target_index == -1) {
+    return -1;
+  }
+
+  // Finalize the acquisition by updating the slot's state and position metadata.
+  pool->active[target_index] = 1;
+  pool->positions[target_index] = pos;
+  pool->last_used_frames[target_index] = pool->current_frame;
   if (is_new) *is_new = true;
-  return lru_index;
+
+  return target_index;
 }
 
 void VoxelPool_UpdateFrame(VoxelPool* pool, uint64_t frame) {

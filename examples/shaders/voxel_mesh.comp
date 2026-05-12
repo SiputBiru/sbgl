@@ -1,0 +1,185 @@
+#version 450
+#extension GL_EXT_buffer_reference : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+
+/**
+ * @file voxel_mesh.comp
+ * @brief Compute shader for vertical column-based binary meshing of voxels.
+ *
+ * This shader processes the voxel grid in vertical columns, identifying contiguous
+ * runs of solid voxels and merging them into single instances with a vertical scale.
+ * This significantly reduces the instance count for structures like trees or walls
+ * by substituting multiple single-voxel cubes with a single elongated prism.
+ */
+
+layout(local_size_x = 64) in;
+
+layout(buffer_reference, std430) readonly buffer VoxelMask { uint words[]; };
+layout(buffer_reference, std430) buffer InstanceBuffer { uvec2 data[]; };
+layout(buffer_reference, std430) buffer Counter { uint count; };
+
+/**
+ * @brief GPU addresses for the source bitmask and destination buffers.
+ */
+layout(push_constant) uniform PushConstants {
+  uint64_t maskAddress;     /**< Address of the 32x32x32 bitmask. */
+  uint64_t instanceAddress; /**< Address of the output instance buffer. */
+  uint64_t counterAddress;  /**< Address of the atomic instance counter. */
+  vec4 offset;              /**< World-space voxel offset for the current chunk. */
+} pc;
+
+/**
+ * @brief Samples the occupancy of a voxel at the specified grid coordinate.
+ */
+bool get_bit(VoxelMask mask, int x, int y, int z) {
+  /* Bounds check ensures that neighbor sampling does not overflow the chunk volume. 
+     Out-of-bounds samples return false, treating the chunk boundary as empty space. */
+  if (x < 0 || x >= 64 || y < 0 || y >= 64 || z < 0 || z >= 64) return false;
+  
+  /* Bitwise operations map 3D coordinates to the packed bitmask storage. */
+  uint idx = uint(z << 12 | y << 6 | x);
+  return (mask.words[idx >> 5u] & (1u << (idx & 31u))) != 0;
+}
+
+/**
+ * @brief Computes Ambient Occlusion for a specific voxel corner.
+ *
+ * Samples the 3 immediate face-neighbors that would occlude the vertex in a concave corner.
+ * The result is a value from 0 (fully exposed) to 3 (fully occluded).
+ */
+uint compute_ao(VoxelMask mask, int x, int y, int z, int dx, int dy, int dz) {
+  /* Calculate neighbor offsets based on which corner of the voxel we are sampling. */
+  int ox = (dx == 0) ? -1 : 1;
+  int oy = (dy == 0) ? -1 : 1;
+  int oz = (dz == 0) ? -1 : 1;
+
+  /* We sample the three voxels that share this specific vertex but are not part of the current run. */
+  bool side1 = get_bit(mask, x + ox, y, z);
+  bool side2 = get_bit(mask, x, y + oy, z);
+  bool side3 = get_bit(mask, x, y, z + oz);
+
+  return uint(side1) + uint(side2) + uint(side3);
+}
+
+/**
+ * @brief Records a vertical run of voxels as a single scaled instance with AO data.
+ */
+void emit_run(uint x, uint y, uint z, uint scale, uint materialID, VoxelMask mask) {
+  Counter counter = Counter(pc.counterAddress);
+  uint idx = atomicAdd(counter.count, 1);
+  
+  /* The instance buffer has a fixed capacity to avoid memory corruption. */
+  if (idx < 65536) {
+    InstanceBuffer inst = InstanceBuffer(pc.instanceAddress);
+    /* The instance ID is the base voxel's 18-bit packed coordinate. */
+    uint gID = (z << 12 | y << 6 | x);
+    /* Voxel instance layout Word 0: 18 bits VoxelID, 8 bits Y-Scale, 6 bits MaterialID. */
+    inst.data[idx].x = gID | (scale << 18u) | (materialID << 26u);
+
+    /* Compute AO for all 8 corners of the vertical strip (4 at bottom, 4 at top). */
+    uint yEnd = y + scale;
+    uint ao0 = compute_ao(mask, int(x), int(y), int(z), 0, 0, 0);
+    uint ao1 = compute_ao(mask, int(x), int(y), int(z), 1, 0, 0);
+    uint ao2 = compute_ao(mask, int(x), int(yEnd - 1), int(z), 1, 1, 0);
+    uint ao3 = compute_ao(mask, int(x), int(yEnd - 1), int(z), 0, 1, 0);
+    uint ao4 = compute_ao(mask, int(x), int(y), int(z), 0, 0, 1);
+    uint ao5 = compute_ao(mask, int(x), int(y), int(z), 1, 0, 1);
+    uint ao6 = compute_ao(mask, int(x), int(yEnd - 1), int(z), 1, 1, 1);
+    uint ao7 = compute_ao(mask, int(x), int(yEnd - 1), int(z), 0, 1, 1);
+
+    /* Pack 8 corners into the second 32-bit word, 2 bits per corner. */
+    inst.data[idx].y = (ao0 << 0) | (ao1 << 2) | (ao2 << 4) | (ao3 << 6) |
+                       (ao4 << 8) | (ao5 << 10) | (ao6 << 12) | (ao7 << 14);
+  }
+}
+
+void main() {
+  /* Each invocation processes an entire (X, Z) column of the 64x64x64 grid. */
+  uint x = gl_GlobalInvocationID.x;
+  uint z = gl_GlobalInvocationID.y;
+  if (x >= 64 || z >= 64) return;
+
+  VoxelMask mask = VoxelMask(pc.maskAddress);
+  
+  /* Pre-loading the entire column into a 64-bit integer would be ideal, 
+     but since bitmask storage is Y-strided, we iterate and merge directly. */
+  bool inRun = false;
+  uint yStart = 0;
+
+  for (uint y = 0; y < 64; y++) {
+    bool solid = get_bit(mask, int(x), int(y), int(z));
+    
+    if (solid && !inRun) {
+      /* Beginning of a new contiguous solid segment. */
+      inRun = true;
+      yStart = y;
+    } else if (!solid && inRun) {
+      /* The segment has ended. Determine if it is visible from any direction. */
+      uint scale = y - yStart;
+      bool exposed = false;
+      
+      /* A run is visible if its top or bottom faces are adjacent to empty space. */
+      if (!get_bit(mask, int(x), int(yStart) - 1, int(z))) exposed = true;
+      if (!exposed && !get_bit(mask, int(x), int(y), int(z))) exposed = true;
+      
+      /* If the ends are buried, check if any voxel in the run has an empty side neighbor. */
+      if (!exposed) {
+        for (uint sy = yStart; sy < y; sy++) {
+          if (!get_bit(mask, int(x) + 1, int(sy), int(z)) ||
+              !get_bit(mask, int(x) - 1, int(sy), int(z)) ||
+              !get_bit(mask, int(x), int(sy), int(z) + 1) ||
+              !get_bit(mask, int(x), int(sy), int(z) - 1)) {
+            exposed = true;
+            break;
+          }
+        }
+      }
+      
+      if (exposed) {
+        /* Heuristic material selection based on global height. */
+        float globalY = float(yStart) * 4.0 + pc.offset.y;
+        uint materialID = 3; // Sand
+        if (globalY > 160.0) materialID = 2;      // Stone
+        else if (globalY > 64.0) materialID = 0;  // Grass
+        else if (globalY > 32.0) materialID = 1;  // Dirt
+        
+        emit_run(x, yStart, z, scale, materialID, mask);
+      }
+      inRun = false;
+    }
+  }
+
+  /* Handle a run that terminates exactly at the top boundary of the chunk. */
+  if (inRun) {
+    uint scale = 64 - yStart;
+    uint yEnd = yStart + scale;
+    bool exposed = false;
+    
+    if (!get_bit(mask, int(x), int(yStart) - 1, int(z))) exposed = true;
+    /* Boundary voxels are implicitly exposed to the exterior of the chunk. */
+    if (!exposed && !get_bit(mask, int(x), 64, int(z))) exposed = true;
+    
+    if (!exposed) {
+      for (uint sy = yStart; sy <= 63; sy++) {
+        if (!get_bit(mask, int(x) + 1, int(sy), int(z)) ||
+            !get_bit(mask, int(x) - 1, int(sy), int(z)) ||
+            !get_bit(mask, int(x), int(sy), int(z) + 1) ||
+            !get_bit(mask, int(x), int(sy), int(z) - 1)) {
+          exposed = true;
+          break;
+        }
+      }
+    }
+    
+    if (exposed) {
+      /* Heuristic material selection based on global height. */
+      float globalY = float(yStart) * 4.0 + pc.offset.y;
+      uint materialID = 3; // Sand
+      if (globalY > 160.0) materialID = 2;      // Stone
+      else if (globalY > 64.0) materialID = 0;  // Grass
+      else if (globalY > 32.0) materialID = 1;  // Dirt
+
+      emit_run(x, yStart, z, scale, materialID, mask);
+    }
+  }
+}

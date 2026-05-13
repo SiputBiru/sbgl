@@ -13,23 +13,18 @@ A graphics framework engineered for target hardware. Built on C99 and Vulkan 1.3
 > [!WARNING]
 > **API Instability Notice**: SBgl is currently in an experimental phase of development. The API is considered unstable and is subject to significant changes or complete removal at any given moment without prior notice. Use in production environments is not recommended.
 
+## Dependencies
+
+| Dependency | Version | Purpose | Integration |
+| :--- | :--- | :--- | :--- |
+| **[volk](https://github.com/zeux/volk)** | 1.4.350 | Vulkan Meta-loader for device-specific function dispatching. | CMake FetchContent (Automatic) |
+| **Wayland** | Native | Primary windowing system for Linux development. | System Package (External) |
+| **X11** | Native | Legacy windowing support for Linux platforms. | System Package (External) |
+| **stb_perlin** | 0.5 | Single-file noise generator for procedural voxel terrain. | Source-embedded (Internal) |
+| **glslc** | SDK | SPIR-V shader compiler (Khronos/Google). | Vulkan SDK (External) |
+| **xxd** | OS | Utility for embedding binary assets into C source code. | System Package (External) |
+
 ## Quick Start
-
-### Examples
-
-```bash
-git clone https://github.com/SiputBiru/sbgl.git
-
-# Release build (default)
-cmake -B build -DSBGL_BUILD_EXAMPLES=ON
-cmake --build build
-
-# Debug build (with symbols, no optimization)
-cmake -B build -DCMAKE_BUILD_TYPE=Debug -DSBGL_BUILD_EXAMPLES=ON
-cmake --build build
-
-./build/examples/hello_window
-```
 
 ### Integrating SBgl
 
@@ -48,7 +43,7 @@ FetchContent_MakeAvailable(sbgl)
 target_link_libraries(your_application PRIVATE sbgl)
 ```
 
-### Basic use case Pattern
+### Basic example
 
 ```c
 #include "sbgl.h"
@@ -85,16 +80,23 @@ int main() {
 }
 ```
 
-## Dependencies
+### Building from scratch
 
-| Dependency | Version | Purpose | Integration |
-| :--- | :--- | :--- | :--- |
-| **[volk](https://github.com/zeux/volk)** | 1.4.350 | Vulkan Meta-loader for device-specific function dispatching. | CMake FetchContent (Automatic) |
-| **Wayland** | Native | Primary windowing system for Linux development. | System Package (External) |
-| **X11** | Native | Legacy windowing support for Linux platforms. | System Package (External) |
-| **stb_perlin** | 0.5 | Single-file noise generator for procedural voxel terrain. | Source-embedded (Internal) |
-| **glslc** | SDK | SPIR-V shader compiler (Khronos/Google). | Vulkan SDK (External) |
-| **xxd** | OS | Utility for embedding binary assets into C source code. | System Package (External) |
+```bash
+git clone https://github.com/SiputBiru/sbgl.git
+
+# Release build (default)
+cmake -B build -DSBGL_BUILD_EXAMPLES=ON
+cmake --build build
+
+# Debug build (with symbols, no optimization)
+cmake -B build -DCMAKE_BUILD_TYPE=Debug -DSBGL_BUILD_EXAMPLES=ON
+cmake --build build
+
+./build/examples/hello_window
+```
+
+more installation can see it  [here](https://siputbiru.github.io/sbgl/md_docs_2getting__started_2installation.html)
 
 ## Documentation
 

@@ -27,12 +27,12 @@ var NAVTREE =
   [ "SBgl", "index.html", [
     [ "SBgl Documentation Index", "index.html", "index" ],
     [ "SBgl (SiputBiru Graphics Library)", "md_README.html", [
-      [ "Quick Start", "md_README.html#autotoc_md6", [
-        [ "Examples", "md_README.html#autotoc_md7", null ],
+      [ "Dependencies", "md_README.html#autotoc_md6", null ],
+      [ "Quick Start", "md_README.html#autotoc_md7", [
         [ "Integrating SBgl", "md_README.html#autotoc_md8", null ],
-        [ "Basic use case Pattern", "md_README.html#autotoc_md9", null ]
+        [ "Basic example", "md_README.html#autotoc_md9", null ],
+        [ "Building from scratch", "md_README.html#autotoc_md10", null ]
       ] ],
-      [ "Dependencies", "md_README.html#autotoc_md10", null ],
       [ "Documentation", "md_README.html#autotoc_md11", [
         [ "Chapters", "md_README.html#autotoc_md12", null ]
       ] ],

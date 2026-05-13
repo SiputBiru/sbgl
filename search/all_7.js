@@ -6,8 +6,8 @@ var searchData=
   ['based_20backend_20multi_20context_20support_3',['Context-Based Backend (Multi-Context Support)',['../md_docs_2manual_2vulkan__backend.html#autotoc_md241',1,'']]],
   ['based_20backend_20refactor_20multi_20context_20support_4',['Context-Based Backend Refactor (Multi-Context Support)',['../md_docs_2ROADMAP.html#autotoc_md259',1,'']]],
   ['based_20resource_20management_5',['Handle-Based Resource Management',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md176',1,'']]],
-  ['basic_20example_20pattern_6',['Basic Example Pattern',['../md_docs_2examples_2index.html#autotoc_md63',1,'']]],
-  ['basic_20use_20case_20pattern_7',['Basic use case Pattern',['../md_README.html#autotoc_md9',1,'']]],
+  ['basic_20example_6',['Basic example',['../md_README.html#autotoc_md9',1,'']]],
+  ['basic_20example_20pattern_7',['Basic Example Pattern',['../md_docs_2examples_2index.html#autotoc_md63',1,'']]],
   ['batch_20access_8',['Data-Oriented API (Batch Access)',['../md_docs_2manual_2input__system.html#autotoc_md114',1,'']]],
   ['batch_20collision_9',['Camera System &amp; Batch Collision',['../md_docs_2ROADMAP.html#autotoc_md257',1,'']]],
   ['batch_20collision_20math_10',['Batch Collision Math',['../md_docs_2manual_2camera__system.html#autotoc_md102',1,'']]],
@@ -37,5 +37,6 @@ var searchData=
   ['buffers_34',['buffers',['../structsbgl__GfxContext.html#ad9edb2c408a025f3fc4b4417ced56c20',1,'sbgl_GfxContext']]],
   ['buffers_20triangle_20rendering_35',['Vertex Buffers &amp; Triangle Rendering',['../md_docs_2ROADMAP.html#autotoc_md258',1,'']]],
   ['build_20instructions_36',['Build Instructions',['../md_docs_2getting__started_2installation.html#autotoc_md82',1,'Build Instructions'],['../md_docs_2getting__started_2installation.html#autotoc_md86',1,'Build Instructions'],['../md_docs_2getting__started_2installation.html#autotoc_md90',1,'Build Instructions']]],
-  ['building_20the_20examples_37',['Building the Examples',['../md_docs_2examples_2index.html#autotoc_md56',1,'']]]
+  ['building_20from_20scratch_37',['Building from scratch',['../md_README.html#autotoc_md10',1,'']]],
+  ['building_20the_20examples_38',['Building the Examples',['../md_docs_2examples_2index.html#autotoc_md56',1,'']]]
 ];

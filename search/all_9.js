@@ -10,7 +10,7 @@ var searchData=
   ['deferredbuffers_7',['deferredBuffers',['../structsbgl__GfxContext.html#a1301afafa636e6cce7b38a486ca6a296',1,'sbgl_GfxContext']]],
   ['deferredcount_8',['deferredCount',['../structsbgl__GfxContext.html#a8eb52e64f741ca7eebd2b7f112687f3c',1,'sbgl_GfxContext']]],
   ['deltas_9',['Mouse Deltas',['../md_docs_2manual_2input__system.html#autotoc_md111',1,'']]],
-  ['dependencies_10',['Dependencies',['../md_README.html#autotoc_md10',1,'Dependencies'],['../md_docs_2getting__started_2installation.html#autotoc_md81',1,'System Dependencies']]],
+  ['dependencies_10',['Dependencies',['../md_README.html#autotoc_md6',1,'Dependencies'],['../md_docs_2getting__started_2installation.html#autotoc_md81',1,'System Dependencies']]],
   ['dependency_20management_11',['Dependency Management',['../md_docs_2getting__started_2installation.html#autotoc_md78',1,'']]],
   ['depth_20buffering_203d_20sorting_12',['Depth Buffering &amp; 3D Sorting',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md184',1,'']]],
   ['depthformat_13',['depthFormat',['../structsbgl__GfxContext.html#ae21b6b54026296317728f36ba3e38460',1,'sbgl_GfxContext']]],

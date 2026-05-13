@@ -7,5 +7,5 @@ var searchData=
   ['queue_20management_4',['Logical Device and Queue Management',['../md_docs_2manual_2vulkan__backend.html#autotoc_md228',1,'']]],
   ['queue_20submission_5',['Multi-Queue Submission',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md195',1,'']]],
   ['queues_6',['Render Queues',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md187',1,'']]],
-  ['quick_20start_7',['Quick Start',['../md_README.html#autotoc_md6',1,'']]]
+  ['quick_20start_7',['Quick Start',['../md_README.html#autotoc_md7',1,'']]]
 ];

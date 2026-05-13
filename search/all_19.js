@@ -13,8 +13,7 @@ var searchData=
   ['updates_10',['Dynamic Vertex Updates',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md194',1,'']]],
   ['usage_20example_11',['Usage Example',['../md_docs_2manual_2telemetry.html#autotoc_md204',1,'']]],
   ['use_20case_12',['Vertex Layout Use Case',['../md_docs_2manual_2rendering__pipeline.html#autotoc_md182',1,'']]],
-  ['use_20case_20pattern_13',['Basic use case Pattern',['../md_README.html#autotoc_md9',1,'']]],
-  ['use_20constructors_14',['Why use Constructors?',['../md_docs_2manual_2math__library.html#autotoc_md132',1,'']]],
-  ['user_20responsibility_15',['User Responsibility',['../md_docs_2manual_2platform__abstraction.html#autotoc_md167',1,'']]],
-  ['using_20the_20compute_20api_16',['Using the Compute API',['../md_docs_2COMPUTE.html#autotoc_md47',1,'']]]
+  ['use_20constructors_13',['Why use Constructors?',['../md_docs_2manual_2math__library.html#autotoc_md132',1,'']]],
+  ['user_20responsibility_14',['User Responsibility',['../md_docs_2manual_2platform__abstraction.html#autotoc_md167',1,'']]],
+  ['using_20the_20compute_20api_15',['Using the Compute API',['../md_docs_2COMPUTE.html#autotoc_md47',1,'']]]
 ];

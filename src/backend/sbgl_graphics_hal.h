@@ -20,7 +20,16 @@ struct SblArena;
  */
 typedef struct sbgl_GfxContext sbgl_GfxContext;
 
-sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena);
+/**
+ * @brief Initializes the graphics backend with configurable resource limits.
+ *
+ * @param window The platform window handle.
+ * @param arena The arena for persistent allocations.
+ * @param limits Pointer to resource limits (must not be NULL).
+ * @param enableValidation Whether to enable Vulkan validation layers.
+ * @return A pointer to the graphics context, or NULL on failure.
+ */
+sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena, const sbgl_ResourceLimits* limits, bool enableValidation);
 void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx);
 
 /**

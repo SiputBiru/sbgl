@@ -49,6 +49,7 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 
 - [x] Implement `sbgl_Result` status tracking in the context
 - [x] Standardize naming conventions across the public API surface
+- [x] Implement configurable resource limits via `sbgl_InitWithConfig()`
 
 ## GPU Optimization & Batching (MDI/Bit-packing)
 

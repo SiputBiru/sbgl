@@ -1,6 +1,4 @@
 #include "sbgl_sort.h"
-#include <stdlib.h>
-#include <string.h>
 
 /**
  * @file sbgl_sort.c

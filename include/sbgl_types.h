@@ -250,6 +250,53 @@ typedef struct sbgl_Context {
 } sbgl_Context;
 
 /**
+ * @brief Resource limits for engine initialization.
+ *
+ * Configures the maximum number of GPU resources that can be allocated
+ * simultaneously. These limits affect memory usage and should be tuned
+ * based on application requirements.
+ */
+typedef struct {
+  uint32_t maxBuffers;   /**< Maximum GPU buffers (default: 1024). */
+  uint32_t maxShaders;   /**< Maximum shader modules (default: 256). */
+  uint32_t maxPipelines; /**< Maximum graphics/compute pipelines (default: 256). */
+} sbgl_ResourceLimits;
+
+/**
+ * @brief Configuration for engine initialization.
+ *
+ * Provides explicit control over initialization parameters including
+ * resource limits and runtime behavior flags.
+ */
+typedef struct {
+  uint32_t windowWidth;        /**< Initial window width in pixels. */
+  uint32_t windowHeight;       /**< Initial window height in pixels. */
+  const char* windowTitle;     /**< Window title string (optional, may be NULL). */
+  sbgl_ResourceLimits limits;  /**< Resource allocation limits. */
+  bool enableValidation;       /**< Enable Vulkan validation layers. */
+} sbgl_InitConfig;
+
+/**
+ * @brief Default initialization configuration values.
+ *
+ * Use this as a starting point for custom configurations:
+ * @code
+ * sbgl_InitConfig config = sbgl_DefaultInitConfig;
+ * config.windowWidth = 1920;
+ * config.windowHeight = 1080;
+ * config.limits.maxBuffers = 4096;
+ * sbgl_InitResult res = sbgl_InitWithConfig(&config);
+ * @endcode
+ */
+#define sbgl_DefaultInitConfig ((sbgl_InitConfig){ \
+  .windowWidth = 800, \
+  .windowHeight = 600, \
+  .windowTitle = "SBgl Application", \
+  .limits = { .maxBuffers = 1024, .maxShaders = 256, .maxPipelines = 256 }, \
+  .enableValidation = true \
+})
+
+/**
  * @brief Result structure for initialization.
  */
 typedef struct {

@@ -8,6 +8,10 @@ The SBgl Rendering Pipeline is built on Vulkan 1.3's Dynamic Rendering, eliminat
 
 Resources like Buffers, Shaders, and Pipelines are referenced via `sbgl_Buffer`, `sbgl_Shader`, and `sbgl_Pipeline` handles (32-bit unsigned integers). Internally, these handles map to contiguous arrays in the Vulkan backend, ensuring cache-efficient access.
 
+### Configurable Resource Limits
+
+The maximum number of resources (buffers, shaders, pipelines) is configurable at context initialization via `sbgl_InitWithConfig()`. See [Window Setup](../getting_started/window_setup.md) for details on initialization options.
+
 ### Explicit Pipeline State Objects (PSO)
 
 SBgl requires explicit creation of graphics pipelines. A pipeline encapsulates the vertex/fragment shaders and the vertex input layout. This design ensures predictable performance by moving pipeline compilation to initialization time.

@@ -80,6 +80,37 @@ int main() {
 }
 ```
 
+### Custom Resource Limits
+
+For applications requiring more resources, use `sbgl_InitWithConfig()`:
+
+```c
+sbgl_InitConfig config = {
+    .windowWidth = 1920,
+    .windowHeight = 1080,
+    .windowTitle = "High-Resource Application",
+    .limits = {
+        .maxBuffers = 4096,      // Default: 1024
+        .maxShaders = 512,       // Default: 256
+        .maxPipelines = 1024     // Default: 256
+    },
+    .enableValidation = true
+};
+
+sbgl_InitResult res = sbgl_InitWithConfig(&config);
+```
+
+Alternatively, start from defaults and override specific fields:
+
+```c
+sbgl_InitConfig config = sbgl_DefaultInitConfig;
+config.windowWidth = 1920;
+config.windowHeight = 1080;
+config.limits.maxBuffers = 4096;
+
+sbgl_InitResult res = sbgl_InitWithConfig(&config);
+```
+
 ### Building from scratch
 
 ```bash
@@ -126,7 +157,7 @@ As a "bare-metal" framework in active development, SBgl has several known techni
 
 * **Single Command Stream**: While the API supports multiple contexts, command recording is currently serialized into a single primary command buffer per frame. Asynchronous, multi-threaded command recording is on the roadmap but not yet available.
 * **Linux-First Maturity**: Although Win32 is supported, the Linux (Wayland/X11) platform layers are the primary development targets and currently offer the highest stability and feature parity.
-* **Resource Limits**: Internal pools for buffers, shaders, and pipelines use fixed-capacity arrays (e.g., `SBGL_MAX_BUFFERS`) to ensure O(1) handle lookups and avoid heap fragmentation.
+* **Resource Limits**: While resource limits (buffers, shaders, pipelines) are configurable at initialization via `sbgl_InitWithConfig()`, they remain fixed for the lifetime of the context to ensure O(1) handle lookups and avoid heap fragmentation.
 
 ## Performance & Rendering Techniques
 

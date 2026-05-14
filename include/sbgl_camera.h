@@ -137,14 +137,12 @@ static inline sbgl_Mat4 sbgl_CameraGetProjection(const sbgl_Camera* cam) {
 	if (cam->type == SBGL_CAMERA_PERSPECTIVE) {
 		return sbgl_Mat4Perspective(cam->fov_y, cam->aspect, cam->near_plane, cam->far_plane);
 	}
-	sbgl_OrthoParams p = {
-		.left = cam->ortho_left,
-		.right = cam->ortho_right,
-		.bottom = cam->ortho_bottom,
-		.top = cam->ortho_top,
-		.near_p = cam->near_plane,
-		.far_p = cam->far_plane
-	};
+	sbgl_OrthoParams p = { .left = cam->ortho_left,
+						   .right = cam->ortho_right,
+						   .bottom = cam->ortho_bottom,
+						   .top = cam->ortho_top,
+						   .near_p = cam->near_plane,
+						   .far_p = cam->far_plane };
 	return sbgl_Mat4Orthographic(p);
 }
 

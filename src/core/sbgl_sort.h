@@ -6,8 +6,8 @@
 #ifndef SBGL_SORT_H
 #define SBGL_SORT_H
 
-#include <stdint.h>
 #include "sbgl_types.h"
+#include <stdint.h>
 
 /**
  * @brief Performs a stable radix sort on an array of 64-bit keys and associated 32-bit values.

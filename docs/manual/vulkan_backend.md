@@ -112,6 +112,46 @@ The graphics backend is fully decoupled from global state. All Vulkan function p
 - **Initialization:** `sbgl_gfx_Init` accepts a `sbgl_Window*` and an `SblArena*` for all its internal state allocations.
 - **Reentrancy:** Multiple SBgl contexts can exist simultaneously, each with its own independent Vulkan logical device and swapchain.
 
+### Configurable Resource Limits
+
+Resource limits for buffers, shaders, and pipelines are configurable at context initialization time via `sbgl_InitWithConfig()`:
+
+```c
+sbgl_InitConfig config = {
+    .windowWidth = 1920,
+    .windowHeight = 1080,
+    .windowTitle = "Application",
+    .limits = {
+        .maxBuffers = 4096,      // Maximum GPU buffer handles
+        .maxShaders = 512,       // Maximum shader module handles
+        .maxPipelines = 1024     // Maximum pipeline state objects
+    },
+    .enableValidation = true
+};
+
+sbgl_InitResult res = sbgl_InitWithConfig(&config);
+```
+
+Alternatively, use `sbgl_DefaultInitConfig` to start with defaults and override specific fields:
+
+```c
+sbgl_InitConfig config = sbgl_DefaultInitConfig;
+config.limits.maxBuffers = 4096;
+config.limits.maxPipelines = 1024;
+
+sbgl_InitResult res = sbgl_InitWithConfig(&config);
+```
+
+**Default Limits:**
+
+| Resource | Default | Minimum | Memory Impact |
+|----------|---------|---------|---------------|
+| Buffers | 1024 | 64 | ~32KB per 1024 entries |
+| Shaders | 256 | 16 | ~4KB per 256 entries |
+| Pipelines | 256 | 16 | ~8KB per 256 entries |
+
+Limits below the minimum are automatically clamped. Resource arrays are allocated from the persistent arena during initialization and remain fixed for the context lifetime to ensure O(1) handle lookups.
+
 ---
 
 ## GPU Synchronization & Teardown

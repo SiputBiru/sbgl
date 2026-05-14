@@ -66,8 +66,13 @@ SblArena* sbgl_GetContextArena(sbgl_Context* ctx) {
   return &inner->arena;
 }
 
-sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
+sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig* config) {
 	sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
+
+	if (!config) {
+		res.error = SBGL_ERROR_INITIALIZATION_FAILED;
+		return res;
+	}
 
 	SblArena main_arena;
 	if (!sbl_arena_init(&main_arena, 4 * 1024 * 1024)) { // 4MB default
@@ -102,14 +107,15 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	ctx->inner = inner;
 	ctx->result = SBGL_SUCCESS;
 
-	inner->window = sbgl_os_CreateWindow(&inner->arena, &inner->input, w, h, title);
+	const char* title = config->windowTitle ? config->windowTitle : "SBgl";
+	inner->window = sbgl_os_CreateWindow(&inner->arena, &inner->input, config->windowWidth, config->windowHeight, title);
 	if (!inner->window) {
 		res.error = SBGL_ERROR_WINDOW_CREATION_FAILED;
 		sbl_arena_free(&inner->arena);
 		return res;
 	}
 
-	inner->gfx = sbgl_gfx_Init(inner->window, &inner->arena);
+	inner->gfx = sbgl_gfx_Init(inner->window, &inner->arena, &config->limits, config->enableValidation);
 	if (!inner->gfx) {
 		res.error = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
 		sbgl_os_DestroyWindow(inner->window);
@@ -119,6 +125,17 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 
 	res.ctx = ctx;
 	return res;
+}
+
+sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
+	sbgl_InitConfig config = {
+		.windowWidth = w,
+		.windowHeight = h,
+		.windowTitle = title,
+		.limits = { .maxBuffers = 1024, .maxShaders = 256, .maxPipelines = 256 },
+		.enableValidation = true
+	};
+	return sbgl_InitWithConfig(&config);
 }
 
 void sbgl_Shutdown(sbgl_Context* ctx) {

@@ -80,9 +80,23 @@
 // --- API ---
 
 /**
+ * @brief Initializes the engine and opens a window with explicit configuration.
+ *
+ * This function sets up the internal HALs and the Vulkan 1.3 backend
+ * using the provided configuration. This allows fine-grained control
+ * over resource limits and validation settings.
+ *
+ * @param config Pointer to the initialization configuration.
+ * @return An initialization result containing the context and any error code.
+ */
+sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig* config);
+
+/**
  * @brief Initializes the engine and opens a window.
  *
  * This function sets up the internal HALs and the Vulkan 1.3 backend.
+ * It is a convenience wrapper around sbgl_InitWithConfig() that uses
+ * default resource limits and enables validation in debug builds.
  *
  * @param w Desired width of the window.
  * @param h Desired height of the window.

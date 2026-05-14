@@ -14,15 +14,19 @@
 
 // --- Vulkan Configuration ---
 
-#define SBGL_MAX_BUFFERS 1024
-#define SBGL_MAX_SHADERS 256
-#define SBGL_MAX_PIPELINES 256
 #define SBGL_MAX_FRAMES_IN_FLIGHT 2
 #define SBGL_MAX_SWAPCHAIN_IMAGES 8
 #define SBGL_TRANSIENT_BUFFER_SIZE (16 * 1024 * 1024)
 #define SBGL_STATIC_HEAP_SIZE (128 * 1024 * 1024)
 #define SBGL_DYNAMIC_HEAP_SIZE (128 * 1024 * 1024)
 #define SBGL_MANAGED_HEAP_SIZE (512 * 1024 * 1024)
+
+// Default resource limits used when not explicitly configured
+static const sbgl_ResourceLimits sbgl_DefaultResourceLimits = {
+  .maxBuffers = 1024,
+  .maxShaders = 256,
+  .maxPipelines = 256
+};
 
 typedef enum {
   SBGL_HEAP_TYPE_STATIC,
@@ -134,13 +138,17 @@ struct sbgl_GfxContext {
   sbgl_GfxDynamicHeap dynamicHeap;
   sbgl_GfxManagedHeap managedHeap;
 
-  /* The system utilizes a Structure of Arrays (SoA) layout for buffer metadata 
-     to optimize cache performance during resource state validation. */
-  bool bufferActive[SBGL_MAX_BUFFERS];
-  SBGL_VulkanBuffer buffers[SBGL_MAX_BUFFERS];
-  SBGL_VulkanShader shaders[SBGL_MAX_SHADERS];
-  SBGL_VulkanPipeline pipelines[SBGL_MAX_PIPELINES];
-  SBGL_VulkanComputePipeline computePipelines[SBGL_MAX_PIPELINES];
+  /* Resource limits configured at initialization time. */
+  sbgl_ResourceLimits limits;
+
+  /* The system utilizes a Structure of Arrays (SoA) layout for buffer metadata
+     to optimize cache performance during resource state validation.
+     These arrays are dynamically allocated based on configured limits. */
+  bool* bufferActive;
+  SBGL_VulkanBuffer* buffers;
+  SBGL_VulkanShader* shaders;
+  SBGL_VulkanPipeline* pipelines;
+  SBGL_VulkanComputePipeline* computePipelines;
   sbgl_Pipeline boundPipeline;
   sbgl_ComputePipeline boundComputePipeline;
 
@@ -918,7 +926,7 @@ static bool create_transient_resources(sbgl_GfxContext* ctx) {
   return true;
 }
 
-sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
+sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena, const sbgl_ResourceLimits* limits, bool enableValidation) {
   if (volkInitialize() != VK_SUCCESS) {
     fprintf(stderr, "[Vulkan] Failed to initialize volk\n");
     return NULL;
@@ -930,6 +938,32 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
 
   ctx->window = window;
   ctx->arena = arena;
+
+  // Apply resource limits (use defaults if not provided)
+  if (limits) {
+    ctx->limits = *limits;
+    // Enforce minimums to prevent crashes
+    if (ctx->limits.maxBuffers < 64) ctx->limits.maxBuffers = 64;
+    if (ctx->limits.maxShaders < 16) ctx->limits.maxShaders = 16;
+    if (ctx->limits.maxPipelines < 16) ctx->limits.maxPipelines = 16;
+  } else {
+    ctx->limits = sbgl_DefaultResourceLimits;
+  }
+
+  // Dynamically allocate resource arrays from the arena
+  // Use raw byte allocation since SBGL_Vulkan* types are defined later in this file
+  ctx->bufferActive = (bool*)sbl_arena_alloc_zero(arena, sizeof(bool) * ctx->limits.maxBuffers);
+  ctx->buffers = (SBGL_VulkanBuffer*)sbl_arena_alloc_zero(arena, sizeof(SBGL_VulkanBuffer) * ctx->limits.maxBuffers);
+  ctx->shaders = (SBGL_VulkanShader*)sbl_arena_alloc_zero(arena, sizeof(SBGL_VulkanShader) * ctx->limits.maxShaders);
+  ctx->pipelines = (SBGL_VulkanPipeline*)sbl_arena_alloc_zero(arena, sizeof(SBGL_VulkanPipeline) * ctx->limits.maxPipelines);
+  ctx->computePipelines = (SBGL_VulkanComputePipeline*)sbl_arena_alloc_zero(arena, sizeof(SBGL_VulkanComputePipeline) * ctx->limits.maxPipelines);
+
+  if (!ctx->bufferActive || !ctx->buffers || !ctx->shaders || !ctx->pipelines || !ctx->computePipelines) {
+    fprintf(stderr, "[Vulkan] Failed to allocate resource arrays\n");
+    sbgl_gfx_Shutdown(ctx);
+    return NULL;
+  }
+  (void)enableValidation; // TODO: Use for enabling Vulkan validation layers
 
   if (!create_instance(ctx) || !create_surface(ctx, window) || !select_physical_device(ctx) ||
     !create_logical_device(ctx) || !create_heaps(ctx) || !create_swapchain(ctx, window) ||
@@ -954,21 +988,21 @@ void sbgl_gfx_Shutdown(sbgl_GfxContext* ctx) {
     ctx->vk.vkDeviceWaitIdle(ctx->device);
 
     // Clean up all active buffers
-    for (uint32_t i = 0; i < SBGL_MAX_BUFFERS; i++) {
+    for (uint32_t i = 0; i < ctx->limits.maxBuffers; i++) {
       if (ctx->bufferActive[i]) {
         sbgl_gfx_DestroyBuffer(ctx, (sbgl_Buffer)(i + 1));
       }
     }
 
     // Clean up all active shaders
-    for (uint32_t i = 0; i < SBGL_MAX_SHADERS; i++) {
+    for (uint32_t i = 0; i < ctx->limits.maxShaders; i++) {
       if (ctx->shaders[i].active) {
         sbgl_gfx_DestroyShader(ctx, (sbgl_Shader)(i + 1));
       }
     }
 
     // Clean up all active pipelines
-    for (uint32_t i = 0; i < SBGL_MAX_PIPELINES; i++) {
+    for (uint32_t i = 0; i < ctx->limits.maxPipelines; i++) {
       if (ctx->pipelines[i].active) {
         sbgl_gfx_DestroyPipeline(ctx, (sbgl_Pipeline)(i + 1));
       }
@@ -1232,11 +1266,11 @@ sbgl_Buffer
 sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
   /* Search for an available buffer slot in the internal tracking arrays. */
   uint32_t index = 0;
-  for (; index < SBGL_MAX_BUFFERS; index++) {
+  for (; index < ctx->limits.maxBuffers; index++) {
     if (!ctx->bufferActive[index])
       break;
   }
-  if (index == SBGL_MAX_BUFFERS)
+  if (index == ctx->limits.maxBuffers)
     return SBGL_INVALID_HANDLE;
 
   /* Identify the target memory heap based on the buffer's intended usage.
@@ -1323,7 +1357,7 @@ void sbgl_gfx_DestroyBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_BUFFERS || !ctx->bufferActive[index])
+  if (index >= ctx->limits.maxBuffers || !ctx->bufferActive[index])
     return;
 
   SBGL_VulkanBuffer* buffer = &ctx->buffers[index];
@@ -1348,7 +1382,7 @@ void sbgl_gfx_FillBuffer(
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_BUFFERS || !ctx->bufferActive[index])
+  if (index >= ctx->limits.maxBuffers || !ctx->bufferActive[index])
     return;
 
   ctx->vk.vkCmdFillBuffer(
@@ -1372,7 +1406,7 @@ void* sbgl_gfx_MapBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle) {
   if (handle == SBGL_INVALID_HANDLE)
     return NULL;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_BUFFERS || !ctx->bufferActive[index])
+  if (index >= ctx->limits.maxBuffers || !ctx->bufferActive[index])
     return NULL;
 
   return ctx->buffers[index].mapped;
@@ -1404,7 +1438,7 @@ uint64_t sbgl_gfx_GetBufferDeviceAddress(sbgl_GfxContext* ctx, sbgl_Buffer handl
   if (handle == SBGL_INVALID_HANDLE)
     return 0;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_BUFFERS || !ctx->bufferActive[index])
+  if (index >= ctx->limits.maxBuffers || !ctx->bufferActive[index])
     return 0;
 
   VkBufferDeviceAddressInfo info = {
@@ -1422,11 +1456,11 @@ sbgl_Shader sbgl_gfx_LoadShader(
   size_t size
 ) {
   uint32_t index = 0;
-  for (; index < SBGL_MAX_SHADERS; index++) {
+  for (; index < ctx->limits.maxShaders; index++) {
     if (!ctx->shaders[index].active)
       break;
   }
-  if (index == SBGL_MAX_SHADERS)
+  if (index == ctx->limits.maxShaders)
     return SBGL_INVALID_HANDLE;
 
   VkShaderModuleCreateInfo createInfo = {
@@ -1449,7 +1483,7 @@ void sbgl_gfx_DestroyShader(sbgl_GfxContext* ctx, sbgl_Shader handle) {
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_SHADERS || !ctx->shaders[index].active)
+  if (index >= ctx->limits.maxShaders || !ctx->shaders[index].active)
     return;
 
   ctx->vk.vkDestroyShaderModule(ctx->device, ctx->shaders[index].module, NULL);
@@ -1458,17 +1492,17 @@ void sbgl_gfx_DestroyShader(sbgl_GfxContext* ctx, sbgl_Shader handle) {
 
 sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineConfig* config) {
   uint32_t index = 0;
-  for (; index < SBGL_MAX_PIPELINES; index++) {
+  for (; index < ctx->limits.maxPipelines; index++) {
     if (!ctx->pipelines[index].active)
       break;
   }
-  if (index == SBGL_MAX_PIPELINES)
+  if (index == ctx->limits.maxPipelines)
     return SBGL_INVALID_HANDLE;
 
   VkPipelineShaderStageCreateInfo shaderStages[2] = { 0 };
 
   // Vertex Shader
-  if (config->vertexShader == SBGL_INVALID_HANDLE || config->vertexShader > SBGL_MAX_SHADERS) {
+  if (config->vertexShader == SBGL_INVALID_HANDLE || config->vertexShader > ctx->limits.maxShaders) {
     fprintf(stderr, "[Vulkan] Invalid vertex shader handle\n");
     return SBGL_INVALID_HANDLE;
   }
@@ -1483,7 +1517,7 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
   shaderStages[0].pName = "main";
 
   // Fragment Shader
-  if (config->fragmentShader == SBGL_INVALID_HANDLE || config->fragmentShader > SBGL_MAX_SHADERS) {
+  if (config->fragmentShader == SBGL_INVALID_HANDLE || config->fragmentShader > ctx->limits.maxShaders) {
     fprintf(stderr, "[Vulkan] Invalid fragment shader handle\n");
     return SBGL_INVALID_HANDLE;
   }
@@ -1661,7 +1695,7 @@ void sbgl_gfx_DestroyPipeline(sbgl_GfxContext* ctx, sbgl_Pipeline handle) {
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_PIPELINES || !ctx->pipelines[index].active)
+  if (index >= ctx->limits.maxPipelines || !ctx->pipelines[index].active)
     return;
 
   ctx->vk.vkDestroyPipeline(ctx->device, ctx->pipelines[index].handle, NULL);
@@ -1673,14 +1707,14 @@ sbgl_ComputePipeline sbgl_gfx_CreateComputePipeline(sbgl_GfxContext* ctx, sbgl_S
   /* The system scans the internal pipeline storage for an available slot to allocate
      the new compute pipeline state. */
   uint32_t index = 0;
-  for (; index < SBGL_MAX_PIPELINES; index++) {
+  for (; index < ctx->limits.maxPipelines; index++) {
     if (!ctx->computePipelines[index].active)
       break;
   }
-  if (index == SBGL_MAX_PIPELINES)
+  if (index == ctx->limits.maxPipelines)
     return SBGL_INVALID_HANDLE;
 
-  if (handle == SBGL_INVALID_HANDLE || handle > SBGL_MAX_SHADERS) {
+  if (handle == SBGL_INVALID_HANDLE || handle > ctx->limits.maxShaders) {
     fprintf(stderr, "[Vulkan] Invalid compute shader handle\n");
     return SBGL_INVALID_HANDLE;
   }
@@ -1748,7 +1782,7 @@ void sbgl_gfx_DestroyComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline 
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_PIPELINES || !ctx->computePipelines[index].active)
+  if (index >= ctx->limits.maxPipelines || !ctx->computePipelines[index].active)
     return;
 
   ctx->vk.vkDestroyPipeline(ctx->device, ctx->computePipelines[index].handle, NULL);
@@ -1764,7 +1798,7 @@ void sbgl_gfx_BindComputePipeline(sbgl_GfxContext* ctx, sbgl_ComputePipeline han
     return;
   }
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_PIPELINES || !ctx->computePipelines[index].active)
+  if (index >= ctx->limits.maxPipelines || !ctx->computePipelines[index].active)
     return;
 
   ctx->vk.vkCmdBindPipeline(
@@ -1852,7 +1886,7 @@ void sbgl_gfx_BindPipeline(sbgl_GfxContext* ctx, sbgl_Pipeline handle) {
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_PIPELINES || !ctx->pipelines[index].active)
+  if (index >= ctx->limits.maxPipelines || !ctx->pipelines[index].active)
     return;
 
   ctx->vk.vkCmdBindPipeline(
@@ -1880,7 +1914,7 @@ void sbgl_gfx_BindBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle, sbgl_BufferUs
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_BUFFERS || !ctx->bufferActive[index])
+  if (index >= ctx->limits.maxBuffers || !ctx->bufferActive[index])
     return;
 
   if (usage == SBGL_BUFFER_USAGE_VERTEX) {
@@ -1932,7 +1966,7 @@ void sbgl_gfx_DrawIndirect(
   if (handle == SBGL_INVALID_HANDLE)
     return;
   uint32_t index = (uint32_t)handle - 1;
-  if (index >= SBGL_MAX_BUFFERS || !ctx->bufferActive[index])
+  if (index >= ctx->limits.maxBuffers || !ctx->bufferActive[index])
     return;
 
   ctx->vk.vkCmdDrawIndexedIndirect(

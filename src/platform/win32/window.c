@@ -3,6 +3,30 @@
 #include "win32_internal.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+/**
+ * @brief Reports errors to both debugger output and stderr.
+ * 
+ * Uses OutputDebugStringW for Visual Studio debugger visibility
+ * and fprintf(stderr, ...) for console output.
+ */
+static void win32_report_error(const wchar_t* message) {
+    // Output to debugger (visible in Visual Studio Output window)
+    OutputDebugStringW(message);
+    OutputDebugStringW(L"\n");
+    
+    // Output to stderr (visible in console)
+    int len = WideCharToMultiByte(CP_UTF8, 0, message, -1, NULL, 0, NULL, NULL);
+    if (len > 0) {
+        char* utf8 = (char*)malloc(len);
+        if (utf8) {
+            WideCharToMultiByte(CP_UTF8, 0, message, -1, utf8, len, NULL, NULL);
+            fprintf(stderr, "[Win32] %s\n", utf8);
+            free(utf8);
+        }
+    }
+}
 
 static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     sbgl_Window* window = (sbgl_Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -34,6 +58,37 @@ static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lp
         if (window)
             window->focused = false;
         break;
+    case WM_INPUT: {
+        // Handle raw input for high-precision mouse deltas when cursor is locked
+        if (window && window->cursorLocked) {
+            RAWINPUT raw;
+            UINT size = sizeof(raw);
+            
+            if (GetRawInputData((HRAWINPUT)lparam, RID_INPUT, &raw, 
+                                &size, sizeof(RAWINPUTHEADER)) != (UINT)-1) {
+                if (raw.header.dwType == RIM_TYPEMOUSE) {
+                    // Accumulate raw deltas
+                    window->accumulatedDeltaX += raw.mouse.lLastX;
+                    window->accumulatedDeltaY += raw.mouse.lLastY;
+                }
+            }
+        }
+        break;
+    }
+    case WM_DPICHANGED: {
+        // Handle DPI changes for high-DPI display support
+        if (window) {
+            RECT* const prcNewWindow = (RECT*)lparam;
+            SetWindowPos(window->hwnd, NULL,
+                prcNewWindow->left,
+                prcNewWindow->top,
+                prcNewWindow->right - prcNewWindow->left,
+                prcNewWindow->bottom - prcNewWindow->top,
+                SWP_NOZORDER | SWP_NOACTIVATE);
+            window->resized = true;
+        }
+        break;
+    }
     }
 
     // Pass input messages to the input system
@@ -50,6 +105,9 @@ sbgl_Window* sbgl_os_CreateWindow(
     int height,
     const char* title
 ) {
+    // Set DPI awareness for Windows 10+ (Per-Monitor V2)
+    SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+    
     HINSTANCE hinstance = GetModuleHandle(NULL);
 
     WNDCLASSW wc = { 0 };
@@ -65,6 +123,10 @@ sbgl_Window* sbgl_os_CreateWindow(
     wchar_t* wtitle = malloc(title_len * sizeof(wchar_t));
     MultiByteToWideChar(CP_UTF8, 0, title, -1, wtitle, title_len);
 
+    // Calculate proper window size for requested client area
+    RECT rect = { 0, 0, width, height };
+    AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, FALSE, 0);
+
     HWND hwnd = CreateWindowExW(
         0,
         wc.lpszClassName,
@@ -72,8 +134,8 @@ sbgl_Window* sbgl_os_CreateWindow(
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
-        width,
-        height,
+        rect.right - rect.left,     // Adjusted width including borders
+        rect.bottom - rect.top,     // Adjusted height including title bar
         NULL,
         NULL,
         hinstance,
@@ -82,8 +144,10 @@ sbgl_Window* sbgl_os_CreateWindow(
 
     free(wtitle);
 
-    if (!hwnd)
+    if (!hwnd) {
+        win32_report_error(L"Failed to create window: CreateWindowExW returned NULL");
         return NULL;
+    }
 
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
     if (!window) {
@@ -98,7 +162,14 @@ sbgl_Window* sbgl_os_CreateWindow(
     window->height = height;
     window->focused = true;
     window->cursorVisible = true;
+    window->cursorLocked = false;
     window->input = input;
+    window->accumulatedDeltaX = 0;
+    window->accumulatedDeltaY = 0;
+    
+    /* Store class name for unregistration on destroy */
+    wcsncpy(window->className, wc.lpszClassName, 255);
+    window->className[255] = L'\0';
 
     SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
 
@@ -109,19 +180,42 @@ sbgl_Window* sbgl_os_CreateWindow(
 void sbgl_os_DestroyWindow(sbgl_Window* window) {
     if (!window)
         return;
+    
+    /* Unregister raw input if cursor is still locked */
+    if (window->cursorLocked) {
+        RAWINPUTDEVICE rid = {
+            .usUsagePage = 0x01,
+            .usUsage = 0x02,
+            .dwFlags = RIDEV_REMOVE,
+            .hwndTarget = NULL
+        };
+        RegisterRawInputDevices(&rid, 1, sizeof(rid));
+        ClipCursor(NULL);
+    }
+    
     DestroyWindow(window->hwnd);
+    
+    /* Unregister window class to prevent resource leaks */
+    if (window->className[0] != L'\0') {
+        UnregisterClassW(window->className, window->hinstance);
+    }
 }
 
 bool sbgl_os_WindowShouldClose(sbgl_Window* window) { return window ? window->shouldClose : true; }
 
 void sbgl_os_GetWindowSize(sbgl_Window* window, int* w, int* h) {
-    if (window) {
-        *w = window->width;
-        *h = window->height;
+    if (!window) {
+        if (w) *w = 0;
+        if (h) *h = 0;
+        return;
     }
+    if (w) *w = window->width;
+    if (h) *h = window->height;
 }
 
 bool sbgl_os_WasWindowResized(sbgl_Window* window) {
+    if (!window)
+        return false;
     bool r = window->resized;
     window->resized = false;
     return r;
@@ -142,10 +236,23 @@ void sbgl_os_SetCursorVisible(sbgl_Window* window, bool visible) {
 }
 
 void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked) {
-    if (!window)
+    if (!window || window->cursorLocked == locked)
         return;
 
+    window->cursorLocked = locked;
+
     if (locked) {
+        /* Register for raw mouse input to get high-precision deltas */
+        RAWINPUTDEVICE rid = {
+            .usUsagePage = 0x01,    // Generic Desktop
+            .usUsage = 0x02,        // Mouse
+            .dwFlags = RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE,
+            .hwndTarget = window->hwnd
+        };
+        if (!RegisterRawInputDevices(&rid, 1, sizeof(rid))) {
+            win32_report_error(L"Failed to register raw input device");
+        }
+
         /* The cursor is confined to the window client area by clipping it 
            to the screen-space coordinates of the client rectangle. */
         RECT rect;
@@ -153,6 +260,10 @@ void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked) {
         ClientToScreen(window->hwnd, (POINT*)&rect.left);
         ClientToScreen(window->hwnd, (POINT*)&rect.right);
         ClipCursor(&rect);
+
+        /* Hide the cursor */
+        ShowCursor(FALSE);
+        window->cursorVisible = false;
 
         /* The cursor is initially centered within the window to ensure 
            consistent relative motion tracking. */
@@ -162,9 +273,22 @@ void sbgl_os_SetCursorLocked(sbgl_Window* window, bool locked) {
         ClientToScreen(window->hwnd, &p);
         SetCursorPos(p.x, p.y);
     } else {
+        /* Unregister raw input device */
+        RAWINPUTDEVICE rid = {
+            .usUsagePage = 0x01,
+            .usUsage = 0x02,
+            .dwFlags = RIDEV_REMOVE,
+            .hwndTarget = NULL
+        };
+        RegisterRawInputDevices(&rid, 1, sizeof(rid));
+
         /* Any existing cursor clipping is removed, allowing the pointer 
            to move freely across the entire desktop. */
         ClipCursor(NULL);
+
+        /* Show the cursor */
+        ShowCursor(TRUE);
+        window->cursorVisible = true;
     }
 }
 
@@ -174,18 +298,19 @@ bool sbgl_os_IsWindowFocused(sbgl_Window* window) {
 }
 
 void sbgl_os_PollEvents(sbgl_Window* window) {
-    if (window)
-        win32_internal_update_input_states(window->input);
-
     MSG msg;
     while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+    
+    // Update input states after processing all messages
+    if (window)
+        win32_internal_update_input_states(window->input, window);
 }
 
 uint64_t sbgl_os_GetPerfCount(sbgl_Window* window) {
-    (void)window;
+    (void)window; // Not used, but kept for API consistency
     LARGE_INTEGER count;
     QueryPerformanceCounter(&count);
     return (uint64_t)count.QuadPart;

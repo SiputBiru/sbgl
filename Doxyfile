@@ -13,7 +13,23 @@ INPUT                  = docs/INDEX.md \
                          include \
                          src \
                          examples \
-                         docs
+                         docs \
+                         docs/getting_started/installation.md \
+                         docs/getting_started/first_triangle.md \
+                         docs/getting_started/window_setup.md \
+                         docs/manual/windows_specific.md \
+                         docs/manual/rendering_pipeline.md \
+                         docs/manual/vulkan_backend.md \
+                         docs/manual/memory_management.md \
+                         docs/manual/platform_abstraction.md \
+                         docs/manual/input_system.md \
+                         docs/manual/camera_system.md \
+                         docs/manual/math_library.md \
+                         docs/manual/voxel_rendering.md \
+                         docs/manual/telemetry.md \
+                         docs/examples/index.md \
+                         docs/COMPUTE.md \
+                         docs/ROADMAP.md
 
 EXCLUDE_PATTERNS       = */.git/* \
                          */build/* \
@@ -30,6 +46,18 @@ WARN_IF_UNDOCUMENTED   = NO
 MARKDOWN_SUPPORT       = YES
 IMAGE_PATH             = docs/img
 USE_MDFILE_AS_MAINPAGE = docs/INDEX.md
+
+# --- Markdown ID Style for Header Links ---
+MARKDOWN_ID_STYLE      = GITHUB
+
+# --- Table of Contents ---
+TOC_INCLUDE_HEADINGS   = 6
+
+# --- File Patterns for Documentation ---
+FILE_PATTERNS          = *.c \
+                         *.h \
+                         *.md \
+                         *.markdown
 
 # --- Modern HTML Settings ---
 GENERATE_TREEVIEW      = YES

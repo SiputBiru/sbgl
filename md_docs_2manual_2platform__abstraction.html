@@ -107,13 +107,13 @@ $(function(){initNavTree('md_docs_2manual_2platform__abstraction.html',''); init
   <div class="headertitle"><div class="title">SBgl Platform Abstraction Layer (HAL)</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md162"></a></p>
+<div class="textblock"><p><a class="anchor" id="sbgl-platform-abstraction-layer-hal"></a></p>
 <p>SBgl utilizes a strict Platform Abstraction Layer (HAL) to ensure that the core engine and user code remain completely isolated from OS-specific dependencies. This prevents heavy, namespace-polluting headers like <code>&lt;windows.h&gt;</code> or <code>&lt;X11/Xlib.h&gt;</code> from leaking into the user's application.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md164"></a>
+<h1><a class="anchor" id="the-interface-sbgl_platformh"></a>
 The Interface (<code>sbgl_platform.h</code>)</h1>
 <p>The core interacts with the operating system through a set of explicitly defined functions in <code><a class="el" href="sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL).">src/core/sbgl_platform.h</a></code>. The interface mandates that all OS-specific state be kept opaque from the rest of the engine.</p>
-<h2><a class="anchor" id="autotoc_md165"></a>
+<h2><a class="anchor" id="relationship-with-sbgl_context"></a>
 Relationship with <code>sbgl_Context</code></h2>
 <p>The public <code><a class="el" href="structsbgl__Context.html" title="Engine context.">sbgl_Context</a></code> structure serves as a thin shell. Its <code>inner</code> member points to a private <code><a class="el" href="structsbgl__InternalContext.html" title="Internal state for the engine context.">sbgl_InternalContext</a></code>, which encapsulates the platform layer state:</p>
 <ul>
@@ -123,7 +123,7 @@ Relationship with <code>sbgl_Context</code></h2>
 </ul>
 <p>This hierarchy allows the engine to pass a generic <code><a class="el" href="structsbgl__Context.html" title="Engine context.">sbgl_Context</a></code> to the public API while the platform layer internally retrieves the specific handles it needs to communicate with the OS.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md167"></a>
+<h1><a class="anchor" id="core-hal-interface"></a>
 Core HAL Interface</h1>
 <p>The most critical functions in the HAL manage the lifecycle and event loop of the native window:</p>
 <div class="fragment"><div class="line"><span class="comment">// Creates a native OS window and allocates its state from the provided arena</span></div>
@@ -140,13 +140,13 @@ Core HAL Interface</h1>
 <div class="ttc" id="asbgl__platform_8h_html_a3ec5ae966e395754fb623c5a109ea83a"><div class="ttname"><a href="sbgl__platform_8h.html#a3ec5ae966e395754fb623c5a109ea83a">sbgl_os_PollEvents</a></div><div class="ttdeci">void sbgl_os_PollEvents(sbgl_Window *window)</div><div class="ttdoc">Dispatches OS events (messages/protocol requests).</div><div class="ttdef"><b>Definition</b> <a href="window__wayland_8c_source.html#l00104">window_wayland.c:104</a></div></div>
 <div class="ttc" id="asbgl__platform_8h_html_a785147a0a26609dfa77914c215b60a81"><div class="ttname"><a href="sbgl__platform_8h.html#a785147a0a26609dfa77914c215b60a81">sbgl_os_CreateWindow</a></div><div class="ttdeci">sbgl_Window * sbgl_os_CreateWindow(struct SblArena *arena, sbgl_InputState *input, int width, int height, const char *title)</div><div class="ttdoc">Creates a native OS window.</div><div class="ttdef"><b>Definition</b> <a href="window__wayland_8c_source.html#l00068">window_wayland.c:68</a></div></div>
 <div class="ttc" id="astructSblArena_html"><div class="ttname"><a href="structSblArena.html">SblArena</a></div><div class="ttdoc">Arena allocator.</div><div class="ttdef"><b>Definition</b> <a href="sbl__arena_8h_source.html#l00047">sbl_arena.h:47</a></div></div>
-<div class="ttc" id="astructsbgl__InputState_html"><div class="ttname"><a href="structsbgl__InputState.html">sbgl_InputState</a></div><div class="ttdoc">Represents the real-time state of physical inputs.</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00107">sbgl_input.h:107</a></div></div>
+<div class="ttc" id="astructsbgl__InputState_html"><div class="ttname"><a href="structsbgl__InputState.html">sbgl_InputState</a></div><div class="ttdoc">Represents the real-time state of physical inputs.</div><div class="ttdef"><b>Definition</b> <a href="include_2sbgl__input_8h_source.html#l00165">sbgl_input.h:165</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html"><div class="ttname"><a href="structsbgl__Window.html">sbgl_Window</a></div><div class="ttdoc">Native X11 window state.</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00050">linux_internal.h:50</a></div></div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md169"></a>
+<h1><a class="anchor" id="window-lifecycle-and-closure"></a>
 Window Lifecycle and Closure</h1>
 <p>The <code>sbgl_WindowShouldClose</code> function provides a mechanism for the engine to report that the operating system or the user has requested the window to be closed. It does <b>not</b> automatically terminate the application; instead, it sets a flag that the application should poll in its main loop.</p>
-<h2><a class="anchor" id="autotoc_md170"></a>
+<h2><a class="anchor" id="platform-specific-triggers"></a>
 Platform-Specific Triggers</h2>
 <p>The internal <code>shouldClose</code> flag is set by the platform layer in response to specific OS events:</p>
 <ul>
@@ -154,7 +154,7 @@ Platform-Specific Triggers</h2>
 <li><b>Wayland:</b> Triggered by the <code>xdg_toplevel_listener</code>'s <code>close</code> event. This is sent by the compositor when it requests the surface to be destroyed.</li>
 <li><b>X11:</b> Triggered when an <code>XEvent</code> of type <code>ClientMessage</code> is received containing the <code>WM_DELETE_WINDOW</code> atom.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md171"></a>
+<h2><a class="anchor" id="user-responsibility"></a>
 User Responsibility</h2>
 <p>Once <code>sbgl_WindowShouldClose</code> returns <code>true</code>, it is the application's responsibility to:</p><ul>
 <li>Exit the main execution loop.</li>
@@ -162,7 +162,7 @@ User Responsibility</h2>
 </ul>
 <hr  />
 <p>Each platform backend implements its own concrete version of <code>struct <a class="el" href="structsbgl__Window.html" title="Native X11 window state.">sbgl_Window</a></code> to bridge the gap between SBgl's Data-Oriented arena allocator and the OS's native requirements.</p>
-<h2><a class="anchor" id="autotoc_md173"></a>
+<h2><a class="anchor" id="windows-win32"></a>
 Windows (Win32)</h2>
 <p>The Win32 implementation registers a <code>WNDCLASSW</code> and creates an <code>HWND</code>. It utilizes <code>GWLP_USERDATA</code> to associate the <code><a class="el" href="structsbgl__Window.html" title="Native X11 window state.">sbgl_Window</a></code> state with the native window procedure.</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a> {</div>
@@ -206,8 +206,8 @@ Windows (Win32)</h2>
 <div class="ttc" id="astructsbgl__Window_html_a6e2409273f2ef5f51e0c8ae658dd19a5"><div class="ttname"><a href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">sbgl_Window::hwnd</a></div><div class="ttdeci">HWND hwnd</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00017">win32_internal.h:17</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a8b6aaac6d80e059a3dedceb895e5fec5"><div class="ttname"><a href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">sbgl_Window::width</a></div><div class="ttdeci">int width</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00058">linux_internal.h:58</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a8b710d1cfbc87eec5e9c7aaf822313d6"><div class="ttname"><a href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">sbgl_Window::resized</a></div><div class="ttdeci">bool resized</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00056">linux_internal.h:56</a></div></div>
-<div class="ttc" id="awindow_8c_html_aa7fae2b3f6376a8f6501e1aaca8a188f"><div class="ttname"><a href="window_8c.html#aa7fae2b3f6376a8f6501e1aaca8a188f">WindowProc</a></div><div class="ttdeci">static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)</div><div class="ttdef"><b>Definition</b> <a href="window_8c_source.html#l00007">window.c:7</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md174"></a>
+<div class="ttc" id="awindow_8c_html_aa7fae2b3f6376a8f6501e1aaca8a188f"><div class="ttname"><a href="window_8c.html#aa7fae2b3f6376a8f6501e1aaca8a188f">WindowProc</a></div><div class="ttdeci">static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)</div><div class="ttdef"><b>Definition</b> <a href="window_8c_source.html#l00031">window.c:31</a></div></div>
+</div><!-- fragment --><h2><a class="anchor" id="linux-wayland"></a>
 Linux (Wayland)</h2>
 <p>The Wayland implementation is asynchronous and uses the XDG-Shell protocol. It manages the connection to the <code>wl_display</code> and handles surface state transitions via listeners.</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a> {</div>
@@ -239,7 +239,7 @@ Linux (Wayland)</h2>
 <div class="line">    </div>
 <div class="line">    <span class="keywordflow">return</span> window;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md175"></a>
+</div><!-- fragment --><h2><a class="anchor" id="linux-x11"></a>
 Linux (X11)</h2>
 <p>The X11 implementation uses <code>XCreateSimpleWindow</code> and interacts with the Window Manager via Atoms to handle graceful termination.</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a> {</div>
@@ -277,7 +277,7 @@ Linux (X11)</h2>
 <div class="ttc" id="astructsbgl__Window_html_a3debe2557e56aa1e6c4789590153535e"><div class="ttname"><a href="structsbgl__Window.html#a3debe2557e56aa1e6c4789590153535e">sbgl_Window::window</a></div><div class="ttdeci">Window window</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00052">linux_internal.h:52</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a63f2c30e910bbb7d514f9f9ce6bd8530"><div class="ttname"><a href="structsbgl__Window.html#a63f2c30e910bbb7d514f9f9ce6bd8530">sbgl_Window::wmDeleteMessage</a></div><div class="ttdeci">Atom wmDeleteMessage</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00053">linux_internal.h:53</a></div></div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md177"></a>
+<h1><a class="anchor" id="references--further-reading"></a>
 References &amp; Further Reading</h1>
 <p>For detailed technical specifications of the underlying platform protocols and APIs, refer to the following official documentation:</p>
 <ul>

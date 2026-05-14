@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['performance_20telemetry_20system_0',['Performance Telemetry System',['../md_docs_2manual_2telemetry.html',1,'']]],
-  ['pipeline_1',['SBgl Rendering Pipeline',['../md_docs_2manual_2rendering__pipeline.html',1,'']]],
-  ['platform_20abstraction_20layer_20hal_2',['SBgl Platform Abstraction Layer (HAL)',['../md_docs_2manual_2platform__abstraction.html',1,'']]]
+  ['management_20architecture_0',['Memory Management Architecture',['../md_docs_2manual_2memory__management.html',1,'']]],
+  ['math_20library_20architecture_1',['Math Library Architecture',['../md_docs_2manual_2math__library.html',1,'']]],
+  ['memory_20management_20architecture_2',['Memory Management Architecture',['../md_docs_2manual_2memory__management.html',1,'']]]
 ];

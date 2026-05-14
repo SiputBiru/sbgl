@@ -114,52 +114,54 @@ $(function(){initNavTree('window_8c.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="win32__internal_8h_source.html">win32_internal.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for window.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="window_8c__incl.png" border="0" usemap="#asrc_2platform_2win32_2window_8c" alt=""/></div>
 <map name="asrc_2platform_2win32_2window_8c" id="asrc_2platform_2win32_2window_8c">
-<area shape="rect" title=" " alt="" coords="456,5,585,46"/>
-<area shape="rect" href="sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="206,94,344,120"/>
-<area shape="poly" title=" " alt="" coords="460,49,328,91,327,86,458,44"/>
-<area shape="rect" href="sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="425,249,541,274"/>
-<area shape="poly" title=" " alt="" coords="520,47,498,194,491,234,485,233,492,193,515,46"/>
-<area shape="rect" href="win32__internal_8h.html" title=" " alt="" coords="369,94,483,120"/>
-<area shape="poly" title=" " alt="" coords="499,48,453,86,450,82,495,44"/>
-<area shape="rect" title=" " alt="" coords="557,94,617,120"/>
-<area shape="poly" title=" " alt="" coords="539,45,569,80,565,83,535,48"/>
-<area shape="rect" title=" " alt="" coords="641,94,704,120"/>
-<area shape="poly" title=" " alt="" coords="560,44,637,84,634,89,557,49"/>
-<area shape="rect" href="sbgl__types_8h.html" title=" " alt="" coords="231,168,324,193"/>
-<area shape="poly" title=" " alt="" coords="278,120,279,152,274,152,273,120"/>
-<area shape="rect" title=" " alt="" coords="308,330,381,356"/>
-<area shape="poly" title=" " alt="" coords="296,118,319,139,339,166,351,205,355,246,352,315,346,314,350,246,346,206,334,169,315,142,292,122"/>
-<area shape="rect" title=" " alt="" coords="137,330,200,356"/>
-<area shape="poly" title=" " alt="" coords="206,122,154,137,99,161,73,177,50,195,30,217,15,242,8,262,15,281,36,303,63,318,93,329,122,335,121,340,92,334,61,323,33,307,10,283,3,262,10,240,26,214,46,192,70,172,97,156,152,132,205,117"/>
-<area shape="rect" href="src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="117,168,207,193"/>
-<area shape="poly" title=" " alt="" coords="257,122,195,161,193,157,254,118"/>
-<area shape="poly" title=" " alt="" coords="288,193,314,240,340,314,335,316,309,242,283,195"/>
-<area shape="poly" title=" " alt="" coords="255,196,225,216,199,243,182,279,174,316,168,314,177,277,194,240,222,212,252,192"/>
-<area shape="rect" href="sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="208,249,299,274"/>
-<area shape="poly" title=" " alt="" coords="277,195,264,235,259,233,272,193"/>
-<area shape="poly" title=" " alt="" coords="269,273,321,318,318,322,266,277"/>
-<area shape="poly" title=" " alt="" coords="243,277,194,321,191,317,239,273"/>
-<area shape="rect" title=" " alt="" coords="224,330,284,356"/>
-<area shape="poly" title=" " alt="" coords="256,275,256,314,251,314,251,275"/>
-<area shape="rect" href="include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="24,241,134,282"/>
-<area shape="poly" title=" " alt="" coords="151,196,112,233,109,229,147,192"/>
-<area shape="poly" title=" " alt="" coords="135,277,293,324,292,329,134,282"/>
-<area shape="poly" title=" " alt="" coords="103,280,145,318,142,322,99,284"/>
-<area shape="poly" title=" " alt="" coords="463,277,380,324,377,320,461,273"/>
-<area shape="poly" title=" " alt="" coords="433,278,216,332,214,326,432,273"/>
-<area shape="rect" title=" " alt="" coords="515,330,582,356"/>
-<area shape="poly" title=" " alt="" coords="495,273,531,316,527,320,491,277"/>
-<area shape="rect" title=" " alt="" coords="427,330,491,356"/>
-<area shape="poly" title=" " alt="" coords="482,276,470,316,465,314,477,274"/>
-<area shape="poly" title=" " alt="" coords="402,123,318,163,316,158,399,118"/>
-<area shape="poly" title=" " alt="" coords="382,123,222,166,220,161,380,118"/>
-<area shape="rect" title=" " alt="" coords="401,168,483,193"/>
-<area shape="poly" title=" " alt="" coords="431,119,438,152,433,153,426,120"/>
+<area shape="rect" title=" " alt="" coords="474,5,602,46"/>
+<area shape="rect" href="sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="98,94,237,120"/>
+<area shape="poly" title=" " alt="" coords="474,43,240,93,239,88,473,38"/>
+<area shape="rect" href="sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="432,94,548,120"/>
+<area shape="poly" title=" " alt="" coords="529,48,508,82,503,79,524,45"/>
+<area shape="rect" title=" " alt="" coords="619,168,682,193"/>
+<area shape="poly" title=" " alt="" coords="555,45,634,153,630,156,550,48"/>
+<area shape="rect" href="win32__internal_8h.html" title=" " alt="" coords="277,94,391,120"/>
+<area shape="poly" title=" " alt="" coords="488,49,381,90,379,85,486,44"/>
+<area shape="rect" title=" " alt="" coords="623,94,683,120"/>
+<area shape="poly" title=" " alt="" coords="568,44,624,83,621,87,565,49"/>
+<area shape="rect" title=" " alt="" coords="707,94,769,120"/>
+<area shape="poly" title=" " alt="" coords="589,44,695,85,693,90,587,49"/>
+<area shape="rect" href="sbgl__types_8h.html" title=" " alt="" coords="37,168,130,193"/>
+<area shape="poly" title=" " alt="" coords="155,122,111,159,108,155,152,118"/>
+<area shape="rect" title=" " alt="" coords="6,330,79,356"/>
+<area shape="poly" title=" " alt="" coords="102,123,61,140,42,153,27,169,12,197,8,221,19,281,31,315,26,317,14,283,3,221,7,195,23,166,39,149,58,136,100,118"/>
+<area shape="rect" title=" " alt="" coords="231,330,294,356"/>
+<area shape="poly" title=" " alt="" coords="173,119,181,153,195,192,210,216,226,240,256,314,251,316,221,243,206,219,190,194,176,154,167,121"/>
+<area shape="rect" href="src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="205,168,295,193"/>
+<area shape="poly" title=" " alt="" coords="183,118,227,155,223,159,180,122"/>
+<area shape="poly" title=" " alt="" coords="69,196,47,216,30,242,26,261,26,280,34,315,29,317,21,280,20,260,25,240,43,212,65,192"/>
+<area shape="poly" title=" " alt="" coords="112,192,150,212,188,239,223,278,250,316,245,319,219,281,184,243,147,216,109,196"/>
+<area shape="rect" href="sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="83,249,175,274"/>
+<area shape="poly" title=" " alt="" coords="93,192,117,234,112,237,88,195"/>
+<area shape="poly" title=" " alt="" coords="117,277,68,321,65,317,114,273"/>
+<area shape="poly" title=" " alt="" coords="150,273,230,320,227,324,148,277"/>
+<area shape="rect" title=" " alt="" coords="103,330,163,356"/>
+<area shape="poly" title=" " alt="" coords="132,275,134,314,129,315,127,275"/>
+<area shape="rect" href="include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="299,241,409,282"/>
+<area shape="poly" title=" " alt="" coords="268,192,318,230,315,234,264,196"/>
+<area shape="poly" title=" " alt="" coords="299,280,95,331,93,326,298,274"/>
+<area shape="poly" title=" " alt="" coords="333,284,290,322,286,318,330,280"/>
+<area shape="poly" title=" " alt="" coords="486,121,459,159,439,179,415,196,366,215,320,220,277,217,235,209,195,204,155,204,115,216,73,243,61,259,52,277,45,315,40,314,47,275,56,256,70,239,113,211,155,199,195,198,236,204,277,211,320,215,365,209,413,191,435,175,455,156,481,118"/>
+<area shape="poly" title=" " alt="" coords="491,121,486,153,474,196,454,243,440,265,423,284,397,304,368,319,310,337,308,332,366,314,394,299,419,280,435,261,449,240,469,194,481,151,486,120"/>
+<area shape="rect" title=" " alt="" coords="527,168,595,193"/>
+<area shape="poly" title=" " alt="" coords="504,118,540,155,536,158,500,122"/>
+<area shape="poly" title=" " alt="" coords="518,118,610,159,608,163,516,123"/>
+<area shape="poly" title=" " alt="" coords="292,123,141,166,140,160,291,118"/>
+<area shape="poly" title=" " alt="" coords="322,122,278,159,274,155,318,118"/>
+<area shape="rect" title=" " alt="" coords="320,168,402,193"/>
+<area shape="poly" title=" " alt="" coords="341,119,354,152,349,154,336,121"/>
 </map>
 </div>
 </div>
@@ -167,6 +169,9 @@ Include dependency graph for window.c:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a8e3e20281e810d4bdb7be009a896cd5a" id="r_a8e3e20281e810d4bdb7be009a896cd5a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e3e20281e810d4bdb7be009a896cd5a">win32_report_error</a> (const wchar_t *message)</td></tr>
+<tr class="memdesc:a8e3e20281e810d4bdb7be009a896cd5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports errors to both debugger output and stderr.  <br /></td></tr>
+<tr class="separator:a8e3e20281e810d4bdb7be009a896cd5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7fae2b3f6376a8f6501e1aaca8a188f" id="r_aa7fae2b3f6376a8f6501e1aaca8a188f"><td class="memItemLeft" align="right" valign="top">static LRESULT CALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7fae2b3f6376a8f6501e1aaca8a188f">WindowProc</a> (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)</td></tr>
 <tr class="separator:aa7fae2b3f6376a8f6501e1aaca8a188f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a785147a0a26609dfa77914c215b60a81" id="r_a785147a0a26609dfa77914c215b60a81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsbgl__Window.html">sbgl_Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a785147a0a26609dfa77914c215b60a81">sbgl_os_CreateWindow</a> (struct <a class="el" href="structSblArena.html">SblArena</a> *arena, <a class="el" href="structsbgl__InputState.html">sbgl_InputState</a> *input, int width, int height, const char *title)</td></tr>
@@ -259,75 +264,96 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Opaque pointer to the window state. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00046">46</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>  {</div>
-<div class="line"><span class="lineno">   53</span>    HINSTANCE hinstance = GetModuleHandle(NULL);</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>    WNDCLASSW wc = { 0 };</div>
-<div class="line"><span class="lineno">   56</span>    wc.lpfnWndProc = <a class="code hl_function" href="#aa7fae2b3f6376a8f6501e1aaca8a188f">WindowProc</a>;</div>
-<div class="line"><span class="lineno">   57</span>    wc.hInstance = hinstance;</div>
-<div class="line"><span class="lineno">   58</span>    wc.lpszClassName = L<span class="stringliteral">&quot;SBglWindowClass&quot;</span>;</div>
-<div class="line"><span class="lineno">   59</span>    wc.hCursor = LoadCursor(NULL, IDC_ARROW);</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>    RegisterClassW(&amp;wc);</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>    <span class="comment">// Convert title to WideChar</span></div>
-<div class="line"><span class="lineno">   64</span>    <span class="keywordtype">int</span> title_len = MultiByteToWideChar(CP_UTF8, 0, title, -1, NULL, 0);</div>
-<div class="line"><span class="lineno">   65</span>    <span class="keywordtype">wchar_t</span>* wtitle = malloc(title_len * <span class="keyword">sizeof</span>(<span class="keywordtype">wchar_t</span>));</div>
-<div class="line"><span class="lineno">   66</span>    MultiByteToWideChar(CP_UTF8, 0, title, -1, wtitle, title_len);</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    HWND hwnd = CreateWindowExW(</div>
-<div class="line"><span class="lineno">   69</span>        0,</div>
-<div class="line"><span class="lineno">   70</span>        wc.lpszClassName,</div>
-<div class="line"><span class="lineno">   71</span>        wtitle,</div>
-<div class="line"><span class="lineno">   72</span>        WS_OVERLAPPEDWINDOW,</div>
-<div class="line"><span class="lineno">   73</span>        CW_USEDEFAULT,</div>
-<div class="line"><span class="lineno">   74</span>        CW_USEDEFAULT,</div>
-<div class="line"><span class="lineno">   75</span>        width,</div>
-<div class="line"><span class="lineno">   76</span>        height,</div>
-<div class="line"><span class="lineno">   77</span>        NULL,</div>
-<div class="line"><span class="lineno">   78</span>        NULL,</div>
-<div class="line"><span class="lineno">   79</span>        hinstance,</div>
-<div class="line"><span class="lineno">   80</span>        NULL</div>
-<div class="line"><span class="lineno">   81</span>    );</div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>    free(wtitle);</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    <span class="keywordflow">if</span> (!hwnd)</div>
-<div class="line"><span class="lineno">   86</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>    <a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>* window = <a class="code hl_define" href="sbl__arena_8h.html#a8b0b944f73ef53a300abc04d2bc166eb">SBL_ARENA_PUSH_STRUCT_ZERO</a>(arena, <a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>);</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">if</span> (!window) {</div>
-<div class="line"><span class="lineno">   90</span>        DestroyWindow(hwnd);</div>
-<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><span class="lineno">   92</span>    }</div>
-<div class="line"><span class="lineno">   93</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aea7bd2cab889bb13a97506a56ab3b278">hinstance</a> = hinstance;</div>
-<div class="line"><span class="lineno">   94</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a> = hwnd;</div>
-<div class="line"><span class="lineno">   95</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a">shouldClose</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   96</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   97</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> = width;</div>
-<div class="line"><span class="lineno">   98</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a> = height;</div>
-<div class="line"><span class="lineno">   99</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  100</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  101</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a52831d4b17bc0158cc8af4aeeceaca5f">input</a> = input;</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>    SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>    ShowWindow(hwnd, SW_SHOW);</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> window;</div>
-<div class="line"><span class="lineno">  107</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00101">101</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>  {</div>
+<div class="line"><span class="lineno">  108</span>    <span class="comment">// Set DPI awareness for Windows 10+ (Per-Monitor V2)</span></div>
+<div class="line"><span class="lineno">  109</span>    SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);</div>
+<div class="line"><span class="lineno">  110</span>    </div>
+<div class="line"><span class="lineno">  111</span>    HINSTANCE hinstance = GetModuleHandle(NULL);</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>    WNDCLASSW wc = { 0 };</div>
+<div class="line"><span class="lineno">  114</span>    wc.lpfnWndProc = <a class="code hl_function" href="#aa7fae2b3f6376a8f6501e1aaca8a188f">WindowProc</a>;</div>
+<div class="line"><span class="lineno">  115</span>    wc.hInstance = hinstance;</div>
+<div class="line"><span class="lineno">  116</span>    wc.lpszClassName = L<span class="stringliteral">&quot;SBglWindowClass&quot;</span>;</div>
+<div class="line"><span class="lineno">  117</span>    wc.hCursor = LoadCursor(NULL, IDC_ARROW);</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>    RegisterClassW(&amp;wc);</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span>    <span class="comment">// Convert title to WideChar</span></div>
+<div class="line"><span class="lineno">  122</span>    <span class="keywordtype">int</span> title_len = MultiByteToWideChar(CP_UTF8, 0, title, -1, NULL, 0);</div>
+<div class="line"><span class="lineno">  123</span>    <span class="keywordtype">wchar_t</span>* wtitle = malloc(title_len * <span class="keyword">sizeof</span>(<span class="keywordtype">wchar_t</span>));</div>
+<div class="line"><span class="lineno">  124</span>    MultiByteToWideChar(CP_UTF8, 0, title, -1, wtitle, title_len);</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>    <span class="comment">// Calculate proper window size for requested client area</span></div>
+<div class="line"><span class="lineno">  127</span>    RECT rect = { 0, 0, width, height };</div>
+<div class="line"><span class="lineno">  128</span>    AdjustWindowRectEx(&amp;rect, WS_OVERLAPPEDWINDOW, FALSE, 0);</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>    HWND hwnd = CreateWindowExW(</div>
+<div class="line"><span class="lineno">  131</span>        0,</div>
+<div class="line"><span class="lineno">  132</span>        wc.lpszClassName,</div>
+<div class="line"><span class="lineno">  133</span>        wtitle,</div>
+<div class="line"><span class="lineno">  134</span>        WS_OVERLAPPEDWINDOW,</div>
+<div class="line"><span class="lineno">  135</span>        CW_USEDEFAULT,</div>
+<div class="line"><span class="lineno">  136</span>        CW_USEDEFAULT,</div>
+<div class="line"><span class="lineno">  137</span>        rect.right - rect.left,     <span class="comment">// Adjusted width including borders</span></div>
+<div class="line"><span class="lineno">  138</span>        rect.bottom - rect.top,     <span class="comment">// Adjusted height including title bar</span></div>
+<div class="line"><span class="lineno">  139</span>        NULL,</div>
+<div class="line"><span class="lineno">  140</span>        NULL,</div>
+<div class="line"><span class="lineno">  141</span>        hinstance,</div>
+<div class="line"><span class="lineno">  142</span>        NULL</div>
+<div class="line"><span class="lineno">  143</span>    );</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>    free(wtitle);</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>    <span class="keywordflow">if</span> (!hwnd) {</div>
+<div class="line"><span class="lineno">  148</span>        <a class="code hl_function" href="#a8e3e20281e810d4bdb7be009a896cd5a">win32_report_error</a>(L<span class="stringliteral">&quot;Failed to create window: CreateWindowExW returned NULL&quot;</span>);</div>
+<div class="line"><span class="lineno">  149</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><span class="lineno">  150</span>    }</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  152</span>    <a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>* window = <a class="code hl_define" href="sbl__arena_8h.html#a8b0b944f73ef53a300abc04d2bc166eb">SBL_ARENA_PUSH_STRUCT_ZERO</a>(arena, <a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>);</div>
+<div class="line"><span class="lineno">  153</span>    <span class="keywordflow">if</span> (!window) {</div>
+<div class="line"><span class="lineno">  154</span>        DestroyWindow(hwnd);</div>
+<div class="line"><span class="lineno">  155</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><span class="lineno">  156</span>    }</div>
+<div class="line"><span class="lineno">  157</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aea7bd2cab889bb13a97506a56ab3b278">hinstance</a> = hinstance;</div>
+<div class="line"><span class="lineno">  158</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a> = hwnd;</div>
+<div class="line"><span class="lineno">  159</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a">shouldClose</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  160</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  161</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> = width;</div>
+<div class="line"><span class="lineno">  162</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a> = height;</div>
+<div class="line"><span class="lineno">  163</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  164</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  165</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#af4d845e5e21f5c5b9c23f663b1fa8962">cursorLocked</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  166</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a52831d4b17bc0158cc8af4aeeceaca5f">input</a> = input;</div>
+<div class="line"><span class="lineno">  167</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#ad76046c38b30e66bd1bdb8d60119b85a">accumulatedDeltaX</a> = 0;</div>
+<div class="line"><span class="lineno">  168</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a75c96fdc18411c1c728375c1be7cb7a3">accumulatedDeltaY</a> = 0;</div>
+<div class="line"><span class="lineno">  169</span>    </div>
+<div class="line"><span class="lineno">  170</span>    <span class="comment">/* Store class name for unregistration on destroy */</span></div>
+<div class="line"><span class="lineno">  171</span>    wcsncpy(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6d35ce63316bdbeaae230fb811978294">className</a>, wc.lpszClassName, 255);</div>
+<div class="line"><span class="lineno">  172</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6d35ce63316bdbeaae230fb811978294">className</a>[255] = L<span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>    SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>    ShowWindow(hwnd, SW_SHOW);</div>
+<div class="line"><span class="lineno">  177</span>    <span class="keywordflow">return</span> window;</div>
+<div class="line"><span class="lineno">  178</span>}</div>
 <div class="ttc" id="asbl__arena_8h_html_a8b0b944f73ef53a300abc04d2bc166eb"><div class="ttname"><a href="sbl__arena_8h.html#a8b0b944f73ef53a300abc04d2bc166eb">SBL_ARENA_PUSH_STRUCT_ZERO</a></div><div class="ttdeci">#define SBL_ARENA_PUSH_STRUCT_ZERO(arena, type)</div><div class="ttdef"><b>Definition</b> <a href="sbl__arena_8h_source.html#l00020">sbl_arena.h:20</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html"><div class="ttname"><a href="structsbgl__Window.html">sbgl_Window</a></div><div class="ttdoc">Native X11 window state.</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00050">linux_internal.h:50</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a1aaa27886447ecedc86aa8076819a95a"><div class="ttname"><a href="structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a">sbgl_Window::shouldClose</a></div><div class="ttdeci">bool shouldClose</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00055">linux_internal.h:55</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a32f2ca2dc058f97155c393ddd17ce7ce"><div class="ttname"><a href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">sbgl_Window::focused</a></div><div class="ttdeci">bool focused</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00057">linux_internal.h:57</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a45199e5dcb4b687a579314de9d227bec"><div class="ttname"><a href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">sbgl_Window::height</a></div><div class="ttdeci">int height</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00058">linux_internal.h:58</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a52831d4b17bc0158cc8af4aeeceaca5f"><div class="ttname"><a href="structsbgl__Window.html#a52831d4b17bc0158cc8af4aeeceaca5f">sbgl_Window::input</a></div><div class="ttdeci">sbgl_InputState * input</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00054">linux_internal.h:54</a></div></div>
+<div class="ttc" id="astructsbgl__Window_html_a6d35ce63316bdbeaae230fb811978294"><div class="ttname"><a href="structsbgl__Window.html#a6d35ce63316bdbeaae230fb811978294">sbgl_Window::className</a></div><div class="ttdeci">wchar_t className[256]</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00031">win32_internal.h:31</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a6e2409273f2ef5f51e0c8ae658dd19a5"><div class="ttname"><a href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">sbgl_Window::hwnd</a></div><div class="ttdeci">HWND hwnd</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00017">win32_internal.h:17</a></div></div>
+<div class="ttc" id="astructsbgl__Window_html_a75c96fdc18411c1c728375c1be7cb7a3"><div class="ttname"><a href="structsbgl__Window.html#a75c96fdc18411c1c728375c1be7cb7a3">sbgl_Window::accumulatedDeltaY</a></div><div class="ttdeci">int accumulatedDeltaY</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00028">win32_internal.h:28</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a8b6aaac6d80e059a3dedceb895e5fec5"><div class="ttname"><a href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">sbgl_Window::width</a></div><div class="ttdeci">int width</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00058">linux_internal.h:58</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_a8b710d1cfbc87eec5e9c7aaf822313d6"><div class="ttname"><a href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">sbgl_Window::resized</a></div><div class="ttdeci">bool resized</div><div class="ttdef"><b>Definition</b> <a href="linux__internal_8h_source.html#l00056">linux_internal.h:56</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_aa69f0f941de75fe5c4c0b6ff829b5926"><div class="ttname"><a href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">sbgl_Window::cursorVisible</a></div><div class="ttdeci">bool cursorVisible</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00021">win32_internal.h:21</a></div></div>
+<div class="ttc" id="astructsbgl__Window_html_ad76046c38b30e66bd1bdb8d60119b85a"><div class="ttname"><a href="structsbgl__Window.html#ad76046c38b30e66bd1bdb8d60119b85a">sbgl_Window::accumulatedDeltaX</a></div><div class="ttdeci">int accumulatedDeltaX</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00027">win32_internal.h:27</a></div></div>
 <div class="ttc" id="astructsbgl__Window_html_aea7bd2cab889bb13a97506a56ab3b278"><div class="ttname"><a href="structsbgl__Window.html#aea7bd2cab889bb13a97506a56ab3b278">sbgl_Window::hinstance</a></div><div class="ttdeci">HINSTANCE hinstance</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00016">win32_internal.h:16</a></div></div>
-<div class="ttc" id="awindow_8c_html_aa7fae2b3f6376a8f6501e1aaca8a188f"><div class="ttname"><a href="#aa7fae2b3f6376a8f6501e1aaca8a188f">WindowProc</a></div><div class="ttdeci">static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)</div><div class="ttdef"><b>Definition</b> <a href="window_8c_source.html#l00007">window.c:7</a></div></div>
+<div class="ttc" id="astructsbgl__Window_html_af4d845e5e21f5c5b9c23f663b1fa8962"><div class="ttname"><a href="structsbgl__Window.html#af4d845e5e21f5c5b9c23f663b1fa8962">sbgl_Window::cursorLocked</a></div><div class="ttdeci">bool cursorLocked</div><div class="ttdef"><b>Definition</b> <a href="win32__internal_8h_source.html#l00022">win32_internal.h:22</a></div></div>
+<div class="ttc" id="awindow_8c_html_a8e3e20281e810d4bdb7be009a896cd5a"><div class="ttname"><a href="#a8e3e20281e810d4bdb7be009a896cd5a">win32_report_error</a></div><div class="ttdeci">static void win32_report_error(const wchar_t *message)</div><div class="ttdoc">Reports errors to both debugger output and stderr.</div><div class="ttdef"><b>Definition</b> <a href="window_8c_source.html#l00014">window.c:14</a></div></div>
+<div class="ttc" id="awindow_8c_html_aa7fae2b3f6376a8f6501e1aaca8a188f"><div class="ttname"><a href="#aa7fae2b3f6376a8f6501e1aaca8a188f">WindowProc</a></div><div class="ttdeci">static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)</div><div class="ttdef"><b>Definition</b> <a href="window_8c_source.html#l00031">window.c:31</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -354,12 +380,30 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00109">109</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>                                                {</div>
-<div class="line"><span class="lineno">  110</span>    <span class="keywordflow">if</span> (!window)</div>
-<div class="line"><span class="lineno">  111</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  112</span>    DestroyWindow(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>);</div>
-<div class="line"><span class="lineno">  113</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00180">180</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  180</span>                                                {</div>
+<div class="line"><span class="lineno">  181</span>    <span class="keywordflow">if</span> (!window)</div>
+<div class="line"><span class="lineno">  182</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  183</span>    </div>
+<div class="line"><span class="lineno">  184</span>    <span class="comment">/* Unregister raw input if cursor is still locked */</span></div>
+<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">if</span> (window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#af4d845e5e21f5c5b9c23f663b1fa8962">cursorLocked</a>) {</div>
+<div class="line"><span class="lineno">  186</span>        RAWINPUTDEVICE rid = {</div>
+<div class="line"><span class="lineno">  187</span>            .usUsagePage = 0x01,</div>
+<div class="line"><span class="lineno">  188</span>            .usUsage = 0x02,</div>
+<div class="line"><span class="lineno">  189</span>            .dwFlags = RIDEV_REMOVE,</div>
+<div class="line"><span class="lineno">  190</span>            .hwndTarget = NULL</div>
+<div class="line"><span class="lineno">  191</span>        };</div>
+<div class="line"><span class="lineno">  192</span>        RegisterRawInputDevices(&amp;rid, 1, <span class="keyword">sizeof</span>(rid));</div>
+<div class="line"><span class="lineno">  193</span>        ClipCursor(NULL);</div>
+<div class="line"><span class="lineno">  194</span>    }</div>
+<div class="line"><span class="lineno">  195</span>    </div>
+<div class="line"><span class="lineno">  196</span>    DestroyWindow(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>);</div>
+<div class="line"><span class="lineno">  197</span>    </div>
+<div class="line"><span class="lineno">  198</span>    <span class="comment">/* Unregister window class to prevent resource leaks */</span></div>
+<div class="line"><span class="lineno">  199</span>    <span class="keywordflow">if</span> (window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6d35ce63316bdbeaae230fb811978294">className</a>[0] != L<span class="charliteral">&#39;\0&#39;</span>) {</div>
+<div class="line"><span class="lineno">  200</span>        UnregisterClassW(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6d35ce63316bdbeaae230fb811978294">className</a>, window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aea7bd2cab889bb13a97506a56ab3b278">hinstance</a>);</div>
+<div class="line"><span class="lineno">  201</span>    }</div>
+<div class="line"><span class="lineno">  202</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -387,11 +431,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Display* or wl_display*. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00209">209</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  209</span>                                                          {</div>
-<div class="line"><span class="lineno">  210</span>    (void)window;</div>
-<div class="line"><span class="lineno">  211</span>    <span class="keywordflow">return</span> NULL; <span class="comment">// Not used on Win32</span></div>
-<div class="line"><span class="lineno">  212</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00334">334</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  334</span>                                                          {</div>
+<div class="line"><span class="lineno">  335</span>    (void)window;</div>
+<div class="line"><span class="lineno">  336</span>    <span class="keywordflow">return</span> NULL; <span class="comment">// Not used on Win32</span></div>
+<div class="line"><span class="lineno">  337</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -419,10 +463,10 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>HINSTANCE on Windows, NULL otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00205">205</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  205</span>                                                           {</div>
-<div class="line"><span class="lineno">  206</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aea7bd2cab889bb13a97506a56ab3b278">hinstance</a> : NULL;</div>
-<div class="line"><span class="lineno">  207</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00330">330</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  330</span>                                                           {</div>
+<div class="line"><span class="lineno">  331</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aea7bd2cab889bb13a97506a56ab3b278">hinstance</a> : NULL;</div>
+<div class="line"><span class="lineno">  332</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -450,10 +494,10 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Native handle (e.g., HWND or wl_surface*). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00201">201</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  201</span>                                                         {</div>
-<div class="line"><span class="lineno">  202</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a> : NULL;</div>
-<div class="line"><span class="lineno">  203</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00326">326</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  326</span>                                                         {</div>
+<div class="line"><span class="lineno">  327</span>    <span class="keywordflow">return</span> window ? (<span class="keywordtype">void</span>*)window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a> : NULL;</div>
+<div class="line"><span class="lineno">  328</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -481,13 +525,13 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Absolute ticks. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00187">187</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  187</span>                                                   {</div>
-<div class="line"><span class="lineno">  188</span>    (void)window;</div>
-<div class="line"><span class="lineno">  189</span>    LARGE_INTEGER count;</div>
-<div class="line"><span class="lineno">  190</span>    QueryPerformanceCounter(&amp;count);</div>
-<div class="line"><span class="lineno">  191</span>    <span class="keywordflow">return</span> (uint64_t)count.QuadPart;</div>
-<div class="line"><span class="lineno">  192</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00312">312</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  312</span>                                                   {</div>
+<div class="line"><span class="lineno">  313</span>    (void)window; <span class="comment">// Not used, but kept for API consistency</span></div>
+<div class="line"><span class="lineno">  314</span>    LARGE_INTEGER count;</div>
+<div class="line"><span class="lineno">  315</span>    QueryPerformanceCounter(&amp;count);</div>
+<div class="line"><span class="lineno">  316</span>    <span class="keywordflow">return</span> (uint64_t)count.QuadPart;</div>
+<div class="line"><span class="lineno">  317</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -515,13 +559,13 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Ticks per second. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00194">194</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  194</span>                                                  {</div>
-<div class="line"><span class="lineno">  195</span>    (void)window;</div>
-<div class="line"><span class="lineno">  196</span>    LARGE_INTEGER freq;</div>
-<div class="line"><span class="lineno">  197</span>    QueryPerformanceFrequency(&amp;freq);</div>
-<div class="line"><span class="lineno">  198</span>    <span class="keywordflow">return</span> (uint64_t)freq.QuadPart;</div>
-<div class="line"><span class="lineno">  199</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00319">319</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  319</span>                                                  {</div>
+<div class="line"><span class="lineno">  320</span>    (void)window;</div>
+<div class="line"><span class="lineno">  321</span>    LARGE_INTEGER freq;</div>
+<div class="line"><span class="lineno">  322</span>    QueryPerformanceFrequency(&amp;freq);</div>
+<div class="line"><span class="lineno">  323</span>    <span class="keywordflow">return</span> (uint64_t)freq.QuadPart;</div>
+<div class="line"><span class="lineno">  324</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -559,13 +603,16 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00117">117</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  117</span>                                                                {</div>
-<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">if</span> (window) {</div>
-<div class="line"><span class="lineno">  119</span>        *w = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a>;</div>
-<div class="line"><span class="lineno">  120</span>        *h = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a>;</div>
-<div class="line"><span class="lineno">  121</span>    }</div>
-<div class="line"><span class="lineno">  122</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00206">206</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  206</span>                                                                {</div>
+<div class="line"><span class="lineno">  207</span>    <span class="keywordflow">if</span> (!window) {</div>
+<div class="line"><span class="lineno">  208</span>        <span class="keywordflow">if</span> (w) *w = 0;</div>
+<div class="line"><span class="lineno">  209</span>        <span class="keywordflow">if</span> (h) *h = 0;</div>
+<div class="line"><span class="lineno">  210</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  211</span>    }</div>
+<div class="line"><span class="lineno">  212</span>    <span class="keywordflow">if</span> (w) *w = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a>;</div>
+<div class="line"><span class="lineno">  213</span>    <span class="keywordflow">if</span> (h) *h = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a>;</div>
+<div class="line"><span class="lineno">  214</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -593,11 +640,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if focused. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00171">171</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  171</span>                                                  {</div>
-<div class="line"><span class="lineno">  172</span>    <span class="comment">/* Returns the current focus state as tracked by window messages. */</span></div>
-<div class="line"><span class="lineno">  173</span>    <span class="keywordflow">return</span> window ? window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> : <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  174</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00295">295</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  295</span>                                                  {</div>
+<div class="line"><span class="lineno">  296</span>    <span class="comment">/* Returns the current focus state as tracked by window messages. */</span></div>
+<div class="line"><span class="lineno">  297</span>    <span class="keywordflow">return</span> window ? window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> : <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  298</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -624,18 +671,19 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00176">176</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  176</span>                                             {</div>
-<div class="line"><span class="lineno">  177</span>    <span class="keywordflow">if</span> (window)</div>
-<div class="line"><span class="lineno">  178</span>        <a class="code hl_function" href="input_8c.html#a6380501d2f39ddbf718177f183a42d30">win32_internal_update_input_states</a>(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a52831d4b17bc0158cc8af4aeeceaca5f">input</a>);</div>
-<div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>    MSG msg;</div>
-<div class="line"><span class="lineno">  181</span>    <span class="keywordflow">while</span> (PeekMessage(&amp;msg, NULL, 0, 0, PM_REMOVE)) {</div>
-<div class="line"><span class="lineno">  182</span>        TranslateMessage(&amp;msg);</div>
-<div class="line"><span class="lineno">  183</span>        DispatchMessage(&amp;msg);</div>
-<div class="line"><span class="lineno">  184</span>    }</div>
-<div class="line"><span class="lineno">  185</span>}</div>
-<div class="ttc" id="ainput_8c_html_a6380501d2f39ddbf718177f183a42d30"><div class="ttname"><a href="input_8c.html#a6380501d2f39ddbf718177f183a42d30">win32_internal_update_input_states</a></div><div class="ttdeci">void win32_internal_update_input_states(sbgl_InputState *input)</div><div class="ttdef"><b>Definition</b> <a href="input_8c_source.html#l00067">input.c:67</a></div></div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00300">300</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  300</span>                                             {</div>
+<div class="line"><span class="lineno">  301</span>    MSG msg;</div>
+<div class="line"><span class="lineno">  302</span>    <span class="keywordflow">while</span> (PeekMessage(&amp;msg, NULL, 0, 0, PM_REMOVE)) {</div>
+<div class="line"><span class="lineno">  303</span>        TranslateMessage(&amp;msg);</div>
+<div class="line"><span class="lineno">  304</span>        DispatchMessage(&amp;msg);</div>
+<div class="line"><span class="lineno">  305</span>    }</div>
+<div class="line"><span class="lineno">  306</span>    </div>
+<div class="line"><span class="lineno">  307</span>    <span class="comment">// Update input states after processing all messages</span></div>
+<div class="line"><span class="lineno">  308</span>    <span class="keywordflow">if</span> (window)</div>
+<div class="line"><span class="lineno">  309</span>        <a class="code hl_function" href="input_8c.html#a527d7599e900f81e14fbf9f48d558c51">win32_internal_update_input_states</a>(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a52831d4b17bc0158cc8af4aeeceaca5f">input</a>, window);</div>
+<div class="line"><span class="lineno">  310</span>}</div>
+<div class="ttc" id="ainput_8c_html_a527d7599e900f81e14fbf9f48d558c51"><div class="ttname"><a href="input_8c.html#a527d7599e900f81e14fbf9f48d558c51">win32_internal_update_input_states</a></div><div class="ttdeci">void win32_internal_update_input_states(sbgl_InputState *input, sbgl_Window *window)</div><div class="ttdef"><b>Definition</b> <a href="input_8c_source.html#l00142">input.c:142</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -668,33 +716,63 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00144">144</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  144</span>                                                               {</div>
-<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">if</span> (!window)</div>
-<div class="line"><span class="lineno">  146</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>    <span class="keywordflow">if</span> (locked) {</div>
-<div class="line"><span class="lineno">  149</span>        <span class="comment">/* The cursor is confined to the window client area by clipping it </span></div>
-<div class="line"><span class="lineno">  150</span><span class="comment">           to the screen-space coordinates of the client rectangle. */</span></div>
-<div class="line"><span class="lineno">  151</span>        RECT rect;</div>
-<div class="line"><span class="lineno">  152</span>        GetClientRect(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, &amp;rect);</div>
-<div class="line"><span class="lineno">  153</span>        ClientToScreen(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, (POINT*)&amp;rect.left);</div>
-<div class="line"><span class="lineno">  154</span>        ClientToScreen(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, (POINT*)&amp;rect.right);</div>
-<div class="line"><span class="lineno">  155</span>        ClipCursor(&amp;rect);</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>        <span class="comment">/* The cursor is initially centered within the window to ensure </span></div>
-<div class="line"><span class="lineno">  158</span><span class="comment">           consistent relative motion tracking. */</span></div>
-<div class="line"><span class="lineno">  159</span>        <span class="keywordtype">int</span> centerX = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> / 2;</div>
-<div class="line"><span class="lineno">  160</span>        <span class="keywordtype">int</span> centerY = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a> / 2;</div>
-<div class="line"><span class="lineno">  161</span>        POINT p = { centerX, centerY };</div>
-<div class="line"><span class="lineno">  162</span>        ClientToScreen(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, &amp;p);</div>
-<div class="line"><span class="lineno">  163</span>        SetCursorPos(p.x, p.y);</div>
-<div class="line"><span class="lineno">  164</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  165</span>        <span class="comment">/* Any existing cursor clipping is removed, allowing the pointer </span></div>
-<div class="line"><span class="lineno">  166</span><span class="comment">           to move freely across the entire desktop. */</span></div>
-<div class="line"><span class="lineno">  167</span>        ClipCursor(NULL);</div>
-<div class="line"><span class="lineno">  168</span>    }</div>
-<div class="line"><span class="lineno">  169</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00238">238</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  238</span>                                                               {</div>
+<div class="line"><span class="lineno">  239</span>    <span class="keywordflow">if</span> (!window || window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#af4d845e5e21f5c5b9c23f663b1fa8962">cursorLocked</a> == locked)</div>
+<div class="line"><span class="lineno">  240</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  241</span> </div>
+<div class="line"><span class="lineno">  242</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#af4d845e5e21f5c5b9c23f663b1fa8962">cursorLocked</a> = locked;</div>
+<div class="line"><span class="lineno">  243</span> </div>
+<div class="line"><span class="lineno">  244</span>    <span class="keywordflow">if</span> (locked) {</div>
+<div class="line"><span class="lineno">  245</span>        <span class="comment">/* Register for raw mouse input to get high-precision deltas */</span></div>
+<div class="line"><span class="lineno">  246</span>        RAWINPUTDEVICE rid = {</div>
+<div class="line"><span class="lineno">  247</span>            .usUsagePage = 0x01,    <span class="comment">// Generic Desktop</span></div>
+<div class="line"><span class="lineno">  248</span>            .usUsage = 0x02,        <span class="comment">// Mouse</span></div>
+<div class="line"><span class="lineno">  249</span>            .dwFlags = RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE,</div>
+<div class="line"><span class="lineno">  250</span>            .hwndTarget = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a></div>
+<div class="line"><span class="lineno">  251</span>        };</div>
+<div class="line"><span class="lineno">  252</span>        <span class="keywordflow">if</span> (!RegisterRawInputDevices(&amp;rid, 1, <span class="keyword">sizeof</span>(rid))) {</div>
+<div class="line"><span class="lineno">  253</span>            <a class="code hl_function" href="#a8e3e20281e810d4bdb7be009a896cd5a">win32_report_error</a>(L<span class="stringliteral">&quot;Failed to register raw input device&quot;</span>);</div>
+<div class="line"><span class="lineno">  254</span>        }</div>
+<div class="line"><span class="lineno">  255</span> </div>
+<div class="line"><span class="lineno">  256</span>        <span class="comment">/* The cursor is confined to the window client area by clipping it </span></div>
+<div class="line"><span class="lineno">  257</span><span class="comment">           to the screen-space coordinates of the client rectangle. */</span></div>
+<div class="line"><span class="lineno">  258</span>        RECT rect;</div>
+<div class="line"><span class="lineno">  259</span>        GetClientRect(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, &amp;rect);</div>
+<div class="line"><span class="lineno">  260</span>        ClientToScreen(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, (POINT*)&amp;rect.left);</div>
+<div class="line"><span class="lineno">  261</span>        ClientToScreen(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, (POINT*)&amp;rect.right);</div>
+<div class="line"><span class="lineno">  262</span>        ClipCursor(&amp;rect);</div>
+<div class="line"><span class="lineno">  263</span> </div>
+<div class="line"><span class="lineno">  264</span>        <span class="comment">/* Hide the cursor */</span></div>
+<div class="line"><span class="lineno">  265</span>        ShowCursor(FALSE);</div>
+<div class="line"><span class="lineno">  266</span>        window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  267</span> </div>
+<div class="line"><span class="lineno">  268</span>        <span class="comment">/* The cursor is initially centered within the window to ensure </span></div>
+<div class="line"><span class="lineno">  269</span><span class="comment">           consistent relative motion tracking. */</span></div>
+<div class="line"><span class="lineno">  270</span>        <span class="keywordtype">int</span> centerX = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> / 2;</div>
+<div class="line"><span class="lineno">  271</span>        <span class="keywordtype">int</span> centerY = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a> / 2;</div>
+<div class="line"><span class="lineno">  272</span>        POINT p = { centerX, centerY };</div>
+<div class="line"><span class="lineno">  273</span>        ClientToScreen(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, &amp;p);</div>
+<div class="line"><span class="lineno">  274</span>        SetCursorPos(p.x, p.y);</div>
+<div class="line"><span class="lineno">  275</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  276</span>        <span class="comment">/* Unregister raw input device */</span></div>
+<div class="line"><span class="lineno">  277</span>        RAWINPUTDEVICE rid = {</div>
+<div class="line"><span class="lineno">  278</span>            .usUsagePage = 0x01,</div>
+<div class="line"><span class="lineno">  279</span>            .usUsage = 0x02,</div>
+<div class="line"><span class="lineno">  280</span>            .dwFlags = RIDEV_REMOVE,</div>
+<div class="line"><span class="lineno">  281</span>            .hwndTarget = NULL</div>
+<div class="line"><span class="lineno">  282</span>        };</div>
+<div class="line"><span class="lineno">  283</span>        RegisterRawInputDevices(&amp;rid, 1, <span class="keyword">sizeof</span>(rid));</div>
+<div class="line"><span class="lineno">  284</span> </div>
+<div class="line"><span class="lineno">  285</span>        <span class="comment">/* Any existing cursor clipping is removed, allowing the pointer </span></div>
+<div class="line"><span class="lineno">  286</span><span class="comment">           to move freely across the entire desktop. */</span></div>
+<div class="line"><span class="lineno">  287</span>        ClipCursor(NULL);</div>
+<div class="line"><span class="lineno">  288</span> </div>
+<div class="line"><span class="lineno">  289</span>        <span class="comment">/* Show the cursor */</span></div>
+<div class="line"><span class="lineno">  290</span>        ShowCursor(TRUE);</div>
+<div class="line"><span class="lineno">  291</span>        window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  292</span>    }</div>
+<div class="line"><span class="lineno">  293</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -727,20 +805,20 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00130">130</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  130</span>                                                                 {</div>
-<div class="line"><span class="lineno">  131</span>    <span class="keywordflow">if</span> (!window || window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> == visible)</div>
-<div class="line"><span class="lineno">  132</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>    <span class="comment">/* The cursor visibility state is updated and the system cursor counter </span></div>
-<div class="line"><span class="lineno">  135</span><span class="comment">       is incremented or decremented accordingly. */</span></div>
-<div class="line"><span class="lineno">  136</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> = visible;</div>
-<div class="line"><span class="lineno">  137</span>    <span class="keywordflow">if</span> (visible) {</div>
-<div class="line"><span class="lineno">  138</span>        ShowCursor(TRUE);</div>
-<div class="line"><span class="lineno">  139</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  140</span>        ShowCursor(FALSE);</div>
-<div class="line"><span class="lineno">  141</span>    }</div>
-<div class="line"><span class="lineno">  142</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00224">224</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  224</span>                                                                 {</div>
+<div class="line"><span class="lineno">  225</span>    <span class="keywordflow">if</span> (!window || window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> == visible)</div>
+<div class="line"><span class="lineno">  226</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  227</span> </div>
+<div class="line"><span class="lineno">  228</span>    <span class="comment">/* The cursor visibility state is updated and the system cursor counter </span></div>
+<div class="line"><span class="lineno">  229</span><span class="comment">       is incremented or decremented accordingly. */</span></div>
+<div class="line"><span class="lineno">  230</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a> = visible;</div>
+<div class="line"><span class="lineno">  231</span>    <span class="keywordflow">if</span> (visible) {</div>
+<div class="line"><span class="lineno">  232</span>        ShowCursor(TRUE);</div>
+<div class="line"><span class="lineno">  233</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  234</span>        ShowCursor(FALSE);</div>
+<div class="line"><span class="lineno">  235</span>    }</div>
+<div class="line"><span class="lineno">  236</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -769,12 +847,14 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if a resize event occurred. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00124">124</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  124</span>                                                   {</div>
-<div class="line"><span class="lineno">  125</span>    <span class="keywordtype">bool</span> r = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a>;</div>
-<div class="line"><span class="lineno">  126</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">return</span> r;</div>
-<div class="line"><span class="lineno">  128</span>}</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00216">216</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  216</span>                                                   {</div>
+<div class="line"><span class="lineno">  217</span>    <span class="keywordflow">if</span> (!window)</div>
+<div class="line"><span class="lineno">  218</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  219</span>    <span class="keywordtype">bool</span> r = window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a>;</div>
+<div class="line"><span class="lineno">  220</span>    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  221</span>    <span class="keywordflow">return</span> r;</div>
+<div class="line"><span class="lineno">  222</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -802,8 +882,54 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if closing. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00115">115</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  115</span>{ <span class="keywordflow">return</span> window ? window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a">shouldClose</a> : <span class="keyword">true</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00204">204</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  204</span>{ <span class="keywordflow">return</span> window ? window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a">shouldClose</a> : <span class="keyword">true</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a8e3e20281e810d4bdb7be009a896cd5a" name="a8e3e20281e810d4bdb7be009a896cd5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e3e20281e810d4bdb7be009a896cd5a">&#9670;&#160;</a></span>win32_report_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void win32_report_error </td>
+          <td>(</td>
+          <td class="paramtype">const wchar_t *</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reports errors to both debugger output and stderr. </p>
+<p>Uses OutputDebugStringW for Visual Studio debugger visibility and fprintf(stderr, ...) for console output. </p>
+
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00014">14</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>                                                       {</div>
+<div class="line"><span class="lineno">   15</span>    <span class="comment">// Output to debugger (visible in Visual Studio Output window)</span></div>
+<div class="line"><span class="lineno">   16</span>    OutputDebugStringW(message);</div>
+<div class="line"><span class="lineno">   17</span>    OutputDebugStringW(L<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><span class="lineno">   18</span>    </div>
+<div class="line"><span class="lineno">   19</span>    <span class="comment">// Output to stderr (visible in console)</span></div>
+<div class="line"><span class="lineno">   20</span>    <span class="keywordtype">int</span> len = WideCharToMultiByte(CP_UTF8, 0, message, -1, NULL, 0, NULL, NULL);</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">if</span> (len &gt; 0) {</div>
+<div class="line"><span class="lineno">   22</span>        <span class="keywordtype">char</span>* utf8 = (<span class="keywordtype">char</span>*)malloc(len);</div>
+<div class="line"><span class="lineno">   23</span>        <span class="keywordflow">if</span> (utf8) {</div>
+<div class="line"><span class="lineno">   24</span>            WideCharToMultiByte(CP_UTF8, 0, message, -1, utf8, len, NULL, NULL);</div>
+<div class="line"><span class="lineno">   25</span>            fprintf(stderr, <span class="stringliteral">&quot;[Win32] %s\n&quot;</span>, utf8);</div>
+<div class="line"><span class="lineno">   26</span>            free(utf8);</div>
+<div class="line"><span class="lineno">   27</span>        }</div>
+<div class="line"><span class="lineno">   28</span>    }</div>
+<div class="line"><span class="lineno">   29</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -844,46 +970,77 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00007">7</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    7</span>                                                                                      {</div>
-<div class="line"><span class="lineno">    8</span>    <a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>* window = (<a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>*)GetWindowLongPtr(hwnd, GWLP_USERDATA);</div>
-<div class="line"><span class="lineno">    9</span> </div>
-<div class="line"><span class="lineno">   10</span>    <span class="keywordflow">switch</span> (msg) {</div>
-<div class="line"><span class="lineno">   11</span>    <span class="keywordflow">case</span> WM_CLOSE:</div>
-<div class="line"><span class="lineno">   12</span>        <span class="keywordflow">if</span> (window)</div>
-<div class="line"><span class="lineno">   13</span>            window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a">shouldClose</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   14</span>        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   15</span>    <span class="keywordflow">case</span> WM_DESTROY:</div>
-<div class="line"><span class="lineno">   16</span>        PostQuitMessage(0);</div>
-<div class="line"><span class="lineno">   17</span>        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   18</span>    <span class="keywordflow">case</span> WM_SIZE:</div>
-<div class="line"><span class="lineno">   19</span>        <span class="keywordflow">if</span> (window) {</div>
-<div class="line"><span class="lineno">   20</span>            <span class="keywordtype">int</span> w = LOWORD(lparam);</div>
-<div class="line"><span class="lineno">   21</span>            <span class="keywordtype">int</span> h = HIWORD(lparam);</div>
-<div class="line"><span class="lineno">   22</span>            <span class="keywordflow">if</span> (w &gt; 0 &amp;&amp; h &gt; 0 &amp;&amp; (w != window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> || h != window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a>)) {</div>
-<div class="line"><span class="lineno">   23</span>                window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> = w;</div>
-<div class="line"><span class="lineno">   24</span>                window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a> = h;</div>
-<div class="line"><span class="lineno">   25</span>                window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   26</span>            }</div>
-<div class="line"><span class="lineno">   27</span>        }</div>
-<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">case</span> WM_SETFOCUS:</div>
-<div class="line"><span class="lineno">   30</span>        <span class="keywordflow">if</span> (window)</div>
-<div class="line"><span class="lineno">   31</span>            window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   32</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   33</span>    <span class="keywordflow">case</span> WM_KILLFOCUS:</div>
-<div class="line"><span class="lineno">   34</span>        <span class="keywordflow">if</span> (window)</div>
-<div class="line"><span class="lineno">   35</span>            window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   37</span>    }</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>    <span class="comment">// Pass input messages to the input system</span></div>
-<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">if</span> (window)</div>
-<div class="line"><span class="lineno">   41</span>        <a class="code hl_function" href="input_8c.html#a0f9a1787d1a7f5132b43857f36a3b440">win32_internal_process_message</a>(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a52831d4b17bc0158cc8af4aeeceaca5f">input</a>, msg, wparam, lparam);</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> DefWindowProc(hwnd, msg, wparam, lparam);</div>
-<div class="line"><span class="lineno">   44</span>}</div>
-<div class="ttc" id="ainput_8c_html_a0f9a1787d1a7f5132b43857f36a3b440"><div class="ttname"><a href="input_8c.html#a0f9a1787d1a7f5132b43857f36a3b440">win32_internal_process_message</a></div><div class="ttdeci">void win32_internal_process_message(sbgl_InputState *input, UINT msg, WPARAM wparam, LPARAM lparam)</div><div class="ttdef"><b>Definition</b> <a href="input_8c_source.html#l00028">input.c:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="window_8c_source.html#l00031">31</a> of file <a class="el" href="window_8c_source.html">window.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>                                                                                      {</div>
+<div class="line"><span class="lineno">   32</span>    <a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>* window = (<a class="code hl_struct" href="structsbgl__Window.html">sbgl_Window</a>*)GetWindowLongPtr(hwnd, GWLP_USERDATA);</div>
+<div class="line"><span class="lineno">   33</span> </div>
+<div class="line"><span class="lineno">   34</span>    <span class="keywordflow">switch</span> (msg) {</div>
+<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">case</span> WM_CLOSE:</div>
+<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">if</span> (window)</div>
+<div class="line"><span class="lineno">   37</span>            window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a1aaa27886447ecedc86aa8076819a95a">shouldClose</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   38</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">case</span> WM_DESTROY:</div>
+<div class="line"><span class="lineno">   40</span>        PostQuitMessage(0);</div>
+<div class="line"><span class="lineno">   41</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   42</span>    <span class="keywordflow">case</span> WM_SIZE:</div>
+<div class="line"><span class="lineno">   43</span>        <span class="keywordflow">if</span> (window) {</div>
+<div class="line"><span class="lineno">   44</span>            <span class="keywordtype">int</span> w = LOWORD(lparam);</div>
+<div class="line"><span class="lineno">   45</span>            <span class="keywordtype">int</span> h = HIWORD(lparam);</div>
+<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">if</span> (w &gt; 0 &amp;&amp; h &gt; 0 &amp;&amp; (w != window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> || h != window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a>)) {</div>
+<div class="line"><span class="lineno">   47</span>                window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b6aaac6d80e059a3dedceb895e5fec5">width</a> = w;</div>
+<div class="line"><span class="lineno">   48</span>                window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a45199e5dcb4b687a579314de9d227bec">height</a> = h;</div>
+<div class="line"><span class="lineno">   49</span>                window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   50</span>            }</div>
+<div class="line"><span class="lineno">   51</span>        }</div>
+<div class="line"><span class="lineno">   52</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">case</span> WM_SETFOCUS:</div>
+<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">if</span> (window)</div>
+<div class="line"><span class="lineno">   55</span>            window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">case</span> WM_KILLFOCUS:</div>
+<div class="line"><span class="lineno">   58</span>        <span class="keywordflow">if</span> (window)</div>
+<div class="line"><span class="lineno">   59</span>            window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce">focused</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">case</span> WM_INPUT: {</div>
+<div class="line"><span class="lineno">   62</span>        <span class="comment">// Handle raw input for high-precision mouse deltas when cursor is locked</span></div>
+<div class="line"><span class="lineno">   63</span>        <span class="keywordflow">if</span> (window &amp;&amp; window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#af4d845e5e21f5c5b9c23f663b1fa8962">cursorLocked</a>) {</div>
+<div class="line"><span class="lineno">   64</span>            RAWINPUT raw;</div>
+<div class="line"><span class="lineno">   65</span>            UINT size = <span class="keyword">sizeof</span>(raw);</div>
+<div class="line"><span class="lineno">   66</span>            </div>
+<div class="line"><span class="lineno">   67</span>            <span class="keywordflow">if</span> (GetRawInputData((HRAWINPUT)lparam, RID_INPUT, &amp;raw, </div>
+<div class="line"><span class="lineno">   68</span>                                &amp;size, <span class="keyword">sizeof</span>(RAWINPUTHEADER)) != (UINT)-1) {</div>
+<div class="line"><span class="lineno">   69</span>                <span class="keywordflow">if</span> (raw.header.dwType == RIM_TYPEMOUSE) {</div>
+<div class="line"><span class="lineno">   70</span>                    <span class="comment">// Accumulate raw deltas</span></div>
+<div class="line"><span class="lineno">   71</span>                    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#ad76046c38b30e66bd1bdb8d60119b85a">accumulatedDeltaX</a> += raw.mouse.lLastX;</div>
+<div class="line"><span class="lineno">   72</span>                    window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a75c96fdc18411c1c728375c1be7cb7a3">accumulatedDeltaY</a> += raw.mouse.lLastY;</div>
+<div class="line"><span class="lineno">   73</span>                }</div>
+<div class="line"><span class="lineno">   74</span>            }</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
+<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   77</span>    }</div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">case</span> WM_DPICHANGED: {</div>
+<div class="line"><span class="lineno">   79</span>        <span class="comment">// Handle DPI changes for high-DPI display support</span></div>
+<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">if</span> (window) {</div>
+<div class="line"><span class="lineno">   81</span>            RECT* <span class="keyword">const</span> prcNewWindow = (RECT*)lparam;</div>
+<div class="line"><span class="lineno">   82</span>            SetWindowPos(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a6e2409273f2ef5f51e0c8ae658dd19a5">hwnd</a>, NULL,</div>
+<div class="line"><span class="lineno">   83</span>                prcNewWindow-&gt;left,</div>
+<div class="line"><span class="lineno">   84</span>                prcNewWindow-&gt;top,</div>
+<div class="line"><span class="lineno">   85</span>                prcNewWindow-&gt;right - prcNewWindow-&gt;left,</div>
+<div class="line"><span class="lineno">   86</span>                prcNewWindow-&gt;bottom - prcNewWindow-&gt;top,</div>
+<div class="line"><span class="lineno">   87</span>                SWP_NOZORDER | SWP_NOACTIVATE);</div>
+<div class="line"><span class="lineno">   88</span>            window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a8b710d1cfbc87eec5e9c7aaf822313d6">resized</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   89</span>        }</div>
+<div class="line"><span class="lineno">   90</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   91</span>    }</div>
+<div class="line"><span class="lineno">   92</span>    }</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    <span class="comment">// Pass input messages to the input system</span></div>
+<div class="line"><span class="lineno">   95</span>    <span class="keywordflow">if</span> (window)</div>
+<div class="line"><span class="lineno">   96</span>        <a class="code hl_function" href="input_8c.html#a0f9a1787d1a7f5132b43857f36a3b440">win32_internal_process_message</a>(window-&gt;<a class="code hl_variable" href="structsbgl__Window.html#a52831d4b17bc0158cc8af4aeeceaca5f">input</a>, msg, wparam, lparam);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">return</span> DefWindowProc(hwnd, msg, wparam, lparam);</div>
+<div class="line"><span class="lineno">   99</span>}</div>
+<div class="ttc" id="ainput_8c_html_a0f9a1787d1a7f5132b43857f36a3b440"><div class="ttname"><a href="input_8c.html#a0f9a1787d1a7f5132b43857f36a3b440">win32_internal_process_message</a></div><div class="ttdeci">void win32_internal_process_message(sbgl_InputState *input, UINT msg, WPARAM wparam, LPARAM lparam)</div><div class="ttdef"><b>Definition</b> <a href="input_8c_source.html#l00098">input.c:98</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

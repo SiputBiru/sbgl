@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['graphics_20library_0',['SBgl (SiputBiru Graphics Library)',['../md_README.html',1,'']]],
-  ['guide_1',['Guide',['../md_docs_2getting__started_2installation.html',1,'Installation Guide'],['../md_docs_2getting__started_2first__triangle.html',1,'Triangle Rendering Guide']]]
+  ['features_20and_20behaviors_0',['Windows-Specific Features and Behaviors',['../md_docs_2manual_2windows__specific.html',1,'']]]
 ];

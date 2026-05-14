@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['management_20architecture_0',['Memory Management Architecture',['../md_docs_2manual_2memory__management.html',1,'']]],
-  ['math_20library_20architecture_1',['Math Library Architecture',['../md_docs_2manual_2math__library.html',1,'']]],
-  ['memory_20management_20architecture_2',['Memory Management Architecture',['../md_docs_2manual_2memory__management.html',1,'']]]
+  ['layer_20hal_0',['SBgl Platform Abstraction Layer (HAL)',['../md_docs_2manual_2platform__abstraction.html',1,'']]],
+  ['library_1',['SBgl (SiputBiru Graphics Library)',['../md_README.html',1,'']]],
+  ['library_20architecture_2',['Math Library Architecture',['../md_docs_2manual_2math__library.html',1,'']]]
 ];

@@ -151,6 +151,14 @@ Data Fields</h2></td></tr>
 <tr class="separator:a6e2409273f2ef5f51e0c8ae658dd19a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa69f0f941de75fe5c4c0b6ff829b5926" id="r_aa69f0f941de75fe5c4c0b6ff829b5926"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa69f0f941de75fe5c4c0b6ff829b5926">cursorVisible</a></td></tr>
 <tr class="separator:aa69f0f941de75fe5c4c0b6ff829b5926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d845e5e21f5c5b9c23f663b1fa8962" id="r_af4d845e5e21f5c5b9c23f663b1fa8962"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4d845e5e21f5c5b9c23f663b1fa8962">cursorLocked</a></td></tr>
+<tr class="separator:af4d845e5e21f5c5b9c23f663b1fa8962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76046c38b30e66bd1bdb8d60119b85a" id="r_ad76046c38b30e66bd1bdb8d60119b85a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad76046c38b30e66bd1bdb8d60119b85a">accumulatedDeltaX</a></td></tr>
+<tr class="separator:ad76046c38b30e66bd1bdb8d60119b85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75c96fdc18411c1c728375c1be7cb7a3" id="r_a75c96fdc18411c1c728375c1be7cb7a3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75c96fdc18411c1c728375c1be7cb7a3">accumulatedDeltaY</a></td></tr>
+<tr class="separator:a75c96fdc18411c1c728375c1be7cb7a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d35ce63316bdbeaae230fb811978294" id="r_a6d35ce63316bdbeaae230fb811978294"><td class="memItemLeft" align="right" valign="top">wchar_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d35ce63316bdbeaae230fb811978294">className</a> [256]</td></tr>
+<tr class="separator:a6d35ce63316bdbeaae230fb811978294"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Native X11 window state. </p>
@@ -158,6 +166,70 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="linux__internal_8h_source.html#l00050">50</a> of file <a class="el" href="linux__internal_8h_source.html">linux_internal.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="ad76046c38b30e66bd1bdb8d60119b85a" name="ad76046c38b30e66bd1bdb8d60119b85a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad76046c38b30e66bd1bdb8d60119b85a">&#9670;&#160;</a></span>accumulatedDeltaX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sbgl_Window::accumulatedDeltaX</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="win32__internal_8h_source.html#l00027">27</a> of file <a class="el" href="win32__internal_8h_source.html">win32_internal.h</a>.</p>
+
+</div>
+</div>
+<a id="a75c96fdc18411c1c728375c1be7cb7a3" name="a75c96fdc18411c1c728375c1be7cb7a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75c96fdc18411c1c728375c1be7cb7a3">&#9670;&#160;</a></span>accumulatedDeltaY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sbgl_Window::accumulatedDeltaY</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="win32__internal_8h_source.html#l00028">28</a> of file <a class="el" href="win32__internal_8h_source.html">win32_internal.h</a>.</p>
+
+</div>
+</div>
+<a id="a6d35ce63316bdbeaae230fb811978294" name="a6d35ce63316bdbeaae230fb811978294"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d35ce63316bdbeaae230fb811978294">&#9670;&#160;</a></span>className</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wchar_t sbgl_Window::className[256]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="win32__internal_8h_source.html#l00031">31</a> of file <a class="el" href="win32__internal_8h_source.html">win32_internal.h</a>.</p>
+
+</div>
+</div>
+<a id="af4d845e5e21f5c5b9c23f663b1fa8962" name="af4d845e5e21f5c5b9c23f663b1fa8962"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4d845e5e21f5c5b9c23f663b1fa8962">&#9670;&#160;</a></span>cursorLocked</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sbgl_Window::cursorLocked</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="win32__internal_8h_source.html#l00022">22</a> of file <a class="el" href="win32__internal_8h_source.html">win32_internal.h</a>.</p>
+
+</div>
+</div>
 <a id="aa69f0f941de75fe5c4c0b6ff829b5926" name="aa69f0f941de75fe5c4c0b6ff829b5926"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa69f0f941de75fe5c4c0b6ff829b5926">&#9670;&#160;</a></span>cursorVisible</h2>
 

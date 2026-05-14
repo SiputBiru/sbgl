@@ -107,9 +107,9 @@ $(function(){initNavTree('md_docs_2getting__started_2installation.html',''); ini
   <div class="headertitle"><div class="title">Installation Guide</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md77"></a></p>
+<div class="textblock"><p><a class="anchor" id="installation-guide"></a></p>
 <p>This guide covers setting up the development environment and building SBgl for different platforms.</p>
-<h1><a class="anchor" id="autotoc_md78"></a>
+<h1><a class="anchor" id="prerequisites"></a>
 Prerequisites</h1>
 <ul>
 <li><b>Compiler</b>: GCC 9+, Clang 10+, or MSVC 2019+.</li>
@@ -117,7 +117,7 @@ Prerequisites</h1>
 <li><b>Graphics</b>: Vulkan SDK (Headers and <code>glslc</code> compiler required). Static linking to <code>vulkan-1</code> or <code>libvulkan</code> is <b>not</b> required as SBgl uses the <code>volk</code> meta-loader.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md80"></a>
+<h1><a class="anchor" id="configuration-flags"></a>
 Configuration Flags</h1>
 <p>SBgl provides several CMake options to customize the build:</p>
 <table class="markdownTable">
@@ -133,7 +133,7 @@ Configuration Flags</h1>
 <td class="markdownTableBodyLeft"><code>CMAKE_BUILD_TYPE</code>   </td><td class="markdownTableBodyLeft">Set to <code>Debug</code> for development or <code>Release</code> for performance.   </td><td class="markdownTableBodyLeft"><code>Release</code>   </td></tr>
 </table>
 <hr  />
-<h1><a class="anchor" id="autotoc_md82"></a>
+<h1><a class="anchor" id="dependency-management"></a>
 Dependency Management</h1>
 <p>SBgl utilizes a hybrid dependency model to minimize manual setup:</p>
 <ul>
@@ -142,9 +142,9 @@ Dependency Management</h1>
 <li><b>Internal (Embedded)</b>: Small, critical utilities (like <code>stb_perlin</code>) are embedded directly in the source tree.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md84"></a>
+<h1><a class="anchor" id="installing-on-linux-wayland-or-x11"></a>
 Installing on Linux (Wayland or X11)</h1>
-<h2><a class="anchor" id="autotoc_md85"></a>
+<h2><a class="anchor" id="system-dependencies"></a>
 System Dependencies</h2>
 <p>Install the required development libraries for the preferred display protocol:</p>
 <ul>
@@ -152,7 +152,7 @@ System Dependencies</h2>
 <li><b>X11</b>: <code>libx11-dev</code>.</li>
 <li><b>Vulkan</b>: Vulkan SDK headers and <code>glslc</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md86"></a>
+<h2><a class="anchor" id="build-instructions"></a>
 Build Instructions</h2>
 <div class="fragment"><div class="line"># Default build (Wayland enabled)</div>
 <div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON</div>
@@ -162,31 +162,184 @@ Build Instructions</h2>
 <div class="line">cmake -B build-x11 -DSBGL_USE_WAYLAND=OFF -DSBGL_BUILD_EXAMPLES=ON</div>
 <div class="line">cmake --build build-x11</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md88"></a>
+<h1><a class="anchor" id="installing-on-windows-native"></a>
 Installing on Windows (Native)</h1>
-<h2><a class="anchor" id="autotoc_md89"></a>
-Prerequisites</h2>
+<h2><a class="anchor" id="option-1-visual-studio-20192022-msvc"></a>
+Option 1: Visual Studio 2019/2022 (MSVC)</h2>
+<h3><a class="anchor" id="prerequisites-1"></a>
+Prerequisites</h3>
 <ul>
-<li><b>Visual Studio 2019/2022</b> with the "Desktop development with C++" workload.</li>
-<li><b>Vulkan SDK</b>: Ensure <code>VULKAN_SDK</code> environment variable is set.</li>
+<li><b>Visual Studio 2019 or 2022</b> with the "Desktop development with C++" workload.</li>
+<li><b>Vulkan SDK</b> (see <a class="el" href="#vulkan-sdk-installation">Vulkan SDK Installation</a> section below).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md90"></a>
-Build Instructions</h2>
-<p>Using the Developer Command Prompt or PowerShell:</p>
-<div class="fragment"><div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON</div>
+<h3><a class="anchor" id="building-from-visual-studio-ide"></a>
+Building from Visual Studio IDE</h3>
+<ol type="1">
+<li>Open Visual Studio</li>
+<li>Select <b>"Open a local folder"</b> (or File → Open → CMake...)</li>
+<li>Navigate to the SBgl root directory and select it</li>
+<li>Visual Studio will auto-detect the <code>CMakeLists.txt</code> and configure the project</li>
+<li>Select build configuration (Debug or Release) from the toolbar</li>
+<li>Build → Build All (or press <b>Ctrl+Shift+B</b>)</li>
+<li>Run examples from the generated <code>build/examples/</code> directory</li>
+</ol>
+<h3><a class="anchor" id="building-from-developer-command-prompt"></a>
+Building from Developer Command Prompt</h3>
+<p>Open <b>"Developer Command Prompt for VS 2019"</b> or <b>"Developer Command Prompt for VS 2022"</b> (available from Start Menu):</p>
+<div class="fragment"><div class="line"># Navigate to SBgl directory</div>
+<div class="line">cd C:\path\to\sbgl</div>
+<div class="line"> </div>
+<div class="line"># Configure (Release is default, use -DCMAKE_BUILD_TYPE=Debug for debug builds)</div>
+<div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release</div>
+<div class="line"> </div>
+<div class="line"># Build</div>
 <div class="line">cmake --build build --config Release</div>
+<div class="line"> </div>
+<div class="line"># Run an example</div>
+<div class="line">.\build\examples\Release\hello_window.exe</div>
+</div><!-- fragment --><h2><a class="anchor" id="option-2-mingw-w64-gcc"></a>
+Option 2: MinGW-w64 (GCC)</h2>
+<h3><a class="anchor" id="prerequisites-2"></a>
+Prerequisites</h3>
+<ul>
+<li><b>MinGW-w64 GCC 9+</b> (via MSYS2, standalone installer, or Chocolatey)</li>
+<li><b>CMake 3.15+</b></li>
+<li><b>Ninja</b> (optional but recommended for faster builds)</li>
+<li><b>Vulkan SDK</b> (see <a class="el" href="#vulkan-sdk-installation">Vulkan SDK Installation</a> section below).</li>
+</ul>
+<h3><a class="anchor" id="using-msys2-recommended"></a>
+Using MSYS2 (Recommended)</h3>
+<ol type="1">
+<li>Install MSYS2 from <a href="https://www.msys2.org/">https://www.msys2.org/</a></li>
+<li>Open <b>"MSYS2 MinGW 64-bit"</b> terminal from Start Menu</li>
+<li>Install required packages:</li>
+</ol>
+<div class="fragment"><div class="line">pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja</div>
+</div><!-- fragment --><ol type="1">
+<li>Build SBgl:</li>
+</ol>
+<div class="fragment"><div class="line">cd /c/path/to/sbgl</div>
+<div class="line">cmake -B build -G Ninja -DSBGL_BUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release</div>
+<div class="line">cmake --build build</div>
+</div><!-- fragment --><h3><a class="anchor" id="using-standalone-mingw"></a>
+Using Standalone MinGW</h3>
+<p>If you have MinGW-w64 installed separately (e.g., from mingw-w64.org or Chocolatey):</p>
+<div class="fragment"><div class="line"># Ensure mingw32-make or ninja is in your PATH</div>
+<div class="line"># You can verify with: where mingw32-make</div>
+<div class="line"> </div>
+<div class="line">cmake -B build -G &quot;MinGW Makefiles&quot; -DSBGL_BUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release</div>
+<div class="line">cmake --build build</div>
+</div><!-- fragment --><h3><a class="anchor" id="troubleshooting-mingw-builds"></a>
+Troubleshooting MinGW Builds</h3>
+<ul>
+<li><b>Error: "No CMAKE_C_COMPILER could be found"</b>: Ensure MinGW's <code>bin</code> directory is in your PATH environment variable.</li>
+<li><b>Error: "Cannot find VULKAN_SDK"</b>: See <a class="el" href="#vulkan-sdk-installation">Vulkan SDK Installation</a> section below.</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="vulkan-sdk-installation"></a>
+Vulkan SDK Installation</h1>
+<h2><a class="anchor" id="windows"></a>
+Windows</h2>
+<ol type="1">
+<li><b>Download</b>: Get the Vulkan SDK from <a href="https://vulkan.lunarg.com/sdk/home">https://vulkan.lunarg.com/sdk/home</a></li>
+<li><b>Install</b>: Run the installer and follow the prompts</li>
+<li><b>Verify</b>: The installer should automatically set the <code>VULKAN_SDK</code> environment variable. Verify it:</li>
+</ol>
+<div class="fragment"><div class="line"># In PowerShell</div>
+<div class="line">$env:VULKAN_SDK</div>
+<div class="line"> </div>
+<div class="line"># In Command Prompt</div>
+<div class="line">echo %VULKAN_SDK%</div>
+</div><!-- fragment --><p>If not set, add it manually:</p><ul>
+<li><b>Variable name</b>: <code>VULKAN_SDK</code></li>
+<li><b>Variable value</b>: <code>C:\VulkanSDK\1.3.XXX.X</code> (replace with your version)</li>
+</ul>
+<ol type="1">
+<li><b>Verify glslc is accessible</b>:</li>
+</ol>
+<div class="fragment"><div class="line">where glslc</div>
+<div class="line"># Should output: C:\VulkanSDK\1.3.XXX.X\Bin\glslc.exe</div>
+</div><!-- fragment --><h2><a class="anchor" id="linux"></a>
+Linux</h2>
+<div class="fragment"><div class="line"># Ubuntu/Debian</div>
+<div class="line">sudo apt install vulkan-tools vulkan-validationlayers-dev spirv-tools</div>
+<div class="line"> </div>
+<div class="line"># Arch Linux</div>
+<div class="line">sudo pacman -S vulkan-devel vulkan-tools</div>
+<div class="line"> </div>
+<div class="line"># Or download from https://vulkan.lunarg.com/sdk/home for the full SDK</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md92"></a>
+<h1><a class="anchor" id="troubleshooting"></a>
+Troubleshooting</h1>
+<h2><a class="anchor" id="windows-specific-issues"></a>
+Windows-Specific Issues</h2>
+<h3><a class="anchor" id="cannot-find-vulkan_sdk-or-glslc-not-found"></a>
+"Cannot find VULKAN_SDK" or "glslc not found"</h3>
+<p><b>Cause</b>: Vulkan SDK not installed or environment variable not set.</p>
+<p><b>Solution</b>:</p><ol type="1">
+<li>Install Vulkan SDK (see <a class="el" href="#vulkan-sdk-installation">Vulkan SDK Installation</a>)</li>
+<li>Restart your terminal/IDE after installation</li>
+<li>Verify with <code>echo VULKAN_SDK%</code></li>
+</ol>
+<h3><a class="anchor" id="cannot-find-compiler-msvc"></a>
+"Cannot find compiler" (MSVC)</h3>
+<p><b>Cause</b>: Not running from Developer Command Prompt or Visual Studio environment.</p>
+<p><b>Solution</b>: Use "Developer Command Prompt for VS 2019/2022" from Start Menu, or open the project in Visual Studio IDE.</p>
+<h3><a class="anchor" id="lnk2019-unresolved-external-symbol-with-mingw"></a>
+"LNK2019: unresolved external symbol" with MinGW</h3>
+<p><b>Cause</b>: Name mangling differences between C and C++ when linking.</p>
+<p><b>Solution</b>: Ensure SBgl headers are included with proper <code>extern "C"</code> guard in C++ projects:</p>
+<div class="fragment"><div class="line"><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="sbgl_8h.html">sbgl.h</a>&quot;</span></div>
+<div class="line">}</div>
+<div class="ttc" id="asbgl_8h_html"><div class="ttname"><a href="sbgl_8h.html">sbgl.h</a></div><div class="ttdoc">API for the SiputBiru Graphics Library (SBgl).</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="the-application-was-unable-to-start-correctly-0xc000007b"></a>
+"The application was unable to start correctly (0xc000007b)"</h3>
+<p><b>Cause</b>: Mixing 32-bit and 64-bit components (compiler, Vulkan SDK, or SBgl build).</p>
+<p><b>Solution</b>: Ensure all components are 64-bit:</p><ul>
+<li>Use "x64" or "x86_64" versions of compilers</li>
+<li>Install 64-bit Vulkan SDK</li>
+<li>Build with <code>-DCMAKE_GENERATOR_PLATFORM=x64</code> if needed</li>
+</ul>
+<h3><a class="anchor" id="the-code-execution-cannot-proceed-because-vulkan-1dll-was-not-found"></a>
+"The code execution cannot proceed because vulkan-1.dll was not found"</h3>
+<p><b>Cause</b>: Vulkan runtime not in PATH or not installed.</p>
+<p><b>Solution</b>:</p><ul>
+<li>Install Vulkan SDK (includes runtime)</li>
+<li>Or download just the runtime from <a href="https://vulkan.lunarg.com/sdk/home">LunarG</a></li>
+</ul>
+<h2><a class="anchor" id="linux-specific-issues"></a>
+Linux-Specific Issues</h2>
+<h3><a class="anchor" id="wayland-clienth-not-found"></a>
+"wayland-client.h not found"</h3>
+<p><b>Cause</b>: Wayland development headers not installed.</p>
+<p><b>Solution</b>: <code>sudo apt install libwayland-dev wayland-protocols</code></p>
+<h3><a class="anchor" id="x11xlibh-not-found"></a>
+"X11/Xlib.h not found"</h3>
+<p><b>Cause</b>: X11 development headers not installed.</p>
+<p><b>Solution</b>: <code>sudo apt install libx11-dev</code></p>
+<h2><a class="anchor" id="general-issues"></a>
+General Issues</h2>
+<h3><a class="anchor" id="cmake-error-could-not-find-cmake_root"></a>
+"CMake Error: Could not find CMAKE_ROOT"</h3>
+<p><b>Cause</b>: CMake not properly installed or not in PATH.</p>
+<p><b>Solution</b>: Install CMake 3.15+ and ensure it's in your system PATH.</p>
+<h3><a class="anchor" id="examples-build-but-shaders-fail-to-compile"></a>
+Examples build but shaders fail to compile</h3>
+<p><b>Cause</b>: <code>glslc</code> (Vulkan shader compiler) not found.</p>
+<p><b>Solution</b>: Install Vulkan SDK and ensure <code>VULKAN_SDK</code> environment variable points to the SDK root.</p>
+<hr  />
+<h1><a class="anchor" id="cross-compilation-linux-to-windows"></a>
 Cross-Compilation (Linux to Windows)</h1>
 <p>SBgl supports building Windows binaries from a Linux host using the MinGW-w64 toolchain.</p>
-<h2><a class="anchor" id="autotoc_md93"></a>
+<h2><a class="anchor" id="prerequisites-3"></a>
 Prerequisites</h2>
 <p>Install the MinGW-w64 compiler:</p>
 <ul>
 <li><b>Debian/Ubuntu</b>: <code>sudo apt install mingw-w64</code></li>
 <li><b>Arch</b>: <code>sudo pacman -S mingw-w64-gcc</code></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md94"></a>
+<h2><a class="anchor" id="build-instructions-1"></a>
 Build Instructions</h2>
 <p>Specify the Windows system name and the MinGW compiler to CMake:</p>
 <div class="fragment"><div class="line">cmake -B build-win \</div>
@@ -196,7 +349,7 @@ Build Instructions</h2>
 <div class="line"> </div>
 <div class="line">cmake --build build-win</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md96"></a>
+<h1><a class="anchor" id="integration-via-fetchcontent"></a>
 Integration via FetchContent</h1>
 <p>The simplest way to use SBgl in an external project is via CMake's <code>FetchContent</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>

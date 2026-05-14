@@ -1,5 +1,9 @@
 var structsbgl__Window =
 [
+    [ "accumulatedDeltaX", "structsbgl__Window.html#ad76046c38b30e66bd1bdb8d60119b85a", null ],
+    [ "accumulatedDeltaY", "structsbgl__Window.html#a75c96fdc18411c1c728375c1be7cb7a3", null ],
+    [ "className", "structsbgl__Window.html#a6d35ce63316bdbeaae230fb811978294", null ],
+    [ "cursorLocked", "structsbgl__Window.html#af4d845e5e21f5c5b9c23f663b1fa8962", null ],
     [ "cursorVisible", "structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926", null ],
     [ "display", "structsbgl__Window.html#aaf770def8cd665bec769d46d869e7e57", null ],
     [ "focused", "structsbgl__Window.html#a32f2ca2dc058f97155c393ddd17ce7ce", null ],

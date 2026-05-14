@@ -107,11 +107,11 @@ $(function(){initNavTree('md_CHANGELOG.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Changelog</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md18"></a></p>
+<div class="textblock"><p><a class="anchor" id="changelog"></a></p>
 <p>All notable changes to this project will be documented in this file.</p>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="unreleased---2026-05-14"></a>
 [Unreleased] - 2026-05-14</h1>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="added"></a>
 Added</h2>
 <ul>
 <li><b><code><a class="el" href="sbgl__context__internal_8h.html" title="Internal helpers for accessing context state from library subsystems.">sbgl_context_internal.h</a></code></b>: New internal header exposing <code><a class="el" href="sbgl__context__internal_8h.html#ab8569d3d792af645ec289779fd2db3de" title="Retrieves the persistent arena associated with a context.">sbgl_GetContextArena()</a></code> to allow subsystems (e.g., voxel engine) to allocate from the context's persistent arena instead of <code>malloc</code>.</li>
@@ -119,7 +119,7 @@ Added</h2>
 <li><b>Instance Count Parameter</b>: Extended <code>sbgl_Draw</code> and <code>sbgl_DrawIndexed</code> to accept an explicit <code>instanceCount</code> parameter, enabling direct instancing without requiring Multi-Draw Indirect.</li>
 <li><b><code>SBGL_VOXEL_CHUNK_SIZE</code> Constant</b>: Replaced the magic number <code>256.0f</code> and the local <code>CHUNK_SIZE_F</code> variable with a module-level <code>#define</code> in <code><a class="el" href="sbgl__voxel_8c.html" title="Internal implementation of the voxel rendering system.">sbgl_voxel.c</a></code> for maintainability.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="changed"></a>
 Changed</h2>
 <ul>
 <li><b>Renamed <code>sbgl_Clear</code> to <code>sbgl_SetClearColor</code></b>: The function name now accurately reflects its behavior (it stores the clear color for the <em>next</em> frame, not the current one). A backward-compatible <code>#define sbgl_Clear sbgl_SetClearColor</code> alias is provided, so existing code compiles without modification.</li>
@@ -127,7 +127,7 @@ Changed</h2>
 <li><b>Voxel AABB Synchronization</b>: Replaced the dual-GPU-buffer mapping strategy with a CPU-side <code><a class="el" href="structsbgl__AABB.html" title="Axis-Aligned Bounding Box (AABB).">sbgl_AABB</a></code> mirror (<code>cpuAABB</code>). This eliminates a read-write hazard where the GPU could consume the previous frame's AABB data while the CPU was writing new AABBs.</li>
 <li><b>Shader Fallback Path Buffer</b>: Increased the <code>sbgl_LoadShaderFromFile</code> fallback buffer from <code>256</code> to <code>1024</code> bytes to prevent silent path truncation with deeply nested directory structures.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="fixed"></a>
 Fixed</h2>
 <ul>
 <li><b>Push Constant Size Truncation</b>: Added a runtime guard in <code>sbgl_gfx_PushConstants</code> that rejects sizes exceeding <code>SBGL_VK_PUSH_CONSTANT_SIZE</code> (128 bytes) before the <code>size_t</code> to <code>uint32_t</code> cast, preventing silent truncation on 64-bit builds.</li>
@@ -135,15 +135,15 @@ Fixed</h2>
 <li><b><a class="el" href="sbl__arena_8h.html" title="Arena allocator implementation.">sbl_arena.h</a> Double-Inclusion</b>: Added <code>SBL_ARENA_IMPLEMENTATION_GUARD</code> to prevent the implementation section from being compiled twice when the header is included multiple times with <code>SBL_ARENA_IMPLEMENTATION</code> defined.</li>
 <li><b>Removed Dead Code</b>: Removed the four <code>(void)</code> casts suppressing unused-function warnings for <code>static_heap_alloc</code>, <code>dynamic_heap_alloc</code>, <code>managed_heap_alloc</code>, and <code>managed_heap_free</code> in <code><a class="el" href="sbgl__backend__vulkan_8c.html">sbgl_backend_vulkan.c</a></code>, as these functions are actively used by <code>sbgl_gfx_CreateBuffer</code>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="unreleased---2026-05-12"></a>
 [Unreleased] - 2026-05-12</h1>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="changed-1"></a>
 Changed</h2>
 <ul>
 <li><b>Memory Expansion</b>: Increased <code>SBGL_MANAGED_HEAP_SIZE</code> from 256MB to <b>512MB</b> to support high-density 3D voxel environments without buffer overflow.</li>
 <li><b>Enhanced Synchronization</b>: Introduced <code>SBGL_BARRIER_HOST_TO_GRAPHICS</code> to the public API and Vulkan backend to ensure host-mapped metadata (like chunk AABBs) is visible to the graphics pipeline.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="fixed-1"></a>
 Fixed</h2>
 <ul>
 <li><b>Voxel Terrain Randomization</b>: Resolved a critical bug in <code>voxel3D_main</code> where terrain would appear to regenerate or warp during movement.<ul>
@@ -155,9 +155,9 @@ Fixed</h2>
 <li><b>Voxel Race Conditions</b>: Implemented missing memory barriers in <code>sbgl_Voxel_Update</code> to synchronize GPU-side chunk deactivation with the subsequent culling and rendering passes.</li>
 <li><b>Voxel3D Example Optimization</b>: Reduced default <code>max_slots</code> to 256 to improve performance and stability during rapid camera movement.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="unreleased---2026-05-11"></a>
 [Unreleased] - 2026-05-11</h1>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="added-1"></a>
 Added</h2>
 <ul>
 <li><b>Hybrid GPU Memory Manager</b>: Implemented a specialized sub-allocation system in the Vulkan backend to eliminate the overhead of individual <code>vkAllocateMemory</code> calls.<ul>
@@ -168,7 +168,7 @@ Added</h2>
 </li>
 <li><b>GPU Memory Unit Tests</b>: Added <code>tests/gpu_memory_test.c</code> to verify the robustness of the managed heap's splitting and coalescing logic.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="changed-2"></a>
 Changed</h2>
 <ul>
 <li><b>DOD Resource Tracking (SoA)</b>: Transitioned internal resource management from an Array of Structs (AoS) to a Structure of Arrays (SoA).<ul>
@@ -179,9 +179,9 @@ Changed</h2>
 <li><b>Improved Buffer Alignment</b>: Enforced a 256-byte minimum alignment for all sub-allocations to ensure compatibility with <code>minUniformBufferOffsetAlignment</code> across diverse GPU hardware.</li>
 <li><b>Enhanced Documentation</b>: Updated <code><a class="el" href="memory__management_8md.html">docs/manual/memory_management.md</a></code> and <code><a class="el" href="vulkan__backend_8md.html">docs/manual/vulkan_backend.md</a></code> with detailed architectural deep-dives into the new hybrid memory model.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="unreleased---2026-05-10"></a>
 [Unreleased] - 2026-05-10</h1>
-<h2><a class="anchor" id="autotoc_md30"></a>
+<h2><a class="anchor" id="added-2"></a>
 Added</h2>
 <ul>
 <li><b>Compute API Support</b>: Implemented a general-purpose compute pipeline system in the Vulkan backend.<ul>
@@ -199,27 +199,27 @@ Added</h2>
 </li>
 <li><b>Compute Documentation</b>: Created <code><a class="el" href="COMPUTE_8md.html">docs/COMPUTE.md</a></code> with technical deep-dives into GPU culling and pipeline synchronization.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md31"></a>
+<h2><a class="anchor" id="changed-3"></a>
 Changed</h2>
 <ul>
 <li><b>Vulkan Meta-loader Integration</b>: Replaced manual Vulkan loading logic with <code>volk</code> (v1.4.350) using CMake <code>FetchContent</code>. This enables device-level function dispatching via <code>VolkDeviceTable</code>, reducing driver overhead for draw calls.</li>
 <li><b>Enhanced Test Validation</b>: Refactored the internal test suite (<code>math_test</code>, <code>arena_test</code>, <code>voxel_logic_test</code>, etc.) to replace passive variable usage with explicit runtime validation, ensuring robust testing and resolving compiler warnings in Debug builds.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="fixed-2"></a>
 Fixed</h2>
 <ul>
 <li><b>Standalone Build Integrity</b>: Resolved linking issues in <code>SBGL_BUILD_STANDALONE</code> mode where <code>volk</code> and platform-specific definitions were not correctly propagated to examples and tests.</li>
 <li><b>Compiler Warning Cleanup</b>: Eliminated "unused variable" and "unused function" warnings across the project to maintain a clean <code>-Werror</code> build in both Debug and Release configurations.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md33"></a>
+<h1><a class="anchor" id="unreleased---2026-05-09"></a>
 [Unreleased] - 2026-05-09</h1>
-<h2><a class="anchor" id="autotoc_md34"></a>
+<h2><a class="anchor" id="added-3"></a>
 Added</h2>
 <ul>
 <li><b>Transient GPU Buffer System</b>: Implemented a persistent, per-frame transient buffer pool in the Vulkan backend (16MB per frame in flight). This eliminates per-frame Vulkan buffer allocations, memory mappings, and deallocations for dynamic data like instances and indirect commands.</li>
 <li><b>GPU Transient Allocator</b>: Added <code>sbgl_gfx_AllocateTransient</code> to the internal HAL to enable low-overhead, linear sub-allocation from the persistent transient buffers.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="changed-4"></a>
 Changed</h2>
 <ul>
 <li><b>Default Build Type</b>: Changed the default CMake build configuration from <code>Debug</code> to <code>Release</code> to prioritize performance.</li>
@@ -228,7 +228,7 @@ Changed</h2>
 <li><b>Render Queue Refactor</b>: Updated <code>sbgl_RenderQueuesEx</code> to use the transient GPU allocator and optimized sorter, resolving the CPU bottleneck in the voxel example.</li>
 <li><b>Updated HAL Signatures</b>: Modified <code>sbgl_gfx_DrawIndirect</code> to accept a byte offset, supporting multi-draw indirect commands within shared transient buffers.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="fixed-3"></a>
 Fixed</h2>
 <ul>
 <li><b>Release Mode Segfault</b>: Resolved a critical segmentation fault occurring in Release builds by increasing the default <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code> alignment to 16 bytes. This ensures compatibility with SIMD-optimized instructions generated by the compiler for aligned data types like <code><a class="el" href="structsbgl__Mat4.html" title="4x4 Matrix, 16-byte aligned, column-major.">sbgl_Mat4</a></code>.</li>
@@ -236,9 +236,9 @@ Fixed</h2>
 <li><b>Batching Garbage Rendering</b>: Resolved visual artifacts ("exploding" triangles) in the batching and triangle examples by correctly setting the vertex position <code>w</code> component to <code>1.0</code>.</li>
 <li><b>Voxel Example Performance</b>: Resolved the primary CPU bottleneck in <code>voxel_main</code>, reducing CPU frame time from ~11ms to &lt;2ms for standard render distances.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="unreleased---2026-05-08"></a>
 [Unreleased] - 2026-05-08</h1>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<h2><a class="anchor" id="added-4"></a>
 Added</h2>
 <ul>
 <li><b>Bit-Field Optimization</b>: Reduced <code><a class="el" href="structsbgl__DrawPacket.html" title="Encapsulates all data required to submit a single draw call. Optimized for cache density (16 bytes).">sbgl_DrawPacket</a></code> from 24 bytes to 16 bytes by packing MeshID, MaterialID, and rendering flags into a 32-bit header. This increases CPU cache density by 50% during sorting and batching.</li>
@@ -248,16 +248,16 @@ Added</h2>
 <li><b>Real-time Telemetry</b>: Implemented a high-precision profiling system using Vulkan Timestamp Queries and platform timers to measure independent CPU and GPU execution times.</li>
 <li><b>New Verification Test</b>: Added <code>packet_packing_test.c</code> to ensure structural alignment and bit-packing logic integrity.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md39"></a>
+<h2><a class="anchor" id="fixed-4"></a>
 Fixed</h2>
 <ul>
 <li><b>Submission API Mismatches</b>: Corrected all demonstration examples and documentation to align with the updated <code>sbgl_SubmitDraw</code> signature.</li>
 <li><b>Standalone Build Integrity</b>: Fixed <code>tests/CMakeLists.txt</code> to correctly handle engine test compilation when <code>SBGL_BUILD_STANDALONE</code> is enabled.</li>
 <li><b>Internal State Verification</b>: Refactored <code>core_flags_test.c</code> to comply with strict compiler warnings and verified internal state machine transitions.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="unreleased---2026-05-04"></a>
 [Unreleased] - 2026-05-04</h1>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="added-5"></a>
 Added</h2>
 <ul>
 <li><b>Vulkan Backend</b>:<ul>
@@ -284,7 +284,7 @@ Added</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md42"></a>
+<h2><a class="anchor" id="fixed-5"></a>
 Fixed</h2>
 <ul>
 <li><b>Vulkan Backend</b>:<ul>
@@ -329,7 +329,7 @@ Fixed</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="changed-5"></a>
 Changed</h2>
 <ul>
 <li><b>Data-Oriented Input API</b>:<ul>
@@ -340,9 +340,9 @@ Changed</h2>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="unreleased---2026-05-02"></a>
 [Unreleased] - 2026-05-02</h1>
-<h2><a class="anchor" id="autotoc_md45"></a>
+<h2><a class="anchor" id="added-6"></a>
 Added</h2>
 <ul>
 <li><b>Window Resizing</b>:<ul>
@@ -363,7 +363,7 @@ Added</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md46"></a>
+<h2><a class="anchor" id="changed-6"></a>
 Changed</h2>
 <ul>
 <li><b>Core Architecture</b>:<ul>
@@ -376,7 +376,7 @@ Changed</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md47"></a>
+<h2><a class="anchor" id="added-7"></a>
 Added</h2>
 <ul>
 <li><b>Core Architecture</b>: Implemented a modular HAL (Hardware Abstraction Layer) separating Core, Platform, and Graphics Backend.</li>
@@ -425,7 +425,7 @@ Added</h2>
 </li>
 <li><b>Examples</b>: Added <code><a class="el" href="hello__window_8c.html">hello_window.c</a></code> and <code>input_test.c</code> (interactive color switching) to verify the entire stack.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md48"></a>
+<h2><a class="anchor" id="fixed-6"></a>
 Fixed</h2>
 <ul>
 <li><b>Compiler Warnings</b>:<ul>

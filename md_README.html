@@ -107,12 +107,12 @@ $(function(){initNavTree('md_README.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">SBgl (SiputBiru Graphics Library)</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md5"></a></p>
+<div class="textblock"><p><a class="anchor" id="sbgl-siputbiru-graphics-library"></a></p>
 <p align="left"></p>
 <p><a href="https://en.wikipedia.org/wiki/C99"><img src="https://img.shields.io/badge/C-99-blue.svg" alt="C99" style="pointer-events: none;" class="inline"/></a> <a href="https://www.vulkan.org/"><img src="https://img.shields.io/badge/Vulkan-1.3-red.svg" alt="Vulkan 1.3" style="pointer-events: none;" class="inline"/></a> <img src="https://img.shields.io/badge/Platform-Wayland%20%7C%20X11%20%7C%20Win32-green.svg" alt="Platform" style="pointer-events: none;" class="inline"/> <a href="https://github.com/SiputBiru/sbgl/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-zlib-lightgrey.svg" alt="License" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/SiputBiru/sbgl"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build Status" style="pointer-events: none;" class="inline"/></a> </p>
 <p>A graphics framework engineered for target hardware. Built on C99 and Vulkan 1.3, prioritize in Data-Oriented Design to maximize cache efficiency. By employing an explicit, context-based API and handle-based resource management, SBgl eliminates hidden state and enables control over the rendering pipeline, memory allocation, and multi-threaded command recording.</p>
 <dl class="section warning"><dt>Warning</dt><dd><b>API Instability Notice</b>: SBgl is currently in an experimental phase of development. The API is considered unstable and is subject to significant changes or complete removal at any given moment without prior notice. Use in production environments is not recommended.</dd></dl>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="dependencies"></a>
 Dependencies</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -130,9 +130,9 @@ Dependencies</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyLeft"><b>xxd</b>   </td><td class="markdownTableBodyLeft">OS   </td><td class="markdownTableBodyLeft">Utility for embedding binary assets into C source code.   </td><td class="markdownTableBodyLeft">System Package (External)   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="quick-start"></a>
 Quick Start</h1>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="integrating-sbgl"></a>
 Integrating SBgl</h2>
 <p>The simplest way to integrate SBgl into a C/C++ project is using CMake's <code>FetchContent</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
@@ -145,7 +145,7 @@ Integrating SBgl</h2>
 <div class="line"> </div>
 <div class="line"># Link target against SBgl</div>
 <div class="line">target_link_libraries(your_application PRIVATE sbgl)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
+</div><!-- fragment --><h2><a class="anchor" id="basic-example"></a>
 Basic example</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="sbgl_8h.html">sbgl.h</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
@@ -193,7 +193,7 @@ Basic example</h2>
 <div class="ttc" id="astructsbgl__InitResult_html"><div class="ttname"><a href="structsbgl__InitResult.html">sbgl_InitResult</a></div><div class="ttdoc">Result structure for initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00255">sbgl_types.h:255</a></div></div>
 <div class="ttc" id="astructsbgl__InitResult_html_a556749636ed3061f7bffa5f034cae94e"><div class="ttname"><a href="structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e">sbgl_InitResult::ctx</a></div><div class="ttdeci">sbgl_Context * ctx</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00256">sbgl_types.h:256</a></div></div>
 <div class="ttc" id="astructsbgl__InitResult_html_adb741edec752f941f5a96b470a3522f3"><div class="ttname"><a href="structsbgl__InitResult.html#adb741edec752f941f5a96b470a3522f3">sbgl_InitResult::error</a></div><div class="ttdeci">sbgl_Result error</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00257">sbgl_types.h:257</a></div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md10"></a>
+</div><!-- fragment --><h2><a class="anchor" id="building-from-scratch"></a>
 Building from scratch</h2>
 <div class="fragment"><div class="line">git clone https://github.com/SiputBiru/sbgl.git</div>
 <div class="line"> </div>
@@ -207,10 +207,10 @@ Building from scratch</h2>
 <div class="line"> </div>
 <div class="line">./build/examples/hello_window</div>
 </div><!-- fragment --><p>more installation can see it <a href="https://siputbiru.github.io/sbgl/md_docs_2getting__started_2installation.html">here</a></p>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="documentation"></a>
 Documentation</h1>
 <p>Comprehensive documentation organized by the development lifecycle is available in the <a class="el" href="index.html#md_docs_2INDEX">Documentation Index</a> or <a href="https://siputbiru.github.io/sbgl">Documentation website</a>.</p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="chapters"></a>
 Chapters</h2>
 <ul>
 <li><b>Foundations</b>: Initialization, Windowing, and Input.</li>
@@ -218,7 +218,7 @@ Chapters</h2>
 <li><b>Data-Oriented Pipeline</b>: Render Queues, Sorting, and Batching.</li>
 <li><b>Advanced Techniques</b>: BDA, MDI, and Arena Management.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="features"></a>
 Features</h1>
 <ul>
 <li>Bare-metal C99 architecture.</li>
@@ -230,7 +230,7 @@ Features</h1>
 <li>SIMD-ready math library.</li>
 <li>Native Platform HAL (Wayland, X11, Win32).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="limitations"></a>
 Limitations</h1>
 <p>As a "bare-metal" framework in active development, SBgl has several known technical constraints:</p>
 <ul>
@@ -238,7 +238,7 @@ Limitations</h1>
 <li><b>Linux-First Maturity</b>: Although Win32 is supported, the Linux (Wayland/X11) platform layers are the primary development targets and currently offer the highest stability and feature parity.</li>
 <li><b>Resource Limits</b>: Internal pools for buffers, shaders, and pipelines use fixed-capacity arrays (e.g., <code>SBGL_MAX_BUFFERS</code>) to ensure O(1) handle lookups and avoid heap fragmentation.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="performance--rendering-techniques"></a>
 Performance &amp; Rendering Techniques</h1>
 <p>The system utilizes several rendering techniques to ensure execution efficiency and reduced CPU-GPU overhead.</p>
 <table class="markdownTable">
@@ -257,7 +257,7 @@ Performance &amp; Rendering Techniques</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyLeft"><b>Memory Arenas</b>   </td><td class="markdownTableBodyLeft">Allocation of render-loop resources through <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code>.   </td><td class="markdownTableBodyLeft">Eliminates per-frame heap fragmentation and allocation latency in the hot path.   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="internal-development-notes"></a>
 Internal Development Notes</h1>
 <ul>
 <li>Transition from global includes/definitions to target-scoped properties (<code>target_include_directories</code>, <code>target_compile_definitions</code>) for better encapsulation.</li>
@@ -273,7 +273,7 @@ Internal Development Notes</h1>
 <li>Transitioned the voxel engine to a 3D chunked SSBO structure with GPU-driven frustum culling.</li>
 <li>Implemented the General Purpose Compute API for pipeline dispatching and memory synchronization.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="license"></a>
 License</h1>
 <p>SBgl is licensed under the <a href="https://github.com/SiputBiru/sbgl/blob/main/LICENSE">zlib License</a>. </p>
 </div></div><!-- contents -->

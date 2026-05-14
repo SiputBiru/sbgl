@@ -14,5 +14,6 @@ var window_8c =
     [ "sbgl_os_SetCursorVisible", "window_8c.html#a6d0095fdb53d95e6148601bb3698365f", null ],
     [ "sbgl_os_WasWindowResized", "window_8c.html#a19b2c191eb7bfa61836076f4df2546b4", null ],
     [ "sbgl_os_WindowShouldClose", "window_8c.html#a7cffed9d793b672b0750734603df3f21", null ],
+    [ "win32_report_error", "window_8c.html#a8e3e20281e810d4bdb7be009a896cd5a", null ],
     [ "WindowProc", "window_8c.html#aa7fae2b3f6376a8f6501e1aaca8a188f", null ]
 ];

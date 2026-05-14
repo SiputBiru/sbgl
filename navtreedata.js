@@ -27,296 +27,380 @@ var NAVTREE =
   [ "SBgl", "index.html", [
     [ "SBgl Documentation Index", "index.html", "index" ],
     [ "SBgl (SiputBiru Graphics Library)", "md_README.html", [
-      [ "Dependencies", "md_README.html#autotoc_md6", null ],
-      [ "Quick Start", "md_README.html#autotoc_md7", [
-        [ "Integrating SBgl", "md_README.html#autotoc_md8", null ],
-        [ "Basic example", "md_README.html#autotoc_md9", null ],
-        [ "Building from scratch", "md_README.html#autotoc_md10", null ]
+      [ "Dependencies", "md_README.html#dependencies", null ],
+      [ "Quick Start", "md_README.html#quick-start", [
+        [ "Integrating SBgl", "md_README.html#integrating-sbgl", null ],
+        [ "Basic example", "md_README.html#basic-example", null ],
+        [ "Building from scratch", "md_README.html#building-from-scratch", null ]
       ] ],
-      [ "Documentation", "md_README.html#autotoc_md11", [
-        [ "Chapters", "md_README.html#autotoc_md12", null ]
+      [ "Documentation", "md_README.html#documentation", [
+        [ "Chapters", "md_README.html#chapters", null ]
       ] ],
-      [ "Features", "md_README.html#autotoc_md13", null ],
-      [ "Limitations", "md_README.html#autotoc_md14", null ],
-      [ "Performance & Rendering Techniques", "md_README.html#autotoc_md15", null ],
-      [ "Internal Development Notes", "md_README.html#autotoc_md16", null ],
-      [ "License", "md_README.html#autotoc_md17", null ]
+      [ "Features", "md_README.html#features", null ],
+      [ "Limitations", "md_README.html#limitations", null ],
+      [ "Performance & Rendering Techniques", "md_README.html#performance--rendering-techniques", null ],
+      [ "Internal Development Notes", "md_README.html#internal-development-notes", null ],
+      [ "License", "md_README.html#license", null ]
     ] ],
     [ "Changelog", "md_CHANGELOG.html", [
-      [ "[Unreleased] - 2026-05-14", "md_CHANGELOG.html#autotoc_md19", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md20", null ],
-        [ "Changed", "md_CHANGELOG.html#autotoc_md21", null ],
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md22", null ]
+      [ "[Unreleased] - 2026-05-14", "md_CHANGELOG.html#unreleased---2026-05-14", [
+        [ "Added", "md_CHANGELOG.html#added", null ],
+        [ "Changed", "md_CHANGELOG.html#changed", null ],
+        [ "Fixed", "md_CHANGELOG.html#fixed", null ]
       ] ],
-      [ "[Unreleased] - 2026-05-12", "md_CHANGELOG.html#autotoc_md23", [
-        [ "Changed", "md_CHANGELOG.html#autotoc_md24", null ],
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md25", null ]
+      [ "[Unreleased] - 2026-05-12", "md_CHANGELOG.html#unreleased---2026-05-12", [
+        [ "Changed", "md_CHANGELOG.html#changed-1", null ],
+        [ "Fixed", "md_CHANGELOG.html#fixed-1", null ]
       ] ],
-      [ "[Unreleased] - 2026-05-11", "md_CHANGELOG.html#autotoc_md26", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md27", null ],
-        [ "Changed", "md_CHANGELOG.html#autotoc_md28", null ]
+      [ "[Unreleased] - 2026-05-11", "md_CHANGELOG.html#unreleased---2026-05-11", [
+        [ "Added", "md_CHANGELOG.html#added-1", null ],
+        [ "Changed", "md_CHANGELOG.html#changed-2", null ]
       ] ],
-      [ "[Unreleased] - 2026-05-10", "md_CHANGELOG.html#autotoc_md29", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md30", null ],
-        [ "Changed", "md_CHANGELOG.html#autotoc_md31", null ],
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md32", null ]
+      [ "[Unreleased] - 2026-05-10", "md_CHANGELOG.html#unreleased---2026-05-10", [
+        [ "Added", "md_CHANGELOG.html#added-2", null ],
+        [ "Changed", "md_CHANGELOG.html#changed-3", null ],
+        [ "Fixed", "md_CHANGELOG.html#fixed-2", null ]
       ] ],
-      [ "[Unreleased] - 2026-05-09", "md_CHANGELOG.html#autotoc_md33", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md34", null ],
-        [ "Changed", "md_CHANGELOG.html#autotoc_md35", null ],
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md36", null ]
+      [ "[Unreleased] - 2026-05-09", "md_CHANGELOG.html#unreleased---2026-05-09", [
+        [ "Added", "md_CHANGELOG.html#added-3", null ],
+        [ "Changed", "md_CHANGELOG.html#changed-4", null ],
+        [ "Fixed", "md_CHANGELOG.html#fixed-3", null ]
       ] ],
-      [ "[Unreleased] - 2026-05-08", "md_CHANGELOG.html#autotoc_md37", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md38", null ],
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md39", null ]
+      [ "[Unreleased] - 2026-05-08", "md_CHANGELOG.html#unreleased---2026-05-08", [
+        [ "Added", "md_CHANGELOG.html#added-4", null ],
+        [ "Fixed", "md_CHANGELOG.html#fixed-4", null ]
       ] ],
-      [ "[Unreleased] - 2026-05-04", "md_CHANGELOG.html#autotoc_md40", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md41", null ],
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md42", null ],
-        [ "Changed", "md_CHANGELOG.html#autotoc_md43", null ]
+      [ "[Unreleased] - 2026-05-04", "md_CHANGELOG.html#unreleased---2026-05-04", [
+        [ "Added", "md_CHANGELOG.html#added-5", null ],
+        [ "Fixed", "md_CHANGELOG.html#fixed-5", null ],
+        [ "Changed", "md_CHANGELOG.html#changed-5", null ]
       ] ],
-      [ "[Unreleased] - 2026-05-02", "md_CHANGELOG.html#autotoc_md44", [
-        [ "Added", "md_CHANGELOG.html#autotoc_md45", null ],
-        [ "Changed", "md_CHANGELOG.html#autotoc_md46", null ],
-        [ "Added", "md_CHANGELOG.html#autotoc_md47", null ],
-        [ "Fixed", "md_CHANGELOG.html#autotoc_md48", null ]
+      [ "[Unreleased] - 2026-05-02", "md_CHANGELOG.html#unreleased---2026-05-02", [
+        [ "Added", "md_CHANGELOG.html#added-6", null ],
+        [ "Changed", "md_CHANGELOG.html#changed-6", null ],
+        [ "Added", "md_CHANGELOG.html#added-7", null ],
+        [ "Fixed", "md_CHANGELOG.html#fixed-6", null ]
       ] ]
     ] ],
     [ "Compute Shaders in SBgl", "md_docs_2COMPUTE.html", [
-      [ "Differences Between Compute and Graphics Shaders", "md_docs_2COMPUTE.html#autotoc_md50", null ],
-      [ "Using the Compute API", "md_docs_2COMPUTE.html#autotoc_md51", [
-        [ "Creating a Compute Pipeline", "md_docs_2COMPUTE.html#autotoc_md52", null ],
-        [ "Dispatching Work", "md_docs_2COMPUTE.html#autotoc_md53", null ],
-        [ "Memory Synchronization", "md_docs_2COMPUTE.html#autotoc_md54", null ]
+      [ "Differences Between Compute and Graphics Shaders", "md_docs_2COMPUTE.html#differences-between-compute-and-graphics-shaders", null ],
+      [ "Using the Compute API", "md_docs_2COMPUTE.html#using-the-compute-api", [
+        [ "Creating a Compute Pipeline", "md_docs_2COMPUTE.html#creating-a-compute-pipeline", null ],
+        [ "Dispatching Work", "md_docs_2COMPUTE.html#dispatching-work", null ],
+        [ "Memory Synchronization", "md_docs_2COMPUTE.html#memory-synchronization", null ]
       ] ],
-      [ "GPU-Driven Frustum Culling", "md_docs_2COMPUTE.html#autotoc_md55", null ],
-      [ "Other Applications", "md_docs_2COMPUTE.html#autotoc_md56", null ]
+      [ "GPU-Driven Frustum Culling", "md_docs_2COMPUTE.html#gpu-driven-frustum-culling", null ],
+      [ "Other Applications", "md_docs_2COMPUTE.html#other-applications", null ]
     ] ],
     [ "SBgl Examples", "md_docs_2examples_2index.html", [
-      [ "Getting Started", "md_docs_2examples_2index.html#autotoc_md59", [
-        [ "Building the Examples", "md_docs_2examples_2index.html#autotoc_md60", null ],
-        [ "Running an Example", "md_docs_2examples_2index.html#autotoc_md61", null ]
+      [ "Getting Started", "md_docs_2examples_2index.html#getting-started", [
+        [ "Building the Examples", "md_docs_2examples_2index.html#building-the-examples", null ],
+        [ "Running an Example", "md_docs_2examples_2index.html#running-an-example", null ]
       ] ],
-      [ "Core Examples", "md_docs_2examples_2index.html#autotoc_md63", null ],
-      [ "Batching & GPU Optimization", "md_docs_2examples_2index.html#autotoc_md65", null ],
-      [ "Basic Example Pattern", "md_docs_2examples_2index.html#autotoc_md67", null ],
-      [ "Advanced: Interactive Shaders", "md_docs_2examples_2index.html#autotoc_md69", null ]
+      [ "Core Examples", "md_docs_2examples_2index.html#core-examples", null ],
+      [ "Batching & GPU Optimization", "md_docs_2examples_2index.html#batching--gpu-optimization", null ],
+      [ "Basic Example Pattern", "md_docs_2examples_2index.html#basic-example-pattern", null ],
+      [ "Advanced: Interactive Shaders", "md_docs_2examples_2index.html#advanced-interactive-shaders", null ]
     ] ],
     [ "Triangle Rendering Guide", "md_docs_2getting__started_2first__triangle.html", [
-      [ "Shader Loading", "md_docs_2getting__started_2first__triangle.html#autotoc_md71", null ],
-      [ "Vertex Layout", "md_docs_2getting__started_2first__triangle.html#autotoc_md72", null ],
-      [ "Pipeline Creation", "md_docs_2getting__started_2first__triangle.html#autotoc_md73", null ],
-      [ "Vertex Buffer", "md_docs_2getting__started_2first__triangle.html#autotoc_md74", null ],
-      [ "Drawing", "md_docs_2getting__started_2first__triangle.html#autotoc_md75", null ],
-      [ "Resource Cleanup", "md_docs_2getting__started_2first__triangle.html#autotoc_md76", null ]
+      [ "Shader Loading", "md_docs_2getting__started_2first__triangle.html#shader-loading", null ],
+      [ "Vertex Layout", "md_docs_2getting__started_2first__triangle.html#vertex-layout", null ],
+      [ "Pipeline Creation", "md_docs_2getting__started_2first__triangle.html#pipeline-creation", null ],
+      [ "Vertex Buffer", "md_docs_2getting__started_2first__triangle.html#vertex-buffer", null ],
+      [ "Drawing", "md_docs_2getting__started_2first__triangle.html#drawing", null ],
+      [ "Resource Cleanup", "md_docs_2getting__started_2first__triangle.html#resource-cleanup", null ]
     ] ],
     [ "Installation Guide", "md_docs_2getting__started_2installation.html", [
-      [ "Prerequisites", "md_docs_2getting__started_2installation.html#autotoc_md78", null ],
-      [ "Configuration Flags", "md_docs_2getting__started_2installation.html#autotoc_md80", null ],
-      [ "Dependency Management", "md_docs_2getting__started_2installation.html#autotoc_md82", null ],
-      [ "Installing on Linux (Wayland or X11)", "md_docs_2getting__started_2installation.html#autotoc_md84", [
-        [ "System Dependencies", "md_docs_2getting__started_2installation.html#autotoc_md85", null ],
-        [ "Build Instructions", "md_docs_2getting__started_2installation.html#autotoc_md86", null ]
+      [ "Prerequisites", "md_docs_2getting__started_2installation.html#prerequisites", null ],
+      [ "Configuration Flags", "md_docs_2getting__started_2installation.html#configuration-flags", null ],
+      [ "Dependency Management", "md_docs_2getting__started_2installation.html#dependency-management", null ],
+      [ "Installing on Linux (Wayland or X11)", "md_docs_2getting__started_2installation.html#installing-on-linux-wayland-or-x11", [
+        [ "System Dependencies", "md_docs_2getting__started_2installation.html#system-dependencies", null ],
+        [ "Build Instructions", "md_docs_2getting__started_2installation.html#build-instructions", null ]
       ] ],
-      [ "Installing on Windows (Native)", "md_docs_2getting__started_2installation.html#autotoc_md88", [
-        [ "Prerequisites", "md_docs_2getting__started_2installation.html#autotoc_md89", null ],
-        [ "Build Instructions", "md_docs_2getting__started_2installation.html#autotoc_md90", null ]
+      [ "Installing on Windows (Native)", "md_docs_2getting__started_2installation.html#installing-on-windows-native", [
+        [ "Option 1: Visual Studio 2019/2022 (MSVC)", "md_docs_2getting__started_2installation.html#option-1-visual-studio-20192022-msvc", [
+          [ "Prerequisites", "md_docs_2getting__started_2installation.html#prerequisites-1", null ],
+          [ "Building from Visual Studio IDE", "md_docs_2getting__started_2installation.html#building-from-visual-studio-ide", null ],
+          [ "Building from Developer Command Prompt", "md_docs_2getting__started_2installation.html#building-from-developer-command-prompt", null ]
+        ] ],
+        [ "Option 2: MinGW-w64 (GCC)", "md_docs_2getting__started_2installation.html#option-2-mingw-w64-gcc", [
+          [ "Prerequisites", "md_docs_2getting__started_2installation.html#prerequisites-2", null ],
+          [ "Using MSYS2 (Recommended)", "md_docs_2getting__started_2installation.html#using-msys2-recommended", null ],
+          [ "Using Standalone MinGW", "md_docs_2getting__started_2installation.html#using-standalone-mingw", null ],
+          [ "Troubleshooting MinGW Builds", "md_docs_2getting__started_2installation.html#troubleshooting-mingw-builds", null ]
+        ] ]
       ] ],
-      [ "Cross-Compilation (Linux to Windows)", "md_docs_2getting__started_2installation.html#autotoc_md92", [
-        [ "Prerequisites", "md_docs_2getting__started_2installation.html#autotoc_md93", null ],
-        [ "Build Instructions", "md_docs_2getting__started_2installation.html#autotoc_md94", null ]
+      [ "Vulkan SDK Installation", "md_docs_2getting__started_2installation.html#vulkan-sdk-installation", [
+        [ "Windows", "md_docs_2getting__started_2installation.html#windows", null ],
+        [ "Linux", "md_docs_2getting__started_2installation.html#linux", null ]
       ] ],
-      [ "Integration via FetchContent", "md_docs_2getting__started_2installation.html#autotoc_md96", null ]
+      [ "Troubleshooting", "md_docs_2getting__started_2installation.html#troubleshooting", [
+        [ "Windows-Specific Issues", "md_docs_2getting__started_2installation.html#windows-specific-issues", [
+          [ "\"Cannot find VULKAN_SDK\" or \"glslc not found\"", "md_docs_2getting__started_2installation.html#cannot-find-vulkan_sdk-or-glslc-not-found", null ],
+          [ "\"Cannot find compiler\" (MSVC)", "md_docs_2getting__started_2installation.html#cannot-find-compiler-msvc", null ],
+          [ "\"LNK2019: unresolved external symbol\" with MinGW", "md_docs_2getting__started_2installation.html#lnk2019-unresolved-external-symbol-with-mingw", null ],
+          [ "\"The application was unable to start correctly (0xc000007b)\"", "md_docs_2getting__started_2installation.html#the-application-was-unable-to-start-correctly-0xc000007b", null ],
+          [ "\"The code execution cannot proceed because vulkan-1.dll was not found\"", "md_docs_2getting__started_2installation.html#the-code-execution-cannot-proceed-because-vulkan-1dll-was-not-found", null ]
+        ] ],
+        [ "Linux-Specific Issues", "md_docs_2getting__started_2installation.html#linux-specific-issues", [
+          [ "\"wayland-client.h not found\"", "md_docs_2getting__started_2installation.html#wayland-clienth-not-found", null ],
+          [ "\"X11/Xlib.h not found\"", "md_docs_2getting__started_2installation.html#x11xlibh-not-found", null ]
+        ] ],
+        [ "General Issues", "md_docs_2getting__started_2installation.html#general-issues", [
+          [ "\"CMake Error: Could not find CMAKE_ROOT\"", "md_docs_2getting__started_2installation.html#cmake-error-could-not-find-cmake_root", null ],
+          [ "Examples build but shaders fail to compile", "md_docs_2getting__started_2installation.html#examples-build-but-shaders-fail-to-compile", null ]
+        ] ]
+      ] ],
+      [ "Cross-Compilation (Linux to Windows)", "md_docs_2getting__started_2installation.html#cross-compilation-linux-to-windows", [
+        [ "Prerequisites", "md_docs_2getting__started_2installation.html#prerequisites-3", null ],
+        [ "Build Instructions", "md_docs_2getting__started_2installation.html#build-instructions-1", null ]
+      ] ],
+      [ "Integration via FetchContent", "md_docs_2getting__started_2installation.html#integration-via-fetchcontent", null ]
     ] ],
     [ "Window Setup", "md_docs_2getting__started_2window__setup.html", [
-      [ "Initializing the Context", "md_docs_2getting__started_2window__setup.html#autotoc_md98", null ],
-      [ "The Main Loop", "md_docs_2getting__started_2window__setup.html#autotoc_md99", null ]
+      [ "Initializing the Context", "md_docs_2getting__started_2window__setup.html#initializing-the-context", null ],
+      [ "The Main Loop", "md_docs_2getting__started_2window__setup.html#the-main-loop", null ]
     ] ],
     [ "SBgl Camera & Collision System", "md_docs_2manual_2camera__system.html", [
-      [ "Camera Architecture", "md_docs_2manual_2camera__system.html#autotoc_md101", [
-        [ "Perspective Projection", "md_docs_2manual_2camera__system.html#autotoc_md102", null ],
-        [ "Orthographic Projection", "md_docs_2manual_2camera__system.html#autotoc_md103", null ]
+      [ "Camera Architecture", "md_docs_2manual_2camera__system.html#camera-architecture", [
+        [ "Perspective Projection", "md_docs_2manual_2camera__system.html#perspective-projection", null ],
+        [ "Orthographic Projection", "md_docs_2manual_2camera__system.html#orthographic-projection", null ]
       ] ],
-      [ "View Management", "md_docs_2manual_2camera__system.html#autotoc_md104", null ],
-      [ "Far Plane Management", "md_docs_2manual_2camera__system.html#autotoc_md105", null ],
-      [ "Batch Collision Math", "md_docs_2manual_2camera__system.html#autotoc_md106", [
-        [ "Intersection Testing", "md_docs_2manual_2camera__system.html#autotoc_md107", null ]
+      [ "View Management", "md_docs_2manual_2camera__system.html#view-management", null ],
+      [ "Far Plane Management", "md_docs_2manual_2camera__system.html#far-plane-management", null ],
+      [ "Batch Collision Math", "md_docs_2manual_2camera__system.html#batch-collision-math", [
+        [ "Intersection Testing", "md_docs_2manual_2camera__system.html#intersection-testing", null ]
       ] ],
-      [ "Examples", "md_docs_2manual_2camera__system.html#autotoc_md108", [
-        [ "Camera Example", "md_docs_2manual_2camera__system.html#autotoc_md109", null ]
+      [ "Examples", "md_docs_2manual_2camera__system.html#examples", [
+        [ "Camera Example", "md_docs_2manual_2camera__system.html#camera-example", null ]
       ] ]
     ] ],
     [ "SBgl Input System Architecture", "md_docs_2manual_2input__system.html", [
-      [ "Contextual Encapsulation", "md_docs_2manual_2input__system.html#autotoc_md112", null ],
-      [ "The Key Map Pattern", "md_docs_2manual_2input__system.html#autotoc_md113", null ],
-      [ "Input HAL Implementation", "md_docs_2manual_2input__system.html#autotoc_md114", [
-        [ "Mouse Deltas", "md_docs_2manual_2input__system.html#autotoc_md115", null ],
-        [ "Frame Lifecycle", "md_docs_2manual_2input__system.html#autotoc_md116", null ]
+      [ "Contextual Encapsulation", "md_docs_2manual_2input__system.html#contextual-encapsulation", null ],
+      [ "The Key Map Pattern", "md_docs_2manual_2input__system.html#the-key-map-pattern", null ],
+      [ "Input HAL Implementation", "md_docs_2manual_2input__system.html#input-hal-implementation", [
+        [ "Mouse Deltas", "md_docs_2manual_2input__system.html#mouse-deltas", null ],
+        [ "Frame Lifecycle", "md_docs_2manual_2input__system.html#frame-lifecycle", null ]
       ] ],
-      [ "Application Integration", "md_docs_2manual_2input__system.html#autotoc_md117", [
-        [ "Data-Oriented API (Batch Access)", "md_docs_2manual_2input__system.html#autotoc_md118", [
-          [ "Keyboard Example", "md_docs_2manual_2input__system.html#autotoc_md119", null ],
-          [ "Mouse Example", "md_docs_2manual_2input__system.html#autotoc_md120", null ]
+      [ "Application Integration", "md_docs_2manual_2input__system.html#application-integration", [
+        [ "Data-Oriented API (Batch Access)", "md_docs_2manual_2input__system.html#data-oriented-api-batch-access", [
+          [ "Keyboard Example", "md_docs_2manual_2input__system.html#keyboard-example", null ],
+          [ "Mouse Example", "md_docs_2manual_2input__system.html#mouse-example", null ]
         ] ],
-        [ "Mouse Modes", "md_docs_2manual_2input__system.html#autotoc_md121", [
-          [ "Controlling the Mouse Mode", "md_docs_2manual_2input__system.html#autotoc_md122", null ]
+        [ "Mouse Modes", "md_docs_2manual_2input__system.html#mouse-modes", [
+          [ "Controlling the Mouse Mode", "md_docs_2manual_2input__system.html#controlling-the-mouse-mode", null ]
         ] ],
-        [ "Input-to-Transform Mapping", "md_docs_2manual_2input__system.html#autotoc_md123", null ]
+        [ "Input-to-Transform Mapping", "md_docs_2manual_2input__system.html#input-to-transform-mapping", null ]
       ] ],
-      [ "Technical Summary", "md_docs_2manual_2input__system.html#autotoc_md125", null ]
+      [ "Technical Summary", "md_docs_2manual_2input__system.html#technical-summary", null ]
     ] ],
     [ "Math Library Architecture", "md_docs_2manual_2math__library.html", [
-      [ "Architecture and Design", "md_docs_2manual_2math__library.html#autotoc_md127", null ],
-      [ "Primary Data Types", "md_docs_2manual_2math__library.html#autotoc_md128", null ],
-      [ "Library Capabilities", "md_docs_2manual_2math__library.html#autotoc_md129", [
-        [ "Inverse Square Root", "md_docs_2manual_2math__library.html#autotoc_md130", null ],
-        [ "Constructors", "md_docs_2manual_2math__library.html#autotoc_md131", null ],
-        [ "Vector Operations", "md_docs_2manual_2math__library.html#autotoc_md132", null ],
-        [ "Matrix Transformations", "md_docs_2manual_2math__library.html#autotoc_md133", null ],
-        [ "Quaternion Operations", "md_docs_2manual_2math__library.html#autotoc_md134", null ]
+      [ "Architecture and Design", "md_docs_2manual_2math__library.html#architecture-and-design", null ],
+      [ "Primary Data Types", "md_docs_2manual_2math__library.html#primary-data-types", null ],
+      [ "Library Capabilities", "md_docs_2manual_2math__library.html#library-capabilities", [
+        [ "Inverse Square Root", "md_docs_2manual_2math__library.html#inverse-square-root", null ],
+        [ "Constructors", "md_docs_2manual_2math__library.html#constructors", null ],
+        [ "Vector Operations", "md_docs_2manual_2math__library.html#vector-operations", null ],
+        [ "Matrix Transformations", "md_docs_2manual_2math__library.html#matrix-transformations", null ],
+        [ "Quaternion Operations", "md_docs_2manual_2math__library.html#quaternion-operations", null ]
       ] ],
-      [ "Data Initialization", "md_docs_2manual_2math__library.html#autotoc_md135", [
-        [ "Why use Constructors?", "md_docs_2manual_2math__library.html#autotoc_md136", null ],
-        [ "Technical Detail (Brace Initialization)", "md_docs_2manual_2math__library.html#autotoc_md137", null ]
+      [ "Data Initialization", "md_docs_2manual_2math__library.html#data-initialization", [
+        [ "Why use Constructors?", "md_docs_2manual_2math__library.html#why-use-constructors", null ],
+        [ "Technical Detail (Brace Initialization)", "md_docs_2manual_2math__library.html#technical-detail-brace-initialization", null ]
       ] ],
-      [ "Implementation Examples", "md_docs_2manual_2math__library.html#autotoc_md138", [
-        [ "Vector Operations", "md_docs_2manual_2math__library.html#autotoc_md139", null ],
-        [ "Transformation Matrices", "md_docs_2manual_2math__library.html#autotoc_md140", null ],
-        [ "Rotation with Quaternions", "md_docs_2manual_2math__library.html#autotoc_md141", null ]
+      [ "Implementation Examples", "md_docs_2manual_2math__library.html#implementation-examples", [
+        [ "Vector Operations", "md_docs_2manual_2math__library.html#vector-operations-1", null ],
+        [ "Transformation Matrices", "md_docs_2manual_2math__library.html#transformation-matrices", null ],
+        [ "Rotation with Quaternions", "md_docs_2manual_2math__library.html#rotation-with-quaternions", null ]
       ] ],
-      [ "Internal Implementation", "md_docs_2manual_2math__library.html#autotoc_md142", null ]
+      [ "Internal Implementation", "md_docs_2manual_2math__library.html#internal-implementation", null ]
     ] ],
     [ "Memory Management Architecture", "md_docs_2manual_2memory__management.html", [
-      [ "Memory Visualization", "md_docs_2manual_2memory__management.html#autotoc_md145", [
-        [ "Core Hierarchy and Ownership", "md_docs_2manual_2memory__management.html#autotoc_md146", null ],
-        [ "Memory Block Layout", "md_docs_2manual_2memory__management.html#autotoc_md147", null ]
+      [ "Memory Visualization", "md_docs_2manual_2memory__management.html#memory-visualization", [
+        [ "Core Hierarchy and Ownership", "md_docs_2manual_2memory__management.html#core-hierarchy-and-ownership", null ],
+        [ "Memory Block Layout", "md_docs_2manual_2memory__management.html#memory-block-layout", null ]
       ] ],
-      [ "The Arena Allocator (SblArena)", "md_docs_2manual_2memory__management.html#autotoc_md149", [
-        [ "Block Header Architecture", "md_docs_2manual_2memory__management.html#autotoc_md150", null ]
+      [ "The Arena Allocator (SblArena)", "md_docs_2manual_2memory__management.html#the-arena-allocator-sblarena", [
+        [ "Block Header Architecture", "md_docs_2manual_2memory__management.html#block-header-architecture", null ]
       ] ],
-      [ "Context-Encapsulated Lifecycles", "md_docs_2manual_2memory__management.html#autotoc_md151", [
-        [ "The Transient Arena", "md_docs_2manual_2memory__management.html#autotoc_md152", null ],
-        [ "Arena Hierarchy (ASCII)", "md_docs_2manual_2memory__management.html#autotoc_md153", null ]
+      [ "Context-Encapsulated Lifecycles", "md_docs_2manual_2memory__management.html#context-encapsulated-lifecycles", [
+        [ "The Transient Arena", "md_docs_2manual_2memory__management.html#the-transient-arena", null ],
+        [ "Arena Hierarchy (ASCII)", "md_docs_2manual_2memory__management.html#arena-hierarchy-ascii", null ]
       ] ],
-      [ "Hybrid GPU Memory Management", "md_docs_2manual_2memory__management.html#autotoc_md154", [
-        [ "The Three GPU Heaps", "md_docs_2manual_2memory__management.html#autotoc_md155", null ],
-        [ "Data-Oriented Design (DOD) Benefits", "md_docs_2manual_2memory__management.html#autotoc_md156", null ],
-        [ "Allocation Strategies", "md_docs_2manual_2memory__management.html#autotoc_md157", null ],
-        [ "Ownership Transfer", "md_docs_2manual_2memory__management.html#autotoc_md158", null ]
+      [ "Hybrid GPU Memory Management", "md_docs_2manual_2memory__management.html#hybrid-gpu-memory-management", [
+        [ "The Three GPU Heaps", "md_docs_2manual_2memory__management.html#the-three-gpu-heaps", null ],
+        [ "Data-Oriented Design (DOD) Benefits", "md_docs_2manual_2memory__management.html#data-oriented-design-dod-benefits", null ],
+        [ "Allocation Strategies", "md_docs_2manual_2memory__management.html#allocation-strategies", null ],
+        [ "Ownership Transfer", "md_docs_2manual_2memory__management.html#ownership-transfer", null ]
       ] ],
-      [ "Dynamic Resource Management (Mark/Rewind)", "md_docs_2manual_2memory__management.html#autotoc_md159", null ],
-      [ "Technical Summary", "md_docs_2manual_2memory__management.html#autotoc_md161", null ]
+      [ "Dynamic Resource Management (Mark/Rewind)", "md_docs_2manual_2memory__management.html#dynamic-resource-management-markrewind", null ],
+      [ "Technical Summary", "md_docs_2manual_2memory__management.html#technical-summary-1", null ]
     ] ],
     [ "SBgl Platform Abstraction Layer (HAL)", "md_docs_2manual_2platform__abstraction.html", [
-      [ "The Interface (sbgl_platform.h)", "md_docs_2manual_2platform__abstraction.html#autotoc_md164", [
-        [ "Relationship with sbgl_Context", "md_docs_2manual_2platform__abstraction.html#autotoc_md165", null ]
+      [ "The Interface (sbgl_platform.h)", "md_docs_2manual_2platform__abstraction.html#the-interface-sbgl_platformh", [
+        [ "Relationship with sbgl_Context", "md_docs_2manual_2platform__abstraction.html#relationship-with-sbgl_context", null ]
       ] ],
-      [ "Core HAL Interface", "md_docs_2manual_2platform__abstraction.html#autotoc_md167", null ],
-      [ "Window Lifecycle and Closure", "md_docs_2manual_2platform__abstraction.html#autotoc_md169", [
-        [ "Platform-Specific Triggers", "md_docs_2manual_2platform__abstraction.html#autotoc_md170", null ],
-        [ "User Responsibility", "md_docs_2manual_2platform__abstraction.html#autotoc_md171", null ],
-        [ "Windows (Win32)", "md_docs_2manual_2platform__abstraction.html#autotoc_md173", null ],
-        [ "Linux (Wayland)", "md_docs_2manual_2platform__abstraction.html#autotoc_md174", null ],
-        [ "Linux (X11)", "md_docs_2manual_2platform__abstraction.html#autotoc_md175", null ]
+      [ "Core HAL Interface", "md_docs_2manual_2platform__abstraction.html#core-hal-interface", null ],
+      [ "Window Lifecycle and Closure", "md_docs_2manual_2platform__abstraction.html#window-lifecycle-and-closure", [
+        [ "Platform-Specific Triggers", "md_docs_2manual_2platform__abstraction.html#platform-specific-triggers", null ],
+        [ "User Responsibility", "md_docs_2manual_2platform__abstraction.html#user-responsibility", null ],
+        [ "Windows (Win32)", "md_docs_2manual_2platform__abstraction.html#windows-win32", null ],
+        [ "Linux (Wayland)", "md_docs_2manual_2platform__abstraction.html#linux-wayland", null ],
+        [ "Linux (X11)", "md_docs_2manual_2platform__abstraction.html#linux-x11", null ]
       ] ],
-      [ "References & Further Reading", "md_docs_2manual_2platform__abstraction.html#autotoc_md177", null ]
+      [ "References & Further Reading", "md_docs_2manual_2platform__abstraction.html#references--further-reading", null ]
     ] ],
     [ "SBgl Rendering Pipeline", "md_docs_2manual_2rendering__pipeline.html", [
-      [ "Key Concepts", "md_docs_2manual_2rendering__pipeline.html#autotoc_md179", [
-        [ "Handle-Based Resource Management", "md_docs_2manual_2rendering__pipeline.html#autotoc_md180", null ],
-        [ "Explicit Pipeline State Objects (PSO)", "md_docs_2manual_2rendering__pipeline.html#autotoc_md181", null ],
-        [ "Vertex Input Layout", "md_docs_2manual_2rendering__pipeline.html#autotoc_md182", null ]
+      [ "Key Concepts", "md_docs_2manual_2rendering__pipeline.html#key-concepts", [
+        [ "Handle-Based Resource Management", "md_docs_2manual_2rendering__pipeline.html#handle-based-resource-management", null ],
+        [ "Explicit Pipeline State Objects (PSO)", "md_docs_2manual_2rendering__pipeline.html#explicit-pipeline-state-objects-pso", null ],
+        [ "Vertex Input Layout", "md_docs_2manual_2rendering__pipeline.html#vertex-input-layout", null ]
       ] ],
-      [ "Shader Loading Strategies", "md_docs_2manual_2rendering__pipeline.html#autotoc_md183", [
-        [ "Dynamic File Loading", "md_docs_2manual_2rendering__pipeline.html#autotoc_md184", null ],
-        [ "Hardcoded (Static) Loading", "md_docs_2manual_2rendering__pipeline.html#autotoc_md185", null ]
+      [ "Shader Loading Strategies", "md_docs_2manual_2rendering__pipeline.html#shader-loading-strategies", [
+        [ "Dynamic File Loading", "md_docs_2manual_2rendering__pipeline.html#dynamic-file-loading", null ],
+        [ "Hardcoded (Static) Loading", "md_docs_2manual_2rendering__pipeline.html#hardcoded-static-loading", null ]
       ] ],
-      [ "Vertex Layout Use Case", "md_docs_2manual_2rendering__pipeline.html#autotoc_md186", null ],
-      [ "Complete Drawing Example", "md_docs_2manual_2rendering__pipeline.html#autotoc_md187", null ],
-      [ "Depth Buffering & 3D Sorting", "md_docs_2manual_2rendering__pipeline.html#autotoc_md188", null ],
-      [ "Synchronization & Frames in Flight", "md_docs_2manual_2rendering__pipeline.html#autotoc_md189", null ],
-      [ "Automated Batching", "md_docs_2manual_2rendering__pipeline.html#autotoc_md190", [
-        [ "Render Queues", "md_docs_2manual_2rendering__pipeline.html#autotoc_md191", null ],
-        [ "Submitting Draws", "md_docs_2manual_2rendering__pipeline.html#autotoc_md192", null ],
-        [ "Executing the Queue", "md_docs_2manual_2rendering__pipeline.html#autotoc_md193", null ]
+      [ "Vertex Layout Use Case", "md_docs_2manual_2rendering__pipeline.html#vertex-layout-use-case", null ],
+      [ "Complete Drawing Example", "md_docs_2manual_2rendering__pipeline.html#complete-drawing-example", null ],
+      [ "Depth Buffering & 3D Sorting", "md_docs_2manual_2rendering__pipeline.html#depth-buffering--3d-sorting", null ],
+      [ "Synchronization & Frames in Flight", "md_docs_2manual_2rendering__pipeline.html#synchronization--frames-in-flight", null ],
+      [ "Automated Batching", "md_docs_2manual_2rendering__pipeline.html#automated-batching", [
+        [ "Render Queues", "md_docs_2manual_2rendering__pipeline.html#render-queues", null ],
+        [ "Submitting Draws", "md_docs_2manual_2rendering__pipeline.html#submitting-draws", null ],
+        [ "Executing the Queue", "md_docs_2manual_2rendering__pipeline.html#executing-the-queue", null ]
       ] ],
-      [ "Optimized Batch Submission", "md_docs_2manual_2rendering__pipeline.html#autotoc_md194", [
-        [ "Persistent Mapping", "md_docs_2manual_2rendering__pipeline.html#autotoc_md195", null ],
-        [ "Multi-Draw Indirect (MDI)", "md_docs_2manual_2rendering__pipeline.html#autotoc_md196", null ]
+      [ "Optimized Batch Submission", "md_docs_2manual_2rendering__pipeline.html#optimized-batch-submission", [
+        [ "Persistent Mapping", "md_docs_2manual_2rendering__pipeline.html#persistent-mapping", null ],
+        [ "Multi-Draw Indirect (MDI)", "md_docs_2manual_2rendering__pipeline.html#multi-draw-indirect-mdi", null ]
       ] ],
-      [ "Batch Rendering & DOD Alignment", "md_docs_2manual_2rendering__pipeline.html#autotoc_md197", [
-        [ "Dynamic Vertex Updates", "md_docs_2manual_2rendering__pipeline.html#autotoc_md198", null ],
-        [ "Multi-Queue Submission", "md_docs_2manual_2rendering__pipeline.html#autotoc_md199", null ]
+      [ "Batch Rendering & DOD Alignment", "md_docs_2manual_2rendering__pipeline.html#batch-rendering--dod-alignment", [
+        [ "Dynamic Vertex Updates", "md_docs_2manual_2rendering__pipeline.html#dynamic-vertex-updates", null ],
+        [ "Multi-Queue Submission", "md_docs_2manual_2rendering__pipeline.html#multi-queue-submission", null ]
       ] ],
-      [ "Multithreading Considerations", "md_docs_2manual_2rendering__pipeline.html#autotoc_md200", null ]
+      [ "Multithreading Considerations", "md_docs_2manual_2rendering__pipeline.html#multithreading-considerations", null ]
     ] ],
     [ "Performance Telemetry System", "md_docs_2manual_2telemetry.html", [
-      [ "Architecture", "md_docs_2manual_2telemetry.html#autotoc_md203", [
-        [ "Timing Precision", "md_docs_2manual_2telemetry.html#autotoc_md204", null ]
+      [ "Architecture", "md_docs_2manual_2telemetry.html#architecture", [
+        [ "Timing Precision", "md_docs_2manual_2telemetry.html#timing-precision", null ]
       ] ],
-      [ "The Telemetry Structure", "md_docs_2manual_2telemetry.html#autotoc_md206", null ],
-      [ "Usage Example", "md_docs_2manual_2telemetry.html#autotoc_md208", null ],
-      [ "Bottleneck Identification", "md_docs_2manual_2telemetry.html#autotoc_md210", null ],
-      [ "Future Considerations", "md_docs_2manual_2telemetry.html#autotoc_md212", null ]
+      [ "The Telemetry Structure", "md_docs_2manual_2telemetry.html#the-telemetry-structure", null ],
+      [ "Usage Example", "md_docs_2manual_2telemetry.html#usage-example", null ],
+      [ "Bottleneck Identification", "md_docs_2manual_2telemetry.html#bottleneck-identification", null ],
+      [ "Future Considerations", "md_docs_2manual_2telemetry.html#future-considerations", null ]
     ] ],
     [ "Voxel Rendering Architecture", "md_docs_2manual_2voxel__rendering.html", [
-      [ "Comparison: Procedural vs. Traditional Meshing", "md_docs_2manual_2voxel__rendering.html#autotoc_md214", null ],
-      [ "Procedural Geometry Synthesis", "md_docs_2manual_2voxel__rendering.html#autotoc_md215", [
-        [ "Implementation Snippet", "md_docs_2manual_2voxel__rendering.html#autotoc_md216", null ]
+      [ "Comparison: Procedural vs. Traditional Meshing", "md_docs_2manual_2voxel__rendering.html#comparison-procedural-vs-traditional-meshing", null ],
+      [ "Procedural Geometry Synthesis", "md_docs_2manual_2voxel__rendering.html#procedural-geometry-synthesis", [
+        [ "Implementation Snippet", "md_docs_2manual_2voxel__rendering.html#implementation-snippet", null ]
       ] ],
-      [ "Data-Oriented Metadata Passthrough", "md_docs_2manual_2voxel__rendering.html#autotoc_md217", null ],
-      [ "Stateful 3D Cached Engine (Voxel3D)", "md_docs_2manual_2voxel__rendering.html#autotoc_md218", [
-        [ "Architectural Differences", "md_docs_2manual_2voxel__rendering.html#autotoc_md219", null ],
-        [ "GPU-Driven Pipeline", "md_docs_2manual_2voxel__rendering.html#autotoc_md220", null ],
-        [ "Memory & Synchronization Requirements", "md_docs_2manual_2voxel__rendering.html#autotoc_md221", null ]
+      [ "Data-Oriented Metadata Passthrough", "md_docs_2manual_2voxel__rendering.html#data-oriented-metadata-passthrough", null ],
+      [ "Stateful 3D Cached Engine (Voxel3D)", "md_docs_2manual_2voxel__rendering.html#stateful-3d-cached-engine-voxel3d", [
+        [ "Architectural Differences", "md_docs_2manual_2voxel__rendering.html#architectural-differences", null ],
+        [ "GPU-Driven Pipeline", "md_docs_2manual_2voxel__rendering.html#gpu-driven-pipeline", null ],
+        [ "Memory & Synchronization Requirements", "md_docs_2manual_2voxel__rendering.html#memory--synchronization-requirements", null ]
       ] ],
-      [ "Performance Characteristics", "md_docs_2manual_2voxel__rendering.html#autotoc_md222", null ],
-      [ "Procedural Shading", "md_docs_2manual_2voxel__rendering.html#autotoc_md223", [
-        [ "Seamless Tiling & Periodicity", "md_docs_2manual_2voxel__rendering.html#autotoc_md224", null ]
+      [ "Performance Characteristics", "md_docs_2manual_2voxel__rendering.html#performance-characteristics", null ],
+      [ "Procedural Shading", "md_docs_2manual_2voxel__rendering.html#procedural-shading", [
+        [ "Seamless Tiling & Periodicity", "md_docs_2manual_2voxel__rendering.html#seamless-tiling--periodicity", null ]
       ] ],
-      [ "Render Distance Control", "md_docs_2manual_2voxel__rendering.html#autotoc_md225", [
-        [ "Performance & Clipping Considerations", "md_docs_2manual_2voxel__rendering.html#autotoc_md226", null ]
+      [ "Render Distance Control", "md_docs_2manual_2voxel__rendering.html#render-distance-control", [
+        [ "Performance & Clipping Considerations", "md_docs_2manual_2voxel__rendering.html#performance--clipping-considerations", null ]
       ] ]
     ] ],
     [ "SBgl Vulkan Backend Architecture", "md_docs_2manual_2vulkan__backend.html", [
-      [ "Instance Initialization", "md_docs_2manual_2vulkan__backend.html#autotoc_md229", null ],
-      [ "Surface Integration", "md_docs_2manual_2vulkan__backend.html#autotoc_md230", null ],
-      [ "Physical Device Selection", "md_docs_2manual_2vulkan__backend.html#autotoc_md231", null ],
-      [ "Logical Device and Queue Management", "md_docs_2manual_2vulkan__backend.html#autotoc_md232", null ],
-      [ "Debugging & Validation", "md_docs_2manual_2vulkan__backend.html#autotoc_md233", null ],
-      [ "Swapchain Infrastructure", "md_docs_2manual_2vulkan__backend.html#autotoc_md234", null ],
-      [ "Frame Execution Pipeline", "md_docs_2manual_2vulkan__backend.html#autotoc_md235", [
-        [ "Frame Initiation", "md_docs_2manual_2vulkan__backend.html#autotoc_md236", null ],
-        [ "Dynamic Clearing", "md_docs_2manual_2vulkan__backend.html#autotoc_md237", null ],
-        [ "Frame Presentation", "md_docs_2manual_2vulkan__backend.html#autotoc_md238", null ]
+      [ "Instance Initialization", "md_docs_2manual_2vulkan__backend.html#instance-initialization", null ],
+      [ "Surface Integration", "md_docs_2manual_2vulkan__backend.html#surface-integration", null ],
+      [ "Physical Device Selection", "md_docs_2manual_2vulkan__backend.html#physical-device-selection", null ],
+      [ "Logical Device and Queue Management", "md_docs_2manual_2vulkan__backend.html#logical-device-and-queue-management", null ],
+      [ "Debugging & Validation", "md_docs_2manual_2vulkan__backend.html#debugging--validation", null ],
+      [ "Swapchain Infrastructure", "md_docs_2manual_2vulkan__backend.html#swapchain-infrastructure", null ],
+      [ "Frame Execution Pipeline", "md_docs_2manual_2vulkan__backend.html#frame-execution-pipeline", [
+        [ "Frame Initiation", "md_docs_2manual_2vulkan__backend.html#frame-initiation", null ],
+        [ "Dynamic Clearing", "md_docs_2manual_2vulkan__backend.html#dynamic-clearing", null ],
+        [ "Frame Presentation", "md_docs_2manual_2vulkan__backend.html#frame-presentation", null ]
       ] ],
-      [ "Memory Management & Lifecycle", "md_docs_2manual_2vulkan__backend.html#autotoc_md240", [
-        [ "Hybrid GPU Memory Manager", "md_docs_2manual_2vulkan__backend.html#autotoc_md241", null ],
-        [ "Managed Heap Range Tracking", "md_docs_2manual_2vulkan__backend.html#autotoc_md242", null ],
-        [ "Dynamic Swapchain Recreation (Mark/Rewind)", "md_docs_2manual_2vulkan__backend.html#autotoc_md243", null ]
+      [ "Memory Management & Lifecycle", "md_docs_2manual_2vulkan__backend.html#memory-management--lifecycle", [
+        [ "Hybrid GPU Memory Manager", "md_docs_2manual_2vulkan__backend.html#hybrid-gpu-memory-manager", null ],
+        [ "Managed Heap Range Tracking", "md_docs_2manual_2vulkan__backend.html#managed-heap-range-tracking", null ],
+        [ "Dynamic Swapchain Recreation (Mark/Rewind)", "md_docs_2manual_2vulkan__backend.html#dynamic-swapchain-recreation-markrewind", null ]
       ] ],
-      [ "Context-Based Backend (Multi-Context Support)", "md_docs_2manual_2vulkan__backend.html#autotoc_md245", null ],
-      [ "GPU Synchronization & Teardown", "md_docs_2manual_2vulkan__backend.html#autotoc_md247", [
-        [ "Safe Teardown Pattern", "md_docs_2manual_2vulkan__backend.html#autotoc_md248", null ],
-        [ "Validation Errors", "md_docs_2manual_2vulkan__backend.html#autotoc_md249", null ]
+      [ "Context-Based Backend (Multi-Context Support)", "md_docs_2manual_2vulkan__backend.html#context-based-backend-multi-context-support", null ],
+      [ "GPU Synchronization & Teardown", "md_docs_2manual_2vulkan__backend.html#gpu-synchronization--teardown", [
+        [ "Safe Teardown Pattern", "md_docs_2manual_2vulkan__backend.html#safe-teardown-pattern", null ],
+        [ "Validation Errors", "md_docs_2manual_2vulkan__backend.html#validation-errors", null ]
       ] ],
-      [ "Buffer Device Address (BDA)", "md_docs_2manual_2vulkan__backend.html#autotoc_md250", null ],
-      [ "Indirect Drawing", "md_docs_2manual_2vulkan__backend.html#autotoc_md251", null ],
-      [ "Function Loading (volk)", "md_docs_2manual_2vulkan__backend.html#autotoc_md252", null ],
-      [ "Technical Summary", "md_docs_2manual_2vulkan__backend.html#autotoc_md254", null ],
-      [ "References & Further Reading", "md_docs_2manual_2vulkan__backend.html#autotoc_md256", null ]
+      [ "Buffer Device Address (BDA)", "md_docs_2manual_2vulkan__backend.html#buffer-device-address-bda", null ],
+      [ "Indirect Drawing", "md_docs_2manual_2vulkan__backend.html#indirect-drawing", null ],
+      [ "Function Loading (volk)", "md_docs_2manual_2vulkan__backend.html#function-loading-volk", null ],
+      [ "Technical Summary", "md_docs_2manual_2vulkan__backend.html#technical-summary-2", null ],
+      [ "References & Further Reading", "md_docs_2manual_2vulkan__backend.html#references--further-reading-1", null ]
+    ] ],
+    [ "Windows-Specific Features and Behaviors", "md_docs_2manual_2windows__specific.html", [
+      [ "Table of Contents", "md_docs_2manual_2windows__specific.html#table-of-contents", null ],
+      [ "Window Class Registration", "md_docs_2manual_2windows__specific.html#window-class-registration", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview", null ],
+        [ "Lifecycle", "md_docs_2manual_2windows__specific.html#lifecycle", null ],
+        [ "Important Notes", "md_docs_2manual_2windows__specific.html#important-notes", null ]
+      ] ],
+      [ "Cursor Locking and Raw Input", "md_docs_2manual_2windows__specific.html#cursor-locking-and-raw-input", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview-1", null ],
+        [ "Cursor Modes", "md_docs_2manual_2windows__specific.html#cursor-modes", [
+          [ "Normal Mode (SBGL_MOUSE_MODE_NORMAL)", "md_docs_2manual_2windows__specific.html#normal-mode-sbgl_mouse_mode_normal", null ],
+          [ "Hidden Mode (SBGL_MOUSE_MODE_HIDDEN)", "md_docs_2manual_2windows__specific.html#hidden-mode-sbgl_mouse_mode_hidden", null ],
+          [ "Captured Mode (SBGL_MOUSE_MODE_CAPTURED)", "md_docs_2manual_2windows__specific.html#captured-mode-sbgl_mouse_mode_captured", null ]
+        ] ],
+        [ "Raw Input Implementation", "md_docs_2manual_2windows__specific.html#raw-input-implementation", null ],
+        [ "Comparison with Linux", "md_docs_2manual_2windows__specific.html#comparison-with-linux", null ],
+        [ "Important Considerations", "md_docs_2manual_2windows__specific.html#important-considerations", null ]
+      ] ],
+      [ "DPI Awareness", "md_docs_2manual_2windows__specific.html#dpi-awareness", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview-2", null ],
+        [ "Implementation", "md_docs_2manual_2windows__specific.html#implementation", null ],
+        [ "DPI Change Handling", "md_docs_2manual_2windows__specific.html#dpi-change-handling", null ],
+        [ "Important Notes", "md_docs_2manual_2windows__specific.html#important-notes-1", null ]
+      ] ],
+      [ "Console vs Window Subsystem", "md_docs_2manual_2windows__specific.html#console-vs-window-subsystem", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview-3", null ],
+        [ "Console Subsystem (Default)", "md_docs_2manual_2windows__specific.html#console-subsystem-default", null ],
+        [ "Window Subsystem", "md_docs_2manual_2windows__specific.html#window-subsystem", null ],
+        [ "Recommendation", "md_docs_2manual_2windows__specific.html#recommendation", null ]
+      ] ],
+      [ "Error Reporting", "md_docs_2manual_2windows__specific.html#error-reporting", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview-4", null ],
+        [ "Implementation", "md_docs_2manual_2windows__specific.html#implementation-1", null ],
+        [ "When Errors Are Reported", "md_docs_2manual_2windows__specific.html#when-errors-are-reported", null ],
+        [ "Viewing Errors", "md_docs_2manual_2windows__specific.html#viewing-errors", null ]
+      ] ],
+      [ "Key Repeat Behavior", "md_docs_2manual_2windows__specific.html#key-repeat-behavior", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview-5", null ],
+        [ "Implementation", "md_docs_2manual_2windows__specific.html#implementation-2", null ],
+        [ "Behavior", "md_docs_2manual_2windows__specific.html#behavior", null ]
+      ] ],
+      [ "Scancode Mapping", "md_docs_2manual_2windows__specific.html#scancode-mapping", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview-6", null ],
+        [ "Supported Keys", "md_docs_2manual_2windows__specific.html#supported-keys", null ],
+        [ "Legacy Modifier Handling", "md_docs_2manual_2windows__specific.html#legacy-modifier-handling", null ]
+      ] ],
+      [ "Client Area Size", "md_docs_2manual_2windows__specific.html#client-area-size", [
+        [ "Overview", "md_docs_2manual_2windows__specific.html#overview-7", null ],
+        [ "SBgl Solution", "md_docs_2manual_2windows__specific.html#sbgl-solution", null ],
+        [ "Result", "md_docs_2manual_2windows__specific.html#result", null ]
+      ] ],
+      [ "Additional Resources", "md_docs_2manual_2windows__specific.html#additional-resources", null ],
+      [ "Summary of Windows-Specific Behaviors", "md_docs_2manual_2windows__specific.html#summary-of-windows-specific-behaviors", null ]
     ] ],
     [ "SBgl Roadmap", "md_docs_2ROADMAP.html", [
-      [ "HAL & Context Foundation", "md_docs_2ROADMAP.html#autotoc_md258", null ],
-      [ "Native Wayland & Vulkan Clear", "md_docs_2ROADMAP.html#autotoc_md259", null ],
-      [ "Core Matrix & Math (simd-ready)", "md_docs_2ROADMAP.html#autotoc_md260", null ],
-      [ "Camera System & Batch Collision", "md_docs_2ROADMAP.html#autotoc_md261", null ],
-      [ "Vertex Buffers & Triangle Rendering", "md_docs_2ROADMAP.html#autotoc_md262", null ],
-      [ "Context-Based Backend Refactor (Multi-Context Support)", "md_docs_2ROADMAP.html#autotoc_md263", null ],
-      [ "API Standardization & Error Handling", "md_docs_2ROADMAP.html#autotoc_md264", null ],
-      [ "GPU Optimization & Batching (MDI/Bit-packing)", "md_docs_2ROADMAP.html#autotoc_md265", null ],
-      [ "High-Level rendering (Text/Sprites)", "md_docs_2ROADMAP.html#autotoc_md266", null ],
-      [ "Future Considerations", "md_docs_2ROADMAP.html#autotoc_md267", null ]
+      [ "HAL & Context Foundation", "md_docs_2ROADMAP.html#hal--context-foundation", null ],
+      [ "Native Wayland & Vulkan Clear", "md_docs_2ROADMAP.html#native-wayland--vulkan-clear", null ],
+      [ "Core Matrix & Math (simd-ready)", "md_docs_2ROADMAP.html#core-matrix--math-simd-ready", null ],
+      [ "Camera System & Batch Collision", "md_docs_2ROADMAP.html#camera-system--batch-collision", null ],
+      [ "Vertex Buffers & Triangle Rendering", "md_docs_2ROADMAP.html#vertex-buffers--triangle-rendering", null ],
+      [ "Context-Based Backend Refactor (Multi-Context Support)", "md_docs_2ROADMAP.html#context-based-backend-refactor-multi-context-support", null ],
+      [ "API Standardization & Error Handling", "md_docs_2ROADMAP.html#api-standardization--error-handling", null ],
+      [ "GPU Optimization & Batching (MDI/Bit-packing)", "md_docs_2ROADMAP.html#gpu-optimization--batching-mdibit-packing", null ],
+      [ "High-Level rendering (Text/Sprites)", "md_docs_2ROADMAP.html#high-level-rendering-textsprites", null ],
+      [ "Future Considerations", "md_docs_2ROADMAP.html#future-considerations-1", null ]
     ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -344,11 +428,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"md_CHANGELOG.html#autotoc_md26",
-"sbgl_8h.html#a445a9b19a5e2617d3b3d6ff949676b52",
-"sbgl__internal__log_8h_source.html",
-"structsbgl__Camera.html#aa90cace2accfcb092d7fe0f55505c46f",
-"unionsbgl__Quat.html#a06e85f8e770ec8ca24b9a2981c2b127c"
+"input_8c_source.html",
+"md_docs_2manual_2telemetry.html#architecture",
+"sbgl__backend__vulkan_8c.html#ad80ce760def206a61edfa425aac81021",
+"sbgl__voxel_8c.html#a3a9e5ed165ef0ab2e474a0a4d4515824",
+"structsbgl__InternalContext.html#a89e6100387fcf84fafb263b83041db44"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

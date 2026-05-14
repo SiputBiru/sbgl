@@ -12,6 +12,7 @@ third_party/
 *.exe
 *.spv
 .references/
+.reviews
 
 # --- CMake ---
 CMakeCache.txt

@@ -246,8 +246,8 @@ var NAVTREEINDEX0 =
 "md_CHANGELOG.html#autotoc_md19":[2,0],
 "md_CHANGELOG.html#autotoc_md20":[2,0,0],
 "md_CHANGELOG.html#autotoc_md21":[2,0,1],
-"md_CHANGELOG.html#autotoc_md22":[2,1],
-"md_CHANGELOG.html#autotoc_md23":[2,1,0],
-"md_CHANGELOG.html#autotoc_md24":[2,1,1],
-"md_CHANGELOG.html#autotoc_md25":[2,2]
+"md_CHANGELOG.html#autotoc_md22":[2,0,2],
+"md_CHANGELOG.html#autotoc_md23":[2,1],
+"md_CHANGELOG.html#autotoc_md24":[2,1,0],
+"md_CHANGELOG.html#autotoc_md25":[2,1,1]
 };

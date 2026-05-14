@@ -47,6 +47,11 @@ var sbgl__types_8h =
       [ "SBGL_BARRIER_HOST_TO_COMPUTE", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a75f2e26c6d8c5910d3aefa4b641241f4", null ],
       [ "SBGL_BARRIER_HOST_TO_GRAPHICS", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a66c5363731d7ce22cf80b538a58713dd", null ]
     ] ],
+    [ "sbgl_BlendMode", "sbgl__types_8h.html#a043ef94c9c5cb5b2f9ef8a114c820aa5", [
+      [ "SBGL_BLEND_MODE_NONE", "sbgl__types_8h.html#a043ef94c9c5cb5b2f9ef8a114c820aa5ad55f903700a764dc9c56ee98ce52dc56", null ],
+      [ "SBGL_BLEND_MODE_ALPHA", "sbgl__types_8h.html#a043ef94c9c5cb5b2f9ef8a114c820aa5a39748dfce6335a17bc40bbfbebbd30a1", null ],
+      [ "SBGL_BLEND_MODE_ADDITIVE", "sbgl__types_8h.html#a043ef94c9c5cb5b2f9ef8a114c820aa5a3818b6448e1972ab42fc1d698f3bd324", null ]
+    ] ],
     [ "sbgl_BufferUsage", "sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cdd", [
       [ "SBGL_BUFFER_USAGE_VERTEX", "sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f", null ],
       [ "SBGL_BUFFER_USAGE_INDEX", "sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cdda039e169090d8278b9871acab6c8650df", null ],

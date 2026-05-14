@@ -107,9 +107,9 @@ $(function(){initNavTree('md_docs_2getting__started_2installation.html',''); ini
   <div class="headertitle"><div class="title">Installation Guide</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md73"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md77"></a></p>
 <p>This guide covers setting up the development environment and building SBgl for different platforms.</p>
-<h1><a class="anchor" id="autotoc_md74"></a>
+<h1><a class="anchor" id="autotoc_md78"></a>
 Prerequisites</h1>
 <ul>
 <li><b>Compiler</b>: GCC 9+, Clang 10+, or MSVC 2019+.</li>
@@ -117,7 +117,7 @@ Prerequisites</h1>
 <li><b>Graphics</b>: Vulkan SDK (Headers and <code>glslc</code> compiler required). Static linking to <code>vulkan-1</code> or <code>libvulkan</code> is <b>not</b> required as SBgl uses the <code>volk</code> meta-loader.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md76"></a>
+<h1><a class="anchor" id="autotoc_md80"></a>
 Configuration Flags</h1>
 <p>SBgl provides several CMake options to customize the build:</p>
 <table class="markdownTable">
@@ -133,7 +133,7 @@ Configuration Flags</h1>
 <td class="markdownTableBodyLeft"><code>CMAKE_BUILD_TYPE</code>   </td><td class="markdownTableBodyLeft">Set to <code>Debug</code> for development or <code>Release</code> for performance.   </td><td class="markdownTableBodyLeft"><code>Release</code>   </td></tr>
 </table>
 <hr  />
-<h1><a class="anchor" id="autotoc_md78"></a>
+<h1><a class="anchor" id="autotoc_md82"></a>
 Dependency Management</h1>
 <p>SBgl utilizes a hybrid dependency model to minimize manual setup:</p>
 <ul>
@@ -142,9 +142,9 @@ Dependency Management</h1>
 <li><b>Internal (Embedded)</b>: Small, critical utilities (like <code>stb_perlin</code>) are embedded directly in the source tree.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md80"></a>
+<h1><a class="anchor" id="autotoc_md84"></a>
 Installing on Linux (Wayland or X11)</h1>
-<h2><a class="anchor" id="autotoc_md81"></a>
+<h2><a class="anchor" id="autotoc_md85"></a>
 System Dependencies</h2>
 <p>Install the required development libraries for the preferred display protocol:</p>
 <ul>
@@ -152,7 +152,7 @@ System Dependencies</h2>
 <li><b>X11</b>: <code>libx11-dev</code>.</li>
 <li><b>Vulkan</b>: Vulkan SDK headers and <code>glslc</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md82"></a>
+<h2><a class="anchor" id="autotoc_md86"></a>
 Build Instructions</h2>
 <div class="fragment"><div class="line"># Default build (Wayland enabled)</div>
 <div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON</div>
@@ -162,31 +162,31 @@ Build Instructions</h2>
 <div class="line">cmake -B build-x11 -DSBGL_USE_WAYLAND=OFF -DSBGL_BUILD_EXAMPLES=ON</div>
 <div class="line">cmake --build build-x11</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md84"></a>
+<h1><a class="anchor" id="autotoc_md88"></a>
 Installing on Windows (Native)</h1>
-<h2><a class="anchor" id="autotoc_md85"></a>
+<h2><a class="anchor" id="autotoc_md89"></a>
 Prerequisites</h2>
 <ul>
 <li><b>Visual Studio 2019/2022</b> with the "Desktop development with C++" workload.</li>
 <li><b>Vulkan SDK</b>: Ensure <code>VULKAN_SDK</code> environment variable is set.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md86"></a>
+<h2><a class="anchor" id="autotoc_md90"></a>
 Build Instructions</h2>
 <p>Using the Developer Command Prompt or PowerShell:</p>
 <div class="fragment"><div class="line">cmake -B build -DSBGL_BUILD_EXAMPLES=ON</div>
 <div class="line">cmake --build build --config Release</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md88"></a>
+<h1><a class="anchor" id="autotoc_md92"></a>
 Cross-Compilation (Linux to Windows)</h1>
 <p>SBgl supports building Windows binaries from a Linux host using the MinGW-w64 toolchain.</p>
-<h2><a class="anchor" id="autotoc_md89"></a>
+<h2><a class="anchor" id="autotoc_md93"></a>
 Prerequisites</h2>
 <p>Install the MinGW-w64 compiler:</p>
 <ul>
 <li><b>Debian/Ubuntu</b>: <code>sudo apt install mingw-w64</code></li>
 <li><b>Arch</b>: <code>sudo pacman -S mingw-w64-gcc</code></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md90"></a>
+<h2><a class="anchor" id="autotoc_md94"></a>
 Build Instructions</h2>
 <p>Specify the Windows system name and the MinGW compiler to CMake:</p>
 <div class="fragment"><div class="line">cmake -B build-win \</div>
@@ -196,7 +196,7 @@ Build Instructions</h2>
 <div class="line"> </div>
 <div class="line">cmake --build build-win</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md92"></a>
+<h1><a class="anchor" id="autotoc_md96"></a>
 Integration via FetchContent</h1>
 <p>The simplest way to use SBgl in an external project is via CMake's <code>FetchContent</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>

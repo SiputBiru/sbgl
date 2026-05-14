@@ -1,0 +1,23 @@
+<map id="src/core/sbgl_context_internal.h" name="src/core/sbgl_context_internal.h">
+<area shape="rect" id="Node000001" title="Internal helpers for accessing context state from library subsystems." alt="" coords="136,5,282,46"/>
+<area shape="rect" id="Node000002" href="$sbgl__types_8h.html" title=" " alt="" coords="121,94,214,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,48,183,81,179,79,196,45"/>
+<area shape="rect" id="Node000007" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="247,168,363,193"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="223,45,291,153,287,156,219,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="176,241,250,267"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="174,119,207,226,202,227,169,121"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="89,241,152,267"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="131,122,98,141,83,154,71,169,68,184,72,200,95,230,91,233,67,203,62,185,66,167,79,150,95,136,129,118"/>
+<area shape="rect" id="Node000005" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="80,168,172,193"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="163,121,143,156,138,153,158,119"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="143,192,188,229,185,233,139,196"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="128,194,126,226,120,226,123,193"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,241,66,267"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="112,196,64,234,61,230,109,192"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="291,196,242,234,238,230,288,192"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="275,196,167,238,165,233,273,191"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="360,241,428,267"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="322,192,369,229,366,234,318,196"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="273,241,336,267"/>
+<area shape="poly" id="edge12_Node000007_Node000009" title=" " alt="" coords="308,194,308,226,302,226,302,194"/>
+</map>

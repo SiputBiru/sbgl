@@ -16,11 +16,12 @@ var searchData=
   ['countsaddress_13',['countsAddress',['../structsbgl__CullPushConstants.html#aa1c99359540a2338da1478a41a9304d9',1,'sbgl_CullPushConstants']]],
   ['cpu_5fframe_5ftime_14',['cpu_frame_time',['../structsbgl__Telemetry.html#adde7a1791a9165995855818e8c04dd72',1,'sbgl_Telemetry']]],
   ['cpu_5fsort_5ftime_15',['cpu_sort_time',['../structsbgl__Telemetry.html#a247a863f54382adb72ee7f46111e0ca0',1,'sbgl_Telemetry']]],
-  ['ctx_16',['ctx',['../structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e',1,'sbgl_InitResult::ctx'],['../structsbgl__VoxelSystem.html#a6557905d35e29f16d614a797c8bcdc40',1,'sbgl_VoxelSystem::ctx']]],
-  ['cullpipe_17',['cullPipe',['../structsbgl__VoxelSystem.html#ab6b3ab4ff9413fac0e8d2c76ef9c4e1a',1,'sbgl_VoxelSystem']]],
-  ['current_18',['current',['../structSblArena.html#a736afb808f52464d3fdd74dbb332c41d',1,'SblArena']]],
-  ['current_5fframe_19',['current_frame',['../structVoxelPool.html#a466bffb8f71c2af4c787a1201f3f5397',1,'VoxelPool']]],
-  ['currentframe_20',['currentFrame',['../structsbgl__GfxContext.html#a52c92df5996389238f1f57e401d098c5',1,'sbgl_GfxContext::currentFrame'],['../structsbgl__InternalContext.html#a60f163d18b655b5db05ae50cbb4896eb',1,'sbgl_InternalContext::currentFrame']]],
-  ['currentimageindex_21',['currentImageIndex',['../structsbgl__GfxContext.html#ac892e9048d9828d2fe5c9d0bde8d2686',1,'sbgl_GfxContext']]],
-  ['cursorvisible_22',['cursorVisible',['../structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926',1,'sbgl_Window']]]
+  ['cpuaabb_16',['cpuAABB',['../structsbgl__VoxelSystem.html#a28c301e4c91c0fb77b07c7852b5c08b2',1,'sbgl_VoxelSystem']]],
+  ['ctx_17',['ctx',['../structsbgl__InitResult.html#a556749636ed3061f7bffa5f034cae94e',1,'sbgl_InitResult::ctx'],['../structsbgl__VoxelSystem.html#a6557905d35e29f16d614a797c8bcdc40',1,'sbgl_VoxelSystem::ctx']]],
+  ['cullpipe_18',['cullPipe',['../structsbgl__VoxelSystem.html#ab6b3ab4ff9413fac0e8d2c76ef9c4e1a',1,'sbgl_VoxelSystem']]],
+  ['current_19',['current',['../structSblArena.html#a736afb808f52464d3fdd74dbb332c41d',1,'SblArena']]],
+  ['current_5fframe_20',['current_frame',['../structVoxelPool.html#a466bffb8f71c2af4c787a1201f3f5397',1,'VoxelPool']]],
+  ['currentframe_21',['currentFrame',['../structsbgl__GfxContext.html#a52c92df5996389238f1f57e401d098c5',1,'sbgl_GfxContext::currentFrame'],['../structsbgl__InternalContext.html#a60f163d18b655b5db05ae50cbb4896eb',1,'sbgl_InternalContext::currentFrame']]],
+  ['currentimageindex_22',['currentImageIndex',['../structsbgl__GfxContext.html#ac892e9048d9828d2fe5c9d0bde8d2686',1,'sbgl_GfxContext']]],
+  ['cursorvisible_23',['cursorVisible',['../structsbgl__Window.html#aa69f0f941de75fe5c4c0b6ff829b5926',1,'sbgl_Window']]]
 ];

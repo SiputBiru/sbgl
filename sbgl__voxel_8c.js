@@ -5,6 +5,7 @@ var sbgl__voxel_8c =
     [ "sbgl_ShellPushConstants", "structsbgl__ShellPushConstants.html", "structsbgl__ShellPushConstants" ],
     [ "sbgl_CullPushConstants", "structsbgl__CullPushConstants.html", "structsbgl__CullPushConstants" ],
     [ "sbgl_VoxelSystem", "structsbgl__VoxelSystem.html", "structsbgl__VoxelSystem" ],
+    [ "SBGL_VOXEL_CHUNK_SIZE", "sbgl__voxel_8c.html#a5bfdff925e22e499c006a9b7b674ccee", null ],
     [ "sbgl_Voxel_Create", "sbgl__voxel_8c.html#ac8f9c1b283a72e4bcf80d87d4f1f9752", null ],
     [ "sbgl_Voxel_Cull", "sbgl__voxel_8c.html#a3a9e5ed165ef0ab2e474a0a4d4515824", null ],
     [ "sbgl_Voxel_Destroy", "sbgl__voxel_8c.html#ab64e997e15caa3a28a8125f06ccb174f", null ],

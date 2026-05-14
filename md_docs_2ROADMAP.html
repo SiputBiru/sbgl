@@ -107,9 +107,9 @@ $(function(){initNavTree('md_docs_2ROADMAP.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">SBgl Roadmap</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md253"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md257"></a></p>
 <p>SBgl is a bare-metal graphics framework in C99. This roadmap outlines the development milestones and technical goals.</p>
-<h1><a class="anchor" id="autotoc_md254"></a>
+<h1><a class="anchor" id="autotoc_md258"></a>
 HAL &amp; Context Foundation</h1>
 <ul class="check">
 <li class="checked">Implement explicit Context API (<code><a class="el" href="structsbgl__Context.html" title="Engine context.">sbgl_Context</a></code>)</li>
@@ -129,7 +129,7 @@ HAL &amp; Context Foundation</h1>
 <ul class="check">
 <li class="checked">Centralize shared opaque types to prevent C99 redefinition conflicts (<code><a class="el" href="sbgl__types_8h.html">sbgl_types.h</a></code>)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md255"></a>
+<h1><a class="anchor" id="autotoc_md259"></a>
 Native Wayland &amp; Vulkan Clear</h1>
 <ul class="check">
 <li class="checked">Implement native Linux Wayland platform layer using XDG-Shell protocols</li>
@@ -155,7 +155,7 @@ Native Wayland &amp; Vulkan Clear</h1>
 <ul class="check">
 <li class="checked">Implement Data-Oriented Design (DOD) Input API for batch processing</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md256"></a>
+<h1><a class="anchor" id="autotoc_md260"></a>
 Core Matrix &amp; Math (simd-ready)</h1>
 <ul class="check">
 <li class="checked">Implement SIMD-ready Vector math (Vec2, Vec3, Vec4) using SoA-friendly layouts</li>
@@ -169,7 +169,7 @@ Core Matrix &amp; Math (simd-ready)</h1>
 <ul class="check">
 <li class="checked">Implement technical architecture guide (<code><a class="el" href="math__library_8md.html">docs/manual/math_library.md</a></code>)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md257"></a>
+<h1><a class="anchor" id="autotoc_md261"></a>
 Camera System &amp; Batch Collision</h1>
 <ul class="check">
 <li class="checked">Implement Camera system (Orthographic and Perspective)</li>
@@ -177,7 +177,7 @@ Camera System &amp; Batch Collision</h1>
 <ul class="check">
 <li class="checked">Implement Ray-casting and basic collision math optimized for batch testing</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md258"></a>
+<h1><a class="anchor" id="autotoc_md262"></a>
 Vertex Buffers &amp; Triangle Rendering</h1>
 <ul class="check">
 <li class="checked">Implement Vertex Buffer and Index Buffer management with DOD alignment</li>
@@ -188,7 +188,7 @@ Vertex Buffers &amp; Triangle Rendering</h1>
 <ul class="check">
 <li class="checked">Implement Batch-oriented Geometry rendering (Transformation pipelines)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md259"></a>
+<h1><a class="anchor" id="autotoc_md263"></a>
 Context-Based Backend Refactor (Multi-Context Support)</h1>
 <ul class="check">
 <li class="checked">Transition graphics backend to use context-local state pointers</li>
@@ -196,7 +196,7 @@ Context-Based Backend Refactor (Multi-Context Support)</h1>
 <ul class="check">
 <li class="checked">Enable multi-window and multi-threaded execution environments</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md260"></a>
+<h1><a class="anchor" id="autotoc_md264"></a>
 API Standardization &amp; Error Handling</h1>
 <ul class="check">
 <li class="checked">Implement <code>sbgl_Result</code> status tracking in the context</li>
@@ -204,7 +204,7 @@ API Standardization &amp; Error Handling</h1>
 <ul class="check">
 <li class="checked">Standardize naming conventions across the public API surface</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md261"></a>
+<h1><a class="anchor" id="autotoc_md265"></a>
 GPU Optimization &amp; Batching (MDI/Bit-packing)</h1>
 <ul class="check">
 <li class="checked">Implement Bit-Packing for vertex data (32-bit compressed formats)</li>
@@ -232,7 +232,7 @@ GPU Optimization &amp; Batching (MDI/Bit-packing)</h1>
 <li class="checked">Implement Infinite Voxel World (2.5D Chunked Instancing)</li>
 <li class="unchecked">Granular Profiling (per-queue timestamps)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md262"></a>
+<h1><a class="anchor" id="autotoc_md266"></a>
 High-Level rendering (Text/Sprites)</h1>
 <ul class="check">
 <li class="unchecked">Implement 2D Sprite batching system (utilizing MDI)</li>
@@ -249,7 +249,7 @@ High-Level rendering (Text/Sprites)</h1>
 <ul class="check">
 <li class="unchecked">Implement Post-processing pipeline</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md263"></a>
+<h1><a class="anchor" id="autotoc_md267"></a>
 Future Considerations</h1>
 <ul>
 <li>Full 3D Voxel Grid rendering (Caves, Overhangs)</li>

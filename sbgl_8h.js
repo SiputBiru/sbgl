@@ -1,5 +1,6 @@
 var sbgl_8h =
 [
+    [ "sbgl_Clear", "sbgl_8h.html#aa40971a0313b0582ca98506a1f14cff1", null ],
     [ "SBGL_KEY_0", "sbgl_8h.html#ab8d780a25dd08552fd55e3c5548c6be6", null ],
     [ "SBGL_KEY_1", "sbgl_8h.html#a6267cc575dc00172d5a041cccc2f03e4", null ],
     [ "SBGL_KEY_2", "sbgl_8h.html#aff4b7b238734f58c95282099ceaee6f5", null ],
@@ -59,7 +60,6 @@ var sbgl_8h =
     [ "sbgl_BindBuffer", "sbgl_8h.html#ae8003c069bc114ce7dcec9f28ee16e7e", null ],
     [ "sbgl_BindComputePipeline", "sbgl_8h.html#a82de834b156624a808218e770f0d18ee", null ],
     [ "sbgl_BindPipeline", "sbgl_8h.html#a9d911564e7ec91e610a86589fa550eae", null ],
-    [ "sbgl_Clear", "sbgl_8h.html#a8d2a0bd75ac2a707b3144931066faf93", null ],
     [ "sbgl_CreateBuffer", "sbgl_8h.html#af40bb1ff6d81816a137876aa33f977c6", null ],
     [ "sbgl_CreateComputePipeline", "sbgl_8h.html#aac5b3eec7a79ec1a69db985a739394ef", null ],
     [ "sbgl_CreatePipeline", "sbgl_8h.html#a606160bcf76a3dc5f3bb8ac1e429decb", null ],
@@ -70,8 +70,8 @@ var sbgl_8h =
     [ "sbgl_DestroyShader", "sbgl_8h.html#a64c887ee0507cffda227fe50f1fbae0f", null ],
     [ "sbgl_DeviceWaitIdle", "sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9", null ],
     [ "sbgl_DispatchCompute", "sbgl_8h.html#afeff46583789a993bc89549177631ae8", null ],
-    [ "sbgl_Draw", "sbgl_8h.html#a83aeb2765320602096f4992d387fbf10", null ],
-    [ "sbgl_DrawIndexed", "sbgl_8h.html#af70945d0489b8373be2f2a37efd1e5a9", null ],
+    [ "sbgl_Draw", "sbgl_8h.html#ae1ba4ad35fb2bee76c9e0cb3c499f765", null ],
+    [ "sbgl_DrawIndexed", "sbgl_8h.html#adccb7e6bddf10962a76d7bb2a4ba07fe", null ],
     [ "sbgl_DrawIndirect", "sbgl_8h.html#a3263c550e2ba02b5f6c5cea9688d0a9f", null ],
     [ "sbgl_EndCompute", "sbgl_8h.html#a8f8504a80fcb93ec6a2a64400f395713", null ],
     [ "sbgl_EndDrawing", "sbgl_8h.html#a7ed3273fa5fa3d7b9f48fcff63652049", null ],
@@ -90,6 +90,7 @@ var sbgl_8h =
     [ "sbgl_PushConstants", "sbgl_8h.html#a7c7bb4f66431af6e446f641d058fb4d1", null ],
     [ "sbgl_RenderQueues", "sbgl_8h.html#af50d2496f5d5a1cb363bd36878384f40", null ],
     [ "sbgl_RenderQueuesEx", "sbgl_8h.html#a12ed9c2438cf49e1df79a925712f25d6", null ],
+    [ "sbgl_SetClearColor", "sbgl_8h.html#a027d9dceb2ea9c903087bc85502985ab", null ],
     [ "sbgl_SetMouseMode", "sbgl_8h.html#a78d5917198d3183ab819ec078ce5470b", null ],
     [ "sbgl_Shutdown", "sbgl_8h.html#ae3d01d694e042f4e7c15e70a9fd285c5", null ],
     [ "sbgl_SubmitDraw", "sbgl_8h.html#a37373f9c82b7e7f9e260d73f590f0af0", null ],

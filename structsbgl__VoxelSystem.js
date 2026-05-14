@@ -3,6 +3,7 @@ var structsbgl__VoxelSystem =
     [ "aabbBuf", "structsbgl__VoxelSystem.html#a7aac72da414377288c88873ee2b7c293", null ],
     [ "camera_pos", "structsbgl__VoxelSystem.html#a38cfd51adf751b70792b34d97a9a0bc0", null ],
     [ "chunk_radius", "structsbgl__VoxelSystem.html#a4364da8771594660d4c14094e402c32c", null ],
+    [ "cpuAABB", "structsbgl__VoxelSystem.html#a28c301e4c91c0fb77b07c7852b5c08b2", null ],
     [ "ctx", "structsbgl__VoxelSystem.html#a6557905d35e29f16d614a797c8bcdc40", null ],
     [ "cullPipe", "structsbgl__VoxelSystem.html#ab6b3ab4ff9413fac0e8d2c76ef9c4e1a", null ],
     [ "enable_telemetry", "structsbgl__VoxelSystem.html#af58e63dbe521629a3115328aaa1d3d31", null ],

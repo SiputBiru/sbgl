@@ -107,20 +107,20 @@ $(function(){initNavTree('md_docs_2manual_2memory__management.html',''); initRes
   <div class="headertitle"><div class="title">Memory Management Architecture</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md139"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md143"></a></p>
 <p>SBgl utilizes a deterministic, arena-based memory architecture designed to eliminate runtime fragmentation and provide allocation with unified lifecycles.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md141"></a>
+<h1><a class="anchor" id="autotoc_md145"></a>
 Memory Visualization</h1>
 <p>The following diagrams illustrate the core hierarchy and ownership.</p>
-<h2><a class="anchor" id="autotoc_md142"></a>
+<h2><a class="anchor" id="autotoc_md146"></a>
 Core Hierarchy and Ownership</h2>
 <p>The public context shell encapsulates the internal state and the physical memory controller. <img src="ownership_flow.svg" alt="SBgl Ownership Flow" style="pointer-events: none;" width="600" class="inline"/></p>
 <ul>
 <li><b>Persistent Arena (4MB)</b>: Where the Window and Gfx state live.</li>
 <li><b>Transient Arena (16MB)</b>: Where high-frequency, frame-local data lives (e.g., sort keys, merged packets).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md143"></a>
+<h2><a class="anchor" id="autotoc_md147"></a>
 Memory Block Layout</h2>
 <p>The linear allocation pattern and the mark/rewind recycling mechanic are used during runtime events like window resizing. <img src="memory_block_layout.svg" alt="SBgl Memory Block Layout" style="pointer-events: none;" width="600" class="inline"/></p>
 <p>TECHNICAL SPECIFICATIONS</p>
@@ -130,7 +130,7 @@ Memory Block Layout</h2>
 <li>ALLOCATION LOGIC (O(1)): ptr = (aligned_offset + size) The "Increment Only" pattern ensures zero heap contention and zero fragmentation during the frame-processing hot path.</li>
 </ol>
 <hr  />
-<h1><a class="anchor" id="autotoc_md145"></a>
+<h1><a class="anchor" id="autotoc_md149"></a>
 The Arena Allocator (SblArena)</h1>
 <p>The core of the memory system is the linear arena allocator defined in <code><a class="el" href="sbl__arena_8h.html" title="Arena allocator implementation.">sbl_arena.h</a></code>. This allocator manages contiguous blocks of memory and satisfies allocation requests by simply incrementing an offset pointer.</p>
 <ul>
@@ -140,20 +140,20 @@ The Arena Allocator (SblArena)</h1>
 <li><b>Block Reuse</b>: The <code>sbl_arena_reset</code> function allows for zero-allocation recycling of existing memory blocks. If the arena grew to multiple blocks during a heavy workload, subsequent frames will <b>reuse the existing chain</b> rather than allocating new heap memory, maintaining a stable memory watermark.</li>
 <li><b>Leak Prevention</b>: The allocator strictly manages the block chain. If a request exceeds the capacity of an existing block in the chain, the system automatically releases the outdated segments of the chain before allocating a larger replacement, ensuring zero memory leakage during growth-reset cycles.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md146"></a>
+<h2><a class="anchor" id="autotoc_md150"></a>
 Block Header Architecture</h2>
 <p>To maintain strict alignment across multiple memory blocks, the <code><a class="el" href="structSblArenaBlock.html" title="A single block of memory in the arena.">SblArenaBlock</a></code> header is explicitly padded to 32 bytes. This ensures that the start of the data payload in every new block is already aligned to a 16-byte boundary, preventing "drift" when the arena grows.</p>
-<h1><a class="anchor" id="autotoc_md147"></a>
+<h1><a class="anchor" id="autotoc_md151"></a>
 Context-Encapsulated Lifecycles</h1>
 <p>The <code><a class="el" href="structsbgl__Context.html" title="Engine context.">sbgl_Context</a></code> holds the primary <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code> for the entire engine instance. When <code>sbgl_Init</code> is called, the arena is initialized first, and then the context shell and all internal platform structures (like the window state) are allocated directly from it.</p>
-<h2><a class="anchor" id="autotoc_md148"></a>
+<h2><a class="anchor" id="autotoc_md152"></a>
 The Transient Arena</h2>
 <p>While the primary arena manages the context lifecycle, SBgl utilizes a <b>Transient Arena</b> for data that only needs to exist for the duration of a single frame (e.g., sort keys, merged draw packets, temporary math buffers).</p>
 <ul>
 <li><b>Default Size</b>: Initialized to <b>16MB</b> to support high-frequency batching of up to 100,000 instances without triggering runtime reallocations.</li>
 <li><b>Lifecycle</b>: This arena is reset at the beginning of every frame processing cycle, providing zero-latency "scratch" memory without the overhead of heap fragmentation.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md149"></a>
+<h2><a class="anchor" id="autotoc_md153"></a>
 Arena Hierarchy (ASCII)</h2>
 <div class="fragment"><div class="line">[ Context Memory Block ]</div>
 <div class="line">|</div>
@@ -166,10 +166,10 @@ Arena Hierarchy (ASCII)</h2>
 <div class="line">|   |-- Merged Draw Packets</div>
 <div class="line">|   |-- Radix Sort Key/Index Buffers</div>
 <div class="line">|   |-- Temporary Transformation Workspace</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md150"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md154"></a>
 Hybrid GPU Memory Management</h1>
 <p>To eliminate the overhead of individual <code>vkCreateBuffer</code> calls and minimize GPU memory fragmentation, SBgl utilizes a Hybrid GPU Memory Manager. This system pre-allocates large physical device memory blocks and sub-allocates them into logical segments using specialized strategies.</p>
-<h2><a class="anchor" id="autotoc_md151"></a>
+<h2><a class="anchor" id="autotoc_md155"></a>
 The Three GPU Heaps</h2>
 <p>The manager partitions memory into three distinct heaps, each tailored to specific data lifecycles and access patterns:</p>
 <ul>
@@ -177,7 +177,7 @@ The Three GPU Heaps</h2>
 <li><b>Dynamic Heap (Ring-Buffer)</b>: Designed for high-frequency, frame-local data such as instance transforms and camera matrices. It operates as a ring buffer, resetting offsets at the start of each frame to ensure zero-latency scratch memory.</li>
 <li><b>Managed Heap (Block-Based)</b>: Handles resources with intermediate lifecycles that may be created or destroyed during execution (e.g., chunked voxel data). It employs a block-based sub-allocation strategy with range tracking.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md152"></a>
+<h2><a class="anchor" id="autotoc_md156"></a>
 Data-Oriented Design (DOD) Benefits</h2>
 <p>The hybrid approach aligns strictly with DOD principles:</p>
 <ul>
@@ -185,7 +185,7 @@ Data-Oriented Design (DOD) Benefits</h2>
 <li><b>Cache-Efficient SoA Metadata</b>: Allocation metadata is stored in a Struct of Arrays (SoA) format within the memory manager, allowing for rapid batch lookups and updates without cache misses.</li>
 <li><b>Reduced API Overhead</b>: Pre-allocating memory blocks eliminates the need for expensive Vulkan driver calls during the rendering hot path, moving the complexity to a deterministic CPU-side tracker.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md153"></a>
+<h2><a class="anchor" id="autotoc_md157"></a>
 Allocation Strategies</h2>
 <p>Each heap employs a strategy optimized for its specific workload:</p>
 <ul>
@@ -193,10 +193,10 @@ Allocation Strategies</h2>
 <li><b>Ring Strategy</b>: Sequential allocation with wrap-around logic for the Dynamic Heap, ensuring data is valid for all frames in flight.</li>
 <li><b>Block Strategy</b>: Divides the Managed Heap into uniform blocks, using an internal array-based tracker to manage availability and fragmentation.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md154"></a>
+<h2><a class="anchor" id="autotoc_md158"></a>
 Ownership Transfer</h2>
 <p>The <code><a class="el" href="structsbgl__InternalContext.html" title="Internal state for the engine context.">sbgl_InternalContext</a></code> assumes ownership of the arena. This creates a single point of failure and success: calling <code><a class="el" href="sbl__arena_8h.html#a97efbcea33cd0d6157770efea863c44c">sbl_arena_free()</a></code> during shutdown automatically releases every byte of memory used by the core, platform, and graphics layers.</p>
-<h1><a class="anchor" id="autotoc_md155"></a>
+<h1><a class="anchor" id="autotoc_md159"></a>
 Dynamic Resource Management (Mark/Rewind)</h1>
 <p>While arenas are typically linear, SBgl implements a <b>Mark and Rewind</b> pattern to handle dynamic resources that must be recreated, such as the Vulkan Swapchain.</p>
 <ul>
@@ -205,7 +205,7 @@ Dynamic Resource Management (Mark/Rewind)</h1>
 <li><b>The Recycle</b>: New resources are pushed onto the exact same memory location, keeping the memory footprint constant regardless of how many times the window is resized.</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md157"></a>
+<h1><a class="anchor" id="autotoc_md161"></a>
 Technical Summary</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">

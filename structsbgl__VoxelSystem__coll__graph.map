@@ -1,17 +1,22 @@
 <map id="sbgl_VoxelSystem" name="sbgl_VoxelSystem">
-<area shape="rect" id="Node000001" title="Internal state for the voxel system. This structure adheres to Data&#45;Oriented Design principles by mai..." alt="" coords="184,198,312,223"/>
+<area shape="rect" id="Node000001" title="Internal state for the voxel system. This structure adheres to Data&#45;Oriented Design principles by mai..." alt="" coords="235,198,363,223"/>
 <area shape="rect" id="Node000002" href="$structsbgl__Context.html" title="Engine context." alt="" coords="5,109,102,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,141,137,171,202,195,201,200,135,176,82,146"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,141,137,171,186,187,235,198,233,203,185,192,135,176,80,146"/>
 <area shape="rect" id="Node000003" href="$structSblArena.html" title="Arena allocator." alt="" coords="126,109,200,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,149,171,172,184,185,201,195,199,199,181,190,166,175,158,151"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,150,165,162,171,172,184,184,199,193,235,204,233,209,197,198,181,188,166,175,160,163,158,151"/>
 <area shape="rect" id="Node000004" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="109,5,216,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="166,47,166,109,160,109,160,47"/>
 <area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="233,9,243,18,235,27,217,30,216,25,233,22,238,18,230,13"/>
 <area shape="rect" id="Node000005" href="$structVoxelPool.html" title="VoxelPool manages a fixed number of slots for voxel chunks. It uses a flat array layout to maintain c..." alt="" coords="370,109,449,135"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="375,145,272,199,270,195,372,140"/>
-<area shape="rect" id="Node000006" href="$structsbgl__ivec3.html" title="3D integer vector for chunk coordinates." alt="" coords="329,5,412,31"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="335,41,295,71,277,89,262,110,253,133,249,157,249,197,244,197,244,156,248,131,257,108,272,86,291,66,332,37"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="383,44,407,108,402,109,378,46"/>
-<area shape="rect" id="Node000007" href="$unionsbgl__Vec3.html" title="3D Vector, 16&#45;byte aligned and padded for SIMD safety." alt="" coords="474,109,556,135"/>
-<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="468,143,372,176,293,200,291,195,370,171,467,138"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="384,146,316,199,313,195,381,142"/>
+<area shape="rect" id="Node000006" href="$structsbgl__ivec3.html" title="3D integer vector for chunk coordinates." alt="" coords="338,5,422,31"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="339,41,296,69,277,88,262,110,258,133,264,156,276,178,290,196,285,199,272,181,259,158,252,133,257,108,273,85,293,65,336,36"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="390,45,409,108,403,109,385,47"/>
+<area shape="rect" id="Node000007" href="$structsbgl__AABB.html" title="Axis&#45;Aligned Bounding Box (AABB)." alt="" coords="596,109,684,135"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="602,144,517,176,438,194,364,205,363,200,437,189,515,171,600,139"/>
+<area shape="rect" id="Node000008" href="$unionsbgl__Vec3.html" title="3D Vector, 16&#45;byte aligned and padded for SIMD safety." alt="" coords="474,5,556,31"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="510,47,493,91,480,115,463,136,438,159,409,176,351,199,349,195,407,171,435,154,460,133,475,112,488,89,505,45"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="543,39,627,106,624,111,540,43"/>
+<area shape="rect" id="Node000009" href="$unionsbgl__Vec4.html" title="4D Vector, 16&#45;byte aligned." alt="" coords="599,5,681,31"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="643,47,643,109,638,109,638,47"/>
 </map>

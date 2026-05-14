@@ -1,0 +1,7 @@
+<map id="src/core/sbgl_context_internal.h" name="src/core/sbgl_context_internal.h">
+<area shape="rect" id="Node000001" title="Internal helpers for accessing context state from library subsystems." alt="" coords="86,5,231,46"/>
+<area shape="rect" id="Node000002" href="$sbgl__core_8c.html" title=" " alt="" coords="5,94,144,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,59,89,95,86,91,125,55"/>
+<area shape="rect" id="Node000003" href="$sbgl__voxel_8c.html" title="Internal implementation of the voxel rendering system." alt="" coords="168,94,317,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,55,231,91,228,95,188,59"/>
+</map>

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 project(SBgl VERSION 0.1.0 LANGUAGES C)
 
+# --- Enable Testing ---
+enable_testing()
+
 # --- LSP Support ---
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

@@ -39,11 +39,32 @@ Once a GPU is chosen, a `VkDevice` is created.
 
 ## Debugging & Validation
 
-To ensure API correctness, SBgl automatically enables Vulkan Validation Layers in non-release builds:
+To ensure API correctness, SBgl provides configurable Vulkan validation through the `enableValidation` flag in `sbgl_InitConfig`:
 
-*   **Condition:** If the code is compiled without the `NDEBUG` macro (standard in Debug builds), the backend requests the `"VK_LAYER_KHRONOS_validation"` layer.
-*   **Reporting:** Validation errors and warnings are printed directly to `stdout`/`stderr` by the Vulkan runtime.
-*   **Performance:** Validation is disabled in Release builds to eliminate the CPU overhead associated with real-time API checking.
+*   **Condition:** When `enableValidation` is true, the backend requests the `"VK_LAYER_KHRONOS_validation"` layer and sets up a debug messenger.
+*   **Debug Messenger:** The `VK_EXT_debug_utils` extension routes validation messages through SBgl's logging system with source location tracking (file, line, function).
+*   **Reporting:** Validation errors and warnings are printed to `stderr` with category tagging (e.g., `[GFX]`) for filtering.
+*   **Performance:** Set `enableValidation = false` in production to eliminate real-time API checking overhead.
+
+```c
+// Debug build with full validation
+sbgl_InitConfig config = sbgl_DefaultInitConfig;
+config.enableValidation = true;
+sbgl_InitResult res = sbgl_InitWithConfig(&config);
+
+// Release build with validation disabled
+config.enableValidation = false;
+```
+
+### Error Inspection
+
+The backend tracks Vulkan results for debugging. Use `sbgl_GetErrorDetail()` to inspect both core error codes and raw VkResult values:
+
+```c
+sbgl_ErrorDetail detail = sbgl_GetErrorDetail(ctx);
+printf("Core error: %s\n", sbgl_ResultToString(detail.coreResult));
+printf("Vulkan error: %s\n", sbgl_VkResultToString(detail.vkResult));
+```
 
 ## Swapchain Infrastructure
 

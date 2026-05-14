@@ -1,6 +1,8 @@
 # Internal tests for math and memory management.
 # These tests are self-contained and do not require the full engine graphics stack.
 
+include(CTest)
+
 macro(add_internal_test name src)
     add_executable(${name} ${src})
     if(UNIX AND NOT APPLE)
@@ -12,6 +14,7 @@ macro(add_internal_test name src)
         ${CMAKE_SOURCE_DIR}/src/core
         ${CMAKE_SOURCE_DIR}/src/voxel
     )
+    add_test(NAME ${name} COMMAND ${name})
 endmacro()
 
 macro(add_engine_test name src)
@@ -80,13 +83,29 @@ target_include_directories(voxel_pool_test PRIVATE
     ${CMAKE_SOURCE_DIR}/examples
     ${PROJECT_BINARY_DIR}
 )
+add_test(NAME voxel_pool_test COMMAND voxel_pool_test)
 
 # Engine tests (require core modules)
 add_engine_test(batcher_test batcher_test.c)
+add_test(NAME batcher_test COMMAND batcher_test)
+
 add_engine_test(packet_packing_test packet_packing_test.c)
+add_test(NAME packet_packing_test COMMAND packet_packing_test)
+
 add_engine_test(sort_test sort_test.c)
+add_test(NAME sort_test COMMAND sort_test)
+
 add_engine_test(heightmap_test heightmap_test.c)
+add_test(NAME heightmap_test COMMAND heightmap_test)
+
 add_engine_test(voxel_logic_test voxel_logic_test.c)
+add_test(NAME voxel_logic_test COMMAND voxel_logic_test)
+
 add_engine_test(compute_test compute_test.c)
+add_test(NAME compute_test COMMAND compute_test)
+
 add_engine_test(voxel_compute_test voxel_compute_test.c)
+add_test(NAME voxel_compute_test COMMAND voxel_compute_test)
+
 add_engine_test(voxel_visibility_test voxel_visibility_test.c)
+add_test(NAME voxel_visibility_test COMMAND voxel_visibility_test)

@@ -66,17 +66,64 @@ SblArena* sbgl_GetContextArena(sbgl_Context* ctx) {
   return &inner->arena;
 }
 
+// --- Error Inspection API ---
+
+sbgl_Result sbgl_GetResult(sbgl_Context* ctx) {
+  if (!ctx) {
+    return SBGL_ERROR_NULL_CONTEXT;
+  }
+  return ctx->result;
+}
+
+sbgl_ErrorDetail sbgl_GetErrorDetail(sbgl_Context* ctx) {
+  sbgl_ErrorDetail detail = {
+    .type = SBGL_BACKEND_VULKAN,
+    .coreResult = SBGL_SUCCESS,
+    .vkResult = 0,
+    .extension = 0,
+  };
+
+  if (!ctx) {
+    detail.coreResult = SBGL_ERROR_NULL_CONTEXT;
+    return detail;
+  }
+
+  detail.coreResult = ctx->result;
+
+  if (ctx->inner) {
+    sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+    if (inner->gfx) {
+      detail.vkResult = sbgl_gfx_GetLastVkResult(inner->gfx);
+    }
+  }
+
+  return detail;
+}
+
+void sbgl_ClearResult(sbgl_Context* ctx) {
+  if (!ctx) {
+    return;
+  }
+  ctx->result = SBGL_SUCCESS;
+}
+
+// --- Initialization ---
+
 sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig* config) {
 	sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
 
 	if (!config) {
-		res.error = SBGL_ERROR_INITIALIZATION_FAILED;
+		res.error = SBGL_ERROR_INVALID_ARGUMENT;
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_CORE,
+		              "sbgl_InitWithConfig: NULL config passed");
 		return res;
 	}
 
 	SblArena main_arena;
-	if (!sbl_arena_init(&main_arena, 4 * 1024 * 1024)) { // 4MB default
+	if (!sbl_arena_init(&main_arena, 4 * 1024 * 1024)) {
 		res.error = SBGL_ERROR_OUT_OF_MEMORY;
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_CORE,
+		              "sbgl_InitWithConfig: arena initialization failed");
 		return res;
 	}
 
@@ -84,6 +131,8 @@ sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig* config) {
 	if (!ctx) {
 		sbl_arena_free(&main_arena);
 		res.error = SBGL_ERROR_OUT_OF_MEMORY;
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_CORE,
+		              "sbgl_InitWithConfig: context allocation failed");
 		return res;
 	}
 
@@ -91,6 +140,8 @@ sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig* config) {
 	if (!inner) {
 		sbl_arena_free(&main_arena);
 		res.error = SBGL_ERROR_OUT_OF_MEMORY;
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_CORE,
+		              "sbgl_InitWithConfig: inner context allocation failed");
 		return res;
 	}
 
@@ -108,20 +159,32 @@ sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig* config) {
 	ctx->result = SBGL_SUCCESS;
 
 	const char* title = config->windowTitle ? config->windowTitle : "SBgl";
-	inner->window = sbgl_os_CreateWindow(&inner->arena, &inner->input, config->windowWidth, config->windowHeight, title);
-	if (!inner->window) {
+	sbgl_platform_Result platformRes = sbgl_os_CreateWindow(
+	  &inner->arena, &inner->input,
+	  config->windowWidth, config->windowHeight, title,
+	  &inner->window
+	);
+
+	if (platformRes != SBGL_PLATFORM_SUCCESS) {
 		res.error = SBGL_ERROR_WINDOW_CREATION_FAILED;
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_PLATFORM,
+		              "sbgl_InitWithConfig: window creation failed");
 		sbl_arena_free(&inner->arena);
 		return res;
 	}
 
 	inner->gfx = sbgl_gfx_Init(inner->window, &inner->arena, &config->limits, config->enableValidation);
 	if (!inner->gfx) {
-		res.error = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+		res.error = SBGL_ERROR_GRAPHICS_FAILED;
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_GFX,
+		              "sbgl_InitWithConfig: graphics initialization failed");
 		sbgl_os_DestroyWindow(inner->window);
 		sbl_arena_free(&inner->arena);
 		return res;
 	}
+
+	sbgl_log_impl(SBGL_LOG_INFO, SBGL_LOG_CAT_CORE,
+	              "sbgl_InitWithConfig: initialization successful");
 
 	res.ctx = ctx;
 	return res;
@@ -139,15 +202,22 @@ sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 }
 
 void sbgl_Shutdown(sbgl_Context* ctx) {
-	if (!ctx || !ctx->inner)
+	if (!ctx) {
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_CORE,
+		              "sbgl_Shutdown: NULL context");
 		return;
+	}
+	if (!ctx->inner) {
+		ctx->result = SBGL_ERROR_NULL_CONTEXT;
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_CORE,
+		              "sbgl_Shutdown: uninitialized context");
+		return;
+	}
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
-	sbgl_internal_log(SBGL_LOG_INFO, "Initiating shutdown...");
+	sbgl_log_impl(SBGL_LOG_INFO, SBGL_LOG_CAT_CORE, "Initiating shutdown...");
 
 	if (!inner->state.isIdle) {
-		/* If the GPU is still processing commands, the system performs a blocking wait
-		   to ensure all resources can be safely released. */
 		sbgl_DeviceWaitIdle(ctx);
 	}
 
@@ -158,6 +228,8 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 
 	sbl_arena_free(&inner->transientArena);
 	sbl_arena_free(&inner->arena);
+
+	ctx->result = SBGL_SUCCESS;
 }
 
 bool sbgl_WindowShouldClose(sbgl_Context* ctx) {
@@ -221,7 +293,7 @@ void sbgl_BeginDrawing(sbgl_Context* ctx) {
 				inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
 			}
 		} else {
-			ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+			ctx->result = SBGL_ERROR_GRAPHICS_FAILED;
 			return;
 		}
 	}
@@ -300,7 +372,7 @@ void sbgl_BeginCompute(sbgl_Context* ctx) {
 				inner->currentFrame.gpu_render_time = sbgl_gfx_GetGpuTime(inner->gfx);
 			}
 		} else {
-			ctx->result = SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+			ctx->result = SBGL_ERROR_GRAPHICS_FAILED;
 			return;
 		}
 	}
@@ -375,7 +447,7 @@ sbgl_CreateBuffer(sbgl_Context* ctx, sbgl_BufferUsage usage, size_t size, const 
 	sbgl_Buffer res = sbgl_gfx_CreateBuffer(inner->gfx, usage, size, data);
 
 	ctx->result =
-		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_FAILED;
 	return res;
 }
 
@@ -386,8 +458,9 @@ void sbgl_DestroyBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
 	if (!inner->state.isIdle) {
-		sbgl_internal_log(
+		sbgl_log_impl(
 			SBGL_LOG_WARN,
+			SBGL_LOG_CAT_GFX,
 			"Buffer destroyed while GPU is busy! Missing sbgl_DeviceWaitIdle."
 		);
 
@@ -428,7 +501,7 @@ void* sbgl_MapBuffer(sbgl_Context* ctx, sbgl_Buffer buffer) {
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	void* ptr = sbgl_gfx_MapBuffer(inner->gfx, buffer);
 
-	ctx->result = (ptr != NULL) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	ctx->result = (ptr != NULL) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_FAILED;
 	return ptr;
 }
 
@@ -450,7 +523,7 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_Shader res = sbgl_gfx_LoadShader(inner->gfx, stage, bytecode, size);
 	ctx->result =
-		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_FAILED;
 	return res;
 }
 
@@ -467,7 +540,7 @@ sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* f
       snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
       file = fopen(fallback, "rb");
       if (!file) {
-        sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
+        sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_GFX, "Failed to open shader file.");
         return SBGL_INVALID_HANDLE;
       }
     }
@@ -502,8 +575,9 @@ void sbgl_DestroyShader(sbgl_Context* ctx, sbgl_Shader shader) {
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
 	if (!inner->state.isIdle) {
-		sbgl_internal_log(
+		sbgl_log_impl(
 			SBGL_LOG_ERROR,
+			SBGL_LOG_CAT_GFX,
 			"Destroy Shader called while GPU is busy! Missing sbgl_DeviceWaitIdle."
 		);
 
@@ -523,7 +597,7 @@ sbgl_Pipeline sbgl_CreatePipeline(sbgl_Context* ctx, const sbgl_PipelineConfig* 
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_Pipeline res = sbgl_gfx_CreatePipeline(inner->gfx, config);
 	ctx->result =
-		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_FAILED;
 	return res;
 }
 
@@ -533,8 +607,9 @@ void sbgl_DestroyPipeline(sbgl_Context* ctx, sbgl_Pipeline pipeline) {
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
 	if (!inner->state.isIdle) {
-		sbgl_internal_log(
+		sbgl_log_impl(
 			SBGL_LOG_ERROR,
+			SBGL_LOG_CAT_GFX,
 			"Destroy Pipeline called while GPU is busy! Missing sbgl_DeviceWaitIdle."
 		);
 
@@ -554,7 +629,7 @@ sbgl_ComputePipeline sbgl_CreateComputePipeline(sbgl_Context* ctx, sbgl_Shader s
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	sbgl_ComputePipeline res = sbgl_gfx_CreateComputePipeline(inner->gfx, shader);
 	ctx->result =
-		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+		(res != SBGL_INVALID_HANDLE) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_FAILED;
 	return res;
 }
 
@@ -564,8 +639,9 @@ void sbgl_DestroyComputePipeline(sbgl_Context* ctx, sbgl_ComputePipeline pipelin
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 
 	if (!inner->state.isIdle) {
-		sbgl_internal_log(
+		sbgl_log_impl(
 			SBGL_LOG_ERROR,
+			SBGL_LOG_CAT_GFX,
 			"Destroy Compute Pipeline called while GPU is busy! Missing sbgl_DeviceWaitIdle."
 		);
 
@@ -622,7 +698,7 @@ uint64_t sbgl_GetBufferDeviceAddress(sbgl_Context* ctx, sbgl_Buffer buffer) {
 		return 0;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
 	uint64_t addr = sbgl_gfx_GetBufferDeviceAddress(inner->gfx, buffer);
-	ctx->result = (addr != 0) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED;
+	ctx->result = (addr != 0) ? SBGL_SUCCESS : SBGL_ERROR_GRAPHICS_FAILED;
 	return addr;
 }
 

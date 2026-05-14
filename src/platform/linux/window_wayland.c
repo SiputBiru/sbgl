@@ -65,9 +65,19 @@ static void locked_pointer_unlocked(void* data, struct zwp_locked_pointer_v1* lo
 static const struct zwp_locked_pointer_v1_listener locked_pointer_listener = { .locked = locked_pointer_locked, .unlocked = locked_pointer_unlocked };
 
 // --- HAL ---
-sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title) {
+sbgl_platform_Result sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int width, int height, const char* title, sbgl_Window** outWindow) {
+    if (!outWindow) {
+        return SBGL_PLATFORM_ERROR_INIT_FAILED;
+    }
+    *outWindow = NULL;
+
+    if (!arena) {
+        return SBGL_PLATFORM_ERROR_INIT_FAILED;
+    }
+
     sbgl_Window* window = SBL_ARENA_PUSH_STRUCT_ZERO(arena, sbgl_Window);
-    if (!window) return NULL;
+    if (!window) return SBGL_PLATFORM_ERROR_INIT_FAILED;
+
     window->width = width; window->height = height;
     window->shouldClose = false;
     window->resized = false;
@@ -76,16 +86,22 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
     window->input = input;
 
     window->display = wl_display_connect(NULL);
-    if (!window->display) return NULL;
+    if (!window->display) return SBGL_PLATFORM_ERROR_NO_DISPLAY;
 
     struct wl_registry* reg = wl_display_get_registry(window->display);
     wl_registry_add_listener(reg, &registry_listener, window);
     wl_display_roundtrip(window->display);
 
     window->surface = wl_compositor_create_surface(window->compositor);
+    if (!window->surface) return SBGL_PLATFORM_ERROR_WINDOW_FAILED;
+
     window->xdg_surface = xdg_wm_base_get_xdg_surface(window->wm_base, window->surface);
+    if (!window->xdg_surface) return SBGL_PLATFORM_ERROR_WINDOW_FAILED;
+
     xdg_surface_add_listener(window->xdg_surface, &xdg_surface_listener, window);
     window->xdg_toplevel = xdg_surface_get_toplevel(window->xdg_surface);
+    if (!window->xdg_toplevel) return SBGL_PLATFORM_ERROR_WINDOW_FAILED;
+
     xdg_toplevel_add_listener(window->xdg_toplevel, &toplevel_listener, window);
     xdg_toplevel_set_title(window->xdg_toplevel, title);
 
@@ -98,7 +114,9 @@ sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input
 
     wl_surface_commit(window->surface);
     wl_display_roundtrip(window->display);
-    return window;
+
+    *outWindow = window;
+    return SBGL_PLATFORM_SUCCESS;
 }
 
 void sbgl_os_PollEvents(sbgl_Window* window) {

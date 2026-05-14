@@ -177,4 +177,12 @@ void sbgl_gfx_PushConstants(sbgl_GfxContext* ctx, size_t size, const void* data)
  */
 float sbgl_gfx_GetGpuTime(sbgl_GfxContext* ctx);
 
+/**
+ * @brief Retrieves the last VkResult from the backend for error inspection.
+ *
+ * @param ctx The graphics context.
+ * @return The last VkResult code, or 0 if no error occurred.
+ */
+int32_t sbgl_gfx_GetLastVkResult(sbgl_GfxContext* ctx);
+
 #endif // SBGL_GRAPHICS_HAL_H

@@ -1,5 +1,6 @@
 #include "core/sbgl_platform.h"
 #include "core/sbl_arena.h"
+#include "core/sbgl_internal_log.h"
 #include "sbgl_graphics_hal.h"
 
 #define VK_NO_PROTOTYPES
@@ -161,6 +162,8 @@ struct sbgl_GfxContext {
 
   VkQueryPool queryPool;
   float timestampPeriod;
+
+  int32_t backendResult;  /**< Last VkResult from Vulkan calls. */
 };
 
 static void cleanup_swapchain(sbgl_GfxContext* ctx) {
@@ -192,6 +195,55 @@ static void recreate_swapchain(sbgl_GfxContext* ctx) {
 }
 
 #define SBGL_VK_PUSH_CONSTANT_SIZE 128
+
+static VKAPI_ATTR VkBool32 VKAPI_CALL
+sbgl_vk_debug_callback(
+  VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+  VkDebugUtilsMessageTypeFlagsEXT messageType,
+  const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+  void* pUserData
+) {
+  (void)pUserData;
+  (void)messageType;
+
+  sbgl_LogLevel level =
+    (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
+      ? SBGL_LOG_ERROR
+      : SBGL_LOG_WARN;
+
+  sbgl_internal_log_impl(level, SBGL_LOG_CAT_GFX,
+                         __FILE__, __LINE__, __func__,
+                         pCallbackData->pMessage);
+
+  return VK_FALSE;
+}
+
+static void sbgl_setup_debug_utils(sbgl_GfxContext* ctx) {
+  VkDebugUtilsMessengerCreateInfoEXT createInfo = {
+    .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
+    .messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
+                      VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT,
+    .messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+                  VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT,
+    .pfnUserCallback = sbgl_vk_debug_callback,
+    .pUserData = NULL,
+  };
+
+  PFN_vkCreateDebugUtilsMessengerEXT func =
+    (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
+      ctx->instance, "vkCreateDebugUtilsMessengerEXT");
+
+  if (!func) {
+    return;
+  }
+
+  VkDebugUtilsMessengerEXT messenger;
+  if (func(ctx->instance, &createInfo, NULL, &messenger) != VK_SUCCESS) {
+    return;
+  }
+
+  (void)messenger;
+}
 
 static VkFormat sbgl_to_vk_format(sbgl_Format format) {
   switch (format) {
@@ -408,7 +460,7 @@ static bool create_heaps(sbgl_GfxContext* ctx) {
   return true;
 }
 
-static bool create_instance(sbgl_GfxContext* ctx) {
+static bool create_instance(sbgl_GfxContext* ctx, bool enableValidation) {
   VkApplicationInfo appInfo = {
     .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
     .pApplicationName = "SBgl Application",
@@ -436,21 +488,25 @@ static bool create_instance(sbgl_GfxContext* ctx) {
     .ppEnabledExtensionNames = extensions,
   };
 
-#ifndef NDEBUG
-  const char* layers[] = { "VK_LAYER_KHRONOS_validation" };
-  createInfo.enabledLayerCount = 1;
-  createInfo.ppEnabledLayerNames = layers;
-  printf("[Vulkan] Enabling Validation Layers\n");
-#endif
+  if (enableValidation) {
+    const char* layers[] = { "VK_LAYER_KHRONOS_validation" };
+    createInfo.enabledLayerCount = 1;
+    createInfo.ppEnabledLayerNames = layers;
+  }
 
-  if (vkCreateInstance(&createInfo, NULL, &ctx->instance) != VK_SUCCESS) {
-    fprintf(stderr, "[Vulkan] Failed to create instance\n");
+  VkResult result = vkCreateInstance(&createInfo, NULL, &ctx->instance);
+  ctx->backendResult = result;
+
+  if (result != VK_SUCCESS) {
     return false;
   }
 
   volkLoadInstance(ctx->instance);
 
-  printf("[Vulkan] Instance created successfully (v1.3)\n");
+  if (enableValidation) {
+    sbgl_setup_debug_utils(ctx);
+  }
+
   return true;
 }
 
@@ -963,9 +1019,8 @@ sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena, cons
     sbgl_gfx_Shutdown(ctx);
     return NULL;
   }
-  (void)enableValidation; // TODO: Use for enabling Vulkan validation layers
 
-  if (!create_instance(ctx) || !create_surface(ctx, window) || !select_physical_device(ctx) ||
+  if (!create_instance(ctx, enableValidation) || !create_surface(ctx, window) || !select_physical_device(ctx) ||
     !create_logical_device(ctx) || !create_heaps(ctx) || !create_swapchain(ctx, window) ||
     !create_sync_and_command(ctx) || !create_telemetry_resources(ctx) ||
     !create_transient_resources(ctx)) {
@@ -1081,6 +1136,8 @@ bool sbgl_gfx_BeginFrame(sbgl_GfxContext* ctx) {
     VK_NULL_HANDLE,
     &ctx->currentImageIndex
   );
+
+  ctx->backendResult = result;
 
   if (result == VK_ERROR_OUT_OF_DATE_KHR) {
     recreate_swapchain(ctx);
@@ -2061,4 +2118,9 @@ float sbgl_gfx_GetGpuTime(sbgl_GfxContext* ctx) {
   }
 
   return 0.0f;
+}
+
+int32_t sbgl_gfx_GetLastVkResult(sbgl_GfxContext* ctx) {
+  if (!ctx) return 0;
+  return ctx->backendResult;
 }

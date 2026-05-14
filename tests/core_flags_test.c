@@ -14,9 +14,11 @@
 
 /* Mock implementations for platform HAL. */
 
-sbgl_Window* sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int w, int h, const char* title) {
+sbgl_platform_Result sbgl_os_CreateWindow(struct SblArena* arena, sbgl_InputState* input, int w, int h, const char* title, sbgl_Window** outWindow) {
     (void)arena; (void)input; (void)w; (void)h; (void)title;
-    return (sbgl_Window*)0x1;
+    (void)outWindow;
+    *outWindow = (sbgl_Window*)0x1;
+    return SBGL_PLATFORM_SUCCESS;
 }
 
 void sbgl_os_DestroyWindow(sbgl_Window* window) {
@@ -93,8 +95,8 @@ void sbgl_gfx_MemoryBarrier(sbgl_GfxContext* ctx, sbgl_BarrierType type) {
     (void)ctx; (void)type;
 }
 
-sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena) {
-    (void)window; (void)arena;
+sbgl_GfxContext* sbgl_gfx_Init(sbgl_Window* window, struct SblArena* arena, const sbgl_ResourceLimits* limits, bool enableValidation) {
+    (void)window; (void)arena; (void)limits; (void)enableValidation;
     return (sbgl_GfxContext*)0x1;
 }
 
@@ -126,6 +128,11 @@ void sbgl_gfx_DeviceWaitIdle(sbgl_GfxContext* gfx) {
 float sbgl_gfx_GetGpuTime(sbgl_GfxContext* gfx) {
     (void)gfx;
     return 0.5f;
+}
+
+int32_t sbgl_gfx_GetLastVkResult(sbgl_GfxContext* ctx) {
+    (void)ctx;
+    return 0;
 }
 
 sbgl_Buffer sbgl_gfx_CreateBuffer(sbgl_GfxContext* ctx, sbgl_BufferUsage usage, size_t size, const void* data) {
@@ -218,8 +225,8 @@ void sbgl_gfx_PushConstants(sbgl_GfxContext* ctx, size_t size, const void* data)
 }
 
 /* Internal logging mock. */
-void sbgl_internal_log(sbgl_LogLevel level, const char* message) {
-    (void)level; (void)message;
+void sbgl_internal_log_impl(sbgl_LogLevel level, sbgl_LogCategory category, const char* file, int line, const char* function, const char* message) {
+    (void)level; (void)category; (void)file; (void)line; (void)function; (void)message;
 }
 
 /* We include sort and batcher here instead of mocking them. */

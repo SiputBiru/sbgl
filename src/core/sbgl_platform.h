@@ -19,17 +19,20 @@ struct SblArena;
 /**
  * @brief Creates a native OS window.
  * @param arena Arena to allocate the window state from.
+ * @param input Pointer to input state.
  * @param width Initial width.
  * @param height Initial height.
  * @param title Window title.
- * @return Opaque pointer to the window state.
+ * @param outWindow Pointer to store the created window.
+ * @return Platform result code.
  */
-sbgl_Window* sbgl_os_CreateWindow(
+sbgl_platform_Result sbgl_os_CreateWindow(
 	struct SblArena* arena,
 	sbgl_InputState* input,
 	int width,
 	int height,
-	const char* title
+	const char* title,
+	sbgl_Window** outWindow
 );
 
 /**

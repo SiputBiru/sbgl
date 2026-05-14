@@ -16,6 +16,26 @@
 
 #include "sbgl_input.h"
 
+/**
+ * @brief Retrieves the last result code from the context.
+ * @param ctx The engine context (may be NULL).
+ * @return The result code, or SBGL_ERROR_NULL_CONTEXT if ctx is NULL.
+ */
+sbgl_Result sbgl_GetResult(sbgl_Context* ctx);
+
+/**
+ * @brief Retrieves detailed error information including backend-specific codes.
+ * @param ctx The engine context (may be NULL).
+ * @return Detailed error structure.
+ */
+sbgl_ErrorDetail sbgl_GetErrorDetail(sbgl_Context* ctx);
+
+/**
+ * @brief Clears the result code to SBGL_SUCCESS.
+ * @param ctx The engine context (may be NULL).
+ */
+void sbgl_ClearResult(sbgl_Context* ctx);
+
 // --- Scancodes (Subset of physical keys) ---
 
 #define SBGL_KEY_UNKNOWN SBGL_SCANCODE_UNKNOWN

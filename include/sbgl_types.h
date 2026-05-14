@@ -213,12 +213,49 @@ typedef struct {
  */
 typedef enum {
   SBGL_SUCCESS = 0,
-  SBGL_ERROR_INITIALIZATION_FAILED = 1,
-  SBGL_ERROR_WINDOW_CREATION_FAILED = 2,
-  SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED = 3,
-  SBGL_ERROR_OUT_OF_MEMORY = 4,
-  SBGL_ERROR_DEVICE_BUSY = 5,
+  SBGL_ERROR_NULL_CONTEXT = 1,
+  SBGL_ERROR_INVALID_ARGUMENT = 2,
+  SBGL_ERROR_INITIALIZATION_FAILED = 3,
+  SBGL_ERROR_WINDOW_CREATION_FAILED = 4,
+  SBGL_ERROR_GRAPHICS_FAILED = 5,
+  SBGL_ERROR_OUT_OF_MEMORY = 6,
+  SBGL_ERROR_DEVICE_BUSY = 7,
+  SBGL_ERROR_INVALID_HANDLE = 8,
+  SBGL_ERROR_SWAPCHAIN_FAILED = 9,
+  SBGL_ERROR_SHADER_FAILED = 10,
+  SBGL_ERROR_PIPELINE_FAILED = 11,
+  SBGL_ERROR_PLATFORM_FAILED = 12,
 } sbgl_Result;
+
+/**
+ * @brief Result codes for platform layer operations.
+ */
+typedef enum {
+  SBGL_PLATFORM_SUCCESS = 0,
+  SBGL_PLATFORM_ERROR_WINDOW_FAILED = 1,
+  SBGL_PLATFORM_ERROR_NO_DISPLAY = 2,
+  SBGL_PLATFORM_ERROR_INIT_FAILED = 3,
+} sbgl_platform_Result;
+
+/**
+ * @brief Backend types supported by the engine.
+ */
+typedef enum {
+  SBGL_BACKEND_VULKAN = 0,
+} sbgl_BackendType;
+
+/**
+ * @brief Detailed error information for debugging.
+ *
+ * Provides both core error codes and backend-specific error details
+ * for comprehensive error inspection.
+ */
+typedef struct {
+  sbgl_BackendType type;  /**< Active backend type. */
+  sbgl_Result      coreResult;  /**< Core error code. */
+  int32_t          vkResult;    /**< Raw VkResult (0 if not Vulkan). */
+  uint32_t         extension;    /**< Platform-specific extension code. */
+} sbgl_ErrorDetail;
 
 /**
  * @brief Engine context.

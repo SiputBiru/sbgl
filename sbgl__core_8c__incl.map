@@ -1,67 +1,70 @@
 <map id="src/core/sbgl_core.c" name="src/core/sbgl_core.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="540,5,678,31"/>
-<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="399,175,454,201"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="540,26,509,32,479,42,451,58,429,81,420,99,417,119,421,160,416,160,411,119,415,97,424,77,448,54,476,38,508,27,539,20"/>
-<area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="514,256,608,282"/>
-<area shape="poly" id="edge15_Node000001_Node000003" title=" " alt="" coords="674,29,722,43,764,62,780,74,789,88,791,104,783,121,767,138,749,148,711,152,672,153,652,158,632,170,614,186,598,205,575,244,570,241,594,202,610,183,629,165,650,153,671,148,711,147,747,143,763,134,779,118,786,103,784,90,776,77,762,66,720,48,673,34"/>
-<area shape="rect" id="Node000010" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="79,175,195,201"/>
-<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="540,22,440,24,326,33,272,41,224,51,185,64,159,81,147,98,140,118,137,160,131,159,134,117,142,96,155,77,183,59,223,46,271,35,326,28,439,19,539,16"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="5,256,69,282"/>
-<area shape="poly" id="edge43_Node000001_Node000011" title=" " alt="" coords="539,24,437,29,318,40,208,57,165,68,133,81,113,96,96,114,70,158,53,203,44,242,39,240,48,202,65,156,92,111,109,92,130,77,163,63,207,51,317,34,436,24,539,19"/>
-<area shape="rect" id="Node000012" href="$sbgl__graphics__hal_8h.html" title=" " alt="" coords="220,168,374,208"/>
-<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="540,21,442,23,331,31,279,39,233,49,196,63,172,81,166,92,165,102,168,112,175,122,200,142,231,158,228,163,197,146,172,126,163,114,159,102,161,90,168,77,194,59,231,44,278,33,331,26,441,17,539,16"/>
-<area shape="rect" id="Node000013" href="$sbgl__batcher_8h.html" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="438,86,572,112"/>
-<area shape="poly" id="edge25_Node000001_Node000013" title=" " alt="" coords="595,34,534,79,531,75,592,29"/>
-<area shape="rect" id="Node000014" href="$sbgl__context__internal_8h.html" title="Internal helpers for accessing context state from library subsystems." alt="" coords="182,86,364,112"/>
-<area shape="poly" id="edge28_Node000001_Node000014" title=" " alt="" coords="558,34,340,85,339,80,557,29"/>
-<area shape="rect" id="Node000015" href="$sbgl__internal__log_8h.html" title=" " alt="" coords="646,79,769,120"/>
-<area shape="poly" id="edge31_Node000001_Node000015" title=" " alt="" coords="626,29,673,67,670,71,622,34"/>
-<area shape="rect" id="Node000016" href="$sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="642,175,781,201"/>
-<area shape="poly" id="edge32_Node000001_Node000016" title=" " alt="" coords="612,31,619,72,626,96,637,118,657,143,681,164,678,168,653,147,632,121,621,98,613,73,607,32"/>
-<area shape="rect" id="Node000018" href="$sbgl__sort_8h.html" title="Sorting utilities for the SBgl batching system." alt="" coords="804,175,918,201"/>
-<area shape="poly" id="edge38_Node000001_Node000018" title=" " alt="" coords="679,19,716,25,756,36,793,53,827,77,841,96,852,117,862,159,856,160,847,119,837,98,823,81,791,57,754,41,715,31,678,25"/>
-<area shape="rect" id="Node000019" title=" " alt="" coords="894,86,953,112"/>
-<area shape="poly" id="edge41_Node000001_Node000019" title=" " alt="" coords="678,29,773,49,876,76,882,78,880,83,875,82,771,54,677,34"/>
-<area shape="rect" id="Node000020" title=" " alt="" coords="978,86,1040,112"/>
-<area shape="poly" id="edge42_Node000001_Node000020" title=" " alt="" coords="679,23,813,42,890,57,966,76,971,78,969,83,964,82,889,62,812,47,678,29"/>
-<area shape="rect" id="Node000021" title=" " alt="" coords="1065,86,1121,112"/>
-<area shape="poly" id="edge44_Node000001_Node000021" title=" " alt="" coords="679,20,850,36,952,53,1052,76,1056,78,1055,83,1051,82,951,58,850,41,678,25"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="448,199,529,246,526,250,445,204"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="338,404,411,429"/>
-<area shape="poly" id="edge9_Node000002_Node000004" title=" " alt="" coords="424,202,405,257,385,331,378,389,373,388,380,329,400,255,419,200"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="595,404,658,429"/>
-<area shape="poly" id="edge11_Node000002_Node000005" title=" " alt="" coords="433,200,447,238,472,280,529,334,600,392,597,396,525,338,468,284,443,240,428,202"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="194,256,261,282"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="403,204,387,211,277,254,275,249,385,206,401,199"/>
-<area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="581,330,672,356"/>
-<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="436,199,463,238,504,280,541,303,579,321,576,326,538,308,501,284,459,241,431,203"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="515,280,458,298,430,312,406,332,389,359,380,389,375,387,384,357,402,328,427,308,456,293,513,275"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="609,278,651,296,670,310,686,329,691,347,685,365,673,382,658,396,654,392,669,378,680,363,685,347,681,331,667,314,648,301,607,283"/>
-<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="415,330,507,356"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="546,285,492,323,489,318,542,280"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="448,358,402,396,399,392,445,354"/>
-<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="490,354,585,395,583,400,488,359"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="435,404,495,429"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="464,356,466,388,461,388,459,356"/>
-<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="584,359,427,403,425,398,583,354"/>
-<area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="629,356,629,388,624,388,624,356"/>
-<area shape="poly" id="edge19_Node000010_Node000004" title=" " alt="" coords="136,202,131,239,133,261,141,281,157,304,178,325,225,359,276,383,323,400,321,405,274,388,223,363,174,329,153,307,136,283,128,262,126,239,131,201"/>
-<area shape="poly" id="edge18_Node000010_Node000005" title=" " alt="" coords="142,201,156,240,168,261,184,280,214,299,257,318,366,354,484,383,580,404,579,409,483,388,365,359,255,323,211,304,181,284,164,264,151,242,137,202"/>
-<area shape="poly" id="edge17_Node000010_Node000008" title=" " alt="" coords="153,199,204,244,201,248,149,203"/>
-<area shape="poly" id="edge20_Node000010_Node000011" title=" " alt="" coords="123,203,66,249,62,244,120,199"/>
-<area shape="poly" id="edge24_Node000012_Node000003" title=" " alt="" coords="364,206,506,249,505,254,362,211"/>
-<area shape="poly" id="edge22_Node000012_Node000004" title=" " alt="" coords="306,208,368,388,363,390,301,210"/>
-<area shape="poly" id="edge23_Node000012_Node000008" title=" " alt="" coords="282,211,250,246,246,243,278,207"/>
-<area shape="poly" id="edge27_Node000013_Node000003" title=" " alt="" coords="512,112,555,241,550,243,506,114"/>
-<area shape="poly" id="edge26_Node000013_Node000012" title=" " alt="" coords="477,115,359,164,357,159,475,110"/>
-<area shape="poly" id="edge29_Node000014_Node000003" title=" " alt="" coords="331,110,398,131,434,147,468,165,513,203,546,243,542,246,509,207,465,170,432,152,397,136,329,115"/>
-<area shape="poly" id="edge30_Node000014_Node000010" title=" " alt="" coords="256,115,170,169,168,164,253,110"/>
-<area shape="poly" id="edge33_Node000016_Node000003" title=" " alt="" coords="690,204,599,251,596,246,688,199"/>
-<area shape="poly" id="edge36_Node000016_Node000004" title=" " alt="" coords="721,200,736,237,740,260,737,283,719,326,706,342,685,358,651,377,620,389,591,395,563,397,502,398,427,406,426,400,502,393,562,392,590,390,619,384,649,372,682,353,702,338,715,324,732,281,734,260,731,238,716,202"/>
-<area shape="poly" id="edge37_Node000016_Node000005" title=" " alt="" coords="732,199,758,223,781,255,791,283,797,308,794,331,781,357,759,380,731,396,702,407,674,413,673,408,701,402,729,391,755,376,776,354,789,330,791,308,786,285,776,258,754,226,728,203"/>
-<area shape="rect" id="Node000017" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="632,256,722,282"/>
-<area shape="poly" id="edge34_Node000016_Node000017" title=" " alt="" coords="709,202,691,243,686,241,704,200"/>
-<area shape="poly" id="edge35_Node000017_Node000009" title=" " alt="" coords="671,284,646,319,641,316,666,281"/>
-<area shape="poly" id="edge39_Node000018_Node000003" title=" " alt="" coords="819,204,794,211,623,255,622,250,792,206,818,199"/>
-<area shape="poly" id="edge40_Node000018_Node000005" title=" " alt="" coords="863,202,859,232,850,274,833,318,821,339,806,358,776,380,741,396,706,407,674,413,673,408,705,402,739,391,773,376,802,354,817,336,829,316,845,272,854,231,858,201"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="571,5,710,31"/>
+<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="523,160,579,186"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="616,34,588,53,564,80,553,113,551,145,546,145,548,112,559,78,584,49,613,29"/>
+<area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="619,241,712,267"/>
+<area shape="poly" id="edge15_Node000001_Node000003" title=" " alt="" coords="669,29,698,49,711,62,721,78,728,98,730,119,722,161,705,199,686,230,682,228,701,197,717,159,725,119,723,99,717,80,707,66,694,53,666,34"/>
+<area shape="rect" id="Node000010" href="$sbl__arena_8h.html" title="Arena allocator implementation." alt="" coords="204,160,320,186"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="571,26,496,32,415,43,342,59,315,69,295,81,284,95,275,111,266,146,261,144,270,109,279,92,292,77,312,65,341,54,414,38,495,27,571,21"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="134,241,197,267"/>
+<area shape="poly" id="edge46_Node000001_Node000011" title=" " alt="" coords="571,21,505,25,428,34,348,52,271,81,244,96,225,110,210,128,193,154,178,191,171,227,166,226,173,189,189,151,205,125,222,106,241,91,269,77,346,47,427,29,505,20,571,16"/>
+<area shape="rect" id="Node000012" href="$sbgl__graphics__hal_8h.html" title=" " alt="" coords="344,153,499,193"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="571,24,497,30,418,40,350,57,324,68,308,81,302,90,301,98,309,114,327,130,352,144,350,148,324,134,305,118,296,98,297,88,304,77,322,63,348,51,417,35,496,24,570,19"/>
+<area shape="rect" id="Node000013" href="$sbgl__batcher_8h.html" title="The baking pipeline for compressing draw packets into indirect commands." alt="" coords="573,79,708,105"/>
+<area shape="poly" id="edge25_Node000001_Node000013" title=" " alt="" coords="643,31,643,63,638,63,638,31"/>
+<area shape="rect" id="Node000014" href="$sbgl__context__internal_8h.html" title="Internal helpers for accessing context state from library subsystems." alt="" coords="317,79,500,105"/>
+<area shape="poly" id="edge28_Node000001_Node000014" title=" " alt="" coords="602,34,463,77,461,71,600,29"/>
+<area shape="rect" id="Node000015" href="$sbgl__internal__log_8h.html" title=" " alt="" coords="5,153,129,193"/>
+<area shape="poly" id="edge31_Node000001_Node000015" title=" " alt="" coords="571,24,465,30,342,40,227,57,182,68,148,81,114,108,88,141,84,138,110,105,146,77,180,63,226,52,341,35,465,25,571,19"/>
+<area shape="rect" id="Node000016" href="$sbgl__platform_8h.html" title="Internal Platform Abstraction Layer (HAL)." alt="" coords="782,160,920,186"/>
+<area shape="poly" id="edge35_Node000001_Node000016" title=" " alt="" coords="674,29,718,49,765,77,803,111,834,146,830,149,800,115,761,81,716,54,672,34"/>
+<area shape="rect" id="Node000018" href="$sbgl__sort_8h.html" title="Sorting utilities for the SBgl batching system." alt="" coords="944,160,1057,186"/>
+<area shape="poly" id="edge41_Node000001_Node000018" title=" " alt="" coords="674,29,797,77,963,151,961,156,795,81,672,34"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="883,79,942,105"/>
+<area shape="poly" id="edge44_Node000001_Node000019" title=" " alt="" coords="687,29,868,76,867,81,686,34"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="966,79,1029,105"/>
+<area shape="poly" id="edge45_Node000001_Node000020" title=" " alt="" coords="710,29,952,76,951,81,709,34"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="1054,79,1110,105"/>
+<area shape="poly" id="edge47_Node000001_Node000021" title=" " alt="" coords="710,25,857,44,1038,76,1037,81,856,49,709,30"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="570,184,637,230,634,235,567,188"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="505,389,578,414"/>
+<area shape="poly" id="edge9_Node000002_Node000004" title=" " alt="" coords="544,188,528,212,515,242,507,291,515,340,529,374,524,376,510,341,502,291,510,241,523,209,539,185"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="673,389,736,414"/>
+<area shape="poly" id="edge11_Node000002_Node000005" title=" " alt="" coords="555,186,569,255,585,299,609,339,633,362,661,379,658,384,630,366,605,342,580,301,564,257,550,187"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="323,241,390,267"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="527,189,512,196,405,238,403,233,510,191,525,184"/>
+<area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="619,315,710,341"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="559,185,580,222,609,265,642,302,638,306,605,269,576,225,555,188"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="655,269,609,317,561,377,557,374,605,313,651,266"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="713,262,820,287,865,301,889,313,895,328,889,342,867,359,832,373,752,394,751,389,830,368,865,354,885,339,889,328,885,317,863,306,818,292,712,268"/>
+<area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="784,315,875,341"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="695,265,789,306,787,311,692,270"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="784,343,594,390,593,385,783,338"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="810,344,740,383,737,378,807,339"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="800,389,860,414"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="832,341,832,373,827,373,827,341"/>
+<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="645,344,577,383,574,378,642,339"/>
+<area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="673,340,693,374,688,376,669,342"/>
+<area shape="poly" id="edge19_Node000010_Node000004" title=" " alt="" coords="261,187,258,224,261,246,269,266,290,292,316,314,374,350,436,374,490,389,489,394,434,379,372,355,313,319,287,295,265,268,256,247,253,225,256,186"/>
+<area shape="poly" id="edge18_Node000010_Node000005" title=" " alt="" coords="267,185,283,225,296,246,313,265,354,295,399,320,446,341,494,358,585,381,658,393,657,398,584,386,492,363,444,346,396,325,351,300,309,269,292,250,278,227,262,187"/>
+<area shape="poly" id="edge17_Node000010_Node000008" title=" " alt="" coords="278,184,332,229,328,233,274,188"/>
+<area shape="poly" id="edge20_Node000010_Node000011" title=" " alt="" coords="249,188,194,233,191,229,245,184"/>
+<area shape="poly" id="edge24_Node000012_Node000003" title=" " alt="" coords="483,191,614,233,613,239,482,196"/>
+<area shape="poly" id="edge22_Node000012_Node000004" title=" " alt="" coords="432,193,462,259,504,339,526,374,522,377,499,342,457,261,427,195"/>
+<area shape="poly" id="edge23_Node000012_Node000008" title=" " alt="" coords="408,195,378,231,374,227,403,192"/>
+<area shape="poly" id="edge27_Node000013_Node000003" title=" " alt="" coords="645,105,664,225,659,226,640,106"/>
+<area shape="poly" id="edge26_Node000013_Node000012" title=" " alt="" coords="608,108,492,149,490,144,606,103"/>
+<area shape="poly" id="edge29_Node000014_Node000003" title=" " alt="" coords="479,103,537,121,566,134,593,151,612,168,630,188,655,226,651,229,625,191,609,171,589,155,563,139,535,126,477,108"/>
+<area shape="poly" id="edge30_Node000014_Node000010" title=" " alt="" coords="387,107,299,155,296,150,385,103"/>
+<area shape="poly" id="edge32_Node000015_Node000004" title=" " alt="" coords="66,194,66,230,70,249,80,265,107,288,150,309,203,328,263,345,387,372,490,390,489,395,386,378,262,350,201,333,148,314,105,292,76,269,66,251,61,231,61,194"/>
+<area shape="poly" id="edge33_Node000015_Node000005" title=" " alt="" coords="76,193,94,230,107,249,123,265,165,288,225,310,297,330,376,347,534,375,658,392,657,397,533,380,375,352,295,335,223,315,163,293,120,269,103,252,89,233,71,195"/>
+<area shape="poly" id="edge34_Node000015_Node000008" title=" " alt="" coords="130,189,309,237,307,242,128,194"/>
+<area shape="poly" id="edge36_Node000016_Node000003" title=" " alt="" coords="823,189,709,237,707,232,821,184"/>
+<area shape="poly" id="edge39_Node000016_Node000004" title=" " alt="" coords="855,186,855,224,851,247,841,269,821,285,784,309,723,343,656,370,594,389,592,384,655,365,721,338,781,304,818,281,837,265,846,246,850,224,850,186"/>
+<area shape="poly" id="edge40_Node000016_Node000005" title=" " alt="" coords="864,185,888,214,911,255,919,277,923,300,921,322,910,342,885,361,844,375,752,396,751,390,842,370,882,356,906,339,916,320,918,300,914,278,906,257,883,217,860,188"/>
+<area shape="rect" id="Node000017" href="$src_2core_2sbgl__input_8h.html" title="Internal Input Abstraction Layer (HAL)." alt="" coords="736,241,827,267"/>
+<area shape="poly" id="edge37_Node000016_Node000017" title=" " alt="" coords="842,188,804,231,800,228,838,184"/>
+<area shape="poly" id="edge38_Node000017_Node000009" title=" " alt="" coords="763,270,698,309,696,304,760,265"/>
+<area shape="poly" id="edge42_Node000018_Node000003" title=" " alt="" coords="959,189,933,196,728,243,727,237,932,191,958,184"/>
+<area shape="poly" id="edge43_Node000018_Node000005" title=" " alt="" coords="1002,187,996,218,985,260,965,304,951,325,934,343,902,360,855,374,752,396,751,390,853,369,900,355,931,339,947,322,960,302,980,258,991,217,996,186"/>
 </map>

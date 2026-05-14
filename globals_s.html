@@ -107,7 +107,11 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <div class="textblock">Here is a list of all functions, variables, defines, enums, and typedefs with links to the files they belong to:</div>
 
 <h3><a id="index_s" name="index_s"></a>- s -</h3><ul>
+<li>s_config&#160;:&#160;<a class="el" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">sbgl_log.c</a></li>
+<li>s_file&#160;:&#160;<a class="el" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">sbgl_log.c</a></li>
 <li>SBGL_ALIGN&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a140eed480529d85404ea9a4bdc2210e3">sbgl_math.h</a></li>
+<li>SBGL_BACKEND_VULKAN&#160;:&#160;<a class="el" href="sbgl__types_8h.html#acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db">sbgl_types.h</a></li>
+<li>sbgl_BackendType&#160;:&#160;<a class="el" href="sbgl__types_8h.html#acad6a17b25b8417230a36ccf6c039127">sbgl_types.h</a></li>
 <li>sbgl_bake_commands()&#160;:&#160;<a class="el" href="sbgl__batcher_8c.html#ab8b913f1f66ece9a7b2218077f810a8f">sbgl_batcher.c</a>, <a class="el" href="sbgl__batcher_8h.html#ab8b913f1f66ece9a7b2218077f810a8f">sbgl_batcher.h</a></li>
 <li>SBGL_BARRIER_COMPUTE_TO_COMPUTE&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a308b9ca8e2f14897079c293d4b8873df">sbgl_types.h</a></li>
 <li>SBGL_BARRIER_COMPUTE_TO_GRAPHICS&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62ab0cfbd63228f2890db7d67937a556310">sbgl_types.h</a></li>
@@ -140,6 +144,7 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>sbgl_CameraPerspective()&#160;:&#160;<a class="el" href="sbgl__camera_8h.html#a404ffc0643c3ac6b97ae77eae74bb281">sbgl_camera.h</a></li>
 <li>sbgl_CameraType&#160;:&#160;<a class="el" href="sbgl__camera_8h.html#acd82bd5db04002e8eda405eeb31f5bb1">sbgl_camera.h</a></li>
 <li>sbgl_Clear&#160;:&#160;<a class="el" href="sbgl_8h.html#aa40971a0313b0582ca98506a1f14cff1">sbgl.h</a></li>
+<li>sbgl_ClearResult()&#160;:&#160;<a class="el" href="sbgl_8h.html#ac18e89a9fd209cfe3761708e4a7f1e51">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#ac18e89a9fd209cfe3761708e4a7f1e51">sbgl_core.c</a></li>
 <li>sbgl_ComputePipeline&#160;:&#160;<a class="el" href="sbgl__types_8h.html#ab83ea41c465a50abe783a389103cfcc7">sbgl_types.h</a></li>
 <li>sbgl_Context&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a49cd3e8c4b22a9ea03c7654de70fa0cf">sbgl_types.h</a></li>
 <li>sbgl_CreateBuffer()&#160;:&#160;<a class="el" href="sbgl_8h.html#af40bb1ff6d81816a137876aa33f977c6">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#af40bb1ff6d81816a137876aa33f977c6">sbgl_core.c</a></li>
@@ -161,9 +166,16 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>sbgl_EndCompute()&#160;:&#160;<a class="el" href="sbgl_8h.html#a8f8504a80fcb93ec6a2a64400f395713">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a8f8504a80fcb93ec6a2a64400f395713">sbgl_core.c</a></li>
 <li>sbgl_EndDrawing()&#160;:&#160;<a class="el" href="sbgl_8h.html#a7ed3273fa5fa3d7b9f48fcff63652049">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a7ed3273fa5fa3d7b9f48fcff63652049">sbgl_core.c</a></li>
 <li>SBGL_ERROR_DEVICE_BUSY&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357">sbgl_types.h</a></li>
-<li>SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36">sbgl_types.h</a></li>
+<li>SBGL_ERROR_GRAPHICS_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0">sbgl_types.h</a></li>
 <li>SBGL_ERROR_INITIALIZATION_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39">sbgl_types.h</a></li>
+<li>SBGL_ERROR_INVALID_ARGUMENT&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda">sbgl_types.h</a></li>
+<li>SBGL_ERROR_INVALID_HANDLE&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb">sbgl_types.h</a></li>
+<li>SBGL_ERROR_NULL_CONTEXT&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa">sbgl_types.h</a></li>
 <li>SBGL_ERROR_OUT_OF_MEMORY&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398">sbgl_types.h</a></li>
+<li>SBGL_ERROR_PIPELINE_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded">sbgl_types.h</a></li>
+<li>SBGL_ERROR_PLATFORM_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c">sbgl_types.h</a></li>
+<li>SBGL_ERROR_SHADER_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed">sbgl_types.h</a></li>
+<li>SBGL_ERROR_SWAPCHAIN_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a">sbgl_types.h</a></li>
 <li>SBGL_ERROR_WINDOW_CREATION_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac">sbgl_types.h</a></li>
 <li>sbgl_FillBuffer()&#160;:&#160;<a class="el" href="sbgl_8h.html#a318d5ff2831e9a7dfbaaac72fd542ea2">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a318d5ff2831e9a7dfbaaac72fd542ea2">sbgl_core.c</a></li>
 <li>sbgl_Format&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63">sbgl_types.h</a></li>
@@ -178,8 +190,10 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>SBGL_GET_MESH_ID&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a1728dcbc5c7dc0444394a92e3110d5f7">sbgl_types.h</a></li>
 <li>sbgl_GetBufferDeviceAddress()&#160;:&#160;<a class="el" href="sbgl_8h.html#ae2963695105ef705893bd98f47746948">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#ae2963695105ef705893bd98f47746948">sbgl_core.c</a></li>
 <li>sbgl_GetContextArena()&#160;:&#160;<a class="el" href="sbgl__context__internal_8h.html#ab8569d3d792af645ec289779fd2db3de">sbgl_context_internal.h</a>, <a class="el" href="sbgl__core_8c.html#ab8569d3d792af645ec289779fd2db3de">sbgl_core.c</a></li>
+<li>sbgl_GetErrorDetail()&#160;:&#160;<a class="el" href="sbgl_8h.html#acfe315f903648701ba73531e0f90b117">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#acfe315f903648701ba73531e0f90b117">sbgl_core.c</a></li>
 <li>sbgl_GetFrameIndex()&#160;:&#160;<a class="el" href="sbgl_8h.html#adc63bd353c8f707f91bfa8e9f6371aff">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#adc63bd353c8f707f91bfa8e9f6371aff">sbgl_core.c</a></li>
 <li>sbgl_GetInputState()&#160;:&#160;<a class="el" href="sbgl_8h.html#a53079f10afee8a0e1ddb22f61179475b">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a53079f10afee8a0e1ddb22f61179475b">sbgl_core.c</a></li>
+<li>sbgl_GetResult()&#160;:&#160;<a class="el" href="sbgl_8h.html#a0495c705e827c8420b91fa1caaefddfd">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a0495c705e827c8420b91fa1caaefddfd">sbgl_core.c</a></li>
 <li>sbgl_GetTelemetry()&#160;:&#160;<a class="el" href="sbgl_8h.html#a3d3bde954061f9e194e14bcc6839e44f">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a3d3bde954061f9e194e14bcc6839e44f">sbgl_core.c</a></li>
 <li>sbgl_GetTime()&#160;:&#160;<a class="el" href="sbgl_8h.html#ae1ada367da10d748bc7f04dd9449e860">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#ae1ada367da10d748bc7f04dd9449e860">sbgl_core.c</a></li>
 <li>sbgl_GetWindowSize()&#160;:&#160;<a class="el" href="sbgl_8h.html#a38678aa6bdda300d3cdf8e40707075e6">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a38678aa6bdda300d3cdf8e40707075e6">sbgl_core.c</a></li>
@@ -208,6 +222,7 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>sbgl_gfx_GetBufferDeviceAddress()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a11be898ad73f3d2f45406d1c142df3df">sbgl_backend_vulkan.c</a>, <a class="el" href="sbgl__graphics__hal_8h.html#a2c3894cec1e8deefb8a9a19ca1627594">sbgl_graphics_hal.h</a></li>
 <li>sbgl_gfx_GetFrameIndex()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#ad3ba8d400894010b1b18d739d60f3dff">sbgl_backend_vulkan.c</a>, <a class="el" href="sbgl__graphics__hal_8h.html#ad3ba8d400894010b1b18d739d60f3dff">sbgl_graphics_hal.h</a></li>
 <li>sbgl_gfx_GetGpuTime()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a660f9015563e3ffa45db9b67627c5330">sbgl_backend_vulkan.c</a>, <a class="el" href="sbgl__graphics__hal_8h.html#a660f9015563e3ffa45db9b67627c5330">sbgl_graphics_hal.h</a></li>
+<li>sbgl_gfx_GetLastVkResult()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#ac5dfecd8e48ff4fb98f67fe285a284ca">sbgl_backend_vulkan.c</a>, <a class="el" href="sbgl__graphics__hal_8h.html#ac5dfecd8e48ff4fb98f67fe285a284ca">sbgl_graphics_hal.h</a></li>
 <li>sbgl_gfx_Init()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a129d652fe0905afd876a5b761f77e4e3">sbgl_backend_vulkan.c</a>, <a class="el" href="sbgl__graphics__hal_8h.html#a129d652fe0905afd876a5b761f77e4e3">sbgl_graphics_hal.h</a></li>
 <li>sbgl_gfx_LoadShader()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a76fe29f00656b11d023893f6c8356714">sbgl_backend_vulkan.c</a>, <a class="el" href="sbgl__graphics__hal_8h.html#a76fe29f00656b11d023893f6c8356714">sbgl_graphics_hal.h</a></li>
 <li>sbgl_gfx_MapBuffer()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a385552edc6845bd9fc3dfc17035fedfe">sbgl_backend_vulkan.c</a>, <a class="el" href="sbgl__graphics__hal_8h.html#a911874cd656438b28353df0e54c228a2">sbgl_graphics_hal.h</a></li>
@@ -223,7 +238,7 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>sbgl_Init()&#160;:&#160;<a class="el" href="sbgl_8h.html#a3588689d1d7bec0fc947cdb3da0bf975">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a3588689d1d7bec0fc947cdb3da0bf975">sbgl_core.c</a></li>
 <li>sbgl_InitWithConfig()&#160;:&#160;<a class="el" href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_core.c</a></li>
 <li>sbgl_InputState&#160;:&#160;<a class="el" href="include_2sbgl__input_8h.html#a302d43d1ad912a10e9bebb1f26a53ac9">sbgl_input.h</a></li>
-<li>sbgl_internal_log()&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a88916e243e9b4f55dad6f65b9e990cee">sbgl_internal_log.h</a>, <a class="el" href="sbgl__log_8c.html#a88916e243e9b4f55dad6f65b9e990cee">sbgl_log.c</a></li>
+<li>sbgl_internal_log_impl()&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#aa8406982ba6c81be2c77b71146b60667">sbgl_internal_log.h</a>, <a class="el" href="sbgl__log_8c.html#aa8406982ba6c81be2c77b71146b60667">sbgl_log.c</a></li>
 <li>SBGL_INVALID_HANDLE&#160;:&#160;<a class="el" href="sbgl__types_8h.html#ae276a772aef1b1c1cde24a07b67b9b09">sbgl_types.h</a></li>
 <li>SBGL_INVALID_OFFSET&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a2740180d83fd5774a91cb0954197e458">sbgl_types.h</a></li>
 <li>sbgl_InvSqrt()&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a92bdafc277b14137356695f2c70a2ca7">sbgl_math.h</a></li>
@@ -280,11 +295,23 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>SBGL_KEY_Z&#160;:&#160;<a class="el" href="sbgl_8h.html#a157d75e8e54d0d61e6bf60ca2a0d27ae">sbgl.h</a></li>
 <li>sbgl_LoadShader()&#160;:&#160;<a class="el" href="sbgl_8h.html#a6d127cd2c2aa2f93aff1a9c5693b6c2a">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a6d127cd2c2aa2f93aff1a9c5693b6c2a">sbgl_core.c</a></li>
 <li>sbgl_LoadShaderFromFile()&#160;:&#160;<a class="el" href="sbgl_8h.html#a3715fca8433d11f40ff15d3eb10673e5">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a3715fca8433d11f40ff15d3eb10673e5">sbgl_core.c</a></li>
+<li>SBGL_LOG_CAT_CORE&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a5e4827e5d649b33060e2e4861b11ea98acb383f008a06448bca25e39584e0aa06">sbgl_internal_log.h</a></li>
+<li>SBGL_LOG_CAT_COUNT&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a5e4827e5d649b33060e2e4861b11ea98aba1cd02b0b1e85846ce62e1029c9c37d">sbgl_internal_log.h</a></li>
+<li>SBGL_LOG_CAT_GFX&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a5e4827e5d649b33060e2e4861b11ea98ac91f2d79fecac73789f574472b075f40">sbgl_internal_log.h</a></li>
+<li>SBGL_LOG_CAT_INPUT&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a5e4827e5d649b33060e2e4861b11ea98a6ac540880ad4dbfc47cf62e38f2234bd">sbgl_internal_log.h</a></li>
+<li>SBGL_LOG_CAT_PLATFORM&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a5e4827e5d649b33060e2e4861b11ea98a33a08c20bacb5c646d881b07d60a92bb">sbgl_internal_log.h</a></li>
+<li>SBGL_LOG_CAT_VOXEL&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a5e4827e5d649b33060e2e4861b11ea98acfc070895e5a833e1dbc8641f7d50643">sbgl_internal_log.h</a></li>
 <li>SBGL_LOG_CRITICAL&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">sbgl_internal_log.h</a></li>
+<li>SBGL_LOG_DEBUG&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a7068b7feb6429671f046f3efa536ad26af74cccef9662080afaa1daaa6e27675a">sbgl_internal_log.h</a></li>
 <li>SBGL_LOG_ERROR&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">sbgl_internal_log.h</a></li>
+<li>sbgl_log_impl&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a9726a4c18a83edbc85ce16bf85858606">sbgl_internal_log.h</a></li>
 <li>SBGL_LOG_INFO&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">sbgl_internal_log.h</a></li>
 <li>SBGL_LOG_WARN&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">sbgl_internal_log.h</a></li>
+<li>sbgl_LogCategory&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a5e4827e5d649b33060e2e4861b11ea98">sbgl_internal_log.h</a></li>
 <li>sbgl_LogLevel&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a7068b7feb6429671f046f3efa536ad26">sbgl_internal_log.h</a></li>
+<li>sbgl_LogSetFileRotation()&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a8f86c37793787094e8b233211d90b839">sbgl_internal_log.h</a>, <a class="el" href="sbgl__log_8c.html#aaa27b200e2ac9fa90218c5894a63ee91">sbgl_log.c</a></li>
+<li>sbgl_LogSetLevel()&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#abfe590e608d823380e8e7ccdaba54062">sbgl_internal_log.h</a>, <a class="el" href="sbgl__log_8c.html#abfe590e608d823380e8e7ccdaba54062">sbgl_log.c</a></li>
+<li>sbgl_LogSetOutput()&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#a43480486bd7ca07571d5e3af67bf8b41">sbgl_internal_log.h</a>, <a class="el" href="sbgl__log_8c.html#a43480486bd7ca07571d5e3af67bf8b41">sbgl_log.c</a></li>
 <li>SBGL_MANAGED_HEAP_SIZE&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a746a6a288bfd8cdb92f86ad1c113fbb7">sbgl_backend_vulkan.c</a></li>
 <li>sbgl_MapBuffer()&#160;:&#160;<a class="el" href="sbgl_8h.html#ab852513abc2adc7555f02a1df8c09fa0">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#ab852513abc2adc7555f02a1df8c09fa0">sbgl_core.c</a></li>
 <li>sbgl_Mat4Identity()&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a58e46e771fb4f61c4c932886fc527edd">sbgl_math.h</a></li>
@@ -311,7 +338,7 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>SBGL_MOUSE_RIGHT&#160;:&#160;<a class="el" href="sbgl_8h.html#a6b0575d894563a7038322e31da68b019">sbgl.h</a></li>
 <li>SBGL_MouseButton&#160;:&#160;<a class="el" href="include_2sbgl__input_8h.html#ae35372e6473d0c4505e81e6cdad20d67">sbgl_input.h</a></li>
 <li>sbgl_MouseMode&#160;:&#160;<a class="el" href="include_2sbgl__input_8h.html#a9455a66b9ef155c04cad198d091f6ae4">sbgl_input.h</a></li>
-<li>sbgl_os_CreateWindow()&#160;:&#160;<a class="el" href="sbgl__platform_8h.html#a785147a0a26609dfa77914c215b60a81">sbgl_platform.h</a>, <a class="el" href="window__wayland_8c.html#a785147a0a26609dfa77914c215b60a81">window_wayland.c</a>, <a class="el" href="window__x11_8c.html#a785147a0a26609dfa77914c215b60a81">window_x11.c</a>, <a class="el" href="window_8c.html#a785147a0a26609dfa77914c215b60a81">window.c</a></li>
+<li>sbgl_os_CreateWindow()&#160;:&#160;<a class="el" href="sbgl__platform_8h.html#a9c1b6a437ea040e2923c556a953eab20">sbgl_platform.h</a>, <a class="el" href="window__wayland_8c.html#a9c1b6a437ea040e2923c556a953eab20">window_wayland.c</a>, <a class="el" href="window__x11_8c.html#a785147a0a26609dfa77914c215b60a81">window_x11.c</a>, <a class="el" href="window_8c.html#a785147a0a26609dfa77914c215b60a81">window.c</a></li>
 <li>sbgl_os_DestroyWindow()&#160;:&#160;<a class="el" href="sbgl__platform_8h.html#ada47263d5dbeeccecb9f8291a7fd8853">sbgl_platform.h</a>, <a class="el" href="window__wayland_8c.html#ada47263d5dbeeccecb9f8291a7fd8853">window_wayland.c</a>, <a class="el" href="window__x11_8c.html#ada47263d5dbeeccecb9f8291a7fd8853">window_x11.c</a>, <a class="el" href="window_8c.html#ada47263d5dbeeccecb9f8291a7fd8853">window.c</a></li>
 <li>sbgl_os_GetNativeDisplayHandle()&#160;:&#160;<a class="el" href="sbgl__platform_8h.html#acd6374bef13b44bfe96bd738fe6beeba">sbgl_platform.h</a>, <a class="el" href="window__wayland_8c.html#acd6374bef13b44bfe96bd738fe6beeba">window_wayland.c</a>, <a class="el" href="window__x11_8c.html#acd6374bef13b44bfe96bd738fe6beeba">window_x11.c</a>, <a class="el" href="window_8c.html#acd6374bef13b44bfe96bd738fe6beeba">window.c</a></li>
 <li>sbgl_os_GetNativeInstanceHandle()&#160;:&#160;<a class="el" href="sbgl__platform_8h.html#acdbcacdf0da5cc0623384487f1182258">sbgl_platform.h</a>, <a class="el" href="window__x11_8c.html#acdbcacdf0da5cc0623384487f1182258">window_x11.c</a>, <a class="el" href="window_8c.html#acdbcacdf0da5cc0623384487f1182258">window.c</a></li>
@@ -338,6 +365,11 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>SBGL_PACKET_TAGS_SHIFT&#160;:&#160;<a class="el" href="sbgl__types_8h.html#ae0617bb46a5610444ee2a6c6aa0f7011">sbgl_types.h</a></li>
 <li>SBGL_PI&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a9f70d5e1826da0c3907992d19459f0a4">sbgl_math.h</a></li>
 <li>sbgl_Pipeline&#160;:&#160;<a class="el" href="sbgl__types_8h.html#ab841901dacda3bea95726b880df3adb8">sbgl_types.h</a></li>
+<li>SBGL_PLATFORM_ERROR_INIT_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59">sbgl_types.h</a></li>
+<li>SBGL_PLATFORM_ERROR_NO_DISPLAY&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2">sbgl_types.h</a></li>
+<li>SBGL_PLATFORM_ERROR_WINDOW_FAILED&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9">sbgl_types.h</a></li>
+<li>sbgl_platform_Result&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568">sbgl_types.h</a></li>
+<li>SBGL_PLATFORM_SUCCESS&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703">sbgl_types.h</a></li>
 <li>sbgl_PushConstants()&#160;:&#160;<a class="el" href="sbgl_8h.html#a7c7bb4f66431af6e446f641d058fb4d1">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a7c7bb4f66431af6e446f641d058fb4d1">sbgl_core.c</a></li>
 <li>sbgl_QuatFromAxisAngle()&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a6f5a1d38a150adbeb8d965500ed51074">sbgl_math.h</a></li>
 <li>sbgl_QuatIdentity()&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a79b409eb91a8c29bcf6ac4090bacd9a7">sbgl_math.h</a></li>
@@ -351,6 +383,8 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>sbgl_RenderQueues()&#160;:&#160;<a class="el" href="sbgl_8h.html#af50d2496f5d5a1cb363bd36878384f40">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#af50d2496f5d5a1cb363bd36878384f40">sbgl_core.c</a></li>
 <li>sbgl_RenderQueuesEx()&#160;:&#160;<a class="el" href="sbgl_8h.html#a12ed9c2438cf49e1df79a925712f25d6">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a12ed9c2438cf49e1df79a925712f25d6">sbgl_core.c</a></li>
 <li>sbgl_Result&#160;:&#160;<a class="el" href="sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465d">sbgl_types.h</a></li>
+<li>SBGL_RESULT_STRINGS&#160;:&#160;<a class="el" href="sbgl__log_8c.html#a928d6bb0014ebd5df30a79c4ab738cf1">sbgl_log.c</a></li>
+<li>sbgl_ResultToString()&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#abb27b3ab8eefc348a44a12e0331c4eca">sbgl_internal_log.h</a>, <a class="el" href="sbgl__log_8c.html#abb27b3ab8eefc348a44a12e0331c4eca">sbgl_log.c</a></li>
 <li>SBGL_Scancode&#160;:&#160;<a class="el" href="include_2sbgl__input_8h.html#ad5c0dc96556d1938ada0648426915e47">sbgl_input.h</a></li>
 <li>SBGL_SCANCODE_0&#160;:&#160;<a class="el" href="include_2sbgl__input_8h.html#ad5c0dc96556d1938ada0648426915e47a0867a375625ae564bde3425781446a67">sbgl_input.h</a></li>
 <li>SBGL_SCANCODE_1&#160;:&#160;<a class="el" href="include_2sbgl__input_8h.html#ad5c0dc96556d1938ada0648426915e47ac5b748c3895998266f378756a12ffd58">sbgl_input.h</a></li>
@@ -454,6 +488,7 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>SBGL_SCANCODE_Z&#160;:&#160;<a class="el" href="include_2sbgl__input_8h.html#ad5c0dc96556d1938ada0648426915e47a502ce82737a6b28c39cb38501e5b08a7">sbgl_input.h</a></li>
 <li>sbgl_SetClearColor()&#160;:&#160;<a class="el" href="sbgl_8h.html#a027d9dceb2ea9c903087bc85502985ab">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a027d9dceb2ea9c903087bc85502985ab">sbgl_core.c</a></li>
 <li>sbgl_SetMouseMode()&#160;:&#160;<a class="el" href="sbgl_8h.html#a78d5917198d3183ab819ec078ce5470b">sbgl.h</a>, <a class="el" href="sbgl__core_8c.html#a78d5917198d3183ab819ec078ce5470b">sbgl_core.c</a></li>
+<li>sbgl_setup_debug_utils()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a69f5629191e5be08c4bdfb2ffac928b5">sbgl_backend_vulkan.c</a></li>
 <li>sbgl_Shader&#160;:&#160;<a class="el" href="sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2">sbgl_types.h</a></li>
 <li>SBGL_SHADER_STAGE_COMPUTE&#160;:&#160;<a class="el" href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a037c8c7b1e5df380cb6dd50215c25994">sbgl_types.h</a></li>
 <li>SBGL_SHADER_STAGE_FRAGMENT&#160;:&#160;<a class="el" href="sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a1dfbb217e637e27adca4a5b8914455b1">sbgl_types.h</a></li>
@@ -479,7 +514,9 @@ $(function(){initNavTree('globals_s.html',''); initResizable(true); });
 <li>sbgl_Vec4Add()&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a47e262fa16054156b6b673a0b052b4db">sbgl_math.h</a></li>
 <li>sbgl_Vec4Mul()&#160;:&#160;<a class="el" href="sbgl__math_8h.html#a910510f8871a8df66ee5ea87f72d5576">sbgl_math.h</a></li>
 <li>sbgl_Vec4Set()&#160;:&#160;<a class="el" href="sbgl__math_8h.html#ae09feb1c55bf39c6d53581b311e7c8b8">sbgl_math.h</a></li>
+<li>sbgl_vk_debug_callback()&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a31c830f5455eb06ea21c3721292e633e">sbgl_backend_vulkan.c</a></li>
 <li>SBGL_VK_PUSH_CONSTANT_SIZE&#160;:&#160;<a class="el" href="sbgl__backend__vulkan_8c.html#a264c12e54aab1808370e7ef4f6a24299">sbgl_backend_vulkan.c</a></li>
+<li>sbgl_VkResultToString()&#160;:&#160;<a class="el" href="sbgl__internal__log_8h.html#aff1891eb64cee1317ceade0f1c929c90">sbgl_internal_log.h</a>, <a class="el" href="sbgl__log_8c.html#aff1891eb64cee1317ceade0f1c929c90">sbgl_log.c</a></li>
 <li>SBGL_VOXEL_CHUNK_SIZE&#160;:&#160;<a class="el" href="sbgl__voxel_8c.html#a5bfdff925e22e499c006a9b7b674ccee">sbgl_voxel.c</a></li>
 <li>sbgl_Voxel_Create()&#160;:&#160;<a class="el" href="sbgl__voxel_8h.html#ac8f9c1b283a72e4bcf80d87d4f1f9752">sbgl_voxel.h</a>, <a class="el" href="sbgl__voxel_8c.html#ac8f9c1b283a72e4bcf80d87d4f1f9752">sbgl_voxel.c</a></li>
 <li>sbgl_Voxel_Cull()&#160;:&#160;<a class="el" href="sbgl__voxel_8h.html#a3a9e5ed165ef0ab2e474a0a4d4515824">sbgl_voxel.h</a>, <a class="el" href="sbgl__voxel_8c.html#a3a9e5ed165ef0ab2e474a0a4d4515824">sbgl_voxel.c</a></li>

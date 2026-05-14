@@ -13,5 +13,5 @@ var searchData=
   ['transientbuffers_10',['transientBuffers',['../structsbgl__GfxContext.html#a379b5c65d9c5cdaf2b35d9f79c269b82',1,'sbgl_GfxContext']]],
   ['transientmapped_11',['transientMapped',['../structsbgl__GfxContext.html#a03d781e0a59691f219c37239f917a88d',1,'sbgl_GfxContext']]],
   ['transientoffsets_12',['transientOffsets',['../structsbgl__GfxContext.html#a29fb3f5149347853aed25402c16a9bc7',1,'sbgl_GfxContext']]],
-  ['type_13',['type',['../structsbgl__Camera.html#a14d1ac6a5b188c2c3025d608f9d5384e',1,'sbgl_Camera']]]
+  ['type_13',['type',['../structsbgl__Camera.html#a14d1ac6a5b188c2c3025d608f9d5384e',1,'sbgl_Camera::type'],['../structsbgl__ErrorDetail.html#a8c2c9144c965520ceac52f6bc37ee231',1,'sbgl_ErrorDetail::type']]]
 ];

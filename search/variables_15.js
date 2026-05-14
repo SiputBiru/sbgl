@@ -6,9 +6,12 @@ var searchData=
   ['vertexshader_3',['vertexShader',['../structsbgl__PipelineConfig.html#a2f36a5caf035fe18d6a1912cd8817080',1,'sbgl_PipelineConfig']]],
   ['viewproj_4',['viewProj',['../structsbgl__CullPushConstants.html#a76c5b00e97cef4c2b7fe286fca51964b',1,'sbgl_CullPushConstants::viewProj'],['../structPushData.html#a600d9bf773b3f462513f7b13f545bdbd',1,'PushData::viewProj'],['../structRenderPushConstants.html#a7f231bb7609615490d2c00123104059f',1,'RenderPushConstants::viewProj'],['../structVoxelPushConstants.html#a1f50cf4269deb55d1f7ff09cf7414d5d',1,'VoxelPushConstants::viewProj']]],
   ['vk_5',['vk',['../structsbgl__GfxContext.html#a83985bc8f893f1aaa6b71b3767bedfdf',1,'sbgl_GfxContext']]],
-  ['voxel_5fchunk_5fdim_6',['VOXEL_CHUNK_DIM',['../voxel__main_8c.html#a1833d3b92f7fd096e5e9268c3398c138',1,'voxel_main.c']]],
-  ['voxel_5fchunk_5fsize_7',['VOXEL_CHUNK_SIZE',['../voxel__main_8c.html#ad04739d65dd7a8d2caf7f25b21fec5ab',1,'voxel_main.c']]],
-  ['voxel_5ffar_5fplane_5fmargin_8',['VOXEL_FAR_PLANE_MARGIN',['../voxel__main_8c.html#a4107a808f955fab80fc4d5f49660efc0',1,'voxel_main.c']]],
-  ['voxel_5fworld_5fsize_9',['VOXEL_WORLD_SIZE',['../voxel__main_8c.html#a1783cf62199e1e30d42d78836ce5d0b1',1,'voxel_main.c']]],
-  ['voxeldataaddress_10',['voxelDataAddress',['../structRenderPushConstants.html#a8c332ef61b2e49e705d4a2425fec07a2',1,'RenderPushConstants']]]
+  ['vk_5fresult_5fcodes_6',['VK_RESULT_CODES',['../sbgl__log_8c.html#a0956bee2f9726ed266b69b177bf30f66',1,'sbgl_log.c']]],
+  ['vk_5fresult_5fstrings_7',['VK_RESULT_STRINGS',['../sbgl__log_8c.html#a0920723609c6aae33e242bc76c389119',1,'sbgl_log.c']]],
+  ['vkresult_8',['vkResult',['../structsbgl__ErrorDetail.html#ac5dc53ef6506c2d0e7f1c6cb99a06298',1,'sbgl_ErrorDetail']]],
+  ['voxel_5fchunk_5fdim_9',['VOXEL_CHUNK_DIM',['../voxel__main_8c.html#a1833d3b92f7fd096e5e9268c3398c138',1,'voxel_main.c']]],
+  ['voxel_5fchunk_5fsize_10',['VOXEL_CHUNK_SIZE',['../voxel__main_8c.html#ad04739d65dd7a8d2caf7f25b21fec5ab',1,'voxel_main.c']]],
+  ['voxel_5ffar_5fplane_5fmargin_11',['VOXEL_FAR_PLANE_MARGIN',['../voxel__main_8c.html#a4107a808f955fab80fc4d5f49660efc0',1,'voxel_main.c']]],
+  ['voxel_5fworld_5fsize_12',['VOXEL_WORLD_SIZE',['../voxel__main_8c.html#a1783cf62199e1e30d42d78836ce5d0b1',1,'voxel_main.c']]],
+  ['voxeldataaddress_13',['voxelDataAddress',['../structRenderPushConstants.html#a8c332ef61b2e49e705d4a2425fec07a2',1,'RenderPushConstants']]]
 ];

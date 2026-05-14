@@ -1,6 +1,7 @@
 var structsbgl__GfxContext =
 [
     [ "arena", "structsbgl__GfxContext.html#a4996512a8fd993d5cc776f1acd23b0b4", null ],
+    [ "backendResult", "structsbgl__GfxContext.html#a28556bfa3e5b412e3bba0a614bfb31a9", null ],
     [ "boundComputePipeline", "structsbgl__GfxContext.html#aeca44381965753f5db4403ba1b57fd54", null ],
     [ "boundPipeline", "structsbgl__GfxContext.html#ad3439cabe68f47a670cfae9d9942b29b", null ],
     [ "bufferActive", "structsbgl__GfxContext.html#aec06808c382ccdd9cabde15c90d503dd", null ],

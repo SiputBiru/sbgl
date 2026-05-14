@@ -319,7 +319,9 @@ var NAVTREE =
       [ "Surface Integration", "md_docs_2manual_2vulkan__backend.html#surface-integration", null ],
       [ "Physical Device Selection", "md_docs_2manual_2vulkan__backend.html#physical-device-selection", null ],
       [ "Logical Device and Queue Management", "md_docs_2manual_2vulkan__backend.html#logical-device-and-queue-management", null ],
-      [ "Debugging & Validation", "md_docs_2manual_2vulkan__backend.html#debugging--validation", null ],
+      [ "Debugging & Validation", "md_docs_2manual_2vulkan__backend.html#debugging--validation", [
+        [ "Error Inspection", "md_docs_2manual_2vulkan__backend.html#error-inspection", null ]
+      ] ],
       [ "Swapchain Infrastructure", "md_docs_2manual_2vulkan__backend.html#swapchain-infrastructure", null ],
       [ "Frame Execution Pipeline", "md_docs_2manual_2vulkan__backend.html#frame-execution-pipeline", [
         [ "Frame Initiation", "md_docs_2manual_2vulkan__backend.html#frame-initiation", null ],
@@ -436,11 +438,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"input_8c_source.html",
-"md_docs_2manual_2rendering__pipeline.html#submitting-draws",
-"sbgl__backend__vulkan_8c.html#ab6cf3ad2c3d08b5da8b3f31e23392cb8",
-"sbgl__types_8h.html#ae0617bb46a5610444ee2a6c6aa0f7011",
-"structsbgl__InputState.html#a98860917b3bcc6d3fa292980c14525bd"
+"input_8c.html#a527d7599e900f81e14fbf9f48d558c51",
+"md_docs_2manual_2rendering__pipeline.html#render-queues",
+"sbgl__backend__vulkan_8c.html#a8ea1afdbe1cb6728a68673b85fcc1338",
+"sbgl__types_8h.html#a49cd3e8c4b22a9ea03c7654de70fa0cf",
+"structsbgl__GfxContext.html#ad9d2dd913e253ea09d97d00dca97558a",
+"window_8c.html#a24c890daed1fb53c811b8f27fb78b3c3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

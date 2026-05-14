@@ -68,6 +68,6 @@ var searchData=
   ['tt_20sbgl_5fmouse_5fmode_5fhidden_20tt_65',['Hidden Mode (&lt;tt&gt;SBGL_MOUSE_MODE_HIDDEN&lt;/tt&gt;)',['../md_docs_2manual_2windows__specific.html#hidden-mode-sbgl_mouse_mode_hidden',1,'']]],
   ['tt_20sbgl_5fmouse_5fmode_5fnormal_20tt_66',['Normal Mode (&lt;tt&gt;SBGL_MOUSE_MODE_NORMAL&lt;/tt&gt;)',['../md_docs_2manual_2windows__specific.html#normal-mode-sbgl_mouse_mode_normal',1,'']]],
   ['tt_20sbgl_5fplatform_20h_20tt_67',['The Interface (&lt;tt&gt;sbgl_platform.h&lt;/tt&gt;)',['../md_docs_2manual_2platform__abstraction.html#the-interface-sbgl_platformh',1,'']]],
-  ['type_68',['type',['../structsbgl__Camera.html#a14d1ac6a5b188c2c3025d608f9d5384e',1,'sbgl_Camera']]],
+  ['type_68',['type',['../structsbgl__Camera.html#a14d1ac6a5b188c2c3025d608f9d5384e',1,'sbgl_Camera::type'],['../structsbgl__ErrorDetail.html#a8c2c9144c965520ceac52f6bc37ee231',1,'sbgl_ErrorDetail::type']]],
   ['types_69',['Primary Data Types',['../md_docs_2manual_2math__library.html#primary-data-types',1,'']]]
 ];

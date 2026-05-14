@@ -8,6 +8,7 @@ var sbgl__types_8h =
     [ "sbgl_Telemetry", "structsbgl__Telemetry.html", "structsbgl__Telemetry" ],
     [ "sbgl_VertexLayout", "structsbgl__VertexLayout.html", "structsbgl__VertexLayout" ],
     [ "sbgl_PipelineConfig", "structsbgl__PipelineConfig.html", "structsbgl__PipelineConfig" ],
+    [ "sbgl_ErrorDetail", "structsbgl__ErrorDetail.html", "structsbgl__ErrorDetail" ],
     [ "sbgl_Context", "structsbgl__Context.html", "structsbgl__Context" ],
     [ "sbgl_ResourceLimits", "structsbgl__ResourceLimits.html", "structsbgl__ResourceLimits" ],
     [ "sbgl_InitConfig", "structsbgl__InitConfig.html", "structsbgl__InitConfig" ],
@@ -42,6 +43,9 @@ var sbgl__types_8h =
     [ "sbgl_Shader", "sbgl__types_8h.html#aa245fe291f7627774419f31b47fd5eb2", null ],
     [ "sbgl_SortKey", "sbgl__types_8h.html#aa5d9ed8533a67d7fa150b910bf0371ff", null ],
     [ "sbgl_Window", "sbgl__types_8h.html#a9853c3b5cba95627bce0f4a938910e01", null ],
+    [ "sbgl_BackendType", "sbgl__types_8h.html#acad6a17b25b8417230a36ccf6c039127", [
+      [ "SBGL_BACKEND_VULKAN", "sbgl__types_8h.html#acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db", null ]
+    ] ],
     [ "sbgl_BarrierType", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62", [
       [ "SBGL_BARRIER_COMPUTE_TO_COMPUTE", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a308b9ca8e2f14897079c293d4b8873df", null ],
       [ "SBGL_BARRIER_COMPUTE_TO_INDIRECT", "sbgl__types_8h.html#a9de58aad9f996b2eb33daa6f2e387e62a0fe8cf5d4028645ebae26c198353acb3", null ],
@@ -70,13 +74,26 @@ var sbgl__types_8h =
       [ "SBGL_FORMAT_R16G16B16A16_SNORM", "sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63a93e389faf0cfcf2c4555dce6e9319d58", null ],
       [ "SBGL_FORMAT_R8G8B8A8_UNORM", "sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63a0a9bfaa1f7eb46d83b94bd38d1905c6c", null ]
     ] ],
+    [ "sbgl_platform_Result", "sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568", [
+      [ "SBGL_PLATFORM_SUCCESS", "sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703", null ],
+      [ "SBGL_PLATFORM_ERROR_WINDOW_FAILED", "sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9", null ],
+      [ "SBGL_PLATFORM_ERROR_NO_DISPLAY", "sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2", null ],
+      [ "SBGL_PLATFORM_ERROR_INIT_FAILED", "sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59", null ]
+    ] ],
     [ "sbgl_Result", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465d", [
       [ "SBGL_SUCCESS", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3", null ],
+      [ "SBGL_ERROR_NULL_CONTEXT", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa", null ],
+      [ "SBGL_ERROR_INVALID_ARGUMENT", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda", null ],
       [ "SBGL_ERROR_INITIALIZATION_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39", null ],
       [ "SBGL_ERROR_WINDOW_CREATION_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac", null ],
-      [ "SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36", null ],
+      [ "SBGL_ERROR_GRAPHICS_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0", null ],
       [ "SBGL_ERROR_OUT_OF_MEMORY", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398", null ],
-      [ "SBGL_ERROR_DEVICE_BUSY", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357", null ]
+      [ "SBGL_ERROR_DEVICE_BUSY", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357", null ],
+      [ "SBGL_ERROR_INVALID_HANDLE", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb", null ],
+      [ "SBGL_ERROR_SWAPCHAIN_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a", null ],
+      [ "SBGL_ERROR_SHADER_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed", null ],
+      [ "SBGL_ERROR_PIPELINE_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded", null ],
+      [ "SBGL_ERROR_PLATFORM_FAILED", "sbgl__types_8h.html#a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c", null ]
     ] ],
     [ "sbgl_ShaderStage", "sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9", [
       [ "SBGL_SHADER_STAGE_VERTEX", "sbgl__types_8h.html#aaf011aad1502a6809a44c9e8d22438f9a9bce1bb87a6e932afe8b9bb0b3b47922", null ],

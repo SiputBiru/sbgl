@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"input_8c.html#a527d7599e900f81e14fbf9f48d558c51":[20,0,3,2,1,0,1],
+"input_8c.html#a82cf3c4fb7e31baf7b5f3b4396efe514":[20,0,3,2,1,0,2],
 "input_8c_source.html":[20,0,3,2,1,0],
 "input__keyboard_8c.html":[20,0,1,2,0],
 "input__keyboard_8c.html#a840291bc02cba5474a4cb46a9b9566fe":[20,0,1,2,0,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "md_docs_2manual_2rendering__pipeline.html#multi-queue-submission":[13,8,1],
 "md_docs_2manual_2rendering__pipeline.html#multithreading-considerations":[13,9],
 "md_docs_2manual_2rendering__pipeline.html#optimized-batch-submission":[13,7],
-"md_docs_2manual_2rendering__pipeline.html#persistent-mapping":[13,7,0],
-"md_docs_2manual_2rendering__pipeline.html#render-queues":[13,6,0],
-"md_docs_2manual_2rendering__pipeline.html#shader-loading-strategies":[13,1]
+"md_docs_2manual_2rendering__pipeline.html#persistent-mapping":[13,7,0]
 };

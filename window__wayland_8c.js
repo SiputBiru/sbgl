@@ -4,7 +4,7 @@ var window__wayland_8c =
     [ "locked_pointer_locked", "window__wayland_8c.html#a2f23a1eef29f02996976afeee957bc37", null ],
     [ "locked_pointer_unlocked", "window__wayland_8c.html#af89e1267636b90ad90229614b35cf970", null ],
     [ "registry_handle_global", "window__wayland_8c.html#af288e02a94c196a68b327fc55c049932", null ],
-    [ "sbgl_os_CreateWindow", "window__wayland_8c.html#a785147a0a26609dfa77914c215b60a81", null ],
+    [ "sbgl_os_CreateWindow", "window__wayland_8c.html#a9c1b6a437ea040e2923c556a953eab20", null ],
     [ "sbgl_os_DestroyWindow", "window__wayland_8c.html#ada47263d5dbeeccecb9f8291a7fd8853", null ],
     [ "sbgl_os_GetNativeDisplayHandle", "window__wayland_8c.html#acd6374bef13b44bfe96bd738fe6beeba", null ],
     [ "sbgl_os_GetNativeWindowHandle", "window__wayland_8c.html#a60836aa52f476fb119210bfa945ffb98", null ],

@@ -51,7 +51,8 @@ var searchData=
   ['roadmap_48',['SBgl Roadmap',['../md_docs_2ROADMAP.html',1,'']]],
   ['roadmap_2emd_49',['ROADMAP.md',['../ROADMAP_8md.html',1,'']]],
   ['root_50',['Inverse Square Root',['../md_docs_2manual_2math__library.html#inverse-square-root',1,'']]],
-  ['rotation_20with_20quaternions_51',['Rotation with Quaternions',['../md_docs_2manual_2math__library.html#rotation-with-quaternions',1,'']]],
-  ['roughness_52',['roughness',['../structsbgl__Material.html#a49e269806413183b65928db9a5cd46ab',1,'sbgl_Material']]],
-  ['running_20an_20example_53',['Running an Example',['../md_docs_2examples_2index.html#running-an-example',1,'']]]
+  ['rotate_5flogs_51',['rotate_logs',['../sbgl__log_8c.html#a9249823bd3120016c23778b634d8c818',1,'sbgl_log.c']]],
+  ['rotation_20with_20quaternions_52',['Rotation with Quaternions',['../md_docs_2manual_2math__library.html#rotation-with-quaternions',1,'']]],
+  ['roughness_53',['roughness',['../structsbgl__Material.html#a49e269806413183b65928db9a5cd46ab',1,'sbgl_Material']]],
+  ['running_20an_20example_54',['Running an Example',['../md_docs_2examples_2index.html#running-an-example',1,'']]]
 ];

@@ -105,43 +105,174 @@ $(function(){initNavTree('sbgl__internal__log_8h.html',''); initResizable(true);
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">sbgl_internal_log.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><div class="dynheader">
+<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for sbgl_internal_log.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="sbgl__internal__log_8h__incl.png" border="0" usemap="#asrc_2core_2sbgl__internal__log_8h" alt=""/></div>
+<map name="asrc_2core_2sbgl__internal__log_8h" id="asrc_2core_2sbgl__internal__log_8h">
+<area shape="rect" title=" " alt="" coords="61,5,207,46"/>
+<area shape="rect" title=" " alt="" coords="5,94,79,120"/>
+<area shape="poly" title=" " alt="" coords="113,48,69,86,66,82,110,44"/>
+<area shape="rect" title=" " alt="" coords="102,94,166,120"/>
+<area shape="poly" title=" " alt="" coords="137,46,137,78,131,78,131,46"/>
+<area shape="rect" title=" " alt="" coords="190,94,257,120"/>
+<area shape="poly" title=" " alt="" coords="158,44,200,82,197,86,154,48"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="sbgl__internal__log_8h__dep__incl.png" border="0" usemap="#asrc_2core_2sbgl__internal__log_8hdep" alt=""/></div>
 <map name="asrc_2core_2sbgl__internal__log_8hdep" id="asrc_2core_2sbgl__internal__log_8hdep">
-<area shape="rect" title=" " alt="" coords="80,5,226,46"/>
-<area shape="rect" href="sbgl__core_8c.html" title=" " alt="" coords="5,94,144,120"/>
-<area shape="poly" title=" " alt="" coords="125,59,89,95,85,92,121,55"/>
-<area shape="rect" href="sbgl__log_8c.html" title=" " alt="" coords="168,94,298,120"/>
-<area shape="poly" title=" " alt="" coords="186,55,223,91,219,95,182,59"/>
+<area shape="rect" title=" " alt="" coords="202,5,348,46"/>
+<area shape="rect" href="sbgl__backend__vulkan_8c.html" title=" " alt="" coords="5,94,182,135"/>
+<area shape="poly" title=" " alt="" coords="221,55,136,96,133,91,219,51"/>
+<area shape="rect" href="sbgl__core_8c.html" title=" " alt="" coords="206,102,344,127"/>
+<area shape="poly" title=" " alt="" coords="278,62,278,101,272,101,272,62"/>
+<area shape="rect" href="sbgl__log_8c.html" title=" " alt="" coords="368,102,499,127"/>
+<area shape="poly" title=" " alt="" coords="325,51,413,99,410,103,323,56"/>
 </map>
 </div>
 </div>
 <p><a href="sbgl__internal__log_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__LogConfig.html">sbgl_LogConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging configuration.  <a href="structsbgl__LogConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a9726a4c18a83edbc85ce16bf85858606" id="r_a9726a4c18a83edbc85ce16bf85858606"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9726a4c18a83edbc85ce16bf85858606">sbgl_log_impl</a>(level,  category,  msg)</td></tr>
+<tr class="separator:a9726a4c18a83edbc85ce16bf85858606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a7068b7feb6429671f046f3efa536ad26" id="r_a7068b7feb6429671f046f3efa536ad26"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a> { <a class="el" href="#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">SBGL_LOG_INFO</a>
-, <a class="el" href="#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">SBGL_LOG_WARN</a>
-, <a class="el" href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a>
-, <a class="el" href="#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">SBGL_LOG_CRITICAL</a>
+<tr class="memitem:a7068b7feb6429671f046f3efa536ad26" id="r_a7068b7feb6429671f046f3efa536ad26"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a> { <br />
+&#160;&#160;<a class="el" href="#a7068b7feb6429671f046f3efa536ad26af74cccef9662080afaa1daaa6e27675a">SBGL_LOG_DEBUG</a> = 0
+, <a class="el" href="#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">SBGL_LOG_INFO</a> = 1
+, <a class="el" href="#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">SBGL_LOG_WARN</a> = 2
+, <a class="el" href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">SBGL_LOG_CRITICAL</a> = 4
+<br />
  }</td></tr>
-<tr class="memdesc:a7068b7feb6429671f046f3efa536ad26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal logging level.  <a href="#a7068b7feb6429671f046f3efa536ad26">More...</a><br /></td></tr>
+<tr class="memdesc:a7068b7feb6429671f046f3efa536ad26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging severity levels.  <a href="#a7068b7feb6429671f046f3efa536ad26">More...</a><br /></td></tr>
 <tr class="separator:a7068b7feb6429671f046f3efa536ad26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e4827e5d649b33060e2e4861b11ea98" id="r_a5e4827e5d649b33060e2e4861b11ea98"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98">sbgl_LogCategory</a> { <br />
+&#160;&#160;<a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98acb383f008a06448bca25e39584e0aa06">SBGL_LOG_CAT_CORE</a> = 0
+, <a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98a33a08c20bacb5c646d881b07d60a92bb">SBGL_LOG_CAT_PLATFORM</a> = 1
+, <a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98ac91f2d79fecac73789f574472b075f40">SBGL_LOG_CAT_GFX</a> = 2
+, <a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98a6ac540880ad4dbfc47cf62e38f2234bd">SBGL_LOG_CAT_INPUT</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98acfc070895e5a833e1dbc8641f7d50643">SBGL_LOG_CAT_VOXEL</a> = 4
+, <a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98aba1cd02b0b1e85846ce62e1029c9c37d">SBGL_LOG_CAT_COUNT</a> = 5
+<br />
+ }</td></tr>
+<tr class="memdesc:a5e4827e5d649b33060e2e4861b11ea98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging categories for component filtering.  <a href="#a5e4827e5d649b33060e2e4861b11ea98">More...</a><br /></td></tr>
+<tr class="separator:a5e4827e5d649b33060e2e4861b11ea98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a88916e243e9b4f55dad6f65b9e990cee" id="r_a88916e243e9b4f55dad6f65b9e990cee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88916e243e9b4f55dad6f65b9e990cee">sbgl_internal_log</a> (<a class="el" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a> level, const char *message)</td></tr>
-<tr class="memdesc:a88916e243e9b4f55dad6f65b9e990cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal logging level.  <br /></td></tr>
-<tr class="separator:a88916e243e9b4f55dad6f65b9e990cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8406982ba6c81be2c77b71146b60667" id="r_aa8406982ba6c81be2c77b71146b60667"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8406982ba6c81be2c77b71146b60667">sbgl_internal_log_impl</a> (<a class="el" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a> level, <a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98">sbgl_LogCategory</a> category, const char *file, int line, const char *function, const char *message)</td></tr>
+<tr class="separator:aa8406982ba6c81be2c77b71146b60667"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfe590e608d823380e8e7ccdaba54062" id="r_abfe590e608d823380e8e7ccdaba54062"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfe590e608d823380e8e7ccdaba54062">sbgl_LogSetLevel</a> (<a class="el" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a> minLevel)</td></tr>
+<tr class="separator:abfe590e608d823380e8e7ccdaba54062"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43480486bd7ca07571d5e3af67bf8b41" id="r_a43480486bd7ca07571d5e3af67bf8b41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43480486bd7ca07571d5e3af67bf8b41">sbgl_LogSetOutput</a> (const char *path)</td></tr>
+<tr class="separator:a43480486bd7ca07571d5e3af67bf8b41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f86c37793787094e8b233211d90b839" id="r_a8f86c37793787094e8b233211d90b839"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f86c37793787094e8b233211d90b839">sbgl_LogSetFileRotation</a> (uint32_t maxFiles, size_t maxSize)</td></tr>
+<tr class="separator:a8f86c37793787094e8b233211d90b839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb27b3ab8eefc348a44a12e0331c4eca" id="r_abb27b3ab8eefc348a44a12e0331c4eca"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb27b3ab8eefc348a44a12e0331c4eca">sbgl_ResultToString</a> (int result)</td></tr>
+<tr class="separator:abb27b3ab8eefc348a44a12e0331c4eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff1891eb64cee1317ceade0f1c929c90" id="r_aff1891eb64cee1317ceade0f1c929c90"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff1891eb64cee1317ceade0f1c929c90">sbgl_VkResultToString</a> (int32_t vkResult)</td></tr>
+<tr class="separator:aff1891eb64cee1317ceade0f1c929c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a9726a4c18a83edbc85ce16bf85858606" name="a9726a4c18a83edbc85ce16bf85858606"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9726a4c18a83edbc85ce16bf85858606">&#9670;&#160;</a></span>sbgl_log_impl</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define sbgl_log_impl</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>category</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>msg</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_function" href="#aa8406982ba6c81be2c77b71146b60667">sbgl_internal_log_impl</a>(level, category, __FILE__, __LINE__, __func__, msg)</div>
+<div class="ttc" id="asbgl__internal__log_8h_html_aa8406982ba6c81be2c77b71146b60667"><div class="ttname"><a href="#aa8406982ba6c81be2c77b71146b60667">sbgl_internal_log_impl</a></div><div class="ttdeci">void sbgl_internal_log_impl(sbgl_LogLevel level, sbgl_LogCategory category, const char *file, int line, const char *function, const char *message)</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00116">sbgl_log.c:116</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sbgl__internal__log_8h_source.html#l00052">52</a> of file <a class="el" href="sbgl__internal__log_8h_source.html">sbgl_internal_log.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span><span class="preprocessor">#define sbgl_log_impl(level, category, msg) \</span></div>
+<div class="line"><span class="lineno">   53</span><span class="preprocessor">    sbgl_internal_log_impl(level, category, __FILE__, __LINE__, __func__, msg)</span></div>
+</div><!-- fragment -->
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a5e4827e5d649b33060e2e4861b11ea98" name="a5e4827e5d649b33060e2e4861b11ea98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e4827e5d649b33060e2e4861b11ea98">&#9670;&#160;</a></span>sbgl_LogCategory</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98">sbgl_LogCategory</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Logging categories for component filtering. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5e4827e5d649b33060e2e4861b11ea98acb383f008a06448bca25e39584e0aa06" name="a5e4827e5d649b33060e2e4861b11ea98acb383f008a06448bca25e39584e0aa06"></a>SBGL_LOG_CAT_CORE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5e4827e5d649b33060e2e4861b11ea98a33a08c20bacb5c646d881b07d60a92bb" name="a5e4827e5d649b33060e2e4861b11ea98a33a08c20bacb5c646d881b07d60a92bb"></a>SBGL_LOG_CAT_PLATFORM&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5e4827e5d649b33060e2e4861b11ea98ac91f2d79fecac73789f574472b075f40" name="a5e4827e5d649b33060e2e4861b11ea98ac91f2d79fecac73789f574472b075f40"></a>SBGL_LOG_CAT_GFX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5e4827e5d649b33060e2e4861b11ea98a6ac540880ad4dbfc47cf62e38f2234bd" name="a5e4827e5d649b33060e2e4861b11ea98a6ac540880ad4dbfc47cf62e38f2234bd"></a>SBGL_LOG_CAT_INPUT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5e4827e5d649b33060e2e4861b11ea98acfc070895e5a833e1dbc8641f7d50643" name="a5e4827e5d649b33060e2e4861b11ea98acfc070895e5a833e1dbc8641f7d50643"></a>SBGL_LOG_CAT_VOXEL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5e4827e5d649b33060e2e4861b11ea98aba1cd02b0b1e85846ce62e1029c9c37d" name="a5e4827e5d649b33060e2e4861b11ea98aba1cd02b0b1e85846ce62e1029c9c37d"></a>SBGL_LOG_CAT_COUNT&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="sbgl__internal__log_8h_source.html#l00022">22</a> of file <a class="el" href="sbgl__internal__log_8h_source.html">sbgl_internal_log.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>             {</div>
+<div class="line"><span class="lineno">   23</span>  <a class="code hl_enumvalue" href="#a5e4827e5d649b33060e2e4861b11ea98acb383f008a06448bca25e39584e0aa06">SBGL_LOG_CAT_CORE</a> = 0,</div>
+<div class="line"><span class="lineno">   24</span>  <a class="code hl_enumvalue" href="#a5e4827e5d649b33060e2e4861b11ea98a33a08c20bacb5c646d881b07d60a92bb">SBGL_LOG_CAT_PLATFORM</a> = 1,</div>
+<div class="line"><span class="lineno">   25</span>  <a class="code hl_enumvalue" href="#a5e4827e5d649b33060e2e4861b11ea98ac91f2d79fecac73789f574472b075f40">SBGL_LOG_CAT_GFX</a> = 2,</div>
+<div class="line"><span class="lineno">   26</span>  <a class="code hl_enumvalue" href="#a5e4827e5d649b33060e2e4861b11ea98a6ac540880ad4dbfc47cf62e38f2234bd">SBGL_LOG_CAT_INPUT</a> = 3,</div>
+<div class="line"><span class="lineno">   27</span>  <a class="code hl_enumvalue" href="#a5e4827e5d649b33060e2e4861b11ea98acfc070895e5a833e1dbc8641f7d50643">SBGL_LOG_CAT_VOXEL</a> = 4,</div>
+<div class="line"><span class="lineno">   28</span>  <a class="code hl_enumvalue" href="#a5e4827e5d649b33060e2e4861b11ea98aba1cd02b0b1e85846ce62e1029c9c37d">SBGL_LOG_CAT_COUNT</a> = 5,</div>
+<div class="line"><span class="lineno">   29</span>} <a class="code hl_enumeration" href="#a5e4827e5d649b33060e2e4861b11ea98">sbgl_LogCategory</a>;</div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a5e4827e5d649b33060e2e4861b11ea98"><div class="ttname"><a href="#a5e4827e5d649b33060e2e4861b11ea98">sbgl_LogCategory</a></div><div class="ttdeci">sbgl_LogCategory</div><div class="ttdoc">Logging categories for component filtering.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00022">sbgl_internal_log.h:22</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a5e4827e5d649b33060e2e4861b11ea98a33a08c20bacb5c646d881b07d60a92bb"><div class="ttname"><a href="#a5e4827e5d649b33060e2e4861b11ea98a33a08c20bacb5c646d881b07d60a92bb">SBGL_LOG_CAT_PLATFORM</a></div><div class="ttdeci">@ SBGL_LOG_CAT_PLATFORM</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00024">sbgl_internal_log.h:24</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a5e4827e5d649b33060e2e4861b11ea98a6ac540880ad4dbfc47cf62e38f2234bd"><div class="ttname"><a href="#a5e4827e5d649b33060e2e4861b11ea98a6ac540880ad4dbfc47cf62e38f2234bd">SBGL_LOG_CAT_INPUT</a></div><div class="ttdeci">@ SBGL_LOG_CAT_INPUT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00026">sbgl_internal_log.h:26</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a5e4827e5d649b33060e2e4861b11ea98aba1cd02b0b1e85846ce62e1029c9c37d"><div class="ttname"><a href="#a5e4827e5d649b33060e2e4861b11ea98aba1cd02b0b1e85846ce62e1029c9c37d">SBGL_LOG_CAT_COUNT</a></div><div class="ttdeci">@ SBGL_LOG_CAT_COUNT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00028">sbgl_internal_log.h:28</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a5e4827e5d649b33060e2e4861b11ea98ac91f2d79fecac73789f574472b075f40"><div class="ttname"><a href="#a5e4827e5d649b33060e2e4861b11ea98ac91f2d79fecac73789f574472b075f40">SBGL_LOG_CAT_GFX</a></div><div class="ttdeci">@ SBGL_LOG_CAT_GFX</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00025">sbgl_internal_log.h:25</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a5e4827e5d649b33060e2e4861b11ea98acb383f008a06448bca25e39584e0aa06"><div class="ttname"><a href="#a5e4827e5d649b33060e2e4861b11ea98acb383f008a06448bca25e39584e0aa06">SBGL_LOG_CAT_CORE</a></div><div class="ttdeci">@ SBGL_LOG_CAT_CORE</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00023">sbgl_internal_log.h:23</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a5e4827e5d649b33060e2e4861b11ea98acfc070895e5a833e1dbc8641f7d50643"><div class="ttname"><a href="#a5e4827e5d649b33060e2e4861b11ea98acfc070895e5a833e1dbc8641f7d50643">SBGL_LOG_CAT_VOXEL</a></div><div class="ttdeci">@ SBGL_LOG_CAT_VOXEL</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00027">sbgl_internal_log.h:27</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a7068b7feb6429671f046f3efa536ad26" name="a7068b7feb6429671f046f3efa536ad26"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7068b7feb6429671f046f3efa536ad26">&#9670;&#160;</a></span>sbgl_LogLevel</h2>
 
@@ -154,40 +285,63 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Internal logging level. </p>
+<p>Logging severity levels. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721" name="a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721"></a>SBGL_LOG_INFO&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7068b7feb6429671f046f3efa536ad26af74cccef9662080afaa1daaa6e27675a" name="a7068b7feb6429671f046f3efa536ad26af74cccef9662080afaa1daaa6e27675a"></a>SBGL_LOG_DEBUG&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721" name="a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721"></a>SBGL_LOG_INFO&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea" name="a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea"></a>SBGL_LOG_WARN&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9" name="a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9"></a>SBGL_LOG_ERROR&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9" name="a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9"></a>SBGL_LOG_CRITICAL&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__internal__log_8h_source.html#l00008">8</a> of file <a class="el" href="sbgl__internal__log_8h_source.html">sbgl_internal_log.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    8</span>             {</div>
-<div class="line"><span class="lineno">    9</span>    <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">SBGL_LOG_INFO</a>,</div>
-<div class="line"><span class="lineno">   10</span>    <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">SBGL_LOG_WARN</a>,</div>
-<div class="line"><span class="lineno">   11</span>    <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a>,</div>
-<div class="line"><span class="lineno">   12</span>    <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">SBGL_LOG_CRITICAL</a>,</div>
-<div class="line"><span class="lineno">   13</span>} <a class="code hl_enumeration" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a>;</div>
-<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a></div><div class="ttdeci">sbgl_LogLevel</div><div class="ttdoc">Internal logging level.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00008">sbgl_internal_log.h:8</a></div></div>
-<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">SBGL_LOG_CRITICAL</a></div><div class="ttdeci">@ SBGL_LOG_CRITICAL</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00012">sbgl_internal_log.h:12</a></div></div>
-<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">SBGL_LOG_WARN</a></div><div class="ttdeci">@ SBGL_LOG_WARN</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00010">sbgl_internal_log.h:10</a></div></div>
-<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a></div><div class="ttdeci">@ SBGL_LOG_ERROR</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00011">sbgl_internal_log.h:11</a></div></div>
-<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">SBGL_LOG_INFO</a></div><div class="ttdeci">@ SBGL_LOG_INFO</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00009">sbgl_internal_log.h:9</a></div></div>
+<p class="definition">Definition at line <a class="el" href="sbgl__internal__log_8h_source.html#l00011">11</a> of file <a class="el" href="sbgl__internal__log_8h_source.html">sbgl_internal_log.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>             {</div>
+<div class="line"><span class="lineno">   12</span>  <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26af74cccef9662080afaa1daaa6e27675a">SBGL_LOG_DEBUG</a> = 0,</div>
+<div class="line"><span class="lineno">   13</span>  <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">SBGL_LOG_INFO</a> = 1,</div>
+<div class="line"><span class="lineno">   14</span>  <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">SBGL_LOG_WARN</a> = 2,</div>
+<div class="line"><span class="lineno">   15</span>  <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a> = 3,</div>
+<div class="line"><span class="lineno">   16</span>  <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">SBGL_LOG_CRITICAL</a> = 4,</div>
+<div class="line"><span class="lineno">   17</span>} <a class="code hl_enumeration" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a>;</div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a></div><div class="ttdeci">sbgl_LogLevel</div><div class="ttdoc">Logging severity levels.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00011">sbgl_internal_log.h:11</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">SBGL_LOG_CRITICAL</a></div><div class="ttdeci">@ SBGL_LOG_CRITICAL</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00016">sbgl_internal_log.h:16</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">SBGL_LOG_WARN</a></div><div class="ttdeci">@ SBGL_LOG_WARN</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00014">sbgl_internal_log.h:14</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a></div><div class="ttdeci">@ SBGL_LOG_ERROR</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00015">sbgl_internal_log.h:15</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">SBGL_LOG_INFO</a></div><div class="ttdeci">@ SBGL_LOG_INFO</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00013">sbgl_internal_log.h:13</a></div></div>
+<div class="ttc" id="asbgl__internal__log_8h_html_a7068b7feb6429671f046f3efa536ad26af74cccef9662080afaa1daaa6e27675a"><div class="ttname"><a href="#a7068b7feb6429671f046f3efa536ad26af74cccef9662080afaa1daaa6e27675a">SBGL_LOG_DEBUG</a></div><div class="ttdeci">@ SBGL_LOG_DEBUG</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00012">sbgl_internal_log.h:12</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a88916e243e9b4f55dad6f65b9e990cee" name="a88916e243e9b4f55dad6f65b9e990cee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88916e243e9b4f55dad6f65b9e990cee">&#9670;&#160;</a></span>sbgl_internal_log()</h2>
+<a id="aa8406982ba6c81be2c77b71146b60667" name="aa8406982ba6c81be2c77b71146b60667"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8406982ba6c81be2c77b71146b60667">&#9670;&#160;</a></span>sbgl_internal_log_impl()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sbgl_internal_log </td>
+          <td class="memname">void sbgl_internal_log_impl </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a></td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a5e4827e5d649b33060e2e4861b11ea98">sbgl_LogCategory</a></td>          <td class="paramname"><span class="paramname"><em>category</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>file</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>function</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -197,26 +351,200 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Internal logging level. </p>
-<p>By using strings instead of formatter (printf), we keep the core logic extremely lean. </p>
+<p class="definition">Definition at line <a class="el" href="sbgl__log_8c_source.html#l00116">116</a> of file <a class="el" href="sbgl__log_8c_source.html">sbgl_log.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  123</span>  {</div>
+<div class="line"><span class="lineno">  124</span>  <span class="keywordflow">if</span> (level &lt; <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#ab53c7d2847e7406b19b571ad0da3b035">minLevel</a>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  125</span>  <span class="keywordflow">if</span> (!((1u &lt;&lt; category) &amp; <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#abf3a56a5a342c5cc8e1a3d2c03558dca">categoryMask</a>)) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>  time_t now = time(NULL);</div>
+<div class="line"><span class="lineno">  128</span>  <span class="keyword">struct </span>tm* tm_info = localtime(&amp;now);</div>
+<div class="line"><span class="lineno">  129</span>  <span class="keywordtype">char</span> time_buf[32];</div>
+<div class="line"><span class="lineno">  130</span>  strftime(time_buf, <span class="keyword">sizeof</span>(time_buf), <span class="stringliteral">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, tm_info);</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>  <span class="keywordtype">char</span> out[1024];</div>
+<div class="line"><span class="lineno">  133</span>  <span class="keywordtype">int</span> len = snprintf(out, <span class="keyword">sizeof</span>(out), <span class="stringliteral">&quot;[%s] [%s] [%s] %s:%d (%s): %s\n&quot;</span>,</div>
+<div class="line"><span class="lineno">  134</span>    time_buf,</div>
+<div class="line"><span class="lineno">  135</span>    <a class="code hl_variable" href="sbgl__log_8c.html#a3c28d4a33f3ac2df9e3755241cbd244f">level_strings</a>[level],</div>
+<div class="line"><span class="lineno">  136</span>    <a class="code hl_variable" href="sbgl__log_8c.html#aae65efc8c32ede8a88529a68ac68ced4">category_strings</a>[category],</div>
+<div class="line"><span class="lineno">  137</span>    file,</div>
+<div class="line"><span class="lineno">  138</span>    line,</div>
+<div class="line"><span class="lineno">  139</span>    function,</div>
+<div class="line"><span class="lineno">  140</span>    message</div>
+<div class="line"><span class="lineno">  141</span>  );</div>
+<div class="line"><span class="lineno">  142</span> </div>
+<div class="line"><span class="lineno">  143</span>  <span class="keywordflow">if</span> (len &lt; 0) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#aa29b8cf4925332f90e6d5d6441fea095">fileEnabled</a>) {</div>
+<div class="line"><span class="lineno">  146</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>) {</div>
+<div class="line"><span class="lineno">  147</span>      <a class="code hl_function" href="sbgl__log_8c.html#a70ac99a5565684fd39c1b27bb0af50c8">open_log_file</a>();</div>
+<div class="line"><span class="lineno">  148</span>    }</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>) {</div>
+<div class="line"><span class="lineno">  151</span>      <span class="keywordflow">if</span> (ftell(<a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>) &gt; (<span class="keywordtype">long</span>)<a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#a27277cca8efffb9408035c4381412ded">maxFileSize</a>) {</div>
+<div class="line"><span class="lineno">  152</span>        <a class="code hl_function" href="sbgl__log_8c.html#a9249823bd3120016c23778b634d8c818">rotate_logs</a>();</div>
+<div class="line"><span class="lineno">  153</span>        <a class="code hl_function" href="sbgl__log_8c.html#a70ac99a5565684fd39c1b27bb0af50c8">open_log_file</a>();</div>
+<div class="line"><span class="lineno">  154</span>      }</div>
+<div class="line"><span class="lineno">  155</span> </div>
+<div class="line"><span class="lineno">  156</span>      <span class="keywordflow">if</span> (<a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>) {</div>
+<div class="line"><span class="lineno">  157</span>        fwrite(out, 1, len, <a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>);</div>
+<div class="line"><span class="lineno">  158</span>        fflush(<a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>);</div>
+<div class="line"><span class="lineno">  159</span>      }</div>
+<div class="line"><span class="lineno">  160</span>    }</div>
+<div class="line"><span class="lineno">  161</span>  }</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>  FILE* dst = (level &gt;= <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a>) ? stderr : stdout;</div>
+<div class="line"><span class="lineno">  164</span>  fwrite(out, 1, len, dst);</div>
+<div class="line"><span class="lineno">  165</span>}</div>
+<div class="ttc" id="asbgl__log_8c_html_a3c28d4a33f3ac2df9e3755241cbd244f"><div class="ttname"><a href="sbgl__log_8c.html#a3c28d4a33f3ac2df9e3755241cbd244f">level_strings</a></div><div class="ttdeci">static const char * level_strings[]</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00068">sbgl_log.c:68</a></div></div>
+<div class="ttc" id="asbgl__log_8c_html_a70ac99a5565684fd39c1b27bb0af50c8"><div class="ttname"><a href="sbgl__log_8c.html#a70ac99a5565684fd39c1b27bb0af50c8">open_log_file</a></div><div class="ttdeci">static void open_log_file(void)</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00105">sbgl_log.c:105</a></div></div>
+<div class="ttc" id="asbgl__log_8c_html_a7d906e98e15214d43c79696cf8dbc6c9"><div class="ttname"><a href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a></div><div class="ttdeci">static sbgl_LogConfig s_config</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00008">sbgl_log.c:8</a></div></div>
+<div class="ttc" id="asbgl__log_8c_html_a9249823bd3120016c23778b634d8c818"><div class="ttname"><a href="sbgl__log_8c.html#a9249823bd3120016c23778b634d8c818">rotate_logs</a></div><div class="ttdeci">static void rotate_logs(void)</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00084">sbgl_log.c:84</a></div></div>
+<div class="ttc" id="asbgl__log_8c_html_aab90ecaacd08c49fb56f5a05475fe29e"><div class="ttname"><a href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a></div><div class="ttdeci">static FILE * s_file</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00017">sbgl_log.c:17</a></div></div>
+<div class="ttc" id="asbgl__log_8c_html_aae65efc8c32ede8a88529a68ac68ced4"><div class="ttname"><a href="sbgl__log_8c.html#aae65efc8c32ede8a88529a68ac68ced4">category_strings</a></div><div class="ttdeci">static const char * category_strings[]</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00076">sbgl_log.c:76</a></div></div>
+<div class="ttc" id="astructsbgl__LogConfig_html_a27277cca8efffb9408035c4381412ded"><div class="ttname"><a href="structsbgl__LogConfig.html#a27277cca8efffb9408035c4381412ded">sbgl_LogConfig::maxFileSize</a></div><div class="ttdeci">size_t maxFileSize</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00040">sbgl_internal_log.h:40</a></div></div>
+<div class="ttc" id="astructsbgl__LogConfig_html_aa29b8cf4925332f90e6d5d6441fea095"><div class="ttname"><a href="structsbgl__LogConfig.html#aa29b8cf4925332f90e6d5d6441fea095">sbgl_LogConfig::fileEnabled</a></div><div class="ttdeci">bool fileEnabled</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00037">sbgl_internal_log.h:37</a></div></div>
+<div class="ttc" id="astructsbgl__LogConfig_html_ab53c7d2847e7406b19b571ad0da3b035"><div class="ttname"><a href="structsbgl__LogConfig.html#ab53c7d2847e7406b19b571ad0da3b035">sbgl_LogConfig::minLevel</a></div><div class="ttdeci">sbgl_LogLevel minLevel</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00035">sbgl_internal_log.h:35</a></div></div>
+<div class="ttc" id="astructsbgl__LogConfig_html_abf3a56a5a342c5cc8e1a3d2c03558dca"><div class="ttname"><a href="structsbgl__LogConfig.html#abf3a56a5a342c5cc8e1a3d2c03558dca">sbgl_LogConfig::categoryMask</a></div><div class="ttdeci">uint32_t categoryMask</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00036">sbgl_internal_log.h:36</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a8f86c37793787094e8b233211d90b839" name="a8f86c37793787094e8b233211d90b839"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f86c37793787094e8b233211d90b839">&#9670;&#160;</a></span>sbgl_LogSetFileRotation()</h2>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__log_8c_source.html#l00004">4</a> of file <a class="el" href="sbgl__log_8c_source.html">sbgl_log.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    4</span>                                                                 {</div>
-<div class="line"><span class="lineno">    5</span>    <span class="keywordflow">switch</span> (level) {</div>
-<div class="line"><span class="lineno">    6</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26ad541d162e56518745e1007befd5f3721">SBGL_LOG_INFO</a>:</div>
-<div class="line"><span class="lineno">    7</span>        printf(<span class="stringliteral">&quot;[SBGL INFO]: %s\n&quot;</span>, message);</div>
-<div class="line"><span class="lineno">    8</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">    9</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a0bccb97fe36c4d87410c6940d96ea4ea">SBGL_LOG_WARN</a>:</div>
-<div class="line"><span class="lineno">   10</span>        fprintf(stderr, <span class="stringliteral">&quot;[SBGL WARN]: %s\n&quot;</span>, message);</div>
-<div class="line"><span class="lineno">   11</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   12</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a5a4e5fec1454275f7ec6a717f8da3bf9">SBGL_LOG_ERROR</a>:</div>
-<div class="line"><span class="lineno">   13</span>        fprintf(stderr, <span class="stringliteral">&quot;[SBGL ERROR]: %s\n&quot;</span>, message);</div>
-<div class="line"><span class="lineno">   14</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   15</span>    <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a7068b7feb6429671f046f3efa536ad26a04f4b4cafec5b29e3537ca6752abd4b9">SBGL_LOG_CRITICAL</a>:</div>
-<div class="line"><span class="lineno">   16</span>        fprintf(stderr, <span class="stringliteral">&quot;[SBGL CRITICAL]: %s\n&quot;</span>, message);</div>
-<div class="line"><span class="lineno">   17</span>        <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   18</span>    }</div>
-<div class="line"><span class="lineno">   19</span>}</div>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sbgl_LogSetFileRotation </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>maxFiles</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>maxSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__log_8c_source.html#l00186">186</a> of file <a class="el" href="sbgl__log_8c_source.html">sbgl_log.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  186</span>                                                                    {</div>
+<div class="line"><span class="lineno">  187</span>  <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#aad208b0818630a2f30c810aed2ebd30c">maxFiles</a> = maxFiles;</div>
+<div class="line"><span class="lineno">  188</span>  <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#a27277cca8efffb9408035c4381412ded">maxFileSize</a> = maxFileSize;</div>
+<div class="line"><span class="lineno">  189</span>}</div>
+<div class="ttc" id="astructsbgl__LogConfig_html_aad208b0818630a2f30c810aed2ebd30c"><div class="ttname"><a href="structsbgl__LogConfig.html#aad208b0818630a2f30c810aed2ebd30c">sbgl_LogConfig::maxFiles</a></div><div class="ttdeci">uint32_t maxFiles</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00039">sbgl_internal_log.h:39</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="abfe590e608d823380e8e7ccdaba54062" name="abfe590e608d823380e8e7ccdaba54062"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfe590e608d823380e8e7ccdaba54062">&#9670;&#160;</a></span>sbgl_LogSetLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sbgl_LogSetLevel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a7068b7feb6429671f046f3efa536ad26">sbgl_LogLevel</a></td>          <td class="paramname"><span class="paramname"><em>minLevel</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__log_8c_source.html#l00167">167</a> of file <a class="el" href="sbgl__log_8c_source.html">sbgl_log.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  167</span>                                              {</div>
+<div class="line"><span class="lineno">  168</span>  <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#ab53c7d2847e7406b19b571ad0da3b035">minLevel</a> = minLevel;</div>
+<div class="line"><span class="lineno">  169</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a43480486bd7ca07571d5e3af67bf8b41" name="a43480486bd7ca07571d5e3af67bf8b41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43480486bd7ca07571d5e3af67bf8b41">&#9670;&#160;</a></span>sbgl_LogSetOutput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sbgl_LogSetOutput </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__log_8c_source.html#l00171">171</a> of file <a class="el" href="sbgl__log_8c_source.html">sbgl_log.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  171</span>                                         {</div>
+<div class="line"><span class="lineno">  172</span>  <span class="keywordflow">if</span> (!path) {</div>
+<div class="line"><span class="lineno">  173</span>    <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#aa29b8cf4925332f90e6d5d6441fea095">fileEnabled</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  174</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>) {</div>
+<div class="line"><span class="lineno">  175</span>      fclose(<a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a>);</div>
+<div class="line"><span class="lineno">  176</span>      <a class="code hl_variable" href="sbgl__log_8c.html#aab90ecaacd08c49fb56f5a05475fe29e">s_file</a> = NULL;</div>
+<div class="line"><span class="lineno">  177</span>    }</div>
+<div class="line"><span class="lineno">  178</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  179</span>  }</div>
+<div class="line"><span class="lineno">  180</span> </div>
+<div class="line"><span class="lineno">  181</span>  <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#aa29b8cf4925332f90e6d5d6441fea095">fileEnabled</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  182</span>  <a class="code hl_variable" href="sbgl__log_8c.html#a7d906e98e15214d43c79696cf8dbc6c9">s_config</a>.<a class="code hl_variable" href="structsbgl__LogConfig.html#a0383d42d34c12b8ad9dc48aee9dbc766">filePath</a> = path;</div>
+<div class="line"><span class="lineno">  183</span>  <a class="code hl_function" href="sbgl__log_8c.html#a70ac99a5565684fd39c1b27bb0af50c8">open_log_file</a>();</div>
+<div class="line"><span class="lineno">  184</span>}</div>
+<div class="ttc" id="astructsbgl__LogConfig_html_a0383d42d34c12b8ad9dc48aee9dbc766"><div class="ttname"><a href="structsbgl__LogConfig.html#a0383d42d34c12b8ad9dc48aee9dbc766">sbgl_LogConfig::filePath</a></div><div class="ttdeci">const char * filePath</div><div class="ttdef"><b>Definition</b> <a href="sbgl__internal__log_8h_source.html#l00038">sbgl_internal_log.h:38</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="abb27b3ab8eefc348a44a12e0331c4eca" name="abb27b3ab8eefc348a44a12e0331c4eca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb27b3ab8eefc348a44a12e0331c4eca">&#9670;&#160;</a></span>sbgl_ResultToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * sbgl_ResultToString </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>result</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__log_8c_source.html#l00191">191</a> of file <a class="el" href="sbgl__log_8c_source.html">sbgl_log.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  191</span>                                            {</div>
+<div class="line"><span class="lineno">  192</span>  <span class="keywordflow">if</span> (result &gt;= 0 &amp;&amp; result &lt; (<span class="keywordtype">int</span>)(<span class="keyword">sizeof</span>(<a class="code hl_variable" href="sbgl__log_8c.html#a928d6bb0014ebd5df30a79c4ab738cf1">SBGL_RESULT_STRINGS</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="sbgl__log_8c.html#a928d6bb0014ebd5df30a79c4ab738cf1">SBGL_RESULT_STRINGS</a>[0]))) {</div>
+<div class="line"><span class="lineno">  193</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="sbgl__log_8c.html#a928d6bb0014ebd5df30a79c4ab738cf1">SBGL_RESULT_STRINGS</a>[result];</div>
+<div class="line"><span class="lineno">  194</span>  }</div>
+<div class="line"><span class="lineno">  195</span>  <span class="keywordflow">return</span> <span class="stringliteral">&quot;SBGL_UNKNOWN_ERROR&quot;</span>;</div>
+<div class="line"><span class="lineno">  196</span>}</div>
+<div class="ttc" id="asbgl__log_8c_html_a928d6bb0014ebd5df30a79c4ab738cf1"><div class="ttname"><a href="sbgl__log_8c.html#a928d6bb0014ebd5df30a79c4ab738cf1">SBGL_RESULT_STRINGS</a></div><div class="ttdeci">static const char *const SBGL_RESULT_STRINGS[]</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00019">sbgl_log.c:19</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aff1891eb64cee1317ceade0f1c929c90" name="aff1891eb64cee1317ceade0f1c929c90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff1891eb64cee1317ceade0f1c929c90">&#9670;&#160;</a></span>sbgl_VkResultToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * sbgl_VkResultToString </td>
+          <td>(</td>
+          <td class="paramtype">int32_t</td>          <td class="paramname"><span class="paramname"><em>vkResult</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="sbgl__log_8c_source.html#l00198">198</a> of file <a class="el" href="sbgl__log_8c_source.html">sbgl_log.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  198</span>                                                    {</div>
+<div class="line"><span class="lineno">  199</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_define" href="sbgl__log_8c.html#a94ca9623f208865d5fa75a74d3a42cfb">VK_RESULT_COUNT</a>; i++) {</div>
+<div class="line"><span class="lineno">  200</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="sbgl__log_8c.html#a0956bee2f9726ed266b69b177bf30f66">VK_RESULT_CODES</a>[i] == vkResult) {</div>
+<div class="line"><span class="lineno">  201</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="sbgl__log_8c.html#a0920723609c6aae33e242bc76c389119">VK_RESULT_STRINGS</a>[i];</div>
+<div class="line"><span class="lineno">  202</span>    }</div>
+<div class="line"><span class="lineno">  203</span>  }</div>
+<div class="line"><span class="lineno">  204</span>  <span class="keywordflow">return</span> <span class="stringliteral">&quot;VK_UNKNOWN&quot;</span>;</div>
+<div class="line"><span class="lineno">  205</span>}</div>
+<div class="ttc" id="asbgl__log_8c_html_a0920723609c6aae33e242bc76c389119"><div class="ttname"><a href="sbgl__log_8c.html#a0920723609c6aae33e242bc76c389119">VK_RESULT_STRINGS</a></div><div class="ttdeci">static const char *const VK_RESULT_STRINGS[]</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00042">sbgl_log.c:42</a></div></div>
+<div class="ttc" id="asbgl__log_8c_html_a0956bee2f9726ed266b69b177bf30f66"><div class="ttname"><a href="sbgl__log_8c.html#a0956bee2f9726ed266b69b177bf30f66">VK_RESULT_CODES</a></div><div class="ttdeci">static const int32_t VK_RESULT_CODES[]</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00036">sbgl_log.c:36</a></div></div>
+<div class="ttc" id="asbgl__log_8c_html_a94ca9623f208865d5fa75a74d3a42cfb"><div class="ttname"><a href="sbgl__log_8c.html#a94ca9623f208865d5fa75a74d3a42cfb">VK_RESULT_COUNT</a></div><div class="ttdeci">#define VK_RESULT_COUNT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__log_8c_source.html#l00035">sbgl_log.c:35</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

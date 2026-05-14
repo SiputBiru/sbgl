@@ -1,7 +1,9 @@
 <map id="src/core/sbgl_internal_log.h" name="src/core/sbgl_internal_log.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="80,5,226,46"/>
-<area shape="rect" id="Node000002" href="$sbgl__core_8c.html" title=" " alt="" coords="5,94,144,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,59,89,95,85,92,121,55"/>
-<area shape="rect" id="Node000003" href="$sbgl__log_8c.html" title=" " alt="" coords="168,94,298,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,55,223,91,219,95,182,59"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="202,5,348,46"/>
+<area shape="rect" id="Node000002" href="$sbgl__backend__vulkan_8c.html" title=" " alt="" coords="5,94,182,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,55,136,96,133,91,219,51"/>
+<area shape="rect" id="Node000003" href="$sbgl__core_8c.html" title=" " alt="" coords="206,102,344,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="278,62,278,101,272,101,272,62"/>
+<area shape="rect" id="Node000004" href="$sbgl__log_8c.html" title=" " alt="" coords="368,102,499,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="325,51,413,99,410,103,323,56"/>
 </map>

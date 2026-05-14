@@ -1,6 +1,6 @@
 var sbgl__platform_8h =
 [
-    [ "sbgl_os_CreateWindow", "sbgl__platform_8h.html#a785147a0a26609dfa77914c215b60a81", null ],
+    [ "sbgl_os_CreateWindow", "sbgl__platform_8h.html#a9c1b6a437ea040e2923c556a953eab20", null ],
     [ "sbgl_os_DestroyWindow", "sbgl__platform_8h.html#ada47263d5dbeeccecb9f8291a7fd8853", null ],
     [ "sbgl_os_GetNativeDisplayHandle", "sbgl__platform_8h.html#acd6374bef13b44bfe96bd738fe6beeba", null ],
     [ "sbgl_os_GetNativeInstanceHandle", "sbgl__platform_8h.html#acdbcacdf0da5cc0623384487f1182258", null ],

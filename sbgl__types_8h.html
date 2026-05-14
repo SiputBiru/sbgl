@@ -243,6 +243,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__PipelineConfig.html">sbgl_PipelineConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for creating a graphics pipeline.  <a href="structsbgl__PipelineConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__ErrorDetail.html">sbgl_ErrorDetail</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detailed error information for debugging.  <a href="structsbgl__ErrorDetail.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__Context.html">sbgl_Context</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engine context.  <a href="structsbgl__Context.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -381,16 +384,36 @@ Enumerations</h2></td></tr>
 <tr class="separator:a043ef94c9c5cb5b2f9ef8a114c820aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5db06e881d2a1abea794560f03ca465d" id="r_a5db06e881d2a1abea794560f03ca465d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5db06e881d2a1abea794560f03ca465d">sbgl_Result</a> { <br />
 &#160;&#160;<a class="el" href="#a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3">SBGL_SUCCESS</a> = 0
-, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39">SBGL_ERROR_INITIALIZATION_FAILED</a> = 1
-, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac">SBGL_ERROR_WINDOW_CREATION_FAILED</a> = 2
-, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36">SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED</a> = 3
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa">SBGL_ERROR_NULL_CONTEXT</a> = 1
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda">SBGL_ERROR_INVALID_ARGUMENT</a> = 2
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39">SBGL_ERROR_INITIALIZATION_FAILED</a> = 3
 , <br />
-&#160;&#160;<a class="el" href="#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398">SBGL_ERROR_OUT_OF_MEMORY</a> = 4
-, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357">SBGL_ERROR_DEVICE_BUSY</a> = 5
+&#160;&#160;<a class="el" href="#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac">SBGL_ERROR_WINDOW_CREATION_FAILED</a> = 4
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0">SBGL_ERROR_GRAPHICS_FAILED</a> = 5
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398">SBGL_ERROR_OUT_OF_MEMORY</a> = 6
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357">SBGL_ERROR_DEVICE_BUSY</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="#a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb">SBGL_ERROR_INVALID_HANDLE</a> = 8
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a">SBGL_ERROR_SWAPCHAIN_FAILED</a> = 9
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed">SBGL_ERROR_SHADER_FAILED</a> = 10
+, <a class="el" href="#a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded">SBGL_ERROR_PIPELINE_FAILED</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="#a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c">SBGL_ERROR_PLATFORM_FAILED</a> = 12
 <br />
  }</td></tr>
 <tr class="memdesc:a5db06e881d2a1abea794560f03ca465d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result codes for engine operations.  <a href="#a5db06e881d2a1abea794560f03ca465d">More...</a><br /></td></tr>
 <tr class="separator:a5db06e881d2a1abea794560f03ca465d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3038e3bcf31e9d2bd153ad379c588568" id="r_a3038e3bcf31e9d2bd153ad379c588568"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3038e3bcf31e9d2bd153ad379c588568">sbgl_platform_Result</a> { <a class="el" href="#a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703">SBGL_PLATFORM_SUCCESS</a> = 0
+, <a class="el" href="#a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9">SBGL_PLATFORM_ERROR_WINDOW_FAILED</a> = 1
+, <a class="el" href="#a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2">SBGL_PLATFORM_ERROR_NO_DISPLAY</a> = 2
+, <a class="el" href="#a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59">SBGL_PLATFORM_ERROR_INIT_FAILED</a> = 3
+ }</td></tr>
+<tr class="memdesc:a3038e3bcf31e9d2bd153ad379c588568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result codes for platform layer operations.  <a href="#a3038e3bcf31e9d2bd153ad379c588568">More...</a><br /></td></tr>
+<tr class="separator:a3038e3bcf31e9d2bd153ad379c588568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acad6a17b25b8417230a36ccf6c039127" id="r_acad6a17b25b8417230a36ccf6c039127"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acad6a17b25b8417230a36ccf6c039127">sbgl_BackendType</a> { <a class="el" href="#acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db">SBGL_BACKEND_VULKAN</a> = 0
+ }</td></tr>
+<tr class="memdesc:acad6a17b25b8417230a36ccf6c039127"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backend types supported by the engine.  <a href="#acad6a17b25b8417230a36ccf6c039127">More...</a><br /></td></tr>
+<tr class="separator:acad6a17b25b8417230a36ccf6c039127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a1e7fd49b8745d6b0b93a198ab18dc439" name="a1e7fd49b8745d6b0b93a198ab18dc439"></a>
@@ -411,7 +434,7 @@ Enumerations</h2></td></tr>
 <div class="line">  .limits = { .maxBuffers = 1024, .maxShaders = 256, .maxPipelines = 256 }, \</div>
 <div class="line">  .enableValidation = <span class="keyword">true</span> \</div>
 <div class="line">})</div>
-<div class="ttc" id="astructsbgl__InitConfig_html"><div class="ttname"><a href="structsbgl__InitConfig.html">sbgl_InitConfig</a></div><div class="ttdoc">Configuration for engine initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00271">sbgl_types.h:271</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html"><div class="ttname"><a href="structsbgl__InitConfig.html">sbgl_InitConfig</a></div><div class="ttdoc">Configuration for engine initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00308">sbgl_types.h:308</a></div></div>
 </div><!-- fragment -->
 <p>Default initialization configuration values. </p>
 <p>Use this as a starting point for custom configurations: </p><div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__InitConfig.html">sbgl_InitConfig</a> config = <a class="code hl_define" href="#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a>;</div>
@@ -419,22 +442,22 @@ Enumerations</h2></td></tr>
 <div class="line">config.<a class="code hl_variable" href="structsbgl__InitConfig.html#aa73dc13c0e3630f9c03a6ab4c683cda1">windowHeight</a> = 1080;</div>
 <div class="line">config.<a class="code hl_variable" href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">limits</a>.<a class="code hl_variable" href="structsbgl__ResourceLimits.html#afc1d539ac0d196fd721045f4cbf146d1">maxBuffers</a> = 4096;</div>
 <div class="line"><a class="code hl_struct" href="structsbgl__InitResult.html">sbgl_InitResult</a> res = <a class="code hl_function" href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a>(&amp;config);</div>
-<div class="ttc" id="asbgl_8h_html_a4cff7c0f32f61c8dd92b73a9254f95b6"><div class="ttname"><a href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a></div><div class="ttdeci">sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig *config)</div><div class="ttdoc">Initializes the engine and opens a window with explicit configuration.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00069">sbgl_core.c:69</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a1e7fd49b8745d6b0b93a198ab18dc439"><div class="ttname"><a href="#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a></div><div class="ttdeci">#define sbgl_DefaultInitConfig</div><div class="ttdoc">Default initialization configuration values.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00291">sbgl_types.h:291</a></div></div>
-<div class="ttc" id="astructsbgl__InitConfig_html_a43f46f49f33b17003e7ef14726e006c0"><div class="ttname"><a href="structsbgl__InitConfig.html#a43f46f49f33b17003e7ef14726e006c0">sbgl_InitConfig::windowWidth</a></div><div class="ttdeci">uint32_t windowWidth</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00272">sbgl_types.h:272</a></div></div>
-<div class="ttc" id="astructsbgl__InitConfig_html_a525b118ce2bda49058b0412c34178752"><div class="ttname"><a href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">sbgl_InitConfig::limits</a></div><div class="ttdeci">sbgl_ResourceLimits limits</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00275">sbgl_types.h:275</a></div></div>
-<div class="ttc" id="astructsbgl__InitConfig_html_aa73dc13c0e3630f9c03a6ab4c683cda1"><div class="ttname"><a href="structsbgl__InitConfig.html#aa73dc13c0e3630f9c03a6ab4c683cda1">sbgl_InitConfig::windowHeight</a></div><div class="ttdeci">uint32_t windowHeight</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00273">sbgl_types.h:273</a></div></div>
-<div class="ttc" id="astructsbgl__InitResult_html"><div class="ttname"><a href="structsbgl__InitResult.html">sbgl_InitResult</a></div><div class="ttdoc">Result structure for initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00302">sbgl_types.h:302</a></div></div>
-<div class="ttc" id="astructsbgl__ResourceLimits_html_afc1d539ac0d196fd721045f4cbf146d1"><div class="ttname"><a href="structsbgl__ResourceLimits.html#afc1d539ac0d196fd721045f4cbf146d1">sbgl_ResourceLimits::maxBuffers</a></div><div class="ttdeci">uint32_t maxBuffers</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00260">sbgl_types.h:260</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a4cff7c0f32f61c8dd92b73a9254f95b6"><div class="ttname"><a href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a></div><div class="ttdeci">sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig *config)</div><div class="ttdoc">Initializes the engine and opens a window with explicit configuration.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00112">sbgl_core.c:112</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a1e7fd49b8745d6b0b93a198ab18dc439"><div class="ttname"><a href="#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a></div><div class="ttdeci">#define sbgl_DefaultInitConfig</div><div class="ttdoc">Default initialization configuration values.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00328">sbgl_types.h:328</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html_a43f46f49f33b17003e7ef14726e006c0"><div class="ttname"><a href="structsbgl__InitConfig.html#a43f46f49f33b17003e7ef14726e006c0">sbgl_InitConfig::windowWidth</a></div><div class="ttdeci">uint32_t windowWidth</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00309">sbgl_types.h:309</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html_a525b118ce2bda49058b0412c34178752"><div class="ttname"><a href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">sbgl_InitConfig::limits</a></div><div class="ttdeci">sbgl_ResourceLimits limits</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00312">sbgl_types.h:312</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html_aa73dc13c0e3630f9c03a6ab4c683cda1"><div class="ttname"><a href="structsbgl__InitConfig.html#aa73dc13c0e3630f9c03a6ab4c683cda1">sbgl_InitConfig::windowHeight</a></div><div class="ttdeci">uint32_t windowHeight</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00310">sbgl_types.h:310</a></div></div>
+<div class="ttc" id="astructsbgl__InitResult_html"><div class="ttname"><a href="structsbgl__InitResult.html">sbgl_InitResult</a></div><div class="ttdoc">Result structure for initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00339">sbgl_types.h:339</a></div></div>
+<div class="ttc" id="astructsbgl__ResourceLimits_html_afc1d539ac0d196fd721045f4cbf146d1"><div class="ttname"><a href="structsbgl__ResourceLimits.html#afc1d539ac0d196fd721045f4cbf146d1">sbgl_ResourceLimits::maxBuffers</a></div><div class="ttdeci">uint32_t maxBuffers</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00297">sbgl_types.h:297</a></div></div>
 </div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00291">291</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  291</span><span class="preprocessor">#define sbgl_DefaultInitConfig ((sbgl_InitConfig){ \</span></div>
-<div class="line"><span class="lineno">  292</span><span class="preprocessor">  .windowWidth = 800, \</span></div>
-<div class="line"><span class="lineno">  293</span><span class="preprocessor">  .windowHeight = 600, \</span></div>
-<div class="line"><span class="lineno">  294</span><span class="preprocessor">  .windowTitle = &quot;SBgl Application&quot;, \</span></div>
-<div class="line"><span class="lineno">  295</span><span class="preprocessor">  .limits = { .maxBuffers = 1024, .maxShaders = 256, .maxPipelines = 256 }, \</span></div>
-<div class="line"><span class="lineno">  296</span><span class="preprocessor">  .enableValidation = true \</span></div>
-<div class="line"><span class="lineno">  297</span><span class="preprocessor">})</span></div>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00328">328</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  328</span><span class="preprocessor">#define sbgl_DefaultInitConfig ((sbgl_InitConfig){ \</span></div>
+<div class="line"><span class="lineno">  329</span><span class="preprocessor">  .windowWidth = 800, \</span></div>
+<div class="line"><span class="lineno">  330</span><span class="preprocessor">  .windowHeight = 600, \</span></div>
+<div class="line"><span class="lineno">  331</span><span class="preprocessor">  .windowTitle = &quot;SBgl Application&quot;, \</span></div>
+<div class="line"><span class="lineno">  332</span><span class="preprocessor">  .limits = { .maxBuffers = 1024, .maxShaders = 256, .maxPipelines = 256 }, \</span></div>
+<div class="line"><span class="lineno">  333</span><span class="preprocessor">  .enableValidation = true \</span></div>
+<div class="line"><span class="lineno">  334</span><span class="preprocessor">})</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -986,11 +1009,37 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00307">307</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00344">344</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="acad6a17b25b8417230a36ccf6c039127" name="acad6a17b25b8417230a36ccf6c039127"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad6a17b25b8417230a36ccf6c039127">&#9670;&#160;</a></span>sbgl_BackendType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#acad6a17b25b8417230a36ccf6c039127">sbgl_BackendType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Backend types supported by the engine. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db" name="acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db"></a>SBGL_BACKEND_VULKAN&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00243">243</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  243</span>             {</div>
+<div class="line"><span class="lineno">  244</span>  <a class="code hl_enumvalue" href="#acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db">SBGL_BACKEND_VULKAN</a> = 0,</div>
+<div class="line"><span class="lineno">  245</span>} <a class="code hl_enumeration" href="#acad6a17b25b8417230a36ccf6c039127">sbgl_BackendType</a>;</div>
+<div class="ttc" id="asbgl__types_8h_html_acad6a17b25b8417230a36ccf6c039127"><div class="ttname"><a href="#acad6a17b25b8417230a36ccf6c039127">sbgl_BackendType</a></div><div class="ttdeci">sbgl_BackendType</div><div class="ttdoc">Backend types supported by the engine.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00243">sbgl_types.h:243</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db"><div class="ttname"><a href="#acad6a17b25b8417230a36ccf6c039127a485934d64c135b3713315630ddd6a1db">SBGL_BACKEND_VULKAN</a></div><div class="ttdeci">@ SBGL_BACKEND_VULKAN</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00244">sbgl_types.h:244</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a9de58aad9f996b2eb33daa6f2e387e62" name="a9de58aad9f996b2eb33daa6f2e387e62"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9de58aad9f996b2eb33daa6f2e387e62">&#9670;&#160;</a></span>sbgl_BarrierType</h2>
 
@@ -1143,6 +1192,41 @@ Enumerations</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a3038e3bcf31e9d2bd153ad379c588568" name="a3038e3bcf31e9d2bd153ad379c588568"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3038e3bcf31e9d2bd153ad379c588568">&#9670;&#160;</a></span>sbgl_platform_Result</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a3038e3bcf31e9d2bd153ad379c588568">sbgl_platform_Result</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Result codes for platform layer operations. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703" name="a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703"></a>SBGL_PLATFORM_SUCCESS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9" name="a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9"></a>SBGL_PLATFORM_ERROR_WINDOW_FAILED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2" name="a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2"></a>SBGL_PLATFORM_ERROR_NO_DISPLAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59" name="a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59"></a>SBGL_PLATFORM_ERROR_INIT_FAILED&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00233">233</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  233</span>             {</div>
+<div class="line"><span class="lineno">  234</span>  <a class="code hl_enumvalue" href="#a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703">SBGL_PLATFORM_SUCCESS</a> = 0,</div>
+<div class="line"><span class="lineno">  235</span>  <a class="code hl_enumvalue" href="#a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9">SBGL_PLATFORM_ERROR_WINDOW_FAILED</a> = 1,</div>
+<div class="line"><span class="lineno">  236</span>  <a class="code hl_enumvalue" href="#a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2">SBGL_PLATFORM_ERROR_NO_DISPLAY</a> = 2,</div>
+<div class="line"><span class="lineno">  237</span>  <a class="code hl_enumvalue" href="#a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59">SBGL_PLATFORM_ERROR_INIT_FAILED</a> = 3,</div>
+<div class="line"><span class="lineno">  238</span>} <a class="code hl_enumeration" href="#a3038e3bcf31e9d2bd153ad379c588568">sbgl_platform_Result</a>;</div>
+<div class="ttc" id="asbgl__types_8h_html_a3038e3bcf31e9d2bd153ad379c588568"><div class="ttname"><a href="#a3038e3bcf31e9d2bd153ad379c588568">sbgl_platform_Result</a></div><div class="ttdeci">sbgl_platform_Result</div><div class="ttdoc">Result codes for platform layer operations.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00233">sbgl_types.h:233</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703"><div class="ttname"><a href="#a3038e3bcf31e9d2bd153ad379c588568a8869dd72accc272949cd28ff4b9f9703">SBGL_PLATFORM_SUCCESS</a></div><div class="ttdeci">@ SBGL_PLATFORM_SUCCESS</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00234">sbgl_types.h:234</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59"><div class="ttname"><a href="#a3038e3bcf31e9d2bd153ad379c588568a9bdbec4f834e44d78d68e3ae3a0b7d59">SBGL_PLATFORM_ERROR_INIT_FAILED</a></div><div class="ttdeci">@ SBGL_PLATFORM_ERROR_INIT_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00237">sbgl_types.h:237</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2"><div class="ttname"><a href="#a3038e3bcf31e9d2bd153ad379c588568aac32aa9735830f3fe95f412112a3dbe2">SBGL_PLATFORM_ERROR_NO_DISPLAY</a></div><div class="ttdeci">@ SBGL_PLATFORM_ERROR_NO_DISPLAY</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00236">sbgl_types.h:236</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9"><div class="ttname"><a href="#a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9">SBGL_PLATFORM_ERROR_WINDOW_FAILED</a></div><div class="ttdeci">@ SBGL_PLATFORM_ERROR_WINDOW_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00235">sbgl_types.h:235</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a5db06e881d2a1abea794560f03ca465d" name="a5db06e881d2a1abea794560f03ca465d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5db06e881d2a1abea794560f03ca465d">&#9670;&#160;</a></span>sbgl_Result</h2>
 
@@ -1158,29 +1242,50 @@ Enumerations</h2></td></tr>
 <p>Result codes for engine operations. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3" name="a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3"></a>SBGL_SUCCESS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa" name="a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa"></a>SBGL_ERROR_NULL_CONTEXT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda" name="a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda"></a>SBGL_ERROR_INVALID_ARGUMENT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39" name="a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39"></a>SBGL_ERROR_INITIALIZATION_FAILED&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac" name="a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac"></a>SBGL_ERROR_WINDOW_CREATION_FAILED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36" name="a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36"></a>SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0" name="a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0"></a>SBGL_ERROR_GRAPHICS_FAILED&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398" name="a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398"></a>SBGL_ERROR_OUT_OF_MEMORY&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357" name="a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357"></a>SBGL_ERROR_DEVICE_BUSY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb" name="a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb"></a>SBGL_ERROR_INVALID_HANDLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a" name="a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a"></a>SBGL_ERROR_SWAPCHAIN_FAILED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed" name="a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed"></a>SBGL_ERROR_SHADER_FAILED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded" name="a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded"></a>SBGL_ERROR_PIPELINE_FAILED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c" name="a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c"></a>SBGL_ERROR_PLATFORM_FAILED&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00214">214</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  214</span>             {</div>
 <div class="line"><span class="lineno">  215</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3">SBGL_SUCCESS</a> = 0,</div>
-<div class="line"><span class="lineno">  216</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39">SBGL_ERROR_INITIALIZATION_FAILED</a> = 1,</div>
-<div class="line"><span class="lineno">  217</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac">SBGL_ERROR_WINDOW_CREATION_FAILED</a> = 2,</div>
-<div class="line"><span class="lineno">  218</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36">SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED</a> = 3,</div>
-<div class="line"><span class="lineno">  219</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398">SBGL_ERROR_OUT_OF_MEMORY</a> = 4,</div>
-<div class="line"><span class="lineno">  220</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357">SBGL_ERROR_DEVICE_BUSY</a> = 5,</div>
-<div class="line"><span class="lineno">  221</span>} <a class="code hl_enumeration" href="#a5db06e881d2a1abea794560f03ca465d">sbgl_Result</a>;</div>
+<div class="line"><span class="lineno">  216</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa">SBGL_ERROR_NULL_CONTEXT</a> = 1,</div>
+<div class="line"><span class="lineno">  217</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda">SBGL_ERROR_INVALID_ARGUMENT</a> = 2,</div>
+<div class="line"><span class="lineno">  218</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39">SBGL_ERROR_INITIALIZATION_FAILED</a> = 3,</div>
+<div class="line"><span class="lineno">  219</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac">SBGL_ERROR_WINDOW_CREATION_FAILED</a> = 4,</div>
+<div class="line"><span class="lineno">  220</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0">SBGL_ERROR_GRAPHICS_FAILED</a> = 5,</div>
+<div class="line"><span class="lineno">  221</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398">SBGL_ERROR_OUT_OF_MEMORY</a> = 6,</div>
+<div class="line"><span class="lineno">  222</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357">SBGL_ERROR_DEVICE_BUSY</a> = 7,</div>
+<div class="line"><span class="lineno">  223</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb">SBGL_ERROR_INVALID_HANDLE</a> = 8,</div>
+<div class="line"><span class="lineno">  224</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a">SBGL_ERROR_SWAPCHAIN_FAILED</a> = 9,</div>
+<div class="line"><span class="lineno">  225</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed">SBGL_ERROR_SHADER_FAILED</a> = 10,</div>
+<div class="line"><span class="lineno">  226</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded">SBGL_ERROR_PIPELINE_FAILED</a> = 11,</div>
+<div class="line"><span class="lineno">  227</span>  <a class="code hl_enumvalue" href="#a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c">SBGL_ERROR_PLATFORM_FAILED</a> = 12,</div>
+<div class="line"><span class="lineno">  228</span>} <a class="code hl_enumeration" href="#a5db06e881d2a1abea794560f03ca465d">sbgl_Result</a>;</div>
 <div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465d"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465d">sbgl_Result</a></div><div class="ttdeci">sbgl_Result</div><div class="ttdoc">Result codes for engine operations.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00214">sbgl_types.h:214</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39">SBGL_ERROR_INITIALIZATION_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_INITIALIZATION_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00216">sbgl_types.h:216</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357">SBGL_ERROR_DEVICE_BUSY</a></div><div class="ttdeci">@ SBGL_ERROR_DEVICE_BUSY</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00220">sbgl_types.h:220</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398">SBGL_ERROR_OUT_OF_MEMORY</a></div><div class="ttdeci">@ SBGL_ERROR_OUT_OF_MEMORY</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00219">sbgl_types.h:219</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da77cef37452cbd9d0429e955f1dcf4c36">SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_GRAPHICS_INITIALIZATION_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00218">sbgl_types.h:218</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da21619ab471276880d7fc791844d64b39">SBGL_ERROR_INITIALIZATION_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_INITIALIZATION_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00218">sbgl_types.h:218</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da35eda926409b83e41f5da8e04e2c5357">SBGL_ERROR_DEVICE_BUSY</a></div><div class="ttdeci">@ SBGL_ERROR_DEVICE_BUSY</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00222">sbgl_types.h:222</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da4d4c8a0ce6a8290d5df3bba529c9c398">SBGL_ERROR_OUT_OF_MEMORY</a></div><div class="ttdeci">@ SBGL_ERROR_OUT_OF_MEMORY</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00221">sbgl_types.h:221</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da527c460b0c849485f780cc4793976d3c">SBGL_ERROR_PLATFORM_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_PLATFORM_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00227">sbgl_types.h:227</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da586a5c4e114bee93c4264bc82ecb8b7a">SBGL_ERROR_SWAPCHAIN_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_SWAPCHAIN_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00224">sbgl_types.h:224</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da6964967201f8e734e949b37bf407dded">SBGL_ERROR_PIPELINE_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_PIPELINE_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00226">sbgl_types.h:226</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da88268a99e90f428ccdff646abdaef6b3">SBGL_SUCCESS</a></div><div class="ttdeci">@ SBGL_SUCCESS</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00215">sbgl_types.h:215</a></div></div>
-<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac">SBGL_ERROR_WINDOW_CREATION_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_WINDOW_CREATION_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00217">sbgl_types.h:217</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465da9691aeca17ee64f558ad7328d3c68bac">SBGL_ERROR_WINDOW_CREATION_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_WINDOW_CREATION_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00219">sbgl_types.h:219</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465daa9d40c3b4bd4c477899550cee2303ff0">SBGL_ERROR_GRAPHICS_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_GRAPHICS_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00220">sbgl_types.h:220</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465dabf5bb0097c5500a229ac74ff8382daed">SBGL_ERROR_SHADER_FAILED</a></div><div class="ttdeci">@ SBGL_ERROR_SHADER_FAILED</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00225">sbgl_types.h:225</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465dac3bf727fc4e37c3835df1f3530619aeb">SBGL_ERROR_INVALID_HANDLE</a></div><div class="ttdeci">@ SBGL_ERROR_INVALID_HANDLE</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00223">sbgl_types.h:223</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465dad948d11734a926d811f214a19a763cda">SBGL_ERROR_INVALID_ARGUMENT</a></div><div class="ttdeci">@ SBGL_ERROR_INVALID_ARGUMENT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00217">sbgl_types.h:217</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa"><div class="ttname"><a href="#a5db06e881d2a1abea794560f03ca465dae0534750e3ef665e75004b93830816fa">SBGL_ERROR_NULL_CONTEXT</a></div><div class="ttdeci">@ SBGL_ERROR_NULL_CONTEXT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00216">sbgl_types.h:216</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

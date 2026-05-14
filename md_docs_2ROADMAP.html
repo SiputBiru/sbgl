@@ -207,6 +207,21 @@ API Standardization &amp; Error Handling</h1>
 <ul class="check">
 <li class="checked">Implement configurable resource limits via <code><a class="el" href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6" title="Initializes the engine and opens a window with explicit configuration.">sbgl_InitWithConfig()</a></code></li>
 </ul>
+<ul class="check">
+<li class="checked">Implement split error architecture (core <code>sbgl_Result</code> + backend VkResult detail)</li>
+</ul>
+<ul class="check">
+<li class="checked">Implement <code><a class="el" href="sbgl_8h.html#a0495c705e827c8420b91fa1caaefddfd" title="Retrieves the last result code from the context.">sbgl_GetResult()</a></code>, <code><a class="el" href="sbgl_8h.html#acfe315f903648701ba73531e0f90b117" title="Retrieves detailed error information including backend-specific codes.">sbgl_GetErrorDetail()</a></code> for error inspection</li>
+</ul>
+<ul class="check">
+<li class="checked">Implement categorized logging system with file output and rotation</li>
+</ul>
+<ul class="check">
+<li class="checked">Implement platform layer error propagation via <code>sbgl_platform_Result</code></li>
+</ul>
+<ul class="check">
+<li class="checked">Implement validation layer integration with debug callback routing</li>
+</ul>
 <h1><a class="anchor" id="gpu-optimization--batching-mdibit-packing"></a>
 GPU Optimization &amp; Batching (MDI/Bit-packing)</h1>
 <ul class="check">

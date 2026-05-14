@@ -182,7 +182,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a256c7f00505eacc5c061c0a593b15b80" id="r_a256c7f00505eacc5c061c0a593b15b80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a256c7f00505eacc5c061c0a593b15b80">x11_internal_process_event</a> (XEvent *event, <a class="el" href="structsbgl__Window.html">sbgl_Window</a> *window)</td></tr>
 <tr class="separator:a256c7f00505eacc5c061c0a593b15b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a785147a0a26609dfa77914c215b60a81" id="r_a785147a0a26609dfa77914c215b60a81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsbgl__Window.html">sbgl_Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a785147a0a26609dfa77914c215b60a81">sbgl_os_CreateWindow</a> (struct <a class="el" href="structSblArena.html">SblArena</a> *arena, <a class="el" href="structsbgl__InputState.html">sbgl_InputState</a> *input, int width, int height, const char *title)</td></tr>
-<tr class="memdesc:a785147a0a26609dfa77914c215b60a81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a native OS window.  <br /></td></tr>
 <tr class="separator:a785147a0a26609dfa77914c215b60a81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada47263d5dbeeccecb9f8291a7fd8853" id="r_ada47263d5dbeeccecb9f8291a7fd8853"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada47263d5dbeeccecb9f8291a7fd8853">sbgl_os_DestroyWindow</a> (<a class="el" href="structsbgl__Window.html">sbgl_Window</a> *window)</td></tr>
 <tr class="memdesc:ada47263d5dbeeccecb9f8291a7fd8853"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a native window.  <br /></td></tr>
@@ -258,18 +257,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Creates a native OS window. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">arena</td><td>Arena to allocate the window state from. </td></tr>
-    <tr><td class="paramname">width</td><td>Initial width. </td></tr>
-    <tr><td class="paramname">height</td><td>Initial height. </td></tr>
-    <tr><td class="paramname">title</td><td>Window title. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Opaque pointer to the window state. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="window__x11_8c_source.html#l00014">14</a> of file <a class="el" href="window__x11_8c_source.html">window_x11.c</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>                                                                                                                            {</div>

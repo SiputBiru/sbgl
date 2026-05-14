@@ -27,7 +27,7 @@ var sbgl__graphics__hal_8h =
     [ "sbgl_gfx_GetBufferDeviceAddress", "sbgl__graphics__hal_8h.html#a2c3894cec1e8deefb8a9a19ca1627594", null ],
     [ "sbgl_gfx_GetFrameIndex", "sbgl__graphics__hal_8h.html#ad3ba8d400894010b1b18d739d60f3dff", null ],
     [ "sbgl_gfx_GetGpuTime", "sbgl__graphics__hal_8h.html#a660f9015563e3ffa45db9b67627c5330", null ],
-    [ "sbgl_gfx_Init", "sbgl__graphics__hal_8h.html#a74b408a114b2c5dc6c75280de76dac33", null ],
+    [ "sbgl_gfx_Init", "sbgl__graphics__hal_8h.html#a129d652fe0905afd876a5b761f77e4e3", null ],
     [ "sbgl_gfx_LoadShader", "sbgl__graphics__hal_8h.html#a76fe29f00656b11d023893f6c8356714", null ],
     [ "sbgl_gfx_MapBuffer", "sbgl__graphics__hal_8h.html#a911874cd656438b28353df0e54c228a2", null ],
     [ "sbgl_gfx_MemoryBarrier", "sbgl__graphics__hal_8h.html#a4428399b1c1fe1d51a2d9de668f910c7", null ],

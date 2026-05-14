@@ -32,6 +32,7 @@ var sbgl__core_8c =
     [ "sbgl_GetTime", "sbgl__core_8c.html#ae1ada367da10d748bc7f04dd9449e860", null ],
     [ "sbgl_GetWindowSize", "sbgl__core_8c.html#a38678aa6bdda300d3cdf8e40707075e6", null ],
     [ "sbgl_Init", "sbgl__core_8c.html#a3588689d1d7bec0fc947cdb3da0bf975", null ],
+    [ "sbgl_InitWithConfig", "sbgl__core_8c.html#a4cff7c0f32f61c8dd92b73a9254f95b6", null ],
     [ "sbgl_LoadShader", "sbgl__core_8c.html#a6d127cd2c2aa2f93aff1a9c5693b6c2a", null ],
     [ "sbgl_LoadShaderFromFile", "sbgl__core_8c.html#a3715fca8433d11f40ff15d3eb10673e5", null ],
     [ "sbgl_MapBuffer", "sbgl__core_8c.html#ab852513abc2adc7555f02a1df8c09fa0", null ],

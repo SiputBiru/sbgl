@@ -20,7 +20,7 @@ var searchData=
   ['pipeline_17',['Pipeline',['../index.html#chapter-3-the-data-oriented-pipeline',1,'Chapter 3: The Data-Oriented Pipeline'],['../md_docs_2COMPUTE.html#creating-a-compute-pipeline',1,'Creating a Compute Pipeline'],['../md_docs_2manual_2vulkan__backend.html#frame-execution-pipeline',1,'Frame Execution Pipeline'],['../md_docs_2manual_2voxel__rendering.html#gpu-driven-pipeline',1,'GPU-Driven Pipeline'],['../md_docs_2manual_2rendering__pipeline.html',1,'SBgl Rendering Pipeline']]],
   ['pipeline_20creation_18',['Pipeline Creation',['../md_docs_2getting__started_2first__triangle.html#pipeline-creation',1,'']]],
   ['pipeline_20state_20objects_20pso_19',['Explicit Pipeline State Objects (PSO)',['../md_docs_2manual_2rendering__pipeline.html#explicit-pipeline-state-objects-pso',1,'']]],
-  ['pipelines_20',['pipelines',['../structsbgl__GfxContext.html#a1849088c5e7f77a47ce409ed2488673f',1,'sbgl_GfxContext']]],
+  ['pipelines_20',['pipelines',['../structsbgl__GfxContext.html#abaad6f31aab67b595939daa2c83f7597',1,'sbgl_GfxContext']]],
   ['plane_20management_21',['Far Plane Management',['../md_docs_2manual_2camera__system.html#far-plane-management',1,'']]],
   ['platform_20abstraction_20layer_20hal_22',['SBgl Platform Abstraction Layer (HAL)',['../md_docs_2manual_2platform__abstraction.html',1,'']]],
   ['platform_20specific_20triggers_23',['Platform-Specific Triggers',['../md_docs_2manual_2platform__abstraction.html#platform-specific-triggers',1,'']]],

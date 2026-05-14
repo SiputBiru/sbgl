@@ -1,38 +1,40 @@
 <map id="sbgl_InternalContext" name="sbgl_InternalContext">
 <area shape="rect" id="Node000001" title="Internal state for the engine context." alt="" coords="852,115,992,141"/>
-<area shape="rect" id="Node000002" href="$structSblArena.html" title="Arena allocator." alt="" coords="316,135,390,161"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="406,143,852,128,852,133,406,149"/>
-<area shape="rect" id="Node000006" href="$structsbgl__GfxContext.html" title=" " alt="" coords="608,263,724,289"/>
-<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="406,152,506,168,552,179,585,191,608,207,629,226,658,261,654,265,625,229,605,211,583,196,551,184,505,173,405,157"/>
-<area shape="rect" id="Node000003" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="29,159,137,185"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="152,163,315,148,315,154,152,168"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="59,142,68,135,83,132,97,135,106,141,109,150,105,160,100,158,103,150,102,144,95,140,83,138,70,140,63,146"/>
-<area shape="rect" id="Node000007" href="$structSblArenaMark.html" title="Bookmark for arena state." alt="" coords="301,184,404,210"/>
-<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="152,177,185,180,301,190,300,196,184,185,152,182"/>
+<area shape="rect" id="Node000002" href="$structSblArena.html" title="Arena allocator." alt="" coords="316,134,390,159"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="406,142,852,127,852,133,406,147"/>
+<area shape="rect" id="Node000006" href="$structsbgl__GfxContext.html" title=" " alt="" coords="608,286,724,311"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="406,150,506,166,553,178,585,191,611,212,633,238,661,284,656,286,629,241,608,216,583,195,551,183,505,172,405,155"/>
+<area shape="rect" id="Node000003" href="$structSblArenaBlock.html" title="A single block of memory in the arena." alt="" coords="29,170,137,195"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="152,171,315,149,315,154,152,176"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="59,152,68,146,83,143,97,145,106,152,109,161,105,170,100,168,103,161,102,155,95,150,83,148,70,151,63,157"/>
+<area shape="rect" id="Node000007" href="$structSblArenaMark.html" title="Bookmark for arena state." alt="" coords="301,232,404,258"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="152,196,301,231,300,236,151,201"/>
 <area shape="rect" id="Node000004" href="$structsbgl__Window.html" title="Native X11 window state." alt="" coords="304,36,402,62"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="417,50,584,65,731,88,856,112,855,117,730,93,584,70,417,55"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="418,62,502,93,546,116,586,144,613,173,635,206,662,261,657,264,630,209,609,177,582,148,543,121,500,98,416,67"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="417,52,584,69,852,112,851,118,584,74,417,57"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="412,65,511,102,555,122,586,142,616,178,639,218,664,284,659,286,634,220,612,181,582,146,553,127,509,107,410,70"/>
 <area shape="rect" id="Node000005" href="$structsbgl__InputState.html" title="Represents the real&#45;time state of physical inputs." alt="" coords="27,7,139,33"/>
-<area shape="poly" id="edge19_Node000001_Node000005" title=" " alt="" coords="155,14,266,11,408,14,566,25,647,34,725,48,778,61,829,80,897,112,895,117,827,85,776,66,724,53,646,40,566,30,408,19,266,17,155,19"/>
+<area shape="poly" id="edge20_Node000001_Node000005" title=" " alt="" coords="155,14,185,13,228,13,478,17,587,28,725,52,778,65,829,83,896,112,893,117,827,88,776,70,724,57,586,33,477,23,228,19,185,19,155,19"/>
 <area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="155,25,304,41,303,47,154,30"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="702,252,896,139,899,144,705,257"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="420,202,500,215,585,236,641,260,639,265,583,241,499,220,419,207"/>
-<area shape="rect" id="Node000008" href="$structsbgl__GfxStaticHeap.html" title=" " alt="" coords="284,382,422,407"/>
-<area shape="poly" id="edge11_Node000006_Node000008" title=" " alt="" coords="437,403,474,402,512,397,549,385,582,366,593,351,595,335,596,317,606,298,620,287,624,291,610,302,601,318,600,335,598,353,586,370,552,390,514,402,474,407,437,408"/>
-<area shape="rect" id="Node000009" href="$structsbgl__GfxDynamicHeap.html" title=" " alt="" coords="276,431,430,457"/>
-<area shape="poly" id="edge12_Node000006_Node000009" title=" " alt="" coords="433,456,471,458,511,454,549,443,582,422,593,409,598,395,596,364,593,332,596,315,606,298,619,287,622,291,610,302,601,317,598,333,601,364,603,395,598,411,586,426,551,448,512,460,472,463,433,462"/>
-<area shape="rect" id="Node000010" href="$structsbgl__GfxManagedHeap.html" title=" " alt="" coords="275,480,431,506"/>
-<area shape="poly" id="edge13_Node000006_Node000010" title=" " alt="" coords="418,507,460,512,504,511,546,501,565,491,582,478,598,458,603,438,602,416,597,394,589,347,593,323,606,298,618,287,622,291,610,301,598,325,595,347,602,393,607,416,609,438,602,460,586,482,568,496,548,506,504,516,459,517,418,512"/>
-<area shape="rect" id="Node000011" href="$structsbgl__GfxMemoryRange.html" title=" " alt="" coords="5,480,161,506"/>
-<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="177,490,274,490,274,496,177,496"/>
-<area shape="rect" id="Node000012" href="$structSBGL__VulkanBuffer.html" title=" " alt="" coords="284,530,422,555"/>
-<area shape="poly" id="edge15_Node000006_Node000012" title=" " alt="" coords="412,557,454,564,500,565,544,556,564,546,582,533,592,515,597,489,596,420,594,349,597,320,606,298,618,287,622,291,610,301,602,321,599,349,601,420,602,489,597,517,586,537,567,551,546,561,500,570,454,569,411,562"/>
-<area shape="rect" id="Node000013" href="$structSBGL__VulkanShader.html" title=" " alt="" coords="280,234,426,259"/>
-<area shape="poly" id="edge16_Node000006_Node000013" title=" " alt="" coords="441,252,608,268,607,273,441,257"/>
-<area shape="rect" id="Node000014" href="$structSBGL__VulkanPipeline.html" title=" " alt="" coords="278,283,428,309"/>
-<area shape="poly" id="edge17_Node000006_Node000014" title=" " alt="" coords="444,299,513,300,584,295,622,287,623,292,584,300,513,305,444,305"/>
-<area shape="rect" id="Node000015" href="$structSBGL__VulkanComputePipeline.html" title=" " alt="" coords="252,332,454,358"/>
-<area shape="poly" id="edge18_Node000006_Node000015" title=" " alt="" coords="469,346,527,338,583,320,595,310,606,298,626,287,629,291,610,302,598,314,585,325,528,343,470,351"/>
-<area shape="rect" id="Node000016" href="$structsbgl__Telemetry.html" title="Performance telemetry data for a single frame." alt="" coords="612,312,721,338"/>
-<area shape="poly" id="edge20_Node000001_Node000016" title=" " alt="" coords="735,306,782,288,827,261,857,231,881,198,913,140,917,142,886,200,861,235,830,265,785,293,737,311"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="699,274,899,139,902,143,702,279"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="420,253,584,280,608,284,607,290,584,285,419,258"/>
+<area shape="rect" id="Node000008" href="$structsbgl__GfxStaticHeap.html" title=" " alt="" coords="284,380,422,406"/>
+<area shape="poly" id="edge11_Node000006_Node000008" title=" " alt="" coords="437,391,511,379,548,368,583,351,590,345,594,337,606,321,624,310,627,314,610,324,599,340,594,348,585,356,550,373,512,385,438,396"/>
+<area shape="rect" id="Node000009" href="$structsbgl__GfxDynamicHeap.html" title=" " alt="" coords="276,430,430,455"/>
+<area shape="poly" id="edge12_Node000006_Node000009" title=" " alt="" coords="445,448,481,446,517,439,552,426,582,406,590,397,594,387,595,367,595,344,598,333,606,321,619,310,623,314,610,324,603,335,600,345,600,367,599,388,595,400,586,410,554,431,519,444,481,451,445,454"/>
+<area shape="rect" id="Node000010" href="$structsbgl__GfxManagedHeap.html" title=" " alt="" coords="275,479,431,505"/>
+<area shape="poly" id="edge13_Node000006_Node000010" title=" " alt="" coords="437,504,475,505,514,500,551,489,582,468,595,451,600,435,596,399,591,361,595,341,606,321,618,310,622,314,610,324,600,343,596,361,601,398,605,435,600,454,586,471,553,493,515,506,475,510,437,509"/>
+<area shape="rect" id="Node000011" href="$structsbgl__GfxMemoryRange.html" title=" " alt="" coords="5,479,161,505"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="177,489,274,489,274,495,177,495"/>
+<area shape="rect" id="Node000012" href="$structsbgl__ResourceLimits.html" title="Resource limits for engine initialization." alt="" coords="281,528,424,554"/>
+<area shape="poly" id="edge15_Node000006_Node000012" title=" " alt="" coords="419,555,461,559,504,558,546,548,565,538,582,525,591,510,595,487,595,427,595,365,598,340,606,321,618,310,622,314,610,324,603,341,600,366,601,427,601,487,596,511,586,529,568,542,548,553,505,563,460,565,419,560"/>
+<area shape="rect" id="Node000013" href="$structSBGL__VulkanBuffer.html" title=" " alt="" coords="284,578,422,603"/>
+<area shape="poly" id="edge16_Node000006_Node000013" title=" " alt="" coords="412,605,454,612,500,613,544,604,564,594,582,581,593,561,598,532,596,455,593,377,596,345,606,321,618,310,622,314,610,324,601,346,598,377,602,455,603,532,598,563,586,585,567,599,546,609,500,618,453,617,411,610"/>
+<area shape="rect" id="Node000014" href="$structSBGL__VulkanShader.html" title=" " alt="" coords="280,183,426,209"/>
+<area shape="poly" id="edge17_Node000006_Node000014" title=" " alt="" coords="442,204,513,219,585,243,621,262,650,283,647,287,618,267,583,248,511,224,441,209"/>
+<area shape="rect" id="Node000015" href="$structSBGL__VulkanPipeline.html" title=" " alt="" coords="278,282,428,307"/>
+<area shape="poly" id="edge18_Node000006_Node000015" title=" " alt="" coords="443,294,478,295,608,296,608,301,478,300,443,300"/>
+<area shape="rect" id="Node000016" href="$structSBGL__VulkanComputePipeline.html" title=" " alt="" coords="252,331,454,357"/>
+<area shape="poly" id="edge19_Node000006_Node000016" title=" " alt="" coords="469,332,584,316,615,309,616,315,584,321,469,337"/>
+<area shape="rect" id="Node000017" href="$structsbgl__Telemetry.html" title="Performance telemetry data for a single frame." alt="" coords="612,335,721,361"/>
+<area shape="poly" id="edge21_Node000001_Node000017" title=" " alt="" coords="733,327,782,307,827,277,858,243,883,205,913,140,918,142,888,207,862,246,830,281,784,311,736,332"/>
 </map>

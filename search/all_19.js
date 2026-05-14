@@ -18,7 +18,8 @@ var searchData=
   ['use_20case_15',['Vertex Layout Use Case',['../md_docs_2manual_2rendering__pipeline.html#vertex-layout-use-case',1,'']]],
   ['use_20constructors_16',['Why use Constructors?',['../md_docs_2manual_2math__library.html#why-use-constructors',1,'']]],
   ['user_20responsibility_17',['User Responsibility',['../md_docs_2manual_2platform__abstraction.html#user-responsibility',1,'']]],
-  ['using_20msys2_20recommended_18',['Using MSYS2 (Recommended)',['../md_docs_2getting__started_2installation.html#using-msys2-recommended',1,'']]],
-  ['using_20standalone_20mingw_19',['Using Standalone MinGW',['../md_docs_2getting__started_2installation.html#using-standalone-mingw',1,'']]],
-  ['using_20the_20compute_20api_20',['Using the Compute API',['../md_docs_2COMPUTE.html#using-the-compute-api',1,'']]]
+  ['using_20default_20configuration_18',['Using Default Configuration',['../md_docs_2getting__started_2window__setup.html#using-default-configuration',1,'']]],
+  ['using_20msys2_20recommended_19',['Using MSYS2 (Recommended)',['../md_docs_2getting__started_2installation.html#using-msys2-recommended',1,'']]],
+  ['using_20standalone_20mingw_20',['Using Standalone MinGW',['../md_docs_2getting__started_2installation.html#using-standalone-mingw',1,'']]],
+  ['using_20the_20compute_20api_21',['Using the Compute API',['../md_docs_2COMPUTE.html#using-the-compute-api',1,'']]]
 ];

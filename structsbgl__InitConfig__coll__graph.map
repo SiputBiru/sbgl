@@ -1,0 +1,5 @@
+<map id="sbgl_InitConfig" name="sbgl_InitConfig">
+<area shape="rect" id="Node000001" title="Configuration for engine initialization." alt="" coords="24,94,130,120"/>
+<area shape="rect" id="Node000002" href="$structsbgl__ResourceLimits.html" title="Resource limits for engine initialization." alt="" coords="5,5,149,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,47,80,94,74,94,74,47"/>
+</map>

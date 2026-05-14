@@ -11,10 +11,7 @@ var sbgl__backend__vulkan_8c =
     [ "sbgl_GfxContext", "structsbgl__GfxContext.html", "structsbgl__GfxContext" ],
     [ "SBGL_DYNAMIC_HEAP_SIZE", "sbgl__backend__vulkan_8c.html#a5e540d1013f6d7e7a4542a23128ee605", null ],
     [ "SBGL_MANAGED_HEAP_SIZE", "sbgl__backend__vulkan_8c.html#a746a6a288bfd8cdb92f86ad1c113fbb7", null ],
-    [ "SBGL_MAX_BUFFERS", "sbgl__backend__vulkan_8c.html#a89ce2bb9a31c2d716da0c2372e9dd4fc", null ],
     [ "SBGL_MAX_FRAMES_IN_FLIGHT", "sbgl__backend__vulkan_8c.html#a6c4f0a43b15c4319fed2ee297e7981e3", null ],
-    [ "SBGL_MAX_PIPELINES", "sbgl__backend__vulkan_8c.html#a56be95bd82f19f4aeca42caabe65acf8", null ],
-    [ "SBGL_MAX_SHADERS", "sbgl__backend__vulkan_8c.html#a67b9308239140fb5fae1b99cd9645517", null ],
     [ "SBGL_MAX_SWAPCHAIN_IMAGES", "sbgl__backend__vulkan_8c.html#a7401c1de18fa36eee1f02160d18fd5aa", null ],
     [ "SBGL_STATIC_HEAP_SIZE", "sbgl__backend__vulkan_8c.html#a57e48dd40a8b39881a91a4674e6681ce", null ],
     [ "SBGL_TRANSIENT_BUFFER_SIZE", "sbgl__backend__vulkan_8c.html#a8ea1afdbe1cb6728a68673b85fcc1338", null ],
@@ -66,7 +63,7 @@ var sbgl__backend__vulkan_8c =
     [ "sbgl_gfx_GetBufferDeviceAddress", "sbgl__backend__vulkan_8c.html#a11be898ad73f3d2f45406d1c142df3df", null ],
     [ "sbgl_gfx_GetFrameIndex", "sbgl__backend__vulkan_8c.html#ad3ba8d400894010b1b18d739d60f3dff", null ],
     [ "sbgl_gfx_GetGpuTime", "sbgl__backend__vulkan_8c.html#a660f9015563e3ffa45db9b67627c5330", null ],
-    [ "sbgl_gfx_Init", "sbgl__backend__vulkan_8c.html#a74b408a114b2c5dc6c75280de76dac33", null ],
+    [ "sbgl_gfx_Init", "sbgl__backend__vulkan_8c.html#a129d652fe0905afd876a5b761f77e4e3", null ],
     [ "sbgl_gfx_LoadShader", "sbgl__backend__vulkan_8c.html#a76fe29f00656b11d023893f6c8356714", null ],
     [ "sbgl_gfx_MapBuffer", "sbgl__backend__vulkan_8c.html#a385552edc6845bd9fc3dfc17035fedfe", null ],
     [ "sbgl_gfx_MemoryBarrier", "sbgl__backend__vulkan_8c.html#a4428399b1c1fe1d51a2d9de668f910c7", null ],
@@ -75,5 +72,6 @@ var sbgl__backend__vulkan_8c =
     [ "sbgl_gfx_UnmapBuffer", "sbgl__backend__vulkan_8c.html#a686d2c58ed58a15dc76677057d3935b5", null ],
     [ "sbgl_to_vk_format", "sbgl__backend__vulkan_8c.html#a492f1ec2cecb61ac8438b16470231012", null ],
     [ "select_physical_device", "sbgl__backend__vulkan_8c.html#a4248a130792631b938856c786dd62eec", null ],
-    [ "static_heap_alloc", "sbgl__backend__vulkan_8c.html#a7051c2f37aaaa217179290a04f0cbcc2", null ]
+    [ "static_heap_alloc", "sbgl__backend__vulkan_8c.html#a7051c2f37aaaa217179290a04f0cbcc2", null ],
+    [ "sbgl_DefaultResourceLimits", "sbgl__backend__vulkan_8c.html#a701145f556bdb5b43e7b25e867fdd2c5", null ]
 ];

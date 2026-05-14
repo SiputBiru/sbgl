@@ -219,6 +219,47 @@ Context-Based Backend (Multi-Context Support)</h1>
 <li><b>Initialization:</b> <code>sbgl_gfx_Init</code> accepts a <code>sbgl_Window*</code> and an <code>SblArena*</code> for all its internal state allocations.</li>
 <li><b>Reentrancy:</b> Multiple SBgl contexts can exist simultaneously, each with its own independent Vulkan logical device and swapchain.</li>
 </ul>
+<h2><a class="anchor" id="configurable-resource-limits-1"></a>
+Configurable Resource Limits</h2>
+<p>Resource limits for buffers, shaders, and pipelines are configurable at context initialization time via <code><a class="el" href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6" title="Initializes the engine and opens a window with explicit configuration.">sbgl_InitWithConfig()</a></code>:</p>
+<div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__InitConfig.html">sbgl_InitConfig</a> config = {</div>
+<div class="line">    .windowWidth = 1920,</div>
+<div class="line">    .windowHeight = 1080,</div>
+<div class="line">    .windowTitle = <span class="stringliteral">&quot;Application&quot;</span>,</div>
+<div class="line">    .limits = {</div>
+<div class="line">        .maxBuffers = 4096,      <span class="comment">// Maximum GPU buffer handles</span></div>
+<div class="line">        .maxShaders = 512,       <span class="comment">// Maximum shader module handles</span></div>
+<div class="line">        .maxPipelines = 1024     <span class="comment">// Maximum pipeline state objects</span></div>
+<div class="line">    },</div>
+<div class="line">    .enableValidation = <span class="keyword">true</span></div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_struct" href="structsbgl__InitResult.html">sbgl_InitResult</a> res = <a class="code hl_function" href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a>(&amp;config);</div>
+<div class="ttc" id="asbgl_8h_html_a4cff7c0f32f61c8dd92b73a9254f95b6"><div class="ttname"><a href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a></div><div class="ttdeci">sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig *config)</div><div class="ttdoc">Initializes the engine and opens a window with explicit configuration.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00069">sbgl_core.c:69</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html"><div class="ttname"><a href="structsbgl__InitConfig.html">sbgl_InitConfig</a></div><div class="ttdoc">Configuration for engine initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00271">sbgl_types.h:271</a></div></div>
+<div class="ttc" id="astructsbgl__InitResult_html"><div class="ttname"><a href="structsbgl__InitResult.html">sbgl_InitResult</a></div><div class="ttdoc">Result structure for initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00302">sbgl_types.h:302</a></div></div>
+</div><!-- fragment --><p>Alternatively, use <code>sbgl_DefaultInitConfig</code> to start with defaults and override specific fields:</p>
+<div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__InitConfig.html">sbgl_InitConfig</a> config = <a class="code hl_define" href="sbgl__types_8h.html#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a>;</div>
+<div class="line">config.<a class="code hl_variable" href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">limits</a>.<a class="code hl_variable" href="structsbgl__ResourceLimits.html#afc1d539ac0d196fd721045f4cbf146d1">maxBuffers</a> = 4096;</div>
+<div class="line">config.<a class="code hl_variable" href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">limits</a>.<a class="code hl_variable" href="structsbgl__ResourceLimits.html#aad4daca271e013c3dd06208906e2f84b">maxPipelines</a> = 1024;</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_struct" href="structsbgl__InitResult.html">sbgl_InitResult</a> res = <a class="code hl_function" href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a>(&amp;config);</div>
+<div class="ttc" id="asbgl__types_8h_html_a1e7fd49b8745d6b0b93a198ab18dc439"><div class="ttname"><a href="sbgl__types_8h.html#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a></div><div class="ttdeci">#define sbgl_DefaultInitConfig</div><div class="ttdoc">Default initialization configuration values.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00291">sbgl_types.h:291</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html_a525b118ce2bda49058b0412c34178752"><div class="ttname"><a href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">sbgl_InitConfig::limits</a></div><div class="ttdeci">sbgl_ResourceLimits limits</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00275">sbgl_types.h:275</a></div></div>
+<div class="ttc" id="astructsbgl__ResourceLimits_html_aad4daca271e013c3dd06208906e2f84b"><div class="ttname"><a href="structsbgl__ResourceLimits.html#aad4daca271e013c3dd06208906e2f84b">sbgl_ResourceLimits::maxPipelines</a></div><div class="ttdeci">uint32_t maxPipelines</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00262">sbgl_types.h:262</a></div></div>
+<div class="ttc" id="astructsbgl__ResourceLimits_html_afc1d539ac0d196fd721045f4cbf146d1"><div class="ttname"><a href="structsbgl__ResourceLimits.html#afc1d539ac0d196fd721045f4cbf146d1">sbgl_ResourceLimits::maxBuffers</a></div><div class="ttdeci">uint32_t maxBuffers</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00260">sbgl_types.h:260</a></div></div>
+</div><!-- fragment --><p><b>Default Limits:</b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Resource   </th><th class="markdownTableHeadNone">Default   </th><th class="markdownTableHeadNone">Minimum   </th><th class="markdownTableHeadNone">Memory Impact    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Buffers   </td><td class="markdownTableBodyNone">1024   </td><td class="markdownTableBodyNone">64   </td><td class="markdownTableBodyNone">~32KB per 1024 entries    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Shaders   </td><td class="markdownTableBodyNone">256   </td><td class="markdownTableBodyNone">16   </td><td class="markdownTableBodyNone">~4KB per 256 entries    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Pipelines   </td><td class="markdownTableBodyNone">256   </td><td class="markdownTableBodyNone">16   </td><td class="markdownTableBodyNone">~8KB per 256 entries   </td></tr>
+</table>
+<p>Limits below the minimum are automatically clamped. Resource arrays are allocated from the persistent arena during initialization and remain fixed for the context lifetime to ensure O(1) handle lookups.</p>
 <hr  />
 <h1><a class="anchor" id="gpu-synchronization--teardown"></a>
 GPU Synchronization &amp; Teardown</h1>
@@ -240,11 +281,11 @@ Safe Teardown Pattern</h2>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Shutdown engine</span></div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#ae3d01d694e042f4e7c15e70a9fd285c5">sbgl_Shutdown</a>(ctx);</div>
-<div class="ttc" id="asbgl_8h_html_a462685de5f942231920818b330ec6718"><div class="ttname"><a href="sbgl_8h.html#a462685de5f942231920818b330ec6718">sbgl_WindowShouldClose</a></div><div class="ttdeci">bool sbgl_WindowShouldClose(sbgl_Context *ctx)</div><div class="ttdoc">Checks if the user or OS has requested to close the window.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00146">sbgl_core.c:146</a></div></div>
-<div class="ttc" id="asbgl_8h_html_aa5669638ad915ea5af77fed3838556d9"><div class="ttname"><a href="sbgl_8h.html#aa5669638ad915ea5af77fed3838556d9">sbgl_DestroyBuffer</a></div><div class="ttdeci">void sbgl_DestroyBuffer(sbgl_Context *ctx, sbgl_Buffer buffer)</div><div class="ttdoc">Destroys a GPU buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00365">sbgl_core.c:365</a></div></div>
-<div class="ttc" id="asbgl_8h_html_ad31330828b674339c58edc4d5536fbf9"><div class="ttname"><a href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9">sbgl_DeviceWaitIdle</a></div><div class="ttdeci">void sbgl_DeviceWaitIdle(sbgl_Context *ctx)</div><div class="ttdoc">Synchronizes the CPU with the GPU, waiting for all commands to complete.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00299">sbgl_core.c:299</a></div></div>
-<div class="ttc" id="asbgl_8h_html_ae3d01d694e042f4e7c15e70a9fd285c5"><div class="ttname"><a href="sbgl_8h.html#ae3d01d694e042f4e7c15e70a9fd285c5">sbgl_Shutdown</a></div><div class="ttdeci">void sbgl_Shutdown(sbgl_Context *ctx)</div><div class="ttdoc">Gracefully shuts down the engine and releases all resources.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00124">sbgl_core.c:124</a></div></div>
-<div class="ttc" id="asbgl_8h_html_aef6447577a5cbb924b01f2733c455ac6"><div class="ttname"><a href="sbgl_8h.html#aef6447577a5cbb924b01f2733c455ac6">sbgl_DestroyPipeline</a></div><div class="ttdeci">void sbgl_DestroyPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Destroys a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00513">sbgl_core.c:513</a></div></div>
+<div class="ttc" id="asbgl_8h_html_a462685de5f942231920818b330ec6718"><div class="ttname"><a href="sbgl_8h.html#a462685de5f942231920818b330ec6718">sbgl_WindowShouldClose</a></div><div class="ttdeci">bool sbgl_WindowShouldClose(sbgl_Context *ctx)</div><div class="ttdoc">Checks if the user or OS has requested to close the window.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00163">sbgl_core.c:163</a></div></div>
+<div class="ttc" id="asbgl_8h_html_aa5669638ad915ea5af77fed3838556d9"><div class="ttname"><a href="sbgl_8h.html#aa5669638ad915ea5af77fed3838556d9">sbgl_DestroyBuffer</a></div><div class="ttdeci">void sbgl_DestroyBuffer(sbgl_Context *ctx, sbgl_Buffer buffer)</div><div class="ttdoc">Destroys a GPU buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00382">sbgl_core.c:382</a></div></div>
+<div class="ttc" id="asbgl_8h_html_ad31330828b674339c58edc4d5536fbf9"><div class="ttname"><a href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9">sbgl_DeviceWaitIdle</a></div><div class="ttdeci">void sbgl_DeviceWaitIdle(sbgl_Context *ctx)</div><div class="ttdoc">Synchronizes the CPU with the GPU, waiting for all commands to complete.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00316">sbgl_core.c:316</a></div></div>
+<div class="ttc" id="asbgl_8h_html_ae3d01d694e042f4e7c15e70a9fd285c5"><div class="ttname"><a href="sbgl_8h.html#ae3d01d694e042f4e7c15e70a9fd285c5">sbgl_Shutdown</a></div><div class="ttdeci">void sbgl_Shutdown(sbgl_Context *ctx)</div><div class="ttdoc">Gracefully shuts down the engine and releases all resources.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00141">sbgl_core.c:141</a></div></div>
+<div class="ttc" id="asbgl_8h_html_aef6447577a5cbb924b01f2733c455ac6"><div class="ttname"><a href="sbgl_8h.html#aef6447577a5cbb924b01f2733c455ac6">sbgl_DestroyPipeline</a></div><div class="ttdeci">void sbgl_DestroyPipeline(sbgl_Context *ctx, sbgl_Pipeline pipeline)</div><div class="ttdoc">Destroys a graphics pipeline.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00530">sbgl_core.c:530</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="validation-errors"></a>
 Validation Errors</h2>
 <p>Failure to call <code><a class="el" href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9" title="Synchronizes the CPU with the GPU, waiting for all commands to complete.">sbgl_DeviceWaitIdle()</a></code> before destruction will trigger Vulkan Validation Errors such as:</p>

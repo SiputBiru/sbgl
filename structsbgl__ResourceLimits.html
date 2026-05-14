@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SBgl: SBGL_VulkanPipeline Struct Reference</title>
+<title>SBgl: sbgl_ResourceLimits Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -78,7 +78,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('structSBGL__VulkanPipeline.html',''); initResizable(true); });
+$(function(){initNavTree('structsbgl__ResourceLimits.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -106,80 +106,90 @@ $(function(){initNavTree('structSBGL__VulkanPipeline.html',''); initResizable(tr
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">SBGL_VulkanPipeline Struct Reference</div></div>
+  <div class="headertitle"><div class="title">sbgl_ResourceLimits Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Resource limits for engine initialization.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a55dc3b90a1c05973fbf90e9f6e04443a" id="r_a55dc3b90a1c05973fbf90e9f6e04443a"><td class="memItemLeft" align="right" valign="top">VkPipeline&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55dc3b90a1c05973fbf90e9f6e04443a">handle</a></td></tr>
-<tr class="separator:a55dc3b90a1c05973fbf90e9f6e04443a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88aef16094c981565d74cebd8f298844" id="r_a88aef16094c981565d74cebd8f298844"><td class="memItemLeft" align="right" valign="top">VkPipelineLayout&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88aef16094c981565d74cebd8f298844">layout</a></td></tr>
-<tr class="separator:a88aef16094c981565d74cebd8f298844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d73a7f029161d731b8de7b7b23d5579" id="r_a5d73a7f029161d731b8de7b7b23d5579"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d73a7f029161d731b8de7b7b23d5579">active</a></td></tr>
-<tr class="separator:a5d73a7f029161d731b8de7b7b23d5579"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc1d539ac0d196fd721045f4cbf146d1" id="r_afc1d539ac0d196fd721045f4cbf146d1"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc1d539ac0d196fd721045f4cbf146d1">maxBuffers</a></td></tr>
+<tr class="separator:afc1d539ac0d196fd721045f4cbf146d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39ce4f62e4ecf12357ec381b108f3e8e" id="r_a39ce4f62e4ecf12357ec381b108f3e8e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39ce4f62e4ecf12357ec381b108f3e8e">maxShaders</a></td></tr>
+<tr class="separator:a39ce4f62e4ecf12357ec381b108f3e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad4daca271e013c3dd06208906e2f84b" id="r_aad4daca271e013c3dd06208906e2f84b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad4daca271e013c3dd06208906e2f84b">maxPipelines</a></td></tr>
+<tr class="separator:aad4daca271e013c3dd06208906e2f84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00051">51</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<div class="textblock"><p>Resource limits for engine initialization. </p>
+<p>Configures the maximum number of GPU resources that can be allocated simultaneously. These limits affect memory usage and should be tuned based on application requirements. </p>
+
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00259">259</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a5d73a7f029161d731b8de7b7b23d5579" name="a5d73a7f029161d731b8de7b7b23d5579"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d73a7f029161d731b8de7b7b23d5579">&#9670;&#160;</a></span>active</h2>
+<a id="afc1d539ac0d196fd721045f4cbf146d1" name="afc1d539ac0d196fd721045f4cbf146d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc1d539ac0d196fd721045f4cbf146d1">&#9670;&#160;</a></span>maxBuffers</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool SBGL_VulkanPipeline::active</td>
+          <td class="memname">uint32_t sbgl_ResourceLimits::maxBuffers</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Maximum GPU buffers (default: 1024). </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00054">54</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00260">260</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
-<a id="a55dc3b90a1c05973fbf90e9f6e04443a" name="a55dc3b90a1c05973fbf90e9f6e04443a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55dc3b90a1c05973fbf90e9f6e04443a">&#9670;&#160;</a></span>handle</h2>
+<a id="aad4daca271e013c3dd06208906e2f84b" name="aad4daca271e013c3dd06208906e2f84b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad4daca271e013c3dd06208906e2f84b">&#9670;&#160;</a></span>maxPipelines</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">VkPipeline SBGL_VulkanPipeline::handle</td>
+          <td class="memname">uint32_t sbgl_ResourceLimits::maxPipelines</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Maximum graphics/compute pipelines (default: 256). </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00052">52</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00262">262</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
-<a id="a88aef16094c981565d74cebd8f298844" name="a88aef16094c981565d74cebd8f298844"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88aef16094c981565d74cebd8f298844">&#9670;&#160;</a></span>layout</h2>
+<a id="a39ce4f62e4ecf12357ec381b108f3e8e" name="a39ce4f62e4ecf12357ec381b108f3e8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39ce4f62e4ecf12357ec381b108f3e8e">&#9670;&#160;</a></span>maxShaders</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">VkPipelineLayout SBGL_VulkanPipeline::layout</td>
+          <td class="memname">uint32_t sbgl_ResourceLimits::maxShaders</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Maximum shader modules (default: 256). </p>
 
-<p class="definition">Definition at line <a class="el" href="sbgl__backend__vulkan_8c_source.html#l00053">53</a> of file <a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00261">261</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>src/backend/<a class="el" href="sbgl__backend__vulkan_8c_source.html">sbgl_backend_vulkan.c</a></li>
+<li>include/<a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structSBGL__VulkanPipeline.html">SBGL_VulkanPipeline</a></li>
+    <li class="navelem"><a class="el" href="structsbgl__ResourceLimits.html">sbgl_ResourceLimits</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>

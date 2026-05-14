@@ -246,6 +246,12 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__Context.html">sbgl_Context</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engine context.  <a href="structsbgl__Context.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__ResourceLimits.html">sbgl_ResourceLimits</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resource limits for engine initialization.  <a href="structsbgl__ResourceLimits.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__InitConfig.html">sbgl_InitConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for engine initialization.  <a href="structsbgl__InitConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsbgl__InitResult.html">sbgl_InitResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result structure for initialization.  <a href="structsbgl__InitResult.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -294,6 +300,9 @@ Macros</h2></td></tr>
 <tr class="separator:a61d73f4748b9d2f1578ec599ee1912e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3084074e63c07082237aaecd5df73df6" id="r_a3084074e63c07082237aaecd5df73df6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3084074e63c07082237aaecd5df73df6">SBGL_GET_BLEND_MODE</a>(h)</td></tr>
 <tr class="separator:a3084074e63c07082237aaecd5df73df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e7fd49b8745d6b0b93a198ab18dc439" id="r_a1e7fd49b8745d6b0b93a198ab18dc439"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a></td></tr>
+<tr class="memdesc:a1e7fd49b8745d6b0b93a198ab18dc439"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default initialization configuration values.  <br /></td></tr>
+<tr class="separator:a1e7fd49b8745d6b0b93a198ab18dc439"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -384,6 +393,51 @@ Enumerations</h2></td></tr>
 <tr class="separator:a5db06e881d2a1abea794560f03ca465d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a1e7fd49b8745d6b0b93a198ab18dc439" name="a1e7fd49b8745d6b0b93a198ab18dc439"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e7fd49b8745d6b0b93a198ab18dc439">&#9670;&#160;</a></span>sbgl_DefaultInitConfig</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define sbgl_DefaultInitConfig</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  ((<a class="code hl_struct" href="structsbgl__InitConfig.html">sbgl_InitConfig</a>){ \</div>
+<div class="line">  .windowWidth = 800, \</div>
+<div class="line">  .windowHeight = 600, \</div>
+<div class="line">  .windowTitle = <span class="stringliteral">&quot;SBgl Application&quot;</span>, \</div>
+<div class="line">  .limits = { .maxBuffers = 1024, .maxShaders = 256, .maxPipelines = 256 }, \</div>
+<div class="line">  .enableValidation = <span class="keyword">true</span> \</div>
+<div class="line">})</div>
+<div class="ttc" id="astructsbgl__InitConfig_html"><div class="ttname"><a href="structsbgl__InitConfig.html">sbgl_InitConfig</a></div><div class="ttdoc">Configuration for engine initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00271">sbgl_types.h:271</a></div></div>
+</div><!-- fragment -->
+<p>Default initialization configuration values. </p>
+<p>Use this as a starting point for custom configurations: </p><div class="fragment"><div class="line"><a class="code hl_struct" href="structsbgl__InitConfig.html">sbgl_InitConfig</a> config = <a class="code hl_define" href="#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a>;</div>
+<div class="line">config.<a class="code hl_variable" href="structsbgl__InitConfig.html#a43f46f49f33b17003e7ef14726e006c0">windowWidth</a> = 1920;</div>
+<div class="line">config.<a class="code hl_variable" href="structsbgl__InitConfig.html#aa73dc13c0e3630f9c03a6ab4c683cda1">windowHeight</a> = 1080;</div>
+<div class="line">config.<a class="code hl_variable" href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">limits</a>.<a class="code hl_variable" href="structsbgl__ResourceLimits.html#afc1d539ac0d196fd721045f4cbf146d1">maxBuffers</a> = 4096;</div>
+<div class="line"><a class="code hl_struct" href="structsbgl__InitResult.html">sbgl_InitResult</a> res = <a class="code hl_function" href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a>(&amp;config);</div>
+<div class="ttc" id="asbgl_8h_html_a4cff7c0f32f61c8dd92b73a9254f95b6"><div class="ttname"><a href="sbgl_8h.html#a4cff7c0f32f61c8dd92b73a9254f95b6">sbgl_InitWithConfig</a></div><div class="ttdeci">sbgl_InitResult sbgl_InitWithConfig(const sbgl_InitConfig *config)</div><div class="ttdoc">Initializes the engine and opens a window with explicit configuration.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00069">sbgl_core.c:69</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a1e7fd49b8745d6b0b93a198ab18dc439"><div class="ttname"><a href="#a1e7fd49b8745d6b0b93a198ab18dc439">sbgl_DefaultInitConfig</a></div><div class="ttdeci">#define sbgl_DefaultInitConfig</div><div class="ttdoc">Default initialization configuration values.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00291">sbgl_types.h:291</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html_a43f46f49f33b17003e7ef14726e006c0"><div class="ttname"><a href="structsbgl__InitConfig.html#a43f46f49f33b17003e7ef14726e006c0">sbgl_InitConfig::windowWidth</a></div><div class="ttdeci">uint32_t windowWidth</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00272">sbgl_types.h:272</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html_a525b118ce2bda49058b0412c34178752"><div class="ttname"><a href="structsbgl__InitConfig.html#a525b118ce2bda49058b0412c34178752">sbgl_InitConfig::limits</a></div><div class="ttdeci">sbgl_ResourceLimits limits</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00275">sbgl_types.h:275</a></div></div>
+<div class="ttc" id="astructsbgl__InitConfig_html_aa73dc13c0e3630f9c03a6ab4c683cda1"><div class="ttname"><a href="structsbgl__InitConfig.html#aa73dc13c0e3630f9c03a6ab4c683cda1">sbgl_InitConfig::windowHeight</a></div><div class="ttdeci">uint32_t windowHeight</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00273">sbgl_types.h:273</a></div></div>
+<div class="ttc" id="astructsbgl__InitResult_html"><div class="ttname"><a href="structsbgl__InitResult.html">sbgl_InitResult</a></div><div class="ttdoc">Result structure for initialization.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00302">sbgl_types.h:302</a></div></div>
+<div class="ttc" id="astructsbgl__ResourceLimits_html_afc1d539ac0d196fd721045f4cbf146d1"><div class="ttname"><a href="structsbgl__ResourceLimits.html#afc1d539ac0d196fd721045f4cbf146d1">sbgl_ResourceLimits::maxBuffers</a></div><div class="ttdeci">uint32_t maxBuffers</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00260">sbgl_types.h:260</a></div></div>
+</div><!-- fragment --> 
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00291">291</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  291</span><span class="preprocessor">#define sbgl_DefaultInitConfig ((sbgl_InitConfig){ \</span></div>
+<div class="line"><span class="lineno">  292</span><span class="preprocessor">  .windowWidth = 800, \</span></div>
+<div class="line"><span class="lineno">  293</span><span class="preprocessor">  .windowHeight = 600, \</span></div>
+<div class="line"><span class="lineno">  294</span><span class="preprocessor">  .windowTitle = &quot;SBgl Application&quot;, \</span></div>
+<div class="line"><span class="lineno">  295</span><span class="preprocessor">  .limits = { .maxBuffers = 1024, .maxShaders = 256, .maxPipelines = 256 }, \</span></div>
+<div class="line"><span class="lineno">  296</span><span class="preprocessor">  .enableValidation = true \</span></div>
+<div class="line"><span class="lineno">  297</span><span class="preprocessor">})</span></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a3084074e63c07082237aaecd5df73df6" name="a3084074e63c07082237aaecd5df73df6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3084074e63c07082237aaecd5df73df6">&#9670;&#160;</a></span>SBGL_GET_BLEND_MODE</h2>
 
@@ -932,7 +986,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00260">260</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sbgl__types_8h_source.html#l00307">307</a> of file <a class="el" href="sbgl__types_8h_source.html">sbgl_types.h</a>.</p>
 
 </div>
 </div>

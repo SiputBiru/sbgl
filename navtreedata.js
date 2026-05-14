@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Quick Start", "md_README.html#quick-start", [
         [ "Integrating SBgl", "md_README.html#integrating-sbgl", null ],
         [ "Basic example", "md_README.html#basic-example", null ],
+        [ "Custom Resource Limits", "md_README.html#custom-resource-limits", null ],
         [ "Building from scratch", "md_README.html#building-from-scratch", null ]
       ] ],
       [ "Documentation", "md_README.html#documentation", [
@@ -160,6 +161,10 @@ var NAVTREE =
     ] ],
     [ "Window Setup", "md_docs_2getting__started_2window__setup.html", [
       [ "Initializing the Context", "md_docs_2getting__started_2window__setup.html#initializing-the-context", null ],
+      [ "Initialization with Configuration", "md_docs_2getting__started_2window__setup.html#initialization-with-configuration", [
+        [ "Using Default Configuration", "md_docs_2getting__started_2window__setup.html#using-default-configuration", null ],
+        [ "Default Resource Limits", "md_docs_2getting__started_2window__setup.html#default-resource-limits", null ]
+      ] ],
       [ "The Main Loop", "md_docs_2getting__started_2window__setup.html#the-main-loop", null ]
     ] ],
     [ "SBgl Camera & Collision System", "md_docs_2manual_2camera__system.html", [
@@ -254,6 +259,7 @@ var NAVTREE =
     [ "SBgl Rendering Pipeline", "md_docs_2manual_2rendering__pipeline.html", [
       [ "Key Concepts", "md_docs_2manual_2rendering__pipeline.html#key-concepts", [
         [ "Handle-Based Resource Management", "md_docs_2manual_2rendering__pipeline.html#handle-based-resource-management", null ],
+        [ "Configurable Resource Limits", "md_docs_2manual_2rendering__pipeline.html#configurable-resource-limits", null ],
         [ "Explicit Pipeline State Objects (PSO)", "md_docs_2manual_2rendering__pipeline.html#explicit-pipeline-state-objects-pso", null ],
         [ "Vertex Input Layout", "md_docs_2manual_2rendering__pipeline.html#vertex-input-layout", null ]
       ] ],
@@ -325,7 +331,9 @@ var NAVTREE =
         [ "Managed Heap Range Tracking", "md_docs_2manual_2vulkan__backend.html#managed-heap-range-tracking", null ],
         [ "Dynamic Swapchain Recreation (Mark/Rewind)", "md_docs_2manual_2vulkan__backend.html#dynamic-swapchain-recreation-markrewind", null ]
       ] ],
-      [ "Context-Based Backend (Multi-Context Support)", "md_docs_2manual_2vulkan__backend.html#context-based-backend-multi-context-support", null ],
+      [ "Context-Based Backend (Multi-Context Support)", "md_docs_2manual_2vulkan__backend.html#context-based-backend-multi-context-support", [
+        [ "Configurable Resource Limits", "md_docs_2manual_2vulkan__backend.html#configurable-resource-limits-1", null ]
+      ] ],
       [ "GPU Synchronization & Teardown", "md_docs_2manual_2vulkan__backend.html#gpu-synchronization--teardown", [
         [ "Safe Teardown Pattern", "md_docs_2manual_2vulkan__backend.html#safe-teardown-pattern", null ],
         [ "Validation Errors", "md_docs_2manual_2vulkan__backend.html#validation-errors", null ]
@@ -429,10 +437,10 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "input_8c_source.html",
-"md_docs_2manual_2telemetry.html#architecture",
-"sbgl__backend__vulkan_8c.html#ad80ce760def206a61edfa425aac81021",
-"sbgl__voxel_8c.html#a3a9e5ed165ef0ab2e474a0a4d4515824",
-"structsbgl__InternalContext.html#a89e6100387fcf84fafb263b83041db44"
+"md_docs_2manual_2rendering__pipeline.html#submitting-draws",
+"sbgl__backend__vulkan_8c.html#ab6cf3ad2c3d08b5da8b3f31e23392cb8",
+"sbgl__types_8h.html#ae0617bb46a5610444ee2a6c6aa0f7011",
+"structsbgl__InputState.html#a98860917b3bcc6d3fa292980c14525bd"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

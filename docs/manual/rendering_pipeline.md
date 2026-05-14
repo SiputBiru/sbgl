@@ -76,7 +76,7 @@ sbgl_VertexLayout layout = {
 
 ```c
 sbgl_BeginDrawing(ctx);
-sbgl_Clear(ctx, 0.0f, 0.0f, 0.0f, 1.0f);
+sbgl_SetClearColor(ctx, 0.0f, 0.0f, 0.0f, 1.0f);  // Sets clear color for next frame
 
 sbgl_BindPipeline(ctx, example_pipeline);
 sbgl_BindBuffer(ctx, example_vbo, SBGL_BUFFER_USAGE_VERTEX);
@@ -85,7 +85,7 @@ sbgl_BindBuffer(ctx, example_vbo, SBGL_BUFFER_USAGE_VERTEX);
 float time = get_current_time();
 sbgl_PushConstants(ctx, sizeof(float), &time);
 
-sbgl_Draw(ctx, 3, 0);
+sbgl_Draw(ctx, 3, 0, 1);  // 3 vertices, starting at 0, 1 instance
 
 sbgl_EndDrawing(ctx);
 
@@ -101,7 +101,7 @@ SBgl utilizes a dedicated depth attachment to ensure correct geometry sorting in
 
 *   **Automatic Management:** The engine automatically creates a depth buffer matching the window resolution.
 *   **Pipeline Integration:** All pipelines created via `sbgl_CreatePipeline` have depth testing and depth writing enabled by default.
-*   **Clearing:** Every frame, the depth buffer is automatically cleared to `1.0` during the `sbgl_BeginDrawing` (or `sbgl_Clear`) phase.
+*   **Clearing:** Every frame, the depth buffer is automatically cleared to `1.0` during the `sbgl_BeginDrawing` phase. The clear color is set via `sbgl_SetClearColor` (formerly `sbgl_Clear`).
 
 ## Synchronization & Frames in Flight
 
@@ -185,9 +185,9 @@ simulate_particles(particles, 100);
 // Create a new buffer for this frame
 sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(particles), particles);
 
-// Bind and draw
+// Bind and draw (100 vertices, starting at vertex 0, 1 instance)
 sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
-sbgl_Draw(ctx, 100, 0);
+sbgl_Draw(ctx, 100, 0, 1);
 
 // Use deferred destruction to safely release the buffer after the frame is retired
 sbgl_DestroyBufferDeferred(ctx, vbo);

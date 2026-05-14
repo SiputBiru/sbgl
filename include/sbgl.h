@@ -187,7 +187,12 @@ void sbgl_DeviceWaitIdle(sbgl_Context* ctx);
  * @param b Blue component (0.0 to 1.0).
  * @param a Alpha component (0.0 to 1.0).
  */
-void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a);
+void sbgl_SetClearColor(sbgl_Context* ctx, float r, float g, float b, float a);
+
+/**
+ * @brief Backward compatibility alias for sbgl_SetClearColor.
+ */
+#define sbgl_Clear sbgl_SetClearColor
 
 /**
  * @brief Retrieves the input state for the current frame.
@@ -399,8 +404,9 @@ uint64_t sbgl_GetBufferDeviceAddress(sbgl_Context* ctx, sbgl_Buffer buffer);
  * @param ctx The engine context.
  * @param vertexCount Number of vertices to draw.
  * @param firstVertex Offset to the first vertex.
+ * @param instanceCount Number of instances to draw.
  */
-void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex);
+void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex, uint32_t instanceCount);
 
 /**
  * @brief Submits an indexed draw command.
@@ -408,12 +414,14 @@ void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex);
  * @param indexCount Number of indices to draw.
  * @param firstIndex Offset to the first index.
  * @param vertexOffset Value added to each index before indexing into vertex buffers.
+ * @param instanceCount Number of instances to draw.
  */
 void sbgl_DrawIndexed(
   sbgl_Context* ctx,
   uint32_t indexCount,
   uint32_t firstIndex,
-  int32_t vertexOffset
+  int32_t vertexOffset,
+  uint32_t instanceCount
 );
 
 /**

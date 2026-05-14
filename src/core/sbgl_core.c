@@ -6,6 +6,7 @@
 
 #include "backend/sbgl_graphics_hal.h"
 #include "core/sbgl_batcher.h"
+#include "core/sbgl_context_internal.h"
 #include "core/sbgl_internal_log.h"
 #include "core/sbgl_platform.h"
 #include "core/sbgl_sort.h"
@@ -57,6 +58,13 @@ typedef struct {
 	uint64_t frameStartTicks;
 	uint64_t sortStartTicks;
 } sbgl_InternalContext;
+
+SblArena* sbgl_GetContextArena(sbgl_Context* ctx) {
+  if (!ctx || !ctx->inner)
+    return NULL;
+  sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
+  return &inner->arena;
+}
 
 sbgl_InitResult sbgl_Init(int w, int h, const char* title) {
 	sbgl_InitResult res = { .ctx = NULL, .error = SBGL_SUCCESS };
@@ -298,7 +306,7 @@ void sbgl_DeviceWaitIdle(sbgl_Context* ctx) {
 	ctx->result = SBGL_SUCCESS;
 }
 
-void sbgl_Clear(sbgl_Context* ctx, float r, float g, float b, float a) {
+void sbgl_SetClearColor(sbgl_Context* ctx, float r, float g, float b, float a) {
 	if (!ctx || !ctx->inner)
 		return;
 
@@ -431,22 +439,22 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 
 sbgl_Shader
 sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* filename) {
-	FILE* file = fopen(filename, "rb");
-	if (!file) {
-		char fallback[256];
-		// Try examples/shaders/ prefix
-		snprintf(fallback, sizeof(fallback), "examples/%s", filename);
-		file = fopen(fallback, "rb");
-		if (!file) {
-			// Try build/examples/ prefix
-			snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
-			file = fopen(fallback, "rb");
-			if (!file) {
-				sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
-				return SBGL_INVALID_HANDLE;
-			}
-		}
-	}
+  FILE* file = fopen(filename, "rb");
+  if (!file) {
+    char fallback[1024];
+    // Try examples/shaders/ prefix
+    snprintf(fallback, sizeof(fallback), "examples/%s", filename);
+    file = fopen(fallback, "rb");
+    if (!file) {
+      // Try build/examples/ prefix
+      snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
+      file = fopen(fallback, "rb");
+      if (!file) {
+        sbgl_internal_log(SBGL_LOG_ERROR, "Failed to open shader file.");
+        return SBGL_INVALID_HANDLE;
+      }
+    }
+  }
 
 	fseek(file, 0, SEEK_END);
 	size_t size = ftell(file);
@@ -601,11 +609,11 @@ uint64_t sbgl_GetBufferDeviceAddress(sbgl_Context* ctx, sbgl_Buffer buffer) {
 	return addr;
 }
 
-void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex) {
+void sbgl_Draw(sbgl_Context* ctx, uint32_t vertexCount, uint32_t firstVertex, uint32_t instanceCount) {
 	if (!ctx || !ctx->inner)
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
-	sbgl_gfx_Draw(inner->gfx, vertexCount, firstVertex);
+	sbgl_gfx_Draw(inner->gfx, vertexCount, firstVertex, instanceCount);
 	ctx->result = SBGL_SUCCESS;
 }
 
@@ -613,12 +621,13 @@ void sbgl_DrawIndexed(
 	sbgl_Context* ctx,
 	uint32_t indexCount,
 	uint32_t firstIndex,
-	int32_t vertexOffset
+	int32_t vertexOffset,
+	uint32_t instanceCount
 ) {
 	if (!ctx || !ctx->inner)
 		return;
 	sbgl_InternalContext* inner = (sbgl_InternalContext*)ctx->inner;
-	sbgl_gfx_DrawIndexed(inner->gfx, indexCount, firstIndex, vertexOffset);
+	sbgl_gfx_DrawIndexed(inner->gfx, indexCount, firstIndex, vertexOffset, instanceCount);
 	ctx->result = SBGL_SUCCESS;
 }
 

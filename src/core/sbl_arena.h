@@ -97,6 +97,8 @@ SBL_ARENA_DEF SblArena* sbl_get_thread_arena(void);
 #endif // SBL_ARENA_H
 
 #ifdef SBL_ARENA_IMPLEMENTATION
+#ifndef SBL_ARENA_IMPLEMENTATION_GUARD
+#define SBL_ARENA_IMPLEMENTATION_GUARD
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -225,6 +227,6 @@ SblArena* sbl_get_thread_arena(void) {
 	}
 	return &sbl_thread_arena;
 }
-#endif
-
+#endif // SBL_ARENA_STATIC
+#endif // SBL_ARENA_IMPLEMENTATION_GUARD
 #endif // SBL_ARENA_IMPLEMENTATION

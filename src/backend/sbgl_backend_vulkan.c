@@ -334,6 +334,8 @@ static void managed_heap_free(sbgl_GfxContext* ctx, uint32_t offset) {
       return;
     }
   }
+
+  fprintf(stderr, "[Vulkan] managed_heap_free: offset %u not found in tracked ranges (possible double-free or corruption)\n", offset);
 }
 
 static bool create_heaps(sbgl_GfxContext* ctx) {
@@ -394,11 +396,6 @@ static bool create_heaps(sbgl_GfxContext* ctx) {
   ctx->vk.vkMapMemory(ctx->device, ctx->managedHeap.memory, 0, ctx->managedHeap.size, 0, &ctx->managedHeap.mapped);
   ctx->managedHeap.rangeCount = 1;
   ctx->managedHeap.ranges[0] = (sbgl_GfxMemoryRange){ .offset = 0, .size = SBGL_MANAGED_HEAP_SIZE, .handle_index = 0 };
-
-  (void)static_heap_alloc;
-  (void)dynamic_heap_alloc;
-  (void)managed_heap_alloc;
-  (void)managed_heap_free;
 
   return true;
 }
@@ -1572,7 +1569,13 @@ sbgl_Pipeline sbgl_gfx_CreatePipeline(sbgl_GfxContext* ctx, const sbgl_PipelineC
   VkPipelineColorBlendAttachmentState colorBlendAttachment = {
     .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
               VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT,
-    .blendEnable = VK_FALSE,
+    .blendEnable = (config->blendMode != SBGL_BLEND_MODE_NONE) ? VK_TRUE : VK_FALSE,
+    .srcColorBlendFactor = (config->blendMode == SBGL_BLEND_MODE_ADDITIVE) ? VK_BLEND_FACTOR_ONE : VK_BLEND_FACTOR_SRC_ALPHA,
+    .dstColorBlendFactor = (config->blendMode == SBGL_BLEND_MODE_ADDITIVE) ? VK_BLEND_FACTOR_ONE : VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+    .colorBlendOp = VK_BLEND_OP_ADD,
+    .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE,
+    .dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+    .alphaBlendOp = VK_BLEND_OP_ADD,
   };
 
   VkPipelineColorBlendStateCreateInfo colorBlending = {
@@ -1899,20 +1902,21 @@ void sbgl_gfx_BindBuffer(sbgl_GfxContext* ctx, sbgl_Buffer handle, sbgl_BufferUs
   }
 }
 
-void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex) {
-  ctx->vk.vkCmdDraw(ctx->commandBuffers[ctx->currentFrame], vertexCount, 1, firstVertex, 0);
+void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex, uint32_t instanceCount) {
+  ctx->vk.vkCmdDraw(ctx->commandBuffers[ctx->currentFrame], vertexCount, instanceCount, firstVertex, 0);
 }
 
 void sbgl_gfx_DrawIndexed(
   sbgl_GfxContext* ctx,
   uint32_t indexCount,
   uint32_t firstIndex,
-  int32_t vertexOffset
+  int32_t vertexOffset,
+  uint32_t instanceCount
 ) {
   ctx->vk.vkCmdDrawIndexed(
     ctx->commandBuffers[ctx->currentFrame],
     indexCount,
-    1,
+    instanceCount,
     firstIndex,
     vertexOffset,
     0
@@ -1971,6 +1975,11 @@ sbgl_gfx_AllocateTransient(sbgl_GfxContext* ctx, size_t size, uint32_t alignment
 void sbgl_gfx_PushConstants(sbgl_GfxContext* ctx, size_t size, const void* data) {
   /* Push constants are submitted to both the currently bound graphics and compute
      pipelines to ensure that metadata is available across all execution stages. */
+  if (size > SBGL_VK_PUSH_CONSTANT_SIZE) {
+    fprintf(stderr, "[Vulkan] Push constant size (%zu) exceeds maximum (%d)\n", size, SBGL_VK_PUSH_CONSTANT_SIZE);
+    return;
+  }
+
   if (ctx->boundPipeline != SBGL_INVALID_HANDLE) {
     uint32_t index = (uint32_t)ctx->boundPipeline - 1;
     ctx->vk.vkCmdPushConstants(

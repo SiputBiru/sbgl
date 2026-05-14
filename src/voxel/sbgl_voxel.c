@@ -6,10 +6,14 @@
 #include "sbgl_voxel.h"
 #include "sbgl_pool.h"
 #include "core/sbl_arena.h"
+#include "core/sbgl_context_internal.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+
+/** @brief World-space size of a single voxel chunk in meters. */
+#define SBGL_VOXEL_CHUNK_SIZE 256.0f
 
 /**
  * @brief Axis-Aligned Bounding Box for frustum culling.
@@ -97,6 +101,9 @@ struct sbgl_VoxelSystem {
   /** @brief GPU buffer storing Axis-Aligned Bounding Boxes for culling. Double-buffered. */
   sbgl_Buffer aabbBuf[2];
 
+  /** @brief CPU-side mirror of AABB data to avoid mapping the previous frame's GPU buffer. */
+  sbgl_AABB* cpuAABB;
+
   /** 
    * @brief Double-buffered GPU storage for indirect draw commands. 
    * Double buffering prevents CPU-GPU synchronization stalls during command recording.
@@ -132,21 +139,22 @@ struct sbgl_VoxelSystem {
 
 sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* config) {
   /*
-   * The voxel system is allocated using malloc to ensure its lifetime 
-   * is independent of the calling thread's arena.
+   * The voxel system is allocated from the context's persistent arena
+   * to remain consistent with the library's memory model.
    */
-  sbgl_VoxelSystem* sys = (sbgl_VoxelSystem*)malloc(sizeof(sbgl_VoxelSystem));
-
-  if (!sys) {
+  SblArena* ctxArena = sbgl_GetContextArena(ctx);
+  if (!ctxArena)
     return NULL;
-  }
-  memset(sys, 0, sizeof(sbgl_VoxelSystem));
+
+  sbgl_VoxelSystem* sys = SBL_ARENA_PUSH_STRUCT_ZERO(ctxArena, sbgl_VoxelSystem);
+  if (!sys)
+    return NULL;
 
   sys->ctx = ctx;
   sys->chunk_radius = config->chunk_radius;
   sys->enable_telemetry = config->enable_telemetry;
   sys->last_update_time = sbgl_GetTime(ctx);
-  
+
   /* 
    * Initialize the voxel pool with the requested capacity.
    * We utilize a dedicated internal arena for the CPU-side pool management metadata.
@@ -156,7 +164,17 @@ sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* c
 
   if (!sys->pool) {
     sbl_arena_free(&sys->poolArena);
-    free(sys);
+    return NULL;
+  }
+
+  /*
+   * Allocate a CPU-side mirror of the AABB data. This avoids the read-write
+   * hazard that occurs when mapping the previous frame's GPU buffer while
+   * the GPU may still be consuming it.
+   */
+  sys->cpuAABB = SBL_ARENA_PUSH_ARRAY_ZERO(&sys->poolArena, sbgl_AABB, config->max_slots);
+  if (!sys->cpuAABB) {
+    sbl_arena_free(&sys->poolArena);
     return NULL;
   }
 
@@ -178,7 +196,6 @@ sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* c
     if (shellShader != SBGL_INVALID_HANDLE) sbgl_DestroyShader(ctx, shellShader);
     if (cullShader != SBGL_INVALID_HANDLE) sbgl_DestroyShader(ctx, cullShader);
     sbl_arena_free(&sys->poolArena);
-    free(sys);
     return NULL;
   }
 
@@ -281,10 +298,9 @@ void sbgl_Voxel_Update(sbgl_VoxelSystem* sys, sbgl_Vec3 camera_pos) {
   sys->fps_frames++;
 
   sys->camera_pos = camera_pos;
-  const float CHUNK_SIZE_F = 256.0f;
-  int camCX = (int)floorf(camera_pos.x / CHUNK_SIZE_F);
-  int camCY = (int)floorf(camera_pos.y / CHUNK_SIZE_F);
-  int camCZ = (int)floorf(camera_pos.z / CHUNK_SIZE_F);
+  int camCX = (int)floorf(camera_pos.x / SBGL_VOXEL_CHUNK_SIZE);
+  int camCY = (int)floorf(camera_pos.y / SBGL_VOXEL_CHUNK_SIZE);
+  int camCZ = (int)floorf(camera_pos.z / SBGL_VOXEL_CHUNK_SIZE);
 
   int radius = (int)sys->chunk_radius;
 
@@ -310,12 +326,10 @@ void sbgl_Voxel_Update(sbgl_VoxelSystem* sys, sbgl_Vec3 camera_pos) {
     uint64_t shellCountsBaseAddr = sbgl_GetBufferDeviceAddress(sys->ctx, sys->shellCountsBuf);
 
     sbgl_AABB* aabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[sys->frame_idx]);
-    sbgl_AABB* prevAabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
-    
-    /* Copy current persistent state to the new frame's AABB buffer. */
-    if (aabbPtr && prevAabbPtr) {
-      memcpy(aabbPtr, prevAabbPtr, sys->pool->capacity * sizeof(sbgl_AABB));
-      sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
+
+    /* Copy current persistent state from the CPU-side mirror to the new frame's GPU buffer. */
+    if (aabbPtr) {
+      memcpy(aabbPtr, sys->cpuAABB, sys->pool->capacity * sizeof(sbgl_AABB));
     }
 
     /* First pass: Acquire and generate new chunks in the radius. */
@@ -344,7 +358,7 @@ void sbgl_Voxel_Update(sbgl_VoxelSystem* sys, sbgl_Vec3 camera_pos) {
             sbgl_BindComputePipeline(sys->ctx, sys->genPipe);
             sbgl_GenPushConstants gpc = {
               .maskAddress = maskAddr,
-              .offset = sbgl_Vec4Set((float)pos.x * 256.0f, (float)pos.y * 256.0f, (float)pos.z * 256.0f, 0.0f),
+              .offset = sbgl_Vec4Set((float)pos.x * SBGL_VOXEL_CHUNK_SIZE, (float)pos.y * SBGL_VOXEL_CHUNK_SIZE, (float)pos.z * SBGL_VOXEL_CHUNK_SIZE, 0.0f),
               .seed = 42.0f
             };
             sbgl_PushConstants(sys->ctx, sizeof(gpc), &gpc);
@@ -363,9 +377,10 @@ void sbgl_Voxel_Update(sbgl_VoxelSystem* sys, sbgl_Vec3 camera_pos) {
             sbgl_DispatchCompute(sys->ctx, 1, 64, 1);
 
             sbgl_AABB aabb;
-            aabb.min = sbgl_Vec4Set((float)pos.x * CHUNK_SIZE_F, (float)pos.y * CHUNK_SIZE_F, (float)pos.z * CHUNK_SIZE_F, 1.0f);
-            aabb.max = sbgl_Vec4Set(aabb.min.x + CHUNK_SIZE_F, aabb.min.y + CHUNK_SIZE_F, aabb.min.z + CHUNK_SIZE_F, 1.0f);
+            aabb.min = sbgl_Vec4Set((float)pos.x * SBGL_VOXEL_CHUNK_SIZE, (float)pos.y * SBGL_VOXEL_CHUNK_SIZE, (float)pos.z * SBGL_VOXEL_CHUNK_SIZE, 1.0f);
+            aabb.max = sbgl_Vec4Set(aabb.min.x + SBGL_VOXEL_CHUNK_SIZE, aabb.min.y + SBGL_VOXEL_CHUNK_SIZE, aabb.min.z + SBGL_VOXEL_CHUNK_SIZE, 1.0f);
             if (aabbPtr) memcpy(aabbPtr + slot, &aabb, sizeof(sbgl_AABB));
+            sys->cpuAABB[slot] = aabb;
           }
         }
       }
@@ -399,15 +414,13 @@ void sbgl_Voxel_Update(sbgl_VoxelSystem* sys, sbgl_Vec3 camera_pos) {
 
     sys->last_cam_chunk = (sbgl_ivec3){ camCX, camCY, camCZ };
   } else {
-    /* Even if the camera hasn't crossed a chunk boundary, we must still update the 
-       AABB buffer for the current frame by copying the previous one. 
+    /* Even if the camera hasn't crossed a chunk boundary, we must still update the
+       AABB buffer for the current frame by copying from the CPU-side mirror.
        This ensures that the culling shader always has a valid set of AABBs. */
     sbgl_AABB* aabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[sys->frame_idx]);
-    sbgl_AABB* prevAabbPtr = (sbgl_AABB*)sbgl_MapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
-    if (aabbPtr && prevAabbPtr) {
-      memcpy(aabbPtr, prevAabbPtr, sys->pool->capacity * sizeof(sbgl_AABB));
+    if (aabbPtr) {
+      memcpy(aabbPtr, sys->cpuAABB, sys->pool->capacity * sizeof(sbgl_AABB));
       sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf[sys->frame_idx]);
-      sbgl_UnmapBuffer(sys->ctx, sys->aabbBuf[(sys->frame_idx + 1) % 2]);
     }
     sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_HOST_TO_COMPUTE);
     sbgl_MemoryBarrier(sys->ctx, SBGL_BARRIER_HOST_TO_GRAPHICS);
@@ -447,7 +460,7 @@ void sbgl_Voxel_Cull(sbgl_VoxelSystem* sys, sbgl_Mat4 view_proj) {
   cpc.commandAddress = sbgl_GetBufferDeviceAddress(sys->ctx, currCmds);
   cpc.countsAddress = sbgl_GetBufferDeviceAddress(sys->ctx, currCounts);
   cpc.cameraPos = sbgl_Vec4Set(sys->camera_pos.x, sys->camera_pos.y, sys->camera_pos.z, 1.0f);
-  cpc.maxDistance = (float)(sys->chunk_radius + 1) * 256.0f * 1.5f;
+  cpc.maxDistance = (float)(sys->chunk_radius + 1) * SBGL_VOXEL_CHUNK_SIZE * 1.5f;
 
   sbgl_PushConstants(sys->ctx, sizeof(cpc), &cpc);
 
@@ -535,7 +548,8 @@ void sbgl_Voxel_Destroy(sbgl_VoxelSystem* sys) {
   }
 
   sbl_arena_free(&sys->poolArena);
-  free(sys);
+  /* The sys struct itself is allocated from the context arena and is freed
+     when the context is shut down. */
 }
 
 uint64_t sbgl_Voxel_GetAABBAddress(sbgl_VoxelSystem* sys) {

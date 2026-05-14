@@ -69,7 +69,7 @@ int main() {
         sbgl_BeginDrawing(ctx);
         
         // Clear screen with a color (RGBA)
-        sbgl_Clear(ctx, 0.1f, 0.1f, 0.1f, 1.0f);
+        sbgl_SetClearColor(ctx, 0.1f, 0.1f, 0.1f, 1.0f);  // Sets color for next frame
 
         // --- Custom Drawing Logic Goes Here ---
 

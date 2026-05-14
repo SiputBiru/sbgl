@@ -172,12 +172,12 @@ void sbgl_gfx_BindBuffer(sbgl_GfxContext* ctx, sbgl_Buffer buffer, sbgl_BufferUs
     (void)ctx; (void)buffer; (void)usage;
 }
 
-void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex) {
-    (void)ctx; (void)vertexCount; (void)firstVertex;
+void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex, uint32_t instanceCount) {
+    (void)ctx; (void)vertexCount; (void)firstVertex; (void)instanceCount;
 }
 
-void sbgl_gfx_DrawIndexed(sbgl_GfxContext* ctx, uint32_t indexCount, uint32_t firstIndex, int32_t vertexOffset) {
-    (void)ctx; (void)indexCount; (void)firstIndex; (void)vertexOffset;
+void sbgl_gfx_DrawIndexed(sbgl_GfxContext* ctx, uint32_t indexCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t instanceCount) {
+    (void)ctx; (void)indexCount; (void)firstIndex; (void)vertexOffset; (void)instanceCount;
 }
 
 void sbgl_gfx_DrawIndirect(

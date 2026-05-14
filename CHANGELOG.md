@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-05-14
+
+### Added
+- **`sbgl_context_internal.h`**: New internal header exposing `sbgl_GetContextArena()` to allow subsystems (e.g., voxel engine) to allocate from the context's persistent arena instead of `malloc`.
+- **Blend State Pipeline Configuration**: Added `sbgl_BlendMode` enum (`NONE`, `ALPHA`, `ADDITIVE`) to `sbgl_PipelineConfig`. The Vulkan backend now dynamically configures `VkPipelineColorBlendAttachmentState` based on the selected mode instead of hardcoding `blendEnable = VK_FALSE`.
+- **Instance Count Parameter**: Extended `sbgl_Draw` and `sbgl_DrawIndexed` to accept an explicit `instanceCount` parameter, enabling direct instancing without requiring Multi-Draw Indirect.
+- **`SBGL_VOXEL_CHUNK_SIZE` Constant**: Replaced the magic number `256.0f` and the local `CHUNK_SIZE_F` variable with a module-level `#define` in `sbgl_voxel.c` for maintainability.
+
+### Changed
+- **Renamed `sbgl_Clear` to `sbgl_SetClearColor`**: The function name now accurately reflects its behavior (it stores the clear color for the *next* frame, not the current one). A backward-compatible `#define sbgl_Clear sbgl_SetClearColor` alias is provided, so existing code compiles without modification.
+- **Voxel System Memory Model**: `sbgl_Voxel_Create` and `sbgl_Voxel_Destroy` now use the context's persistent arena instead of `malloc`/`free`, aligning the voxel subsystem with the library's Data-Oriented Design memory model.
+- **Voxel AABB Synchronization**: Replaced the dual-GPU-buffer mapping strategy with a CPU-side `sbgl_AABB` mirror (`cpuAABB`). This eliminates a read-write hazard where the GPU could consume the previous frame's AABB data while the CPU was writing new AABBs.
+- **Shader Fallback Path Buffer**: Increased the `sbgl_LoadShaderFromFile` fallback buffer from `256` to `1024` bytes to prevent silent path truncation with deeply nested directory structures.
+
+### Fixed
+- **Push Constant Size Truncation**: Added a runtime guard in `sbgl_gfx_PushConstants` that rejects sizes exceeding `SBGL_VK_PUSH_CONSTANT_SIZE` (128 bytes) before the `size_t` to `uint32_t` cast, preventing silent truncation on 64-bit builds.
+- **Managed Heap Silent Failures**: `managed_heap_free` now emits a `stderr` warning when the requested offset is not found in any tracked range, aiding detection of double-free or memory corruption.
+- **sbl_arena.h Double-Inclusion**: Added `SBL_ARENA_IMPLEMENTATION_GUARD` to prevent the implementation section from being compiled twice when the header is included multiple times with `SBL_ARENA_IMPLEMENTATION` defined.
+- **Removed Dead Code**: Removed the four `(void)` casts suppressing unused-function warnings for `static_heap_alloc`, `dynamic_heap_alloc`, `managed_heap_alloc`, and `managed_heap_free` in `sbgl_backend_vulkan.c`, as these functions are actively used by `sbgl_gfx_CreateBuffer`.
+
 ## [Unreleased] - 2026-05-12
 
 ### Changed

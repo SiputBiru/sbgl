@@ -95,12 +95,13 @@ typedef struct {
   uint64_t deviceAddress;     /**< GPU-side virtual address for the allocation. */
 } sbgl_GfxTransientAllocation;
 
-void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex);
+void sbgl_gfx_Draw(sbgl_GfxContext* ctx, uint32_t vertexCount, uint32_t firstVertex, uint32_t instanceCount);
 void sbgl_gfx_DrawIndexed(
   sbgl_GfxContext* ctx,
   uint32_t indexCount,
   uint32_t firstIndex,
-  int32_t vertexOffset
+  int32_t vertexOffset,
+  uint32_t instanceCount
 );
 
 /**

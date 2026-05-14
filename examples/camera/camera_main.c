@@ -109,7 +109,7 @@ int main(void) {
 		sbgl_BindPipeline(ctx, pipeline);
 		sbgl_PushConstants(ctx, sizeof(push), &push);
 		sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
-		sbgl_Draw(ctx, 18, 0);
+		sbgl_Draw(ctx, 18, 0, 1);
 
 		sbgl_EndDrawing(ctx);
 	}

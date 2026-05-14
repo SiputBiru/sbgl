@@ -33,10 +33,11 @@ sbgl_VertexLayout layout = {
 The graphics pipeline encapsulates the shader stages and the vertex layout.
 
 ```c
-sbgl_PipelineConfig cfg = { 
-    .vertexShader = v_shd, 
+sbgl_PipelineConfig cfg = {
+    .vertexShader = v_shd,
     .fragmentShader = f_shd,
-    .vertexLayout = layout
+    .vertexLayout = layout,
+    .blendMode = SBGL_BLEND_MODE_NONE  // Opaque rendering (default)
 };
 sbgl_Pipeline pip = sbgl_CreatePipeline(ctx, &cfg);
 ```
@@ -61,7 +62,7 @@ sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(vertic
 sbgl_BeginDrawing(ctx);
 sbgl_BindPipeline(ctx, pip);
 sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
-sbgl_Draw(ctx, 3, 0);
+sbgl_Draw(ctx, 3, 0, 1);  // 3 vertices, starting at 0, 1 instance
 sbgl_EndDrawing(ctx);
 ```
 

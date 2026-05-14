@@ -190,12 +190,22 @@ typedef struct {
 } sbgl_VertexLayout;
 
 /**
+ * @brief Blending modes for pipeline color attachments.
+ */
+typedef enum {
+  SBGL_BLEND_MODE_NONE = 0,
+  SBGL_BLEND_MODE_ALPHA = 1,
+  SBGL_BLEND_MODE_ADDITIVE = 2,
+} sbgl_BlendMode;
+
+/**
  * @brief Configuration for creating a graphics pipeline.
  */
 typedef struct {
   sbgl_Shader vertexShader;
   sbgl_Shader fragmentShader;
   sbgl_VertexLayout vertexLayout;
+  sbgl_BlendMode blendMode;
 } sbgl_PipelineConfig;
 
 /**

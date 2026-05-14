@@ -70,6 +70,42 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 
 - [ ] Granular Profiling (per-queue timestamps)
 
+## Multi-Threaded Architecture
+
+### Thread-Local Memory
+
+- [ ] Implement thread-local `SblArena` per worker thread to eliminate allocator contention
+- [ ] Add per-frame ring buffers for transient allocations with thread-safe recycling
+- [ ] Implement thread-safe memory allocation interface for shared GPU resources
+
+### Parallel Command Recording
+
+- [ ] Implement `VkCommandBuffer` Secondary Buffers for parallel recording across threads
+- [ ] Add lock-free render queue submission with thread-safe packet merging
+- [ ] Implement per-thread command recording contexts with automatic synchronization
+- [ ] Add synchronization barriers between recording and submission phases
+
+### Job System Foundation
+
+- [ ] Implement data-parallel job dispatch system with work-stealing queues
+- [ ] Add dependency graph-based job scheduling (lock-free, no mutex in hot path)
+- [ ] Implement frame-to-frame job handoff without global synchronization points
+- [ ] Add job profiling and bottleneck analysis tooling
+
+### Multi-Context & Multi-Window
+
+- [ ] Enable true multi-window with independent rendering threads per window
+- [ ] Add thread-safe context sharing for cross-window resource management
+- [ ] Implement thread-local input state processing with consolidated event dispatch
+- [ ] Add GPU fence-based synchronization for cross-thread resource lifetime
+
+### Synchronization Strategy
+
+- [ ] Implement fine-grained locking for shared data structures
+- [ ] Add lock-free data structures for high-frequency subsystems (render queues, input)
+- [ ] Implement multi-fence GPU synchronization for parallel frame processing
+- [ ] Add pipeline stage profiling to identify synchronization bottlenecks
+
 ## High-Level rendering (Text/Sprites)
 
 - [ ] Implement 2D Sprite batching system (utilizing MDI)
@@ -85,4 +121,3 @@ SBgl is a bare-metal graphics framework in C99. This roadmap outlines the develo
 - Android/NDK Platform support
 - WebAssembly (Wasm) backend via WebGPU
 - Audio HAL and Backend
-- Advanced Multi-threaded command recording

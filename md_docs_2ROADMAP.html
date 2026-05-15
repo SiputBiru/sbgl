@@ -250,6 +250,75 @@ GPU Optimization &amp; Batching (MDI/Bit-packing)</h1>
 <li class="checked">Implement Infinite Voxel World (2.5D Chunked Instancing)</li>
 <li class="unchecked">Granular Profiling (per-queue timestamps)</li>
 </ul>
+<h1><a class="anchor" id="multi-threaded-architecture"></a>
+Multi-Threaded Architecture</h1>
+<h2><a class="anchor" id="thread-local-memory"></a>
+Thread-Local Memory</h2>
+<ul class="check">
+<li class="unchecked">Implement thread-local <code><a class="el" href="structSblArena.html" title="Arena allocator.">SblArena</a></code> per worker thread to eliminate allocator contention</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add per-frame ring buffers for transient allocations with thread-safe recycling</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Implement thread-safe memory allocation interface for shared GPU resources</li>
+</ul>
+<h2><a class="anchor" id="parallel-command-recording"></a>
+Parallel Command Recording</h2>
+<ul class="check">
+<li class="unchecked">Implement <code>VkCommandBuffer</code> Secondary Buffers for parallel recording across threads</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add lock-free render queue submission with thread-safe packet merging</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Implement per-thread command recording contexts with automatic synchronization</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add synchronization barriers between recording and submission phases</li>
+</ul>
+<h2><a class="anchor" id="job-system-foundation"></a>
+Job System Foundation</h2>
+<ul class="check">
+<li class="unchecked">Implement data-parallel job dispatch system with work-stealing queues</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add dependency graph-based job scheduling (lock-free, no mutex in hot path)</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Implement frame-to-frame job handoff without global synchronization points</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add job profiling and bottleneck analysis tooling</li>
+</ul>
+<h2><a class="anchor" id="multi-context--multi-window"></a>
+Multi-Context &amp; Multi-Window</h2>
+<ul class="check">
+<li class="unchecked">Enable true multi-window with independent rendering threads per window</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add thread-safe context sharing for cross-window resource management</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Implement thread-local input state processing with consolidated event dispatch</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add GPU fence-based synchronization for cross-thread resource lifetime</li>
+</ul>
+<h2><a class="anchor" id="synchronization-strategy"></a>
+Synchronization Strategy</h2>
+<ul class="check">
+<li class="unchecked">Implement fine-grained locking for shared data structures</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add lock-free data structures for high-frequency subsystems (render queues, input)</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Implement multi-fence GPU synchronization for parallel frame processing</li>
+</ul>
+<ul class="check">
+<li class="unchecked">Add pipeline stage profiling to identify synchronization bottlenecks</li>
+</ul>
 <h1><a class="anchor" id="high-level-rendering-textsprites"></a>
 High-Level rendering (Text/Sprites)</h1>
 <ul class="check">
@@ -274,8 +343,7 @@ Future Considerations</h1>
 <li>macOS Platform Layer (Cocoa) and MoltenVK integration</li>
 <li>Android/NDK Platform support</li>
 <li>WebAssembly (Wasm) backend via WebGPU</li>
-<li>Audio HAL and Backend</li>
-<li>Advanced Multi-threaded command recording </li>
+<li>Audio HAL and Backend </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

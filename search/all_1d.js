@@ -1,4 +1,11 @@
 var searchData=
 [
-  ['y_0',['y',['../unionsbgl__Vec2.html#a23a6a7264a0adaeee6489908086c243c',1,'sbgl_Vec2::y'],['../unionsbgl__Vec3.html#a94021572e50ad0c6b71d828a73d0f3c1',1,'sbgl_Vec3::y'],['../unionsbgl__Vec4.html#aed8304264fc926f266542714cfd1a532',1,'sbgl_Vec4::y'],['../unionsbgl__Quat.html#a46998bcb8ef30561c2adcf9b6d6b8dec',1,'sbgl_Quat::y'],['../structsbgl__ivec3.html#abfab87d4364d1c0f3bee6941bbd9620d',1,'sbgl_ivec3::y']]]
+  ['x_0',['x',['../unionsbgl__Vec2.html#a1a27565f26543098a293bbeab88d3f05',1,'sbgl_Vec2::x'],['../unionsbgl__Vec3.html#ae66f07fa8296dc38c18d0df318f9401b',1,'sbgl_Vec3::x'],['../unionsbgl__Vec4.html#a227738bf9d1035c18b5797c2e62c0c99',1,'sbgl_Vec4::x'],['../unionsbgl__Quat.html#ac857e977230a2bb286c5cd425c8e61be',1,'sbgl_Quat::x'],['../structsbgl__ivec3.html#aa6a8c9f9ac87d45eda34c21c308664c3',1,'sbgl_ivec3::x']]],
+  ['x11_1',['X11',['../md_docs_2getting__started_2installation.html#installing-on-linux-wayland-or-x11',1,'Installing on Linux (Wayland or X11)'],['../md_docs_2manual_2platform__abstraction.html#linux-x11',1,'Linux (X11)']]],
+  ['x11_20xlib_20h_20not_20found_2',['&quot;X11/Xlib.h not found&quot;',['../md_docs_2getting__started_2installation.html#x11xlibh-not-found',1,'']]],
+  ['x11_5finternal_5fprocess_5fevent_3',['x11_internal_process_event',['../input__x11_8c.html#a256c7f00505eacc5c061c0a593b15b80',1,'x11_internal_process_event(XEvent *event, sbgl_Window *window):&#160;input_x11.c'],['../linux__internal_8h.html#a10eb17ba58e3ee97cb0440ca0d04799f',1,'x11_internal_process_event(XEvent *event, struct sbgl_Window *window):&#160;input_x11.c'],['../window__x11_8c.html#a256c7f00505eacc5c061c0a593b15b80',1,'x11_internal_process_event(XEvent *event, sbgl_Window *window):&#160;input_x11.c']]],
+  ['x11_5fkeysym_5fto_5fscancode_4',['x11_keysym_to_scancode',['../input__x11_8c.html#af4d9ff501fc1977a431d2d098b74b625',1,'input_x11.c']]],
+  ['xdg_5fsurface_5fhandle_5fconfigure_5',['xdg_surface_handle_configure',['../window__wayland_8c.html#a15b4b02730cd7062dd187f1b9afc35e7',1,'window_wayland.c']]],
+  ['xdg_5fsurface_5flistener_6',['xdg_surface_listener',['../window__wayland_8c.html#a77737fe1a12247276ae14cf5d060713d',1,'window_wayland.c']]],
+  ['xlib_20h_20not_20found_7',['&quot;X11/Xlib.h not found&quot;',['../md_docs_2getting__started_2installation.html#x11xlibh-not-found',1,'']]]
 ];

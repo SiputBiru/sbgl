@@ -1,5 +1,11 @@
 var NAVTREEINDEX5 =
 {
+"structsbgl__GfxContext.html#ac3d0d9baeae77d582124d092feaa8d0b":[19,0,9,25],
+"structsbgl__GfxContext.html#ac5c545ca8bac769895ae56691bb3d031":[19,0,9,8],
+"structsbgl__GfxContext.html#ac892e9048d9828d2fe5c9d0bde8d2686":[19,0,9,10],
+"structsbgl__GfxContext.html#acb292fd1a972d7755d1b4dcdde609357":[19,0,9,17],
+"structsbgl__GfxContext.html#ad3439cabe68f47a670cfae9d9942b29b":[19,0,9,3],
+"structsbgl__GfxContext.html#ad6f12cfde45708ddf6cead21cd1af8d8":[19,0,9,7],
 "structsbgl__GfxContext.html#ad9d2dd913e253ea09d97d00dca97558a":[19,0,9,36],
 "structsbgl__GfxContext.html#ae21b6b54026296317728f36ba3e38460":[19,0,9,13],
 "structsbgl__GfxContext.html#ae5e73e66d54778fe7c0e93a8612d40c0":[19,0,9,39],
@@ -243,11 +249,5 @@ var NAVTREEINDEX5 =
 "voxel__main_8c.html#ad63bc7e124b44adf37ea9e97fa1bf581":[20,0,1,4,2,1],
 "voxel__main_8c_source.html":[20,0,1,4,2],
 "win32__internal_8h.html":[20,0,3,2,1,1],
-"win32__internal_8h.html#a09ecca53f2cd1b8d1c566bedb245e141":[20,0,3,2,1,1,1],
-"win32__internal_8h.html#a0f9a1787d1a7f5132b43857f36a3b440":[20,0,3,2,1,1,3],
-"win32__internal_8h.html#a6b66703e3c0c2a76b293731496a54a51":[20,0,3,2,1,1,4],
-"win32__internal_8h.html#ac7bef5d85e3dcd73eef56ad39ffc84a9":[20,0,3,2,1,1,2],
-"win32__internal_8h_source.html":[20,0,3,2,1,1],
-"window_8c.html":[20,0,3,2,1,2],
-"window_8c.html#a19b2c191eb7bfa61836076f4df2546b4":[20,0,3,2,1,2,12]
+"win32__internal_8h.html#a09ecca53f2cd1b8d1c566bedb245e141":[20,0,3,2,1,1,1]
 };

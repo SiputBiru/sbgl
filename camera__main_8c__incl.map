@@ -1,15 +1,19 @@
 <map id="examples/camera/camera_main.c" name="examples/camera/camera_main.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="198,5,368,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="280,5,450,46"/>
 <area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="256,94,311,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,46,286,78,281,78,281,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="346,48,309,85,305,81,343,44"/>
 <area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="71,241,162,267"/>
-<area shape="poly" id="edge17_Node000001_Node000006" title=" " alt="" coords="271,48,137,230,133,227,267,45"/>
+<area shape="poly" id="edge17_Node000001_Node000006" title=" " alt="" coords="321,49,283,70,245,96,211,129,180,165,134,230,130,227,176,162,207,125,242,92,280,65,319,44"/>
 <area shape="rect" id="Node000010" href="$sbgl__camera_8h.html" title="Camera system and batch collision math for SBgl." alt="" coords="5,168,111,193"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="223,49,176,69,132,96,100,126,76,157,72,153,96,122,128,92,174,64,221,44"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="280,41,205,62,167,77,132,96,99,125,75,156,71,153,95,121,128,92,165,72,203,57,279,36"/>
 <area shape="rect" id="Node000011" title=" " alt="" coords="335,94,394,120"/>
-<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="305,44,343,81,339,85,302,48"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="367,46,367,78,362,78,362,46"/>
 <area shape="rect" id="Node000012" title=" " alt="" coords="418,94,474,120"/>
-<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="325,44,408,84,406,89,323,49"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="387,44,424,81,421,85,383,48"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="499,94,604,120"/>
+<area shape="poly" id="edge20_Node000001_Node000013" title=" " alt="" coords="412,44,510,85,508,90,410,49"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="628,94,733,120"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="444,44,618,87,616,92,443,49"/>
 <area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="237,168,330,193"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="286,120,286,152,281,152,281,120"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="192,315,265,341"/>

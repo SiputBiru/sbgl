@@ -1,11 +1,15 @@
 <map id="examples/triangle/triangle_main.c" name="examples/triangle/triangle_main.c">
-<area shape="rect" id="Node000001" title=" " alt="" coords="230,5,398,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="311,5,480,46"/>
 <area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="205,94,261,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="296,48,258,85,254,81,292,44"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="356,49,273,89,270,84,354,44"/>
 <area shape="rect" id="Node000010" title=" " alt="" coords="285,94,344,120"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="317,46,317,78,312,78,312,46"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="377,48,340,85,336,81,374,44"/>
 <area shape="rect" id="Node000011" title=" " alt="" coords="367,94,424,120"/>
-<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="336,44,374,81,370,85,332,48"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="398,46,398,78,393,78,393,46"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="448,94,551,120"/>
+<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="423,44,473,82,470,86,420,49"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="575,94,696,120"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="456,44,585,86,583,91,455,49"/>
 <area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="186,168,280,193"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="236,120,236,152,230,152,230,120"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="67,315,140,341"/>

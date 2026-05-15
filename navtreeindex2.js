@@ -1,5 +1,11 @@
 var NAVTREEINDEX2 =
 {
+"md_docs_2manual_2rendering__pipeline.html#key-concepts":[13,0],
+"md_docs_2manual_2rendering__pipeline.html#multi-draw-indirect-mdi":[13,7,1],
+"md_docs_2manual_2rendering__pipeline.html#multi-queue-submission":[13,8,1],
+"md_docs_2manual_2rendering__pipeline.html#multithreading-considerations":[13,9],
+"md_docs_2manual_2rendering__pipeline.html#optimized-batch-submission":[13,7],
+"md_docs_2manual_2rendering__pipeline.html#persistent-mapping":[13,7,0],
 "md_docs_2manual_2rendering__pipeline.html#render-queues":[13,6,0],
 "md_docs_2manual_2rendering__pipeline.html#shader-loading-strategies":[13,1],
 "md_docs_2manual_2rendering__pipeline.html#submitting-draws":[13,6,1],
@@ -243,11 +249,5 @@ var NAVTREEINDEX2 =
 "sbgl__backend__vulkan_8c.html#a6c4f0a43b15c4319fed2ee297e7981e3":[20,0,3,0,0,11],
 "sbgl__backend__vulkan_8c.html#a6d2a355d192532bc4a8df577e2c394a1":[20,0,3,0,0,51],
 "sbgl__backend__vulkan_8c.html#a701145f556bdb5b43e7b25e867fdd2c5":[20,0,3,0,0,72],
-"sbgl__backend__vulkan_8c.html#a7051c2f37aaaa217179290a04f0cbcc2":[20,0,3,0,0,71],
-"sbgl__backend__vulkan_8c.html#a7401c1de18fa36eee1f02160d18fd5aa":[20,0,3,0,0,12],
-"sbgl__backend__vulkan_8c.html#a746a6a288bfd8cdb92f86ad1c113fbb7":[20,0,3,0,0,10],
-"sbgl__backend__vulkan_8c.html#a76fe29f00656b11d023893f6c8356714":[20,0,3,0,0,61],
-"sbgl__backend__vulkan_8c.html#a7a09d9e57825a7bead65f93c1ad5b281":[20,0,3,0,0,42],
-"sbgl__backend__vulkan_8c.html#a848c58bd9048758ea6af96d4631ff537":[20,0,3,0,0,64],
-"sbgl__backend__vulkan_8c.html#a8bc4db21d74558d5ff7e14e49856ae8f":[20,0,3,0,0,18]
+"sbgl__backend__vulkan_8c.html#a7051c2f37aaaa217179290a04f0cbcc2":[20,0,3,0,0,71]
 };

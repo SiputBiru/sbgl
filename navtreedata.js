@@ -409,6 +409,13 @@ var NAVTREE =
       [ "Context-Based Backend Refactor (Multi-Context Support)", "md_docs_2ROADMAP.html#context-based-backend-refactor-multi-context-support", null ],
       [ "API Standardization & Error Handling", "md_docs_2ROADMAP.html#api-standardization--error-handling", null ],
       [ "GPU Optimization & Batching (MDI/Bit-packing)", "md_docs_2ROADMAP.html#gpu-optimization--batching-mdibit-packing", null ],
+      [ "Multi-Threaded Architecture", "md_docs_2ROADMAP.html#multi-threaded-architecture", [
+        [ "Thread-Local Memory", "md_docs_2ROADMAP.html#thread-local-memory", null ],
+        [ "Parallel Command Recording", "md_docs_2ROADMAP.html#parallel-command-recording", null ],
+        [ "Job System Foundation", "md_docs_2ROADMAP.html#job-system-foundation", null ],
+        [ "Multi-Context & Multi-Window", "md_docs_2ROADMAP.html#multi-context--multi-window", null ],
+        [ "Synchronization Strategy", "md_docs_2ROADMAP.html#synchronization-strategy", null ]
+      ] ],
       [ "High-Level rendering (Text/Sprites)", "md_docs_2ROADMAP.html#high-level-rendering-textsprites", null ],
       [ "Future Considerations", "md_docs_2ROADMAP.html#future-considerations-1", null ]
     ] ],
@@ -439,11 +446,11 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "input_8c.html#a527d7599e900f81e14fbf9f48d558c51",
-"md_docs_2manual_2rendering__pipeline.html#render-queues",
-"sbgl__backend__vulkan_8c.html#a8ea1afdbe1cb6728a68673b85fcc1338",
-"sbgl__types_8h.html#a49cd3e8c4b22a9ea03c7654de70fa0cf",
-"structsbgl__GfxContext.html#ad9d2dd913e253ea09d97d00dca97558a",
-"window_8c.html#a24c890daed1fb53c811b8f27fb78b3c3"
+"md_docs_2manual_2rendering__pipeline.html#key-concepts",
+"sbgl__backend__vulkan_8c.html#a7401c1de18fa36eee1f02160d18fd5aa",
+"sbgl__types_8h.html#a3038e3bcf31e9d2bd153ad379c588568ae0f4edbb0e80aa49e926e8d8d06b1db9",
+"structsbgl__GfxContext.html#ac3d0d9baeae77d582124d092feaa8d0b",
+"win32__internal_8h.html#a0f9a1787d1a7f5132b43857f36a3b440"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

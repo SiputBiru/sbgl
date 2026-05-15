@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['z_0',['z',['../unionsbgl__Vec3.html#ad59d9f646c6df96d170d50952d5565c0',1,'sbgl_Vec3::z'],['../unionsbgl__Vec4.html#ae840e91dcd8305be21875d7d26fa426b',1,'sbgl_Vec4::z'],['../unionsbgl__Quat.html#a06e85f8e770ec8ca24b9a2981c2b127c',1,'sbgl_Quat::z'],['../structsbgl__ivec3.html#af6a7c97db401d2d7594dcd7da4132417',1,'sbgl_ivec3::z']]]
+  ['y_0',['y',['../unionsbgl__Vec2.html#a23a6a7264a0adaeee6489908086c243c',1,'sbgl_Vec2::y'],['../unionsbgl__Vec3.html#a94021572e50ad0c6b71d828a73d0f3c1',1,'sbgl_Vec3::y'],['../unionsbgl__Vec4.html#aed8304264fc926f266542714cfd1a532',1,'sbgl_Vec4::y'],['../unionsbgl__Quat.html#a46998bcb8ef30561c2adcf9b6d6b8dec',1,'sbgl_Quat::y'],['../structsbgl__ivec3.html#abfab87d4364d1c0f3bee6941bbd9620d',1,'sbgl_ivec3::y']]]
 ];

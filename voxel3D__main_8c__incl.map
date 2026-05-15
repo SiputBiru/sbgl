@@ -1,25 +1,29 @@
 <map id="examples/voxels/voxel3D_main.c" name="examples/voxels/voxel3D_main.c">
-<area shape="rect" id="Node000001" title="Zero&#45;Sync Infinite Voxel Engine Flagship Example (Refactored)." alt="" coords="319,5,487,46"/>
-<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="241,168,296,193"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="390,48,329,121,294,158,290,155,325,118,386,45"/>
+<area shape="rect" id="Node000001" title="Zero&#45;Sync Infinite Voxel Engine Flagship Example (Refactored)." alt="" coords="394,5,561,46"/>
+<area shape="rect" id="Node000002" href="$sbgl_8h.html" title="API for the SiputBiru Graphics Library (SBgl)." alt="" coords="255,168,311,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="454,49,312,160,309,156,451,44"/>
 <area shape="rect" id="Node000006" href="$sbgl__math_8h.html" title="Single&#45;header math library for SBgl." alt="" coords="413,315,505,341"/>
-<area shape="poly" id="edge17_Node000001_Node000006" title=" " alt="" coords="414,46,436,99,455,167,463,238,463,299,458,299,457,239,450,168,431,101,409,48"/>
+<area shape="poly" id="edge17_Node000001_Node000006" title=" " alt="" coords="479,47,463,300,458,300,474,46"/>
 <area shape="rect" id="Node000010" href="$sbgl__camera_8h.html" title="Camera system and batch collision math for SBgl." alt="" coords="334,168,440,193"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="404,47,393,152,387,152,398,46"/>
-<area shape="rect" id="Node000011" href="$sbgl__voxel_8h.html" title="Public API for the SBgl voxel rendering system." alt="" coords="222,94,314,120"/>
-<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="371,49,304,88,301,83,368,44"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="468,48,404,155,400,153,464,45"/>
+<area shape="rect" id="Node000011" href="$sbgl__voxel_8h.html" title="Public API for the SBgl voxel rendering system." alt="" coords="238,94,330,120"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="430,49,329,90,327,85,428,44"/>
 <area shape="rect" id="Node000012" title=" " alt="" coords="515,94,574,120"/>
-<area shape="poly" id="edge20_Node000001_Node000012" title=" " alt="" coords="440,44,511,84,508,88,437,49"/>
+<area shape="poly" id="edge20_Node000001_Node000012" title=" " alt="" coords="496,45,526,80,522,83,492,48"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="598,94,704,120"/>
+<area shape="poly" id="edge21_Node000001_Node000013" title=" " alt="" coords="522,44,612,85,609,90,520,49"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="728,94,835,120"/>
+<area shape="poly" id="edge22_Node000001_Node000014" title=" " alt="" coords="554,44,721,87,720,92,553,49"/>
 <area shape="rect" id="Node000003" href="$sbgl__types_8h.html" title=" " alt="" coords="242,241,335,267"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="274,193,283,226,278,227,269,194"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="287,193,289,226,284,226,281,194"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="201,389,274,414"/>
-<area shape="poly" id="edge9_Node000002_Node000004" title=" " alt="" coords="250,196,223,216,191,243,160,277,138,316,136,336,146,353,165,368,188,380,185,385,162,372,142,356,131,337,132,314,156,274,187,239,219,212,247,192"/>
+<area shape="poly" id="edge9_Node000002_Node000004" title=" " alt="" coords="261,196,230,215,195,242,162,276,138,316,136,336,146,353,165,368,188,380,185,385,162,372,142,356,131,337,132,314,158,273,192,238,227,211,258,192"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="318,389,381,414"/>
-<area shape="poly" id="edge11_Node000002_Node000005" title=" " alt="" coords="296,192,325,211,339,224,349,240,361,274,365,311,359,374,353,373,359,311,356,276,345,243,335,228,322,215,293,196"/>
+<area shape="poly" id="edge11_Node000002_Node000005" title=" " alt="" coords="304,192,329,212,349,240,360,275,363,311,358,374,353,373,358,311,355,276,345,243,325,216,301,196"/>
 <area shape="rect" id="Node000008" title=" " alt="" coords="5,241,73,267"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="241,193,88,240,86,235,239,188"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="256,193,89,241,87,236,254,187"/>
 <area shape="rect" id="Node000009" href="$include_2sbgl__input_8h.html" title="Public input types and scancodes for SBgl." alt="" coords="147,315,238,341"/>
-<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="262,195,232,243,205,302,200,300,227,240,257,192"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="272,195,252,217,232,243,216,273,204,302,199,300,211,270,227,240,248,213,268,192"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="287,268,249,375,244,373,282,266"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="296,266,341,373,336,375,291,268"/>
 <area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="318,265,417,306,415,311,316,270"/>
@@ -30,5 +34,5 @@
 <area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="202,339,224,374,220,377,198,342"/>
 <area shape="poly" id="edge14_Node000009_Node000005" title=" " alt="" coords="220,339,310,379,308,384,218,344"/>
 <area shape="poly" id="edge16_Node000010_Node000006" title=" " alt="" coords="395,192,449,300,444,302,391,195"/>
-<area shape="poly" id="edge19_Node000011_Node000002" title=" " alt="" coords="271,120,271,152,266,152,266,120"/>
+<area shape="poly" id="edge19_Node000011_Node000002" title=" " alt="" coords="287,120,286,152,281,152,281,120"/>
 </map>

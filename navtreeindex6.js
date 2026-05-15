@@ -1,5 +1,11 @@
 var NAVTREEINDEX6 =
 {
+"win32__internal_8h.html#a0f9a1787d1a7f5132b43857f36a3b440":[20,0,3,2,1,1,3],
+"win32__internal_8h.html#a6b66703e3c0c2a76b293731496a54a51":[20,0,3,2,1,1,4],
+"win32__internal_8h.html#ac7bef5d85e3dcd73eef56ad39ffc84a9":[20,0,3,2,1,1,2],
+"win32__internal_8h_source.html":[20,0,3,2,1,1],
+"window_8c.html":[20,0,3,2,1,2],
+"window_8c.html#a19b2c191eb7bfa61836076f4df2546b4":[20,0,3,2,1,2,12],
 "window_8c.html#a24c890daed1fb53c811b8f27fb78b3c3":[20,0,3,2,1,2,5],
 "window_8c.html#a3ec5ae966e395754fb623c5a109ea83a":[20,0,3,2,1,2,9],
 "window_8c.html#a54e2eedc8835bb6950600fca02701698":[20,0,3,2,1,2,10],

@@ -227,9 +227,12 @@ void sbgl_Shutdown(sbgl_Context* ctx) {
 		sbgl_os_DestroyWindow(inner->window);
 
 	sbl_arena_free(&inner->transientArena);
-	sbl_arena_free(&inner->arena);
 
+	// The context itself is allocated within inner->arena, 
+	// so we cannot access it after the arena is freed.
 	ctx->result = SBGL_SUCCESS;
+	
+	sbl_arena_free(&inner->arena);
 }
 
 bool sbgl_WindowShouldClose(sbgl_Context* ctx) {
@@ -529,22 +532,11 @@ sbgl_LoadShader(sbgl_Context* ctx, sbgl_ShaderStage stage, const uint32_t* bytec
 
 sbgl_Shader
 sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* filename) {
-  FILE* file = fopen(filename, "rb");
-  if (!file) {
-    char fallback[1024];
-    // Try examples/shaders/ prefix
-    snprintf(fallback, sizeof(fallback), "examples/%s", filename);
-    file = fopen(fallback, "rb");
-    if (!file) {
-      // Try build/examples/ prefix
-      snprintf(fallback, sizeof(fallback), "build/examples/%s", filename);
-      file = fopen(fallback, "rb");
-      if (!file) {
-        sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_GFX, "Failed to open shader file.");
-        return SBGL_INVALID_HANDLE;
-      }
-    }
-  }
+	FILE* file = fopen(filename, "rb");
+	if (!file) {
+		sbgl_log_impl(SBGL_LOG_ERROR, SBGL_LOG_CAT_GFX, "Failed to open shader file.");
+		return SBGL_INVALID_HANDLE;
+	}
 
 	fseek(file, 0, SEEK_END);
 	size_t size = ftell(file);
@@ -566,6 +558,7 @@ sbgl_LoadShaderFromFile(sbgl_Context* ctx, sbgl_ShaderStage stage, const char* f
 
 	sbgl_Shader shader = sbgl_LoadShader(ctx, stage, buffer, size);
 	free(buffer);
+
 	return shader;
 }
 

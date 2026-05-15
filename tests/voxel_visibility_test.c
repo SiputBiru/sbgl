@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <math.h>
 #include "sbl_arena.h"
+#include "voxel_cull.h"
 
 /**
  * @brief Push constants for the voxel culling compute shader.
@@ -35,7 +36,7 @@ static void test_voxel_visibility(void) {
   sbgl_Context* ctx = res.ctx;
 
   /* Loading the culling shader. */
-  sbgl_Shader cullShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_cull.comp.spv");
+  sbgl_Shader cullShader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_COMPUTE, (const uint32_t*)voxel_cull_comp_spv, voxel_cull_comp_spv_len);
   if (cullShader == SBGL_INVALID_HANDLE) {
     fprintf(stderr, "Failed to load voxel_cull.comp.spv\n");
     sbgl_Shutdown(ctx);

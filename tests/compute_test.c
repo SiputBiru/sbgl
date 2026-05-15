@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "compute_test.h"
 
 /**
  * @brief Simple push constant structure matching the compute shader.
@@ -29,7 +30,7 @@ static void test_compute_vector_add(void) {
   sbgl_Context* ctx = res.ctx;
 
   /* The compute shader is loaded from the compiled SPIR-V binary. */
-  sbgl_Shader computeShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/compute_test.comp.spv");
+  sbgl_Shader computeShader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_COMPUTE, (const uint32_t*)compute_test_comp_spv, compute_test_comp_spv_len);
   if (computeShader == SBGL_INVALID_HANDLE) {
     fprintf(stderr, "Failed to load compute shader\n");
     sbgl_Shutdown(ctx);

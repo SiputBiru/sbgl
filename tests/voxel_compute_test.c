@@ -4,6 +4,8 @@
 #include <assert.h>
 #include <math.h>
 #include "sbl_arena.h"
+#include "voxel_gen.h"
+#include "voxel_shell.h"
 
 /**
  * @brief Push constants for the voxel generation compute shader.
@@ -38,17 +40,17 @@ static void test_voxel_compute(void) {
   sbgl_Context* ctx = res.ctx;
 
   /* Loading the generation shader. */
-  sbgl_Shader genShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_gen.comp.spv");
+  sbgl_Shader genShader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_COMPUTE, (const uint32_t*)voxel_gen_comp_spv, voxel_gen_comp_spv_len);
   if (genShader == SBGL_INVALID_HANDLE) {
-    fprintf(stderr, "Failed to load voxel_gen.comp.spv\n");
+    fprintf(stderr, "Failed to load voxel_gen_comp_spv\n");
     sbgl_Shutdown(ctx);
     exit(1);
   }
 
   /* Loading the shell extraction shader. */
-  sbgl_Shader shellShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_shell.comp.spv");
+  sbgl_Shader shellShader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_COMPUTE, (const uint32_t*)voxel_shell_comp_spv, voxel_shell_comp_spv_len);
   if (shellShader == SBGL_INVALID_HANDLE) {
-    fprintf(stderr, "Failed to load voxel_shell.comp.spv\n");
+    fprintf(stderr, "Failed to load voxel_shell_comp_spv\n");
     sbgl_DestroyShader(ctx, genShader);
     sbgl_Shutdown(ctx);
     exit(1);

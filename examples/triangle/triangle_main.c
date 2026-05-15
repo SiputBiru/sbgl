@@ -1,6 +1,8 @@
 #include <sbgl.h>
 #include <stdio.h>
 #include <time.h>
+#include "triangle_vert.h"
+#include "interactive_frag.h"
 
 typedef struct {
 	float mousePos[2];
@@ -15,9 +17,9 @@ int main(void) {
 	sbgl_Context* ctx = res.ctx;
 
 	sbgl_Shader vert =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_VERTEX, "shaders/triangle.vert.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, (const uint32_t*)triangle_vert_spv, triangle_vert_spv_len);
 	sbgl_Shader frag =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/interactive.frag.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, (const uint32_t*)interactive_frag_spv, interactive_frag_spv_len);
 
 	sbgl_Vertex vertices[] = {
 		{ { 0, 16383, 0, 32767 }, 0xFF0000FF, 0 },      // 0: Top

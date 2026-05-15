@@ -3,6 +3,8 @@
 #include <sbgl_math.h>
 #include <stdio.h>
 #include <time.h>
+#include "pyramid_vert.h"
+#include "pyramid_frag.h"
 
 typedef struct {
 	sbgl_Mat4 viewProj;
@@ -17,9 +19,9 @@ int main(void) {
 	sbgl_Context* ctx = res.ctx;
 
 	sbgl_Shader vert =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_VERTEX, "shaders/pyramid.vert.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, (const uint32_t*)pyramid_vert_spv, pyramid_vert_spv_len);
 	sbgl_Shader frag =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/pyramid.frag.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, (const uint32_t*)pyramid_frag_spv, pyramid_frag_spv_len);
 
 	sbgl_Vertex vertices[] = {
 		{ PACK_POS(0.0f, -0.5f, 0.0f), PACK_COL(1.0f, 0.0f, 0.0f, 1.0f), 0 },

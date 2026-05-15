@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "voxel_vert.h"
+#include "voxel_frag.h"
 
 #define STB_PERLIN_IMPLEMENTATION
 #pragma GCC diagnostic push
@@ -118,9 +120,9 @@ int main(void) {
 
 	/* Load the procedural voxel shaders. */
 	sbgl_Shader vert =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_VERTEX, "shaders/voxel.vert.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, (const uint32_t*)voxel_vert_spv, voxel_vert_spv_len);
 	sbgl_Shader frag =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/voxel.frag.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, (const uint32_t*)voxel_frag_spv, voxel_frag_spv_len);
 
 	/* Create a dummy VBO. Pure procedural mode does not require one, but binding ensures safety. */
 	sbgl_Vertex dummy_vert = { { 0, 0, 0, 0 }, 0, 0 };

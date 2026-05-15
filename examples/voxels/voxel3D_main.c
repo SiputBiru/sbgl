@@ -8,6 +8,8 @@
 #include "sbgl_math.h"
 #include "sbgl_voxel.h"
 #include <stdio.h>
+#include "voxel3D_vert.h"
+#include "voxel3D_frag.h"
 
 /**
  * @brief Push constants for the graphics pipeline.
@@ -47,9 +49,9 @@ int main(void) {
 	 * Note: The compute shaders are managed internally by the voxel system.
 	 */
 	sbgl_Shader vertShader =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_VERTEX, "shaders/voxel3D.vert.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, (const uint32_t*)voxel3D_vert_spv, voxel3D_vert_spv_len);
 	sbgl_Shader fragShader =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/voxel3D.frag.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, (const uint32_t*)voxel3D_frag_spv, voxel3D_frag_spv_len);
 
 	if (vertShader == SBGL_INVALID_HANDLE || fragShader == SBGL_INVALID_HANDLE) {
 		fprintf(stderr, "Failed to load graphics shaders\n");

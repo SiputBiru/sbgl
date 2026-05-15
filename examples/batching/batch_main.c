@@ -5,6 +5,8 @@
 #include <sbgl_math.h>
 #include <stdio.h>
 #include <time.h>
+#include "batching_vert.h"
+#include "batching_frag.h"
 
 #define PACK_POS(x, y, z) { (int16_t)((x) * 32767.0f), (int16_t)((y) * 32767.0f), (int16_t)((z) * 32767.0f), 32767 }
 #define PACK_COL(r, g, b, a) (uint32_t)(((uint32_t)((r)*255.0f) << 0) | ((uint32_t)((g)*255.0f) << 8) | ((uint32_t)((b)*255.0f) << 16) | ((uint32_t)((a)*255.0f) << 24))
@@ -19,9 +21,9 @@ int main(void) {
 	sbl_arena_init(&arena, 10 * 1024 * 1024); // 10MB for render queues
 
 	sbgl_Shader vert =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_VERTEX, "shaders/batching.vert.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_VERTEX, (const uint32_t*)batching_vert_spv, batching_vert_spv_len);
 	sbgl_Shader frag =
-		sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_FRAGMENT, "shaders/batching.frag.spv");
+		sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_FRAGMENT, (const uint32_t*)batching_frag_spv, batching_frag_spv_len);
 
 	sbgl_Vertex vertices[] = { // Triangle (Mesh 0)
 							   { PACK_POS(0.0f, 0.5f, 0.0f), PACK_COL(1, 0, 0, 1), 0 },

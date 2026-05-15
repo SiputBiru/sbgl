@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include "voxel_gen.h"
+#include "voxel_mesh.h"
+#include "voxel_cull.h"
 
 /** @brief World-space size of a single voxel chunk in meters. */
 #define SBGL_VOXEL_CHUNK_SIZE 256.0f
@@ -187,9 +190,9 @@ sbgl_VoxelSystem* sbgl_Voxel_Create(sbgl_Context* ctx, const sbgl_VoxelConfig* c
    * Load the compute shaders required for the voxel processing pipeline.
    * These shaders handle generation, shell extraction, and frustum culling.
    */
-  sbgl_Shader genShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_gen.comp.spv");
-  sbgl_Shader shellShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_mesh.comp.spv");
-  sbgl_Shader cullShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/voxel_cull.comp.spv");
+  sbgl_Shader genShader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_COMPUTE, (const uint32_t*)voxel_gen_comp_spv, voxel_gen_comp_spv_len);
+  sbgl_Shader shellShader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_COMPUTE, (const uint32_t*)voxel_mesh_comp_spv, voxel_mesh_comp_spv_len);
+  sbgl_Shader cullShader = sbgl_LoadShader(ctx, SBGL_SHADER_STAGE_COMPUTE, (const uint32_t*)voxel_cull_comp_spv, voxel_cull_comp_spv_len);
 
   if (genShader == SBGL_INVALID_HANDLE || shellShader == SBGL_INVALID_HANDLE || cullShader == SBGL_INVALID_HANDLE) {
     if (genShader != SBGL_INVALID_HANDLE) sbgl_DestroyShader(ctx, genShader);

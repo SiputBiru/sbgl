@@ -44,6 +44,7 @@ macro(add_engine_test name src)
             ${CMAKE_SOURCE_DIR}/src/core
             ${CMAKE_SOURCE_DIR}/src/voxel
             ${PROJECT_BINARY_DIR}
+            ${PROJECT_BINARY_DIR}/examples/shaders
         )
         target_link_libraries(${name} PRIVATE ${PLATFORM_LIBS} m volk)
     else()
@@ -54,6 +55,8 @@ macro(add_engine_test name src)
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/core
             ${CMAKE_SOURCE_DIR}/src/voxel
+            ${PROJECT_BINARY_DIR}
+            ${PROJECT_BINARY_DIR}/examples/shaders
         )
         target_link_libraries(${name} PRIVATE sbgl m)
     endif()

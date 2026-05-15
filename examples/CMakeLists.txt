@@ -35,6 +35,20 @@ set(COMPUTE_TEST_SPV "${CMAKE_CURRENT_BINARY_DIR}/shaders/compute_test.comp.spv"
 
 set(TRI_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_vert.h")
 set(TRI_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/triangle_frag.h")
+set(INT_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/interactive_frag.h")
+set(PYR_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/pyramid_vert.h")
+set(PYR_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/pyramid_frag.h")
+set(BATCH_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching_vert.h")
+set(BATCH_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/batching_frag.h")
+set(VOXEL_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_vert.h")
+set(VOXEL_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_frag.h")
+set(VOXEL3D_VERT_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D_vert.h")
+set(VOXEL3D_FRAG_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel3D_frag.h")
+set(VOXEL_CULL_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_cull.h")
+set(VOXEL_GEN_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_gen.h")
+set(VOXEL_SHELL_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_shell.h")
+set(VOXEL_MESH_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/voxel_mesh.h")
+set(COMPUTE_TEST_H "${CMAKE_CURRENT_BINARY_DIR}/shaders/compute_test.h")
 
 # Ensure output directories exist
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/shaders")
@@ -59,6 +73,20 @@ sbgl_compile_shader_to_spv(${COMPUTE_TEST} ${COMPUTE_TEST_SPV})
 
 sbgl_convert_spv_to_header(${TRI_VERT_SPV} ${TRI_VERT_H})
 sbgl_convert_spv_to_header(${TRI_FRAG_SPV} ${TRI_FRAG_H})
+sbgl_convert_spv_to_header(${INT_FRAG_SPV} ${INT_FRAG_H})
+sbgl_convert_spv_to_header(${PYR_VERT_SPV} ${PYR_VERT_H})
+sbgl_convert_spv_to_header(${PYR_FRAG_SPV} ${PYR_FRAG_H})
+sbgl_convert_spv_to_header(${BATCH_VERT_SPV} ${BATCH_VERT_H})
+sbgl_convert_spv_to_header(${BATCH_FRAG_SPV} ${BATCH_FRAG_H})
+sbgl_convert_spv_to_header(${VOXEL_VERT_SPV} ${VOXEL_VERT_H})
+sbgl_convert_spv_to_header(${VOXEL_FRAG_SPV} ${VOXEL_FRAG_H})
+sbgl_convert_spv_to_header(${VOXEL3D_VERT_SPV} ${VOXEL3D_VERT_H})
+sbgl_convert_spv_to_header(${VOXEL3D_FRAG_SPV} ${VOXEL3D_FRAG_H})
+sbgl_convert_spv_to_header(${VOXEL_CULL_SPV} ${VOXEL_CULL_H})
+sbgl_convert_spv_to_header(${VOXEL_GEN_SPV} ${VOXEL_GEN_H})
+sbgl_convert_spv_to_header(${VOXEL_SHELL_SPV} ${VOXEL_SHELL_H})
+sbgl_convert_spv_to_header(${VOXEL_MESH_SPV} ${VOXEL_MESH_H})
+sbgl_convert_spv_to_header(${COMPUTE_TEST_SPV} ${COMPUTE_TEST_H})
 
 # Create a target for shaders to help with dependencies
 add_custom_target(example_shaders DEPENDS 
@@ -69,7 +97,13 @@ add_custom_target(example_shaders DEPENDS
     ${VOXEL3D_VERT_SPV} ${VOXEL3D_FRAG_SPV} ${VOXEL_CULL_SPV}
     ${VOXEL_GEN_SPV} ${VOXEL_SHELL_SPV} ${VOXEL_MESH_SPV}
     ${COMPUTE_TEST_SPV}
-    ${TRI_VERT_H} ${TRI_FRAG_H}
+    ${TRI_VERT_H} ${TRI_FRAG_H} ${INT_FRAG_H}
+    ${PYR_VERT_H} ${PYR_FRAG_H}
+    ${BATCH_VERT_H} ${BATCH_FRAG_H}
+    ${VOXEL_VERT_H} ${VOXEL_FRAG_H}
+    ${VOXEL3D_VERT_H} ${VOXEL3D_FRAG_H} ${VOXEL_CULL_H}
+    ${VOXEL_GEN_H} ${VOXEL_SHELL_H} ${VOXEL_MESH_H}
+    ${COMPUTE_TEST_H}
 )
 
 if(SBGL_BUILD_STANDALONE)
@@ -100,7 +134,10 @@ if(SBGL_BUILD_STANDALONE)
         target_include_directories(${target_name} PRIVATE 
             ${CMAKE_SOURCE_DIR}/include 
             ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/src/core
+            ${CMAKE_SOURCE_DIR}/src/voxel
             ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}/shaders
             ${PROJECT_BINARY_DIR}
         )
         
@@ -128,6 +165,7 @@ if(SBGL_BUILD_STANDALONE)
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/examples/voxels
         ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}/shaders
         ${PROJECT_BINARY_DIR}
     )
     target_link_libraries(voxel3D_main PRIVATE ${PLATFORM_LIBS} volk)
@@ -142,6 +180,7 @@ else()
 
         target_include_directories(${name} PRIVATE 
             ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}/shaders
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/examples/voxels
         )

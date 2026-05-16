@@ -19,7 +19,7 @@ SBgl provides a streamlined API for creating and executing compute pipelines.
 A compute pipeline is created from a single shader stage. The shader must be loaded with the `SBGL_SHADER_STAGE_COMPUTE` stage.
 
 ```c
-sbgl_Shader computeShader = sbgl_LoadShader(ctx, "shaders/compute_task.spv", SBGL_SHADER_STAGE_COMPUTE);
+sbgl_Shader computeShader = sbgl_LoadShaderFromFile(ctx, SBGL_SHADER_STAGE_COMPUTE, "shaders/compute_task.spv");
 sbgl_ComputePipeline pipeline = sbgl_CreateComputePipeline(ctx, computeShader);
 ```
 

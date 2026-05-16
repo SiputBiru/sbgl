@@ -60,13 +60,14 @@ Defining a standard vertex with Position and Color attributes using the library-
 ```c
 // sbgl_Vertex is defined as:
 // typedef struct {
-//     sbgl_Vec3 position;
-//     sbgl_Vec3 color;
+//     int16_t position[4];  // SNORM position [x,y,z] + 1 padding (8 bytes)
+//     uint32_t color;       // Packed RGBA8 color (4 bytes)
+//     uint32_t _padding;    // 16-byte alignment (4 bytes)
 // } sbgl_Vertex;
 
 sbgl_VertexAttribute attributes[] = {
-    { .location = 0, .offset = offsetof(sbgl_Vertex, position), .format = SBGL_FORMAT_R32G32B32_SFLOAT },
-    { .location = 1, .offset = offsetof(sbgl_Vertex, color), .format = SBGL_FORMAT_R32G32B32_SFLOAT }
+    { .location = 0, .offset = offsetof(sbgl_Vertex, position), .format = SBGL_FORMAT_R16G16B16A16_SNORM },
+    { .location = 1, .offset = offsetof(sbgl_Vertex, color), .format = SBGL_FORMAT_R8G8B8A8_UNORM }
 };
 
 sbgl_VertexLayout layout = {
@@ -193,8 +194,9 @@ sbgl_Buffer vbo = sbgl_CreateBuffer(ctx, SBGL_BUFFER_USAGE_VERTEX, sizeof(partic
 sbgl_BindBuffer(ctx, vbo, SBGL_BUFFER_USAGE_VERTEX);
 sbgl_Draw(ctx, 100, 0, 1);
 
-// Use deferred destruction to safely release the buffer after the frame is retired
-sbgl_DestroyBufferDeferred(ctx, vbo);
+// Destroy the buffer after ensuring the GPU has finished using it
+sbgl_DeviceWaitIdle(ctx);
+sbgl_DestroyBuffer(ctx, vbo);
 ```
 
 ### Multi-Queue Submission

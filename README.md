@@ -127,7 +127,7 @@ cmake --build build
 ./build/examples/hello_window
 ```
 
-more installation can see it  [here](https://siputbiru.github.io/sbgl/md_docs_2getting__started_2installation.html)
+Full installation details are available in the [Getting Started: Installation](https://siputbiru.github.io/sbgl/md_docs_2getting__started_2installation.html) guide.
 
 ## Documentation
 

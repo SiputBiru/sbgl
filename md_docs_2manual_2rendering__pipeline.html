@@ -154,13 +154,14 @@ Vertex Layout Use Case</h1>
 <p>Defining a standard vertex with Position and Color attributes using the library-provided <code><a class="el" href="structsbgl__Vertex.html" title="Standard vertex structure for basic geometry rendering. Optimized for cache density (16 bytes).">sbgl_Vertex</a></code> structure:</p>
 <div class="fragment"><div class="line"><span class="comment">// sbgl_Vertex is defined as:</span></div>
 <div class="line"><span class="comment">// typedef struct {</span></div>
-<div class="line"><span class="comment">//     sbgl_Vec3 position;</span></div>
-<div class="line"><span class="comment">//     sbgl_Vec3 color;</span></div>
+<div class="line"><span class="comment">//     int16_t position[4];  // SNORM position [x,y,z] + 1 padding (8 bytes)</span></div>
+<div class="line"><span class="comment">//     uint32_t color;       // Packed RGBA8 color (4 bytes)</span></div>
+<div class="line"><span class="comment">//     uint32_t _padding;    // 16-byte alignment (4 bytes)</span></div>
 <div class="line"><span class="comment">// } sbgl_Vertex;</span></div>
 <div class="line"> </div>
 <div class="line"><a class="code hl_struct" href="structsbgl__VertexAttribute.html">sbgl_VertexAttribute</a> attributes[] = {</div>
-<div class="line">    { .location = 0, .offset = offsetof(<a class="code hl_struct" href="structsbgl__Vertex.html">sbgl_Vertex</a>, position), .format = <a class="code hl_enumvalue" href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850">SBGL_FORMAT_R32G32B32_SFLOAT</a> },</div>
-<div class="line">    { .location = 1, .offset = offsetof(<a class="code hl_struct" href="structsbgl__Vertex.html">sbgl_Vertex</a>, color), .format = <a class="code hl_enumvalue" href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850">SBGL_FORMAT_R32G32B32_SFLOAT</a> }</div>
+<div class="line">    { .location = 0, .offset = offsetof(<a class="code hl_struct" href="structsbgl__Vertex.html">sbgl_Vertex</a>, position), .format = <a class="code hl_enumvalue" href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63a93e389faf0cfcf2c4555dce6e9319d58">SBGL_FORMAT_R16G16B16A16_SNORM</a> },</div>
+<div class="line">    { .location = 1, .offset = offsetof(<a class="code hl_struct" href="structsbgl__Vertex.html">sbgl_Vertex</a>, color), .format = <a class="code hl_enumvalue" href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63a0a9bfaa1f7eb46d83b94bd38d1905c6c">SBGL_FORMAT_R8G8B8A8_UNORM</a> }</div>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><a class="code hl_struct" href="structsbgl__VertexLayout.html">sbgl_VertexLayout</a> layout = {</div>
@@ -168,7 +169,8 @@ Vertex Layout Use Case</h1>
 <div class="line">    .attributeCount = 2,</div>
 <div class="line">    .attributes = attributes</div>
 <div class="line">};</div>
-<div class="ttc" id="asbgl__types_8h_html_a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850"><div class="ttname"><a href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63aa97e89710958fbded3fd92dd23175850">SBGL_FORMAT_R32G32B32_SFLOAT</a></div><div class="ttdeci">@ SBGL_FORMAT_R32G32B32_SFLOAT</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00157">sbgl_types.h:157</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a859b36a0b1251b87f550a5bf34a70a63a0a9bfaa1f7eb46d83b94bd38d1905c6c"><div class="ttname"><a href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63a0a9bfaa1f7eb46d83b94bd38d1905c6c">SBGL_FORMAT_R8G8B8A8_UNORM</a></div><div class="ttdeci">@ SBGL_FORMAT_R8G8B8A8_UNORM</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00160">sbgl_types.h:160</a></div></div>
+<div class="ttc" id="asbgl__types_8h_html_a859b36a0b1251b87f550a5bf34a70a63a93e389faf0cfcf2c4555dce6e9319d58"><div class="ttname"><a href="sbgl__types_8h.html#a859b36a0b1251b87f550a5bf34a70a63a93e389faf0cfcf2c4555dce6e9319d58">SBGL_FORMAT_R16G16B16A16_SNORM</a></div><div class="ttdeci">@ SBGL_FORMAT_R16G16B16A16_SNORM</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00159">sbgl_types.h:159</a></div></div>
 <div class="ttc" id="astructsbgl__VertexAttribute_html"><div class="ttname"><a href="structsbgl__VertexAttribute.html">sbgl_VertexAttribute</a></div><div class="ttdoc">Vertex attribute definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00166">sbgl_types.h:166</a></div></div>
 <div class="ttc" id="astructsbgl__VertexLayout_html"><div class="ttname"><a href="structsbgl__VertexLayout.html">sbgl_VertexLayout</a></div><div class="ttdoc">Vertex input layout definition.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00186">sbgl_types.h:186</a></div></div>
 <div class="ttc" id="astructsbgl__Vertex_html"><div class="ttname"><a href="structsbgl__Vertex.html">sbgl_Vertex</a></div><div class="ttdoc">Standard vertex structure for basic geometry rendering. Optimized for cache density (16 bytes).</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00028">sbgl_types.h:28</a></div></div>
@@ -295,8 +297,9 @@ Dynamic Vertex Updates</h2>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#ae8003c069bc114ce7dcec9f28ee16e7e">sbgl_BindBuffer</a>(ctx, vbo, <a class="code hl_enumvalue" href="sbgl__types_8h.html#a53676ad01a55a2a06a77946e851d2cddaa660f973c6645080032e9a11d47fc10f">SBGL_BUFFER_USAGE_VERTEX</a>);</div>
 <div class="line"><a class="code hl_function" href="sbgl_8h.html#ae1ba4ad35fb2bee76c9e0cb3c499f765">sbgl_Draw</a>(ctx, 100, 0, 1);</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Use deferred destruction to safely release the buffer after the frame is retired</span></div>
-<div class="line">sbgl_DestroyBufferDeferred(ctx, vbo);</div>
+<div class="line"><span class="comment">// Destroy the buffer after ensuring the GPU has finished using it</span></div>
+<div class="line"><a class="code hl_function" href="sbgl_8h.html#ad31330828b674339c58edc4d5536fbf9">sbgl_DeviceWaitIdle</a>(ctx);</div>
+<div class="line"><a class="code hl_function" href="sbgl_8h.html#aa5669638ad915ea5af77fed3838556d9">sbgl_DestroyBuffer</a>(ctx, vbo);</div>
 <div class="ttc" id="asbgl_8h_html_af40bb1ff6d81816a137876aa33f977c6"><div class="ttname"><a href="sbgl_8h.html#af40bb1ff6d81816a137876aa33f977c6">sbgl_CreateBuffer</a></div><div class="ttdeci">sbgl_Buffer sbgl_CreateBuffer(sbgl_Context *ctx, sbgl_BufferUsage usage, size_t size, const void *data)</div><div class="ttdoc">Creates a GPU buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__core_8c_source.html#l00445">sbgl_core.c:445</a></div></div>
 <div class="ttc" id="asbgl__types_8h_html_aa16e95fe0eb5fd1f7c1068e20a29a888"><div class="ttname"><a href="sbgl__types_8h.html#aa16e95fe0eb5fd1f7c1068e20a29a888">sbgl_Buffer</a></div><div class="ttdeci">uint32_t sbgl_Buffer</div><div class="ttdoc">Handle for a GPU-side buffer.</div><div class="ttdef"><b>Definition</b> <a href="sbgl__types_8h_source.html#l00037">sbgl_types.h:37</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="multi-queue-submission"></a>

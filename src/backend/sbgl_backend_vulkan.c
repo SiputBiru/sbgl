@@ -488,8 +488,9 @@ static bool create_instance(sbgl_GfxContext* ctx, bool enableValidation) {
     .ppEnabledExtensionNames = extensions,
   };
 
+  const char* layers[] = { "VK_LAYER_KHRONOS_validation" };
+
   if (enableValidation) {
-    const char* layers[] = { "VK_LAYER_KHRONOS_validation" };
     createInfo.enabledLayerCount = 1;
     createInfo.ppEnabledLayerNames = layers;
   }
